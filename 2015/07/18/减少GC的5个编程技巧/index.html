@@ -102,13 +102,6 @@ GC使用一个被称作”新生代”堆空间来完成这件事情。”新生
 </header>
 	<div class="article-content">
 		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		
-			
-		
-		</div>
-		
 		<p>垃圾收集器（GC）在分配内存以及释放内存上面，占用更少的CPU时间，减少GC的开销。当内存被回收的时候，GC处理很长时间经常会导致我们的代码中断（又叫做”stop the world”）。</p>
 <p>背景</p>
 <p>GC用来处理大量的短期的对象的分配（试想打开一个web页面，一旦页面被加载之后，被分配内存的大部分对象都会被废弃）。</p>
@@ -209,7 +202,6 @@ GC使用一个被称作”新生代”堆空间来完成这件事情。”新生
 </nav>
 
 	
-
 </div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
@@ -255,7 +247,7 @@ GC使用一个被称作”新生代”堆空间来完成这件事情。”新生
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">10</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">9</span></li></ul>
   </div>
 
 
@@ -330,11 +322,6 @@ $(document).ready(function(){
   $(window).scroll(function(){
     o.css("top",Math.max(80,260-$(this).scrollTop()));
   });
-  
-        getSize();
-        if (myWidth >= 1024) {
-          c.click();
-        }
   
   $(window).resize(function(){
     getSize(); 

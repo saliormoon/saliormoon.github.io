@@ -93,13 +93,6 @@
 </header>
 	<div class="article-content">
 		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		
-			
-		
-		</div>
-		
 		<p>本文将Java8的新特新逐一列出，并将使用简单的代码示例来指导你如何使用默认接口方法，lambda表达式，方法引用以及多重Annotation，之后你将会学到最新的API上的改进，比如流，函数式接口，Map以及全新的日期API<br>“Java is still not dead—and people are starting to figure that out.”<br>本教程将用带注释的简单代码来描述新特性，你将看不到大片吓人的文字。<br>一、接口的默认方法</p>
 <p>Java 8允许我们给接口添加一个非抽象的方法实现，只需要使用 default关键字即可，这个特征又叫做扩展方法，示例如下：<br>复制代码 代码如下:</p>
 <p>interface Formula {<br>   double calculate(int a);<br>   default double sqrt(int a) {<br>       return Math.sqrt(a);<br>   }<br>}</p>
@@ -265,7 +258,6 @@
 </nav>
 
 	
-
 </div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
@@ -311,7 +303,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">10</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">9</span></li></ul>
   </div>
 
 
@@ -386,11 +378,6 @@ $(document).ready(function(){
   $(window).scroll(function(){
     o.css("top",Math.max(80,260-$(this).scrollTop()));
   });
-  
-        getSize();
-        if (myWidth >= 1024) {
-          c.click();
-        }
   
   $(window).resize(function(){
     getSize(); 
