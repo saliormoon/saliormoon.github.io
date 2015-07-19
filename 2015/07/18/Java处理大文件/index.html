@@ -97,13 +97,6 @@
 </header>
 	<div class="article-content">
 		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		
-			
-		
-		</div>
-		
 		<p>最近要处理一套存储历史实时数据的大文件fx market data，使用传统的InputStream不能够将它们读取到内存，因为每一个文件都超过了4G。甚至编辑器都不能够打开这些文件。</p>
 <p>处理这个问题的方式通常就是使用内存映射文件递增地处理区域的数据。关于内存映射文件的一个好处就是它们不会使用虚拟内存和换页空间，因为它们是从磁盘上的文件返回来的数据。</p>
 <p>这些文件和额外的一些数据，似乎它们使用逗号分隔的字段包含ASCII文本行。</p>
@@ -450,10 +443,6 @@
 
   
 
-
-  <div class="rsspart">
-	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="rss">RSS 订阅</a>
-</div>
 
 </aside>
 </div>
