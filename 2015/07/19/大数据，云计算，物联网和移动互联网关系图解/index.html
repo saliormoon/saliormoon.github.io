@@ -69,6 +69,8 @@
 					
 						<li><a href="/archives">文章列表</a></li>
 					
+						<li><a href="/about">关于</a></li>
+					
 					<li>
  					
 					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
@@ -101,6 +103,13 @@
   </p>
 </header>
 	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
 		
 		<p>我们在《互联网进化论》一书中提出“互联网的未来功能和结构将于人类大脑高度相似，也将具备互联网虚拟感觉，虚拟运动，虚拟中枢，虚拟记忆神经系统” ，并绘制了一幅互联网虚拟大脑结构图。<br>根据这一观点，我们尝试分析目前互联网最流行的四个概念——————-大数据，云计算，物联网和移动互联网与传统互联网之间的关系。</p>
 <p><img src="http://7xiur2.com1.z0.glb.clouddn.com/0030.jpg" alt=""></p>
@@ -292,6 +301,11 @@ $(document).ready(function(){
     o.css("top",Math.max(80,260-$(this).scrollTop()));
   });
   
+        getSize();
+        if (myWidth >= 1024) {
+          c.click();
+        }
+  
   $(window).resize(function(){
     getSize(); 
     if (myWidth >= 1024) {
@@ -434,6 +448,35 @@ $(document).ready(function(){
 
 <!-- MathJax Begin -->
 <!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
 
 
 <!-- MathJax End -->
