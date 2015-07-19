@@ -1,0 +1,1133 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>刘兴的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="刘兴">
+    
+
+    
+    <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="刘兴的博客">
+<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:site_name" content="刘兴的博客">
+<meta property="og:description">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="刘兴的博客">
+<meta name="twitter:description">
+
+    
+    <link rel="alternative" href="http://blog.csdn.net/pangjiuzala" title="刘兴的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="刘兴的博客" title="刘兴的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/19/孤立点挖掘算法/" title="孤立点挖掘算法" itemprop="url">孤立点挖掘算法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-19T01:03:08.000Z" itemprop="datePublished"> 发表于 2015-07-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>孤立点挖掘算法<br>1 简介<br>孤立点是数据集中不符合一般模型的那些对象，即和其它 的数据有着不同的性质。它可能是度量或执行错误所导致的，也可能是固有数据变异性的结果。对此，Ｈａｗｋｉｎｓ［１］给出了其本质性定义：孤立点是在数据集中与众不同的数据，使人怀疑这些数据 并非随机偏差，而是产生于完全不同的机制。<br>一般的，孤立点挖掘问题可以被看作两个子问题［１］：（１）在给定的数据集合中定义什么样的数据可以被认为不一致的；（２）找到一个有效的方法来挖掘这样的孤立点。<br>2 分类及应用<br>孤立点探测是数据挖掘中一个重要方面，用来发现＂小的模式＂（相对于聚类），即数据集中间显著不同于其它数据的对象。孤立点探测算法大致可以分为基于统计（ｓｔａｔｉｓｔｉｃａｌ－ｂａｓｅｄ）的方法，基于距离（ｄｉｓｔａｎｃｅ－ｂａｓｅｄ）的方法，基于偏差（ｄｅｖｉａｔｉｏｎ－ｂａｓｅｄ）的方法，基于密度（ｄｅｎｓｉｔｙ－ｂａｓｅｄ）的方法，以及高维数据的孤立点探测。孤立点挖掘有着广泛的应用：在信用卡欺诈探测中发现的孤立点可能预示着欺诈行为，而及时发现这种信用卡欺诈行为对商业银行而言相当重要，可以避免不必要的经济损失；在市场分析中，可用于确定极低或极高收入的客户的消费行为；在医疗分析中，可用于对多种治疗方式的不寻常的反应等；在网络安全方面；孤立点挖掘应用于网络入侵检测；在数据质量分析中，可以用孤立点挖掘算法检测错误数据；此外还可以应用到气象预报、个人隐私保护等方面。<br>3 传统的孤立点挖掘算法<br>3.1 基于统计的方法<br>基于统计的方法假设给定的数据集服从一个随机分布（如正态分布等），用不一致性测试（）识别孤立点。但是这种方法存在一个问题：在许多情况下，用户并不知道这个数据分布，而且现实数据也往往不符合任何一种理想状态的数学分布；即使在低维（一维或二维）时的数据分布已知，在高维情况下，估计数据点的分布也是极其困难的。<br>3.2 基于距离的方法<br>Ｋｎｏｒｒ和Ｎｇ［２］ 提出一种基于距离的孤立点探测方法：数据集Ｓ中至少ｐ＊１００％的对象与Ｏ的距离大于距离Ｄ。采用不同的参数ｐ和Ｄ，ＤＢ（Ｐ，Ｄ）－ｏｕｔｌｉｅｒ可以表示所有的基于统计的孤立点。在基于距离的孤立点定义下，分别有基于索引（ｉｎｄｅｘ－ｂａｓｅｄ）的算法，嵌套循环（ｎｅｓｔｅｄ－ｌｏｏｐ）算法和基于单元（ｃｅｌｌ－ｂａｓｅｄ）的算法。 基于索引的算法可以通过对最近邻查询或以Ｏ为中心的范围查询的回答来实现寻找所有ＤＢ（Ｐ，Ｄ）－ｏｕｔｌｉｅｒ。基于多维索引结构Ｒ－Ｔｒｅｅ或ｋｄ－Ｔｒｅｅ算法复杂度是Ｏ（ＫＮ２），但它的缺点是： 需要建立多维索引结构，费时；嵌套循环算法将内存缓冲区空间划分成相等的两部分，数据集分成几个大小和每部分缓冲区相等的逻辑块，通过认真选择调入每一部分缓冲区的次序，使Ｉ／Ｏ次数最小算法复杂度是Ｏ（ＫＮ２），它具有：不需要建立多维索引结构，但选择划分区域也较费时的特点。 基于单元（ｃｅｌｌ－ｂａｓｅｄ）的方法：数据空间被划分为边长为Ｄ／２ｋ１／２的单元；每个单元有两个包围层；第一层为１倍的单元厚，第二层为ｉｎｔ（２ｋ１／２－１）＋１倍的单元厚。 对于该种基于距离的方法小结：由于索引建立的开销很大，简单索引算法没有竞争性；当ｋ＜＝４时，基于单元的算法在Ｎ越大时优越性越明显；当ｋ＞＝５之后，嵌套循环算法开始显现出优 势。<br>3.3 基于距离的算法的改进<br>Ｋｎｏｒｒ和Ｎｇ基于距离的孤立探测方法的缺陷在于：输入参 数ｐ与Ｄ很难确定，并且对于不同参数，结果有很大不稳定性。这就需要用户反复输入ｐ与Ｄ进行测试，以确定一个满意解；不能给定孤立的程度，且算法的复杂度较高。Ｒａｓｔｏｇｉ和Ｒａ－ｍａｓｗａｍｙ［３］提出了一个新的基于距离孤立点定义，用Ｄｋ（ｐ）表示点ｐ和它的第ｋ个最近邻的距离，给定ｄ维空间中包含Ｎ个点的数据集，参数ｎ和ｋ（自然数），如果满足Ｄｋ（ｐ）＞Ｄｋ（ｐ＇）的点ｐ＇不超过ｎ－１个，那么称ｐ为Ｄｎｋ孤立点。如果对数据点根据它们的 Ｄｋ（ｐ）距离进行排序，那么前ｎ个点就被看作孤立点。循环嵌套算法（Ｎｅｓｔｅｄ－ｌｏｏｐＡｌｇｏｒｉｔｈｍ）作为改进后的基于距离的算法，每次处理一个点ｐ，需要扫描一遍数据库，总共需要扫描Ｎ遍（Ｎ为数据点数）。基于索引的算法（Ｉｎｄｅｘ－ｂａｓｅｄＡｌ－ｇｏｒｉｔｈｍ）用类似Ｒ＊－树的空间索引结构存储，可以减少扫描数据库的次数。 改进后的基于划分的算法，如果某个点的Ｄｋ（ｐ）较小的话，那么不可能是Ｄｎｋ孤立点，可以先对数据集进行划分，然后估计 每个划分的Ｄｋ（ｐ）的上、下界，如果能判定某个划分不可能包含孤立的话，那么就可以直接把它删除掉；然后再从剩下的划分（侯选划分）来计算孤立点；现有的许多聚类算法可以用来划分数据集，如ＢＩＲＣＨ算法。<br>3.4 基于偏差的方法<br>Ａｒｇｒａｗａｌ和Ｒａｇａｒａｎ提出了＂序列孤立＂（ｓｅｑｕｅｎｔｉａｌｅｘｃｅｐ－ｔｉｏｎ）的概念中，对于给定ｎ个对象的集合Ｓ，建立一个子集序列｛Ｓ１，Ｓ２，…，Ｓｍ｝，对每个子集，确定该子集与前序子集的差异度的 差。为减少输入数据的顺序对结果的影响，可以用不同的次序多次重复上述过程，找出其中光滑因子最大的子集。 这个算法复杂度与数据集大小呈线性关系，有优异的计算性能。 但是序列孤立在对孤立存在的假设太过理想化，对现实复杂数据效果不太好。<br>3.5 基于密度的方法<br>基于距离的方法对全局各个聚类的数据提出了统一的P和D的参数，但是如果各个聚类本身的密度存在不同,则基于距离的方法则出出现问题，因此提出了基于密度模型的局部异常点挖掘算法，通过局部异常点因子LOF的计算来确定异常点, 只要一个对象的LOF远大于1, 它可能就是一个异常点。簇内靠近核心点的对象的LOF接近于1,处于簇的边缘或是簇的外面的对象的LOF相对较大，这样便能检测到局部异常点，更贴近于实际的数据集的特性。这种传统的局部异常点的挖掘算法的主要问题在于局部范围的参数Minpts值存在选择上的困难，可以运用多粒度偏差因子代替Minpts来评价，这样便能得到比较好的解决方案。<br>3.6 基于聚类的方法<br>基于聚类的方法的基本思想是将孤立点挖掘的过程转换成聚类的过程。首先将数据集利用已经成熟的模型进行聚类分析，是数据集形成簇，而那些不在簇中的样本点即被视为异常点进行再处理。除了上述所述的4中基本的聚类方法外，还包括基于网格的的方法等。<br>基于统计的孤立挖掘应用主要局限于科研计算，这主要是因为必须事先知道数据的分布特征这就限制了它的应用范围。 序列孤立挖掘算法提出的序列孤立的概念并没有得到普遍的认同。这是因为序列孤立在概念上仍然有一定缺陷，遗漏了不少的孤立数据。 基于距离的算法跟基于统计的算法相比，不需要用户拥有任何领域知识。与＂序列孤立＂相比，在概念上更加直观。更重要的是，距离孤立更接近Ｈａｗｋｉｎｓ的孤立本质定义。<br>4 总结<br>基于密度的孤立观点比基于距离的孤立观点更贴近Ｈａｗｋｉｎｓ的孤立定义，因此能够检测出基于距离孤立算法所不 能识别的一类孤立数据－局部孤立。 局部孤立点观点摈弃了以前所有的孤立点定义中非此即彼的绝对孤立观念，更加符合现实生活中的应用。 实际数据往往具有较大的噪声，因此孤立模式经常只存在于低维子空间中，而在高维空间中难以确定；且以前算法在维数较高时，性能急剧下降。因此Ａｇｇａｒｗａｌ和Ｙｕ提出的高维数据孤立挖掘的方法，采用遗传优化算法，获得良好的计算性能。 近几年来，孤立点挖掘算法取得了许多进展：将基于距离和基于密度的算法并行化，能显著提高算法的性能；将高维空间中的点映射到低维空间，进而发现孤立点是高维数据孤立点挖掘的常用措施；而孤立点挖掘算法在气象数据分析，基因数据分析，个人隐私保护等方面的应用，也显示出孤立点挖掘算法具有独特的应用价值。当数据维数较高时，传统孤立点挖掘算法性能急剧下降，高维数据的孤立点的挖掘仍然是研究的难点。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/18/Java习惯用法总结/" title="Java习惯用法总结" itemprop="url">Java习惯用法总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-18T11:55:44.000Z" itemprop="datePublished"> 发表于 2015-07-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>在Java编程中，有一些些最常用的习惯用法，总结如下：</p>
+<p>实现equals()</p>
+<p>class Person {</p>
+<p>String name;</p>
+<p>int birthYear;</p>
+<p>byte[] raw;</p>
+<p>public boolean equals(Object obj) {</p>
+<p>if (!obj instanceof Person)</p>
+<p>return false;</p>
+<p>Person other = (Person)obj;</p>
+<p>return name.equals(other.name)</p>
+<p>&amp;&amp; birthYear == other.birthYear</p>
+<p>&amp;&amp; Arrays.equals(raw, other.raw);</p>
+<p>}</p>
+<p>public int hashCode() { … }</p>
+<p>}</p>
+<p>参数必须是Object类型，不能是外围类。</p>
+<p>foo.equals(null) 必须返回false，不能抛NullPointerException。（注意，null instanceof 任意类 总是返回false，因此上面的代码可以运行。）</p>
+<p>基本类型域（比如，int）的比较使用 == ，基本类型数组域的比较使用Arrays.equals()。</p>
+<p>覆盖equals()时，记得要相应地覆盖 hashCode()，与 equals() 保持一致。</p>
+<p>参考： java.lang.Object.equals(Object)。</p>
+<p>实现hashCode()</p>
+<p>class Person {</p>
+<p>String a;</p>
+<p>Object b;</p>
+<p>byte c;</p>
+<p>int[] d;</p>
+<p>public int hashCode() {</p>
+<p>return a.hashCode() + b.hashCode() + c + Arrays.hashCode(d);</p>
+<p>}</p>
+<p>public boolean equals(Object o) { … }</p>
+<p>}</p>
+<p>当x和y两个对象具有x.equals(y) == true ，你必须要确保x.hashCode() == y.hashCode()。</p>
+<p>根据逆反命题，如果x.hashCode() != y.hashCode()，那么x.equals(y) == false 必定成立。</p>
+<p>你不需要保证，当x.equals(y) == false时，x.hashCode() != y.hashCode()。但是，如果你可以尽可能地使它成立的话，这会提高哈希表的性能。</p>
+<p>hashCode()最简单的合法实现就是简单地return 0；虽然这个实现是正确的，但是这会导致HashMap这些数据结构运行得很慢。</p>
+<p>参考：java.lang.Object.hashCode()。</p>
+<p>实现compareTo()</p>
+<p>class Person implements Comparable<person> {</person></p>
+<p>String firstName;</p>
+<p>String lastName;</p>
+<p>int birthdate;</p>
+<p>// Compare by firstName, break ties by lastName, finally break ties by birthdate</p>
+<p>public int compareTo(Person other) {</p>
+<p>if (firstName.compareTo(other.firstName) != 0)</p>
+<p>return firstName.compareTo(other.firstName);</p>
+<p>else if (lastName.compareTo(other.lastName) != 0)</p>
+<p>return lastName.compareTo(other.lastName);</p>
+<p>else if (birthdate &lt; other.birthdate)</p>
+<p>return -1;</p>
+<p>else if (birthdate &gt; other.birthdate)</p>
+<p>return 1;</p>
+<p>else</p>
+<p>return 0;</p>
+<p>}</p>
+<p>}</p>
+<p>总是实现泛型版本 Comparable 而不是实现原始类型 Comparable 。因为这样可以节省代码量和减少不必要的麻烦。</p>
+<p>只关心返回结果的正负号（负/零/正），它们的大小不重要。</p>
+<p>Comparator.compare()的实现与这个类似。</p>
+<p>参考：java.lang.Comparable。</p>
+<p>实现clone()</p>
+<p>class Values implements Cloneable {</p>
+<p>String abc;</p>
+<p>double foo;</p>
+<p>int[] bars;</p>
+<p>Date hired;</p>
+<p>public Values clone() {</p>
+<p>try {</p>
+<p>Values result = (Values)super.clone();</p>
+<p>result.bars = result.bars.clone();</p>
+<p>result.hired = result.hired.clone();</p>
+<p>return result;</p>
+<p>} catch (CloneNotSupportedException e) { // Impossible</p>
+<p>throw new AssertionError(e);</p>
+<p>}</p>
+<p>}</p>
+<p>}</p>
+<p>使用 super.clone() 让Object类负责创建新的对象。</p>
+<p>基本类型域都已经被正确地复制了。同样，我们不需要去克隆String和BigInteger等不可变类型。</p>
+<p>手动对所有的非基本类型域（对象和数组）进行深度复制（deep copy）。</p>
+<p>实现了Cloneable的类，clone()方法永远不要抛CloneNotSupportedException。因此，需要捕获这个异常并忽略它，或者使用不受检异常（unchecked exception）包装它。</p>
+<p>不使用Object.clone()方法而是手动地实现clone()方法是可以的也是合法的。</p>
+<p>参考：java.lang.Object.clone()、java.lang.Cloneable()。</p>
+<p>使用StringBuilder或StringBuffer</p>
+<p>// join([“a”, “b”, “c”]) -&gt; “a and b and c”</p>
+<p>String join(List<string> strs) {</string></p>
+<p>StringBuilder sb = new StringBuilder();</p>
+<p>boolean first = true;</p>
+<p>for (String s : strs) {</p>
+<p>if (first) first = false;</p>
+<p>else sb.append(“ and “);</p>
+<p>sb.append(s);</p>
+<p>}</p>
+<p>return sb.toString();</p>
+<p>}</p>
+<p>不要像这样使用重复的字符串连接：s += item ，因为它的时间效率是O(n^2)。</p>
+<p>使用StringBuilder或者StringBuffer时，可以使用append()方法添加文本和使用toString()方法去获取连接起来的整个文本。</p>
+<p>优先使用StringBuilder，因为它更快。StringBuffer的所有方法都是同步的，而你通常不需要同步的方法。</p>
+<p>参考java.lang.StringBuilder、java.lang.StringBuffer。</p>
+<p>生成一个范围内的随机整数</p>
+<p>Random rand = new Random();</p>
+<p>// Between 1 and 6, inclusive</p>
+<p>int diceRoll() {</p>
+<p>return rand.nextInt(6) + 1;</p>
+<p>}</p>
+<p>总是使用Java API方法去生成一个整数范围内的随机数。</p>
+<p>不要试图去使用 Math.abs(rand.nextInt()) % n 这些不确定的用法，因为它的结果是有偏差的。此外，它的结果值有可能是负数，比如当rand.nextInt() == Integer.MIN_VALUE时就会如此。</p>
+<p>参考：java.util.Random.nextInt(int)。</p>
+<p>使用Iterator.remove()</p>
+<p>void filter(List<string> list) {</string></p>
+<p>for (Iterator<string> iter = list.iterator(); iter.hasNext(); ) {</string></p>
+<p>String item = iter.next();</p>
+<p>if (…)</p>
+<p>iter.remove();</p>
+<p>}</p>
+<p>}</p>
+<p>remove()方法作用在next()方法最近返回的条目上。每个条目只能使用一次remove()方法。</p>
+<p>参考：java.util.Iterator.remove()。</p>
+<p>返转字符串</p>
+<p>String reverse(String s) {</p>
+<p>return new StringBuilder(s).reverse().toString();</p>
+<p>}</p>
+<p>这个方法可能应该加入Java标准库。</p>
+<p>参考：java.lang.StringBuilder.reverse()。</p>
+<p>启动一条线程</p>
+<p>下面的三个例子使用了不同的方式完成了同样的事情。</p>
+<p>实现Runnnable的方式：</p>
+<p>void startAThread0() {</p>
+<p>new Thread(new MyRunnable()).start();</p>
+<p>}</p>
+<p>class MyRunnable implements Runnable {</p>
+<p>public void run() {</p>
+<p>…</p>
+<p>}</p>
+<p>}</p>
+<p>继承Thread的方式：</p>
+<p>void startAThread1() {</p>
+<p>new MyThread().start();</p>
+<p>}</p>
+<p>class MyThread extends Thread {</p>
+<p>public void run() {</p>
+<p>…</p>
+<p>}</p>
+<p>}</p>
+<p>匿名继承Thread的方式：</p>
+<p>void startAThread2() {</p>
+<p>new Thread() {</p>
+<p>public void run() {</p>
+<p>…</p>
+<p>}</p>
+<p>}.start();</p>
+<p>}</p>
+<p>不要直接调用run()方法。总是调用Thread.start()方法，这个方法会创建一条新的线程并使新建的线程调用run()。</p>
+<p>参考：java.lang.Thread, java.lang.Runnable。</p>
+<p>使用try-finally</p>
+<p>I/O流例子：</p>
+<p>void writeStuff() throws IOException {</p>
+<p>OutputStream out = new FileOutputStream(…);</p>
+<p>try {</p>
+<p>out.write(…);</p>
+<p>} finally {</p>
+<p>out.close();</p>
+<p>}</p>
+<p>}</p>
+<p>锁例子：</p>
+<p>void doWithLock(Lock lock) {</p>
+<p>lock.acquire();</p>
+<p>try {</p>
+<p>…</p>
+<p>} finally {</p>
+<p>lock.release();</p>
+<p>}</p>
+<p>}</p>
+<p>如果try之前的语句运行失败并且抛出异常，那么finally语句块就不会执行。但无论怎样，在这个例子里不用担心资源的释放。</p>
+<p>如果try语句块里面的语句抛出异常，那么程序的运行就会跳到finally语句块里执行尽可能多的语句，然后跳出这个方法（除非这个方法还有另一个外围的finally语句块）。</p>
+<p>从输入流里读取字节数据</p>
+<p>InputStream in = (…);</p>
+<p>try {</p>
+<p>while (true) {</p>
+<p>int b = in.read();</p>
+<p>if (b == -1)</p>
+<p>break;</p>
+<p>(… process b …)</p>
+<p>}</p>
+<p>} finally {</p>
+<p>in.close();</p>
+<p>}</p>
+<p>read()方法要么返回下一次从流里读取的字节数（0到255，包括0和255），要么在达到流的末端时返回-1。</p>
+<p>参考：java.io.InputStream.read()。</p>
+<p>从输入流里读取块数据</p>
+<p>InputStream in = (…);</p>
+<p>try {</p>
+<p>byte[] buf = new byte[100];</p>
+<p>while (true) {</p>
+<p>int n = in.read(buf);</p>
+<p>if (n == -1)</p>
+<p>break;</p>
+<p>(… process buf with offset=0 and length=n …)</p>
+<p>}</p>
+<p>} finally {</p>
+<p>in.close();</p>
+<p>}</p>
+<p>要记住的是，read()方法不一定会填满整个buf，所以你必须在处理逻辑中考虑返回的长度。</p>
+<p>参考： java.io.InputStream.read(byte[])、java.io.InputStream.read(byte[], int, int)。</p>
+<p>从文件里读取文本</p>
+<p>BufferedReader in = new BufferedReader(</p>
+<p>new InputStreamReader(new FileInputStream(…), “UTF-8”));</p>
+<p>try {</p>
+<p>while (true) {</p>
+<p>String line = in.readLine();</p>
+<p>if (line == null)</p>
+<p>break;</p>
+<p>(… process line …)</p>
+<p>}</p>
+<p>} finally {</p>
+<p>in.close();</p>
+<p>}</p>
+<p>BufferedReader对象的创建显得很冗长。这是因为Java把字节和字符当成两个不同的概念来看待（这与C语言不同）。</p>
+<p>你可以使用任何类型的InputStream来代替FileInputStream，比如socket。</p>
+<p>当达到流的末端时，BufferedReader.readLine()会返回null。</p>
+<p>要一次读取一个字符，使用Reader.read()方法。</p>
+<p>你可以使用其他的字符编码而不使用UTF-8，但最好不要这样做。</p>
+<p>参考：java.io.BufferedReader、java.io.InputStreamReader。</p>
+<p>向文件里写文本</p>
+<p>PrintWriter out = new PrintWriter(</p>
+<p>new OutputStreamWriter(new FileOutputStream(…), “UTF-8”));</p>
+<p>try {</p>
+<p>out.print(“Hello “);</p>
+<p>out.print(42);</p>
+<p>out.println(“ world!”);</p>
+<p>} finally {</p>
+<p>out.close();</p>
+<p>}</p>
+<p>Printwriter对象的创建显得很冗长。这是因为Java把字节和字符当成两个不同的概念来看待（这与C语言不同）。</p>
+<p>就像System.out，你可以使用print()和println()打印多种类型的值。</p>
+<p>你可以使用其他的字符编码而不使用UTF-8，但最好不要这样做。</p>
+<p>参考：java.io.PrintWriter、java.io.OutputStreamWriter。</p>
+<p>预防性检测（Defensive checking）数值</p>
+<p>int factorial(int n) {</p>
+<p>if (n &lt; 0)</p>
+<p>throw new IllegalArgumentException(“Undefined”);</p>
+<p>else if (n &gt;= 13)</p>
+<p>throw new ArithmeticException(“Result overflow”);</p>
+<p>else if (n == 0)</p>
+<p>return 1;</p>
+<p>else</p>
+<p>return n * factorial(n - 1);</p>
+<p>}</p>
+<p>不要认为输入的数值都是正数、足够小的数等等。要显式地检测这些条件。</p>
+<p>一个设计良好的函数应该对所有可能性的输入值都能够正确地执行。要确保所有的情况都考虑到了并且不会产生错误的输出（比如溢出）。</p>
+<p>预防性检测对象</p>
+<p>int findIndex(List<string> list, String target) {</string></p>
+<p>if (list == null || target == null)</p>
+<p>throw new NullPointerException();</p>
+<p>…</p>
+<p>}</p>
+<p>不要认为对象参数不会为空（null）。要显式地检测这个条件。</p>
+<p>预防性检测数组索引</p>
+<p>void frob(byte[] b, int index) {</p>
+<p>if (b == null)</p>
+<p>throw new NullPointerException();</p>
+<p>if (index &lt; 0 || index &gt;= b.length)</p>
+<p>throw new IndexOutOfBoundsException();</p>
+<p>…</p>
+<p>}</p>
+<p>不要认为所以给的数组索引不会越界。要显式地检测它。</p>
+<p>预防性检测数组区间</p>
+<p>void frob(byte[] b, int off, int len) {</p>
+<p>if (b == null)</p>
+<p>throw new NullPointerException();</p>
+<p>if (off &lt; 0 || off &gt; b.length</p>
+<p>|| len &lt; 0 || b.length - off &lt; len)</p>
+<p>throw new IndexOutOfBoundsException();</p>
+<p>…</p>
+<p>}</p>
+<p>不要认为所给的数组区间（比如，从off开始，读取len个元素）是不会越界。要显式地检测它。</p>
+<p>填充数组元素</p>
+<p>使用循环：</p>
+<p>// Fill each element of array ‘a’ with 123</p>
+<p>byte[] a = (…);</p>
+<p>for (int i = 0; i &lt; a.length; i++)</p>
+<p>a[i] = 123;</p>
+<p>（优先）使用标准库的方法：</p>
+<p>Arrays.fill(a, (byte)123);</p>
+<p>参考：java.util.Arrays.fill(T[], T)。</p>
+<p>参考：java.util.Arrays.fill(T[], int, int, T)。</p>
+<p>复制一个范围内的数组元素</p>
+<p>使用循环：</p>
+<p>// Copy 8 elements from array ‘a’ starting at offset 3</p>
+<p>// to array ‘b’ starting at offset 6,</p>
+<p>// assuming ‘a’ and ‘b’ are distinct arrays</p>
+<p>byte[] a = (…);</p>
+<p>byte[] b = (…);</p>
+<p>for (int i = 0; i &lt; 8; i++)</p>
+<p>b[6 + i] = a[3 + i];</p>
+<p>（优先）使用标准库的方法：</p>
+<p>System.arraycopy(a, 3, b, 6, 8);</p>
+<p>参考：java.lang.System.arraycopy(Object, int, Object, int, int)。</p>
+<p>调整数组大小</p>
+<p>使用循环（扩大规模）：</p>
+<p>// Make array ‘a’ larger to newLen</p>
+<p>byte[] a = (…);</p>
+<p>byte[] b = new byte[newLen];</p>
+<p>for (int i = 0; i &lt; a.length; i++) // Goes up to length of A</p>
+<p>b[i] = a[i];</p>
+<p>a = b;</p>
+<p>使用循环（减小规模）：</p>
+<p>// Make array ‘a’ smaller to newLen</p>
+<p>byte[] a = (…);</p>
+<p>byte[] b = new byte[newLen];</p>
+<p>for (int i = 0; i &lt; b.length; i++) // Goes up to length of B</p>
+<p>b[i] = a[i];</p>
+<p>a = b;</p>
+<p>（优先）使用标准库的方法：</p>
+<p>a = Arrays.copyOf(a, newLen);</p>
+<p>参考：java.util.Arrays.copyOf(T[], int)。</p>
+<p>参考：java.util.Arrays.copyOfRange(T[], int, int)。</p>
+<p>把4个字节包装（packing）成一个int</p>
+<p>int packBigEndian(byte[] b) {</p>
+<p>return (b[0] &amp; 0xFF) &lt;&lt; 24</p>
+<p>| (b[1] &amp; 0xFF) &lt;&lt; 16</p>
+<p>| (b[2] &amp; 0xFF) &lt;&lt; 8</p>
+<p>| (b[3] &amp; 0xFF) &lt;&lt; 0;</p>
+<p>}</p>
+<p>int packLittleEndian(byte[] b) {</p>
+<p>return (b[0] &amp; 0xFF) &lt;&lt; 0</p>
+<p>| (b[1] &amp; 0xFF) &lt;&lt; 8</p>
+<p>| (b[2] &amp; 0xFF) &lt;&lt; 16</p>
+<p>| (b[3] &amp; 0xFF) &lt;&lt; 24;</p>
+<p>}</p>
+<p>把int分解（Unpacking）成4个字节</p>
+<p>byte[] unpackBigEndian(int x) {</p>
+<p>return new byte[] {</p>
+<p>(byte)(x &gt;&gt;&gt; 24),</p>
+<p>(byte)(x &gt;&gt;&gt; 16),</p>
+<p>(byte)(x &gt;&gt;&gt; 8),</p>
+<p>(byte)(x &gt;&gt;&gt; 0)</p>
+<p>};</p>
+<p>}</p>
+<p>byte[] unpackLittleEndian(int x) {</p>
+<p>return new byte[] {</p>
+<p>(byte)(x &gt;&gt;&gt; 0),</p>
+<p>(byte)(x &gt;&gt;&gt; 8),</p>
+<p>(byte)(x &gt;&gt;&gt; 16),</p>
+<p>(byte)(x &gt;&gt;&gt; 24)</p>
+<p>};</p>
+<p>}</p>
+<p>总是使用无符号右移操作符（&gt;&gt;&gt;）对位进行包装（packing），不要使用算术右移操作符（&gt;&gt;）。<br>版权声明：本文为博主原创文章，未经博主允许不得转载。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/18/减少GC的5个编程技巧/" title="减少GC的5个编程技巧" itemprop="url">减少GC的5个编程技巧</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-18T11:47:30.000Z" itemprop="datePublished"> 发表于 2015-07-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>垃圾收集器（GC）在分配内存以及释放内存上面，占用更少的CPU时间，减少GC的开销。当内存被回收的时候，GC处理很长时间经常会导致我们的代码中断（又叫做”stop the world”）。</p>
+<p>背景</p>
+<p>GC用来处理大量的短期的对象的分配（试想打开一个web页面，一旦页面被加载之后，被分配内存的大部分对象都会被废弃）。</p>
+<p>GC使用一个被称作”新生代”堆空间来完成这件事情。”新生代”是用来存放新建对象的堆内存。每一个对象都有一个”age”（存储在对象的头信息中），用来定义存放很多没有被回收的垃圾集合。一旦一个确定的”age”到达，对象就会被复制到堆中的另一块空间，这个空间被称作”幸存者空间”或者”老年代空间”。（译者注：实际上幸存者空间位于新生代空间中，原文有误，不过这里暂时按照原文来翻译，更详细的内容请点击成为JavaGC专家Part I — 深入浅出Java垃圾回收机制）</p>
+<p>虽然这样很有效，但是还是有很大代价的。减少临时分配的数量确实可以帮助我们增加吞吐量，尤其是在大规模数据的环境下，或者资源有限制的app中。</p>
+<p>下面的五种代码方式可以更加有效的利用内存，并且不需要花费很多的时间，也不会降低代码可读性。</p>
+<p>1、避免隐式的String字符串</p>
+<p>String字符串是我们管理的每一个数据结构中不可分割的一部分。它们在被分配好了之后不可以被修改。比如”+”操作就会分配一个链接两个字符串的新的字符串。更糟糕的是，这里分配了一个隐式的StringBuilder对象来链接两个String字符串。</p>
+<p>例如：</p>
+<p>a = a + b; // a and b are Strings</p>
+<p>编译器在背后就会生成这样的一段儿代码：</p>
+<p>StringBuilder temp = new StringBuilder(a).<br>temp.append(b);<br>a = temp.toString(); // 一个新的 String 对象被分配<br>// 第一个对象 “a” 现在可以说是垃圾了</p>
+<p>它变得更糟糕了。</p>
+<p>让我们来看这个例子：</p>
+<p>String result = foo() + arg;<br>result += boo();<br>System.out.println(“result = “ + result);</p>
+<p>在这个例子中，背后有三个StringBuilders 对象被分配 – 每一个都是”+”的操作所产生，和两个额外的String对象，一个持有第二次分配的result，另一个是传入到print方法的String参数，在看似非常简单的一段语句中有5个额外的对象。</p>
+<p>试想一下在实际的代码场景中会发生什么，例如，通过xml或者文件中的文本信息生成一个web页面的过程。在嵌套循环结构，你将会发现有成百上千的对象被隐式的分配了。尽管VM有处理这些垃圾的机制，但还是有很大代价的 – 代价也许由你的用户来承担。</p>
+<p>解决方案：</p>
+<p>减少垃圾对象的一种方式就是善于使用StringBuilder 来建对象，下面的例子实现了与上面相同的功能，然而仅仅生成了一个StringBuilder 对象，和一个存储最终result 的String对象。</p>
+<p>StringBuilder value = new StringBuilder(“result = “);<br>value.append(foo()).append(arg).append(boo());<br>System.out.println(value);</p>
+<p>通过留心String和StringBuilder被隐式分配的可能，可以减少分配的短期的对象的数量，尤其在有大量代码的位置。</p>
+<p>2、计划好List的容量</p>
+<p>像ArrayList这样的动态集合用来存储一些长度可变化数据的基本结构。ArrayList和一些其他的集合（如HashMap、TreeMap），底层都是通过使用Object[]数组来实现的。而String（它们自己包装在char[]数组中），char数组的大小是不变的。那么问题就出现了，如果它们的大小是不变的，我们怎么能放item记录到集合中去呢？答案显而易见：分配更多的数组。</p>
+<p>看下面的例子：</p>
+<p>List items = new ArrayList();</p>
+<p>for (int i = 0; i &lt; len; i++)<br>{<br>Item item = readNextItem();<br>items.add(item);<br>}</p>
+<p>len的值决定了循环结束时items 最终的大小。然而，最初，ArrayList的构造器并不知道这个值的大小，构造器会分配一个默认的Object数组的大小。一旦内部数组溢出，它就会被一个新的、并且足够大的数组代替，这就使之前分配的数组成为了垃圾。</p>
+<p>如果执行数千次的循环，那么就会进行更多次数的新数组分配操作，以及更多次数的旧数组回收操作。对于在大规模环境下运行的代码，这些分配和释放的操作应该尽可能从CPU周期中剔除。</p>
+<p>解决方案：</p>
+<p>无论什么时候，尽可能的给List或者Map分配一个初始容量，就像这样：</p>
+<p>List items = new ArrayList(len);</p>
+<p>因为List初始化，有足够的容量，所有这样可以减少内部数组在运行时不必要的分配和释放。如果你不知道确定的大小，最好估算一下这个值的平均值，添加一些缓冲，防止意外溢出。</p>
+<p>3、使用高效的含有原始类型的集合</p>
+<p>当前版本的Java编译器对于含有基本数据类型的键的数组以及Map的支持，是通过“装箱”来实现的 – 自动装箱就是将原始数据装入一个对应的对象中，这个对象可被GC分配和回收。</p>
+<p>这个会有一些负面的影响。Java可以通过使用内部数组实现大多数的集合。对于每一条被添加到HashMap中的key/value记录，都会分配一个存储key和value的内部对象。当处理map的时候非常可怕，这意味着，每当你放一条记录到map中的时候，就会有一次额外的分配和释放操作发生。这很可能导致数量过大，而不得不重新分配新的内部数组。当处理有成百上千条甚至更多记录的Map时，这些内部分配的操作将会使GC的成本增加。</p>
+<p>一种常见的情况就是保存一个原始类型（如id）和一个对象之间的映射。由于Java的HashMap设计只能包含对象类型（而非原始类型），这意味着，每个map的插入操作都可能分配一个额外的对象来存储原始类型（即装箱）。</p>
+<p>Integer.valueOf 方法缓存在-128 – 127之间的数值，但是对于范围之外的每一个数值，除了内部的key/value记录对象之外，一个新的对象也将会分配。这很可能超过了GC对于map三倍的开销。对于一个C++开发者来说，这真是让人不安的消息，在C++中，STL 模板可以非常高效地解决这样的问题。</p>
+<p>很幸运，这个问题将会在Java的下一个版本得到解决。到那时，这将会被一些提供基本的树形结构(Tree)、映射（Map），以及List等Java的基本类型的库迅速处理。我强力推荐Trove，我已经使用很长时间了，并且它在处理大规模的代码时真的可以减小GC的开销。</p>
+<p>4、使用数据流（Streams）代替内存缓冲区（in-memory buffers）</p>
+<p>在服务器应用程序中，我们操作的大多数的数据都是以文件或者是来自另一个web服务器或DB的网络数据流的形式呈现给我们。大多数情况下，传入的数据都是序列化的形式，在我们使用它们之前需要被反序列化成Java对象。这个过程非常容易产生大量的隐式分配。</p>
+<p>最简单的做法就是通过ByteArrayInputStream,ByteBuffer 把数据读入内存中，然后再进行反序列化。</p>
+<p>这是一个糟糕的举动，因为完整的数据在构造新的对象的时候，你需要为其分配空间，然后立刻又释放空间。并且，由于数据的大小你又不知道，你只能猜测 – 当超过初始化容量的时候，不得不分配和释放byte[]数组来存储数据。</p>
+<p>解决方案非常简单。像Java自带的序列化工具以及Google的Protocol Buffers等，它们可以将来自于文件或网络流的数据进行反序列化，而不需要保存到内存中，也不需要分配新的byte数组来容纳增长的数据。如果可以的话，你可以将这种方法和加载数据到内存的方法比较一下，相信GC会很感谢你的。</p>
+<p>5、List集合</p>
+<p>不变性是很美好的，但是在大规模情境下，它就会有严重的缺陷。当传入一个List对象到方法中的情景。</p>
+<p>当方法返回一个集合，通常会很明智的在方法中创建一个集合对象（如ArrayList），填充它，并以不变的集合的形式返回。</p>
+<p>有些情况下，这并不会得到很好的效果。最明显的就是，当来自多个方法的集合调用一个final集合。因为不变性，在大规模数据情况下，会分配大量的临时集合。</p>
+<p>这种情况的解决方案将不会返回新的集合，而是通过使用单独的集合当做参数传入到那些方法代替组合的集合。</p>
+<p>例子1（低效率）：</p>
+<p>List items = new ArrayList();<br>for (FileData fileData : fileDatas)<br>{<br>// 每一次调用都会创建一个存储内部临时数组的临时的列表<br>items.addAll(readFileItem(fileData));<br>}</p>
+<p>例子2：</p>
+<p>List items =<br>new ArrayList(fileDatas.size() <em> avgFileDataSize </em> 1.5);</p>
+<p>for (FileData fileData : fileDatas)<br>{<br>readFileItem(fileData, items); // 在内部添加记录<br>}</p>
+<p>在例子2中，当违反不变性规则的时候（这通常应该被遵守），可以节省N个list的分配（以及任何临时数组的分配）。这将是对你GC的一个大大的优惠。</p>
+<p>版权声明：本文为博主原创文章，未经博主允许不得转载。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/18/Java处理大文件/" title="Java处理大文件" itemprop="url">Java处理大文件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-18T09:59:19.000Z" itemprop="datePublished"> 发表于 2015-07-18</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>最近要处理一套存储历史实时数据的大文件fx market data，使用传统的InputStream不能够将它们读取到内存，因为每一个文件都超过了4G。甚至编辑器都不能够打开这些文件。</p>
+<p>处理这个问题的方式通常就是使用内存映射文件递增地处理区域的数据。关于内存映射文件的一个好处就是它们不会使用虚拟内存和换页空间，因为它们是从磁盘上的文件返回来的数据。</p>
+<p>这些文件和额外的一些数据，似乎它们使用逗号分隔的字段包含ASCII文本行。</p>
+<p>格式：[currency-pair],[timestamp],[bid-price],[ask-price]</p>
+<p>例子：EUR/USD,20120102 00:01:30.420,1.29451,1.2949</p>
+<p>可以为这种格式去写一个程序，但是，读取文件和解析文件是无关的概念。让我们退一步来想一个通用的设计，当在将来面临相似的问题时这个设计可以被重复利用。</p>
+<p>这个问题可以归结为递增地解码一个已经在无限长的数组中被编码的记录，并且没有耗尽内存。实际上，以逗号分割的示例格式编码与通常的解决方案是不相关的。所以，很明显需要一个解码器来处理不同的格式。</p>
+<p>再来看，知道整个文件处理完成，每一条记录都不能被解析并保存在内存中，所以我们需要一种方式来转移记录，在它们成为垃圾被回收之前可以被写到其他地方，例如磁盘或者网络。</p>
+<p>迭代器是处理这个需求的很好的抽象，因为它们就像游标一样，可以正确的指向某个位置。每一次迭代都可以转发文件指针，并且可以让我们使用数据做其他的事情。</p>
+<p>首先来写一个Decoder 接口，递增地把对象从MappedByteBuffer中解码，如果buffer中没有对象，则返回null。</p>
+<p>public interface Decoder<t> {</t></p>
+<p>public T decode(ByteBuffer buffer);</p>
+<p>}</p>
+<p>然后让FileReader 实现Iterable接口。每一个迭代器将会处理下一个4096字节的数据，并使用Decoder把它们解码成一个对象的List集合。注意，FileReader 接收文件(files)的list对象，这样是很好的，因为它可以遍历数据，并且不需要考虑聚合的问题。顺便说一下，4096个字节块对于大文件来说是非常小的。</p>
+<p>public class FileReader implements Iterable<list<t>&gt; {</list<t></p>
+<p>private static final long CHUNK_SIZE = 4096;</p>
+<p>private final Decoder<t> decoder;</t></p>
+<p>private Iterator<file> files;</file></p>
+<p>private FileReader(Decoder<t> decoder, File… files) {</t></p>
+<p>this(decoder, Arrays.asList(files));</p>
+<p>}</p>
+<p>private FileReader(Decoder<t> decoder, List<file> files) {</file></t></p>
+<p>this.files = files.iterator();</p>
+<p>this.decoder = decoder;</p>
+<p>}</p>
+<p>public static <t> FileReader<t> create(Decoder<t> decoder, List<file> files) {</file></t></t></t></p>
+<p>return new FileReader<t>(decoder, files);</t></p>
+<p>}</p>
+<p>public static <t> FileReader<t> create(Decoder<t> decoder, File… files) {</t></t></t></p>
+<p>return new FileReader<t>(decoder, files);</t></p>
+<p>}</p>
+<p>@Override</p>
+<p>public Iterator<list<t>&gt; iterator() {</list<t></p>
+<p>return new Iterator<list<t>&gt;() {</list<t></p>
+<p>private List<t> entries;</t></p>
+<p>private long chunkPos = 0;</p>
+<p>private MappedByteBuffer buffer;</p>
+<p>private FileChannel channel;</p>
+<p>@Override</p>
+<p>public boolean hasNext() {</p>
+<p>if (buffer == null || !buffer.hasRemaining()) {</p>
+<p>buffer = nextBuffer(chunkPos);</p>
+<p>if (buffer == null) {</p>
+<p>return false;</p>
+<p>}</p>
+<p>}</p>
+<p>T result = null;</p>
+<p>while ((result = decoder.decode(buffer)) != null) {</p>
+<p>if (entries == null) {</p>
+<p>entries = new ArrayList<t>();</t></p>
+<p>}</p>
+<p>entries.add(result);</p>
+<p>}</p>
+<p>// set next MappedByteBuffer chunk</p>
+<p>chunkPos += buffer.position();</p>
+<p>buffer = null;</p>
+<p>if (entries != null) {</p>
+<p>return true;</p>
+<p>} else {</p>
+<p>Closeables.closeQuietly(channel);</p>
+<p>return false;</p>
+<p>}</p>
+<p>}</p>
+<p>private MappedByteBuffer nextBuffer(long position) {</p>
+<p>try {</p>
+<p>if (channel == null || channel.size() == position) {</p>
+<p>if (channel != null) {</p>
+<p>Closeables.closeQuietly(channel);</p>
+<p>channel = null;</p>
+<p>}</p>
+<p>if (files.hasNext()) {</p>
+<p>File file = files.next();</p>
+<p>channel = new RandomAccessFile(file, “r”).getChannel();</p>
+<p>chunkPos = 0;</p>
+<p>position = 0;</p>
+<p>} else {</p>
+<p>return null;</p>
+<p>}</p>
+<p>}</p>
+<p>long chunkSize = CHUNK_SIZE;</p>
+<p>if (channel.size() - position &lt; chunkSize) {</p>
+<p>chunkSize = channel.size() - position;</p>
+<p>}</p>
+<p>return channel.map(FileChannel.MapMode.READ_ONLY, chunkPos, chunkSize);</p>
+<p>} catch (IOException e) {</p>
+<p>Closeables.closeQuietly(channel);</p>
+<p>throw new RuntimeException(e);</p>
+<p>}</p>
+<p>}</p>
+<p>@Override</p>
+<p>public List<t> next() {</t></p>
+<p>List<t> res = entries;</t></p>
+<p>entries = null;</p>
+<p>return res;</p>
+<p>}</p>
+<p>@Override</p>
+<p>public void remove() {</p>
+<p>throw new UnsupportedOperationException();</p>
+<p>}</p>
+<p>};</p>
+<p>}</p>
+<p>}</p>
+<p>下一个任务就是写一个Decoder 。针对逗号分隔的任何文本格式，编写一个TextRowDecoder 类。接收的参数是每行字段的数量和一个字段分隔符，返回byte的二维数组。TextRowDecoder 可以被操作不同字符集的特定格式解码器重复利用。</p>
+<p>public class TextRowDecoder implements Decoder<byte[][]> {</byte[][]></p>
+<p>private static final byte LF = 10;</p>
+<p>private final int numFields;</p>
+<p>private final byte delimiter;</p>
+<p>public TextRowDecoder(int numFields, byte delimiter) {</p>
+<p>this.numFields = numFields;</p>
+<p>this.delimiter = delimiter;</p>
+<p>}</p>
+<p>@Override</p>
+<p>public byte[][] decode(ByteBuffer buffer) {</p>
+<p>int lineStartPos = buffer.position();</p>
+<p>int limit = buffer.limit();</p>
+<p>while (buffer.hasRemaining()) {</p>
+<p>byte b = buffer.get();</p>
+<p>if (b == LF) { // reached line feed so parse line</p>
+<p>int lineEndPos = buffer.position();</p>
+<p>// set positions for one row duplication</p>
+<p>if (buffer.limit() &lt; lineEndPos + 1) {</p>
+<p>buffer.position(lineStartPos).limit(lineEndPos);</p>
+<p>} else {</p>
+<p>buffer.position(lineStartPos).limit(lineEndPos + 1);</p>
+<p>}</p>
+<p>byte[][] entry = parseRow(buffer.duplicate());</p>
+<p>if (entry != null) {</p>
+<p>// reset main buffer</p>
+<p>buffer.position(lineEndPos);</p>
+<p>buffer.limit(limit);</p>
+<p>// set start after LF</p>
+<p>lineStartPos = lineEndPos;</p>
+<p>}</p>
+<p>return entry;</p>
+<p>}</p>
+<p>}</p>
+<p>buffer.position(lineStartPos);</p>
+<p>return null;</p>
+<p>}</p>
+<p>public byte[][] parseRow(ByteBuffer buffer) {</p>
+<p>int fieldStartPos = buffer.position();</p>
+<p>int fieldEndPos = 0;</p>
+<p>int fieldNumber = 0;</p>
+<p>byte[][] fields = new byte[numFields][];</p>
+<p>while (buffer.hasRemaining()) {</p>
+<p>byte b = buffer.get();</p>
+<p>if (b == delimiter || b == LF) {</p>
+<p>fieldEndPos = buffer.position();</p>
+<p>// save limit</p>
+<p>int limit = buffer.limit();</p>
+<p>// set positions for one row duplication</p>
+<p>buffer.position(fieldStartPos).limit(fieldEndPos);</p>
+<p>fields[fieldNumber] = parseField(buffer.duplicate(), fieldNumber, fieldEndPos - fieldStartPos - 1);</p>
+<p>fieldNumber++;</p>
+<p>// reset main buffer</p>
+<p>buffer.position(fieldEndPos);</p>
+<p>buffer.limit(limit);</p>
+<p>// set start after LF</p>
+<p>fieldStartPos = fieldEndPos;</p>
+<p>}</p>
+<p>if (fieldNumber == numFields) {</p>
+<p>return fields;</p>
+<p>}</p>
+<p>}</p>
+<p>return null;</p>
+<p>}</p>
+<p>private byte[] parseField(ByteBuffer buffer, int pos, int length) {</p>
+<p>byte[] field = new byte[length];</p>
+<p>for (int i = 0; i &lt; field.length; i++) {</p>
+<p>field[i] = buffer.get();</p>
+<p>}</p>
+<p>return field;</p>
+<p>}</p>
+<p>}</p>
+<p>这是文件被处理的过程。每一个List包含的元素都从一个单独的buffer中解码，每一个元素都是被TextRowDecoder定义的byte二维数组。</p>
+<p>TextRowDecoder decoder = new TextRowDecoder(4, comma);</p>
+<p>FileReader<byte[][]> reader = FileReader.create(decoder, file.listFiles());</byte[][]></p>
+<p>for (List<byte[][]> chunk : reader) {</byte[][]></p>
+<p>// do something with each chunk</p>
+<p>}</p>
+<p>我们可以在这里打住，不过还有额外的需求。每一行都包含一个时间戳，每一批都必须分组，使用时间段来代替buffers，如按照天分组、或者按照小时分组。我还想要遍历每一批的数据，因此，第一反应就是，为FileReader创建一个Iterable包装器，实现它的行为。一个额外的细节，每一个元素必须通过实现Timestamped接口（这里没有显示）提供时间戳到PeriodEntries。</p>
+<p>public class PeriodEntries<t extends="" timestamped=""> implements Iterable<list<t>&gt; {</list<t></t></p>
+<p>private final Iterator<list<t extends="" timestamped="">&gt; entriesIt;</list<t></p>
+<p>private final long interval;</p>
+<p>private PeriodEntries(Iterable<list<t>&gt; entriesIt, long interval) {</list<t></p>
+<p>this.entriesIt = entriesIt.iterator();</p>
+<p>this.interval = interval;</p>
+<p>}</p>
+<p>public static <t extends="" timestamped=""> PeriodEntries<t> create(Iterable<list<t>&gt; entriesIt, long interval) {</list<t></t></t></p>
+<p>return new PeriodEntries<t>(entriesIt, interval);</t></p>
+<p>}</p>
+<p>@Override</p>
+<p>public Iterator<list<t extends="" timestamped="">&gt; iterator() {</list<t></p>
+<p>return new Iterator<list<t>&gt;() {</list<t></p>
+<p>private Queue<list<t>&gt; queue = new LinkedList<list<t>&gt;();</list<t></list<t></p>
+<p>private long previous;</p>
+<p>private Iterator<t> entryIt;</t></p>
+<p>@Override</p>
+<p>public boolean hasNext() {</p>
+<p>if (!advanceEntries()) {</p>
+<p>return false;</p>
+<p>}</p>
+<p>T entry = entryIt.next();</p>
+<p>long time = normalizeInterval(entry);</p>
+<p>if (previous == 0) {</p>
+<p>previous = time;</p>
+<p>}</p>
+<p>if (queue.peek() == null) {</p>
+<p>List<t> group = new ArrayList<t>();</t></t></p>
+<p>queue.add(group);</p>
+<p>}</p>
+<p>while (previous == time) {</p>
+<p>queue.peek().add(entry);</p>
+<p>if (!advanceEntries()) {</p>
+<p>break;</p>
+<p>}</p>
+<p>entry = entryIt.next();</p>
+<p>time = normalizeInterval(entry);</p>
+<p>}</p>
+<p>previous = time;</p>
+<p>List<t> result = queue.peek();</t></p>
+<p>if (result == null || result.isEmpty()) {</p>
+<p>return false;</p>
+<p>}</p>
+<p>return true;</p>
+<p>}</p>
+<p>private boolean advanceEntries() {</p>
+<p>// if there are no rows left</p>
+<p>if (entryIt == null || !entryIt.hasNext()) {</p>
+<p>// try get more rows if possible</p>
+<p>if (entriesIt.hasNext()) {</p>
+<p>entryIt = entriesIt.next().iterator();</p>
+<p>return true;</p>
+<p>} else {</p>
+<p>// no more rows</p>
+<p>return false;</p>
+<p>}</p>
+<p>}</p>
+<p>return true;</p>
+<p>}</p>
+<p>private long normalizeInterval(Timestamped entry) {</p>
+<p>long time = entry.getTime();</p>
+<p>int utcOffset = TimeZone.getDefault().getOffset(time);</p>
+<p>long utcTime = time + utcOffset;</p>
+<p>long elapsed = utcTime % interval;</p>
+<p>return time - elapsed;</p>
+<p>}</p>
+<p>@Override</p>
+<p>public List<t> next() {</t></p>
+<p>return queue.poll();</p>
+<p>}</p>
+<p>@Override</p>
+<p>public void remove() {</p>
+<p>throw new UnsupportedOperationException();</p>
+<p>}</p>
+<p>};</p>
+<p>}</p>
+<p>}</p>
+<p>最后的处理代码通过引入这个函数并无太大变动，只有一个干净的且紧密的循环，不必关心文件、缓冲区、时间周期的分组元素。PeriodEntries也是足够的灵活管理任何时长的时间。</p>
+<p>TrueFxDecoder decoder = new TrueFxDecoder();</p>
+<p>FileReader<truefxdata> reader = FileReader.create(decoder, file.listFiles());</truefxdata></p>
+<p>long periodLength = TimeUnit.DAYS.toMillis(1);</p>
+<p>PeriodEntries<truefxdata> periods = PeriodEntries.create(reader, periodLength);</truefxdata></p>
+<p>for (List<truefxdata> entries : periods) {</truefxdata></p>
+<p>// data for each day</p>
+<p>for (TrueFxData entry : entries) {</p>
+<p>// process each entry</p>
+<p>}</p>
+<p>}</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+
+</div>
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://weibo.com/jiayou087" target="_blank" title="微博主页">微博主页</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="CSDN">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m LiuXing in ZJUCS. <br/>
+			这是我的技术博客.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="刘兴">刘兴</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+ </html>

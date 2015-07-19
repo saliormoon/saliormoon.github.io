@@ -1,0 +1,482 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>减少GC的5个编程技巧 | 刘兴的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="刘兴">
+    
+
+    
+    <meta name="description" content="垃圾收集器（GC）在分配内存以及释放内存上面，占用更少的CPU时间，减少GC的开销。当内存被回收的时候，GC处理很长时间经常会导致我们的代码中断（又叫做”stop the world”）。
+背景
+GC用来处理大量的短期的对象的分配（试想打开一个web页面，一旦页面被加载之后，被分配内存的大部分对象都会被废弃）。
+GC使用一个被称作”新生代”堆空间来完成这件事情。”新生代”是用来存放新建对象的堆内存">
+<meta property="og:type" content="article">
+<meta property="og:title" content="减少GC的5个编程技巧">
+<meta property="og:url" content="http://yoursite.com/2015/07/18/减少GC的5个编程技巧/index.html">
+<meta property="og:site_name" content="刘兴的博客">
+<meta property="og:description" content="垃圾收集器（GC）在分配内存以及释放内存上面，占用更少的CPU时间，减少GC的开销。当内存被回收的时候，GC处理很长时间经常会导致我们的代码中断（又叫做”stop the world”）。
+背景
+GC用来处理大量的短期的对象的分配（试想打开一个web页面，一旦页面被加载之后，被分配内存的大部分对象都会被废弃）。
+GC使用一个被称作”新生代”堆空间来完成这件事情。”新生代”是用来存放新建对象的堆内存">
+<meta property="og:updated_time" content="2015-07-18T11:48:04.091Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="减少GC的5个编程技巧">
+<meta name="twitter:description" content="垃圾收集器（GC）在分配内存以及释放内存上面，占用更少的CPU时间，减少GC的开销。当内存被回收的时候，GC处理很长时间经常会导致我们的代码中断（又叫做”stop the world”）。
+背景
+GC用来处理大量的短期的对象的分配（试想打开一个web页面，一旦页面被加载之后，被分配内存的大部分对象都会被废弃）。
+GC使用一个被称作”新生代”堆空间来完成这件事情。”新生代”是用来存放新建对象的堆内存">
+
+    
+    <link rel="alternative" href="http://blog.csdn.net/pangjiuzala" title="刘兴的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="刘兴的博客" title="刘兴的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/18/减少GC的5个编程技巧/" title="减少GC的5个编程技巧" itemprop="url">减少GC的5个编程技巧</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-18T11:47:30.000Z" itemprop="datePublished"> 发表于 2015-07-18</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>垃圾收集器（GC）在分配内存以及释放内存上面，占用更少的CPU时间，减少GC的开销。当内存被回收的时候，GC处理很长时间经常会导致我们的代码中断（又叫做”stop the world”）。</p>
+<p>背景</p>
+<p>GC用来处理大量的短期的对象的分配（试想打开一个web页面，一旦页面被加载之后，被分配内存的大部分对象都会被废弃）。</p>
+<p>GC使用一个被称作”新生代”堆空间来完成这件事情。”新生代”是用来存放新建对象的堆内存。每一个对象都有一个”age”（存储在对象的头信息中），用来定义存放很多没有被回收的垃圾集合。一旦一个确定的”age”到达，对象就会被复制到堆中的另一块空间，这个空间被称作”幸存者空间”或者”老年代空间”。（译者注：实际上幸存者空间位于新生代空间中，原文有误，不过这里暂时按照原文来翻译，更详细的内容请点击成为JavaGC专家Part I — 深入浅出Java垃圾回收机制）</p>
+<p>虽然这样很有效，但是还是有很大代价的。减少临时分配的数量确实可以帮助我们增加吞吐量，尤其是在大规模数据的环境下，或者资源有限制的app中。</p>
+<p>下面的五种代码方式可以更加有效的利用内存，并且不需要花费很多的时间，也不会降低代码可读性。</p>
+<p>1、避免隐式的String字符串</p>
+<p>String字符串是我们管理的每一个数据结构中不可分割的一部分。它们在被分配好了之后不可以被修改。比如”+”操作就会分配一个链接两个字符串的新的字符串。更糟糕的是，这里分配了一个隐式的StringBuilder对象来链接两个String字符串。</p>
+<p>例如：</p>
+<p>a = a + b; // a and b are Strings</p>
+<p>编译器在背后就会生成这样的一段儿代码：</p>
+<p>StringBuilder temp = new StringBuilder(a).<br>temp.append(b);<br>a = temp.toString(); // 一个新的 String 对象被分配<br>// 第一个对象 “a” 现在可以说是垃圾了</p>
+<p>它变得更糟糕了。</p>
+<p>让我们来看这个例子：</p>
+<p>String result = foo() + arg;<br>result += boo();<br>System.out.println(“result = “ + result);</p>
+<p>在这个例子中，背后有三个StringBuilders 对象被分配 – 每一个都是”+”的操作所产生，和两个额外的String对象，一个持有第二次分配的result，另一个是传入到print方法的String参数，在看似非常简单的一段语句中有5个额外的对象。</p>
+<p>试想一下在实际的代码场景中会发生什么，例如，通过xml或者文件中的文本信息生成一个web页面的过程。在嵌套循环结构，你将会发现有成百上千的对象被隐式的分配了。尽管VM有处理这些垃圾的机制，但还是有很大代价的 – 代价也许由你的用户来承担。</p>
+<p>解决方案：</p>
+<p>减少垃圾对象的一种方式就是善于使用StringBuilder 来建对象，下面的例子实现了与上面相同的功能，然而仅仅生成了一个StringBuilder 对象，和一个存储最终result 的String对象。</p>
+<p>StringBuilder value = new StringBuilder(“result = “);<br>value.append(foo()).append(arg).append(boo());<br>System.out.println(value);</p>
+<p>通过留心String和StringBuilder被隐式分配的可能，可以减少分配的短期的对象的数量，尤其在有大量代码的位置。</p>
+<p>2、计划好List的容量</p>
+<p>像ArrayList这样的动态集合用来存储一些长度可变化数据的基本结构。ArrayList和一些其他的集合（如HashMap、TreeMap），底层都是通过使用Object[]数组来实现的。而String（它们自己包装在char[]数组中），char数组的大小是不变的。那么问题就出现了，如果它们的大小是不变的，我们怎么能放item记录到集合中去呢？答案显而易见：分配更多的数组。</p>
+<p>看下面的例子：</p>
+<p>List items = new ArrayList();</p>
+<p>for (int i = 0; i &lt; len; i++)<br>{<br>Item item = readNextItem();<br>items.add(item);<br>}</p>
+<p>len的值决定了循环结束时items 最终的大小。然而，最初，ArrayList的构造器并不知道这个值的大小，构造器会分配一个默认的Object数组的大小。一旦内部数组溢出，它就会被一个新的、并且足够大的数组代替，这就使之前分配的数组成为了垃圾。</p>
+<p>如果执行数千次的循环，那么就会进行更多次数的新数组分配操作，以及更多次数的旧数组回收操作。对于在大规模环境下运行的代码，这些分配和释放的操作应该尽可能从CPU周期中剔除。</p>
+<p>解决方案：</p>
+<p>无论什么时候，尽可能的给List或者Map分配一个初始容量，就像这样：</p>
+<p>List items = new ArrayList(len);</p>
+<p>因为List初始化，有足够的容量，所有这样可以减少内部数组在运行时不必要的分配和释放。如果你不知道确定的大小，最好估算一下这个值的平均值，添加一些缓冲，防止意外溢出。</p>
+<p>3、使用高效的含有原始类型的集合</p>
+<p>当前版本的Java编译器对于含有基本数据类型的键的数组以及Map的支持，是通过“装箱”来实现的 – 自动装箱就是将原始数据装入一个对应的对象中，这个对象可被GC分配和回收。</p>
+<p>这个会有一些负面的影响。Java可以通过使用内部数组实现大多数的集合。对于每一条被添加到HashMap中的key/value记录，都会分配一个存储key和value的内部对象。当处理map的时候非常可怕，这意味着，每当你放一条记录到map中的时候，就会有一次额外的分配和释放操作发生。这很可能导致数量过大，而不得不重新分配新的内部数组。当处理有成百上千条甚至更多记录的Map时，这些内部分配的操作将会使GC的成本增加。</p>
+<p>一种常见的情况就是保存一个原始类型（如id）和一个对象之间的映射。由于Java的HashMap设计只能包含对象类型（而非原始类型），这意味着，每个map的插入操作都可能分配一个额外的对象来存储原始类型（即装箱）。</p>
+<p>Integer.valueOf 方法缓存在-128 – 127之间的数值，但是对于范围之外的每一个数值，除了内部的key/value记录对象之外，一个新的对象也将会分配。这很可能超过了GC对于map三倍的开销。对于一个C++开发者来说，这真是让人不安的消息，在C++中，STL 模板可以非常高效地解决这样的问题。</p>
+<p>很幸运，这个问题将会在Java的下一个版本得到解决。到那时，这将会被一些提供基本的树形结构(Tree)、映射（Map），以及List等Java的基本类型的库迅速处理。我强力推荐Trove，我已经使用很长时间了，并且它在处理大规模的代码时真的可以减小GC的开销。</p>
+<p>4、使用数据流（Streams）代替内存缓冲区（in-memory buffers）</p>
+<p>在服务器应用程序中，我们操作的大多数的数据都是以文件或者是来自另一个web服务器或DB的网络数据流的形式呈现给我们。大多数情况下，传入的数据都是序列化的形式，在我们使用它们之前需要被反序列化成Java对象。这个过程非常容易产生大量的隐式分配。</p>
+<p>最简单的做法就是通过ByteArrayInputStream,ByteBuffer 把数据读入内存中，然后再进行反序列化。</p>
+<p>这是一个糟糕的举动，因为完整的数据在构造新的对象的时候，你需要为其分配空间，然后立刻又释放空间。并且，由于数据的大小你又不知道，你只能猜测 – 当超过初始化容量的时候，不得不分配和释放byte[]数组来存储数据。</p>
+<p>解决方案非常简单。像Java自带的序列化工具以及Google的Protocol Buffers等，它们可以将来自于文件或网络流的数据进行反序列化，而不需要保存到内存中，也不需要分配新的byte数组来容纳增长的数据。如果可以的话，你可以将这种方法和加载数据到内存的方法比较一下，相信GC会很感谢你的。</p>
+<p>5、List集合</p>
+<p>不变性是很美好的，但是在大规模情境下，它就会有严重的缺陷。当传入一个List对象到方法中的情景。</p>
+<p>当方法返回一个集合，通常会很明智的在方法中创建一个集合对象（如ArrayList），填充它，并以不变的集合的形式返回。</p>
+<p>有些情况下，这并不会得到很好的效果。最明显的就是，当来自多个方法的集合调用一个final集合。因为不变性，在大规模数据情况下，会分配大量的临时集合。</p>
+<p>这种情况的解决方案将不会返回新的集合，而是通过使用单独的集合当做参数传入到那些方法代替组合的集合。</p>
+<p>例子1（低效率）：</p>
+<p>List items = new ArrayList();<br>for (FileData fileData : fileDatas)<br>{<br>// 每一次调用都会创建一个存储内部临时数组的临时的列表<br>items.addAll(readFileItem(fileData));<br>}</p>
+<p>例子2：</p>
+<p>List items =<br>new ArrayList(fileDatas.size() <em> avgFileDataSize </em> 1.5);</p>
+<p>for (FileData fileData : fileDatas)<br>{<br>readFileItem(fileData, items); // 在内部添加记录<br>}</p>
+<p>在例子2中，当违反不变性规则的时候（这通常应该被遵守），可以节省N个list的分配（以及任何临时数组的分配）。这将是对你GC的一个大大的优惠。</p>
+<p>版权声明：本文为博主原创文章，未经博主允许不得转载。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2015/07/18/减少GC的5个编程技巧/" data-title="减少GC的5个编程技巧 | 刘兴的博客" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/18/Java习惯用法总结/" title="Java习惯用法总结">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Java习惯用法总结</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/18/Java处理大文件/"  title="Java处理大文件">
+ <strong>下一篇：</strong><br/> 
+ <span>Java处理大文件
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://weibo.com/jiayou087" target="_blank" title="微博主页">微博主页</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="CSDN">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m LiuXing in ZJUCS. <br/>
+			这是我的技术博客.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="刘兴">刘兴</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

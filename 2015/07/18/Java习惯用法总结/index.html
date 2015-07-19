@@ -1,0 +1,793 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java习惯用法总结 | 刘兴的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="刘兴">
+    
+
+    
+    <meta name="description" content="在Java编程中，有一些些最常用的习惯用法，总结如下：
+实现equals()
+class Person {
+String name;
+int birthYear;
+byte[] raw;
+public boolean equals(Object obj) {
+if (!obj instanceof Person)
+return false;
+Person other = (Person)obj;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java习惯用法总结">
+<meta property="og:url" content="http://yoursite.com/2015/07/18/Java习惯用法总结/index.html">
+<meta property="og:site_name" content="刘兴的博客">
+<meta property="og:description" content="在Java编程中，有一些些最常用的习惯用法，总结如下：
+实现equals()
+class Person {
+String name;
+int birthYear;
+byte[] raw;
+public boolean equals(Object obj) {
+if (!obj instanceof Person)
+return false;
+Person other = (Person)obj;">
+<meta property="og:updated_time" content="2015-07-18T11:55:53.091Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java习惯用法总结">
+<meta name="twitter:description" content="在Java编程中，有一些些最常用的习惯用法，总结如下：
+实现equals()
+class Person {
+String name;
+int birthYear;
+byte[] raw;
+public boolean equals(Object obj) {
+if (!obj instanceof Person)
+return false;
+Person other = (Person)obj;">
+
+    
+    <link rel="alternative" href="http://blog.csdn.net/pangjiuzala" title="刘兴的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="刘兴的博客" title="刘兴的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/18/Java习惯用法总结/" title="Java习惯用法总结" itemprop="url">Java习惯用法总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-18T11:55:44.000Z" itemprop="datePublished"> 发表于 2015-07-18</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>在Java编程中，有一些些最常用的习惯用法，总结如下：</p>
+<p>实现equals()</p>
+<p>class Person {</p>
+<p>String name;</p>
+<p>int birthYear;</p>
+<p>byte[] raw;</p>
+<p>public boolean equals(Object obj) {</p>
+<p>if (!obj instanceof Person)</p>
+<p>return false;</p>
+<p>Person other = (Person)obj;</p>
+<p>return name.equals(other.name)</p>
+<p>&amp;&amp; birthYear == other.birthYear</p>
+<p>&amp;&amp; Arrays.equals(raw, other.raw);</p>
+<p>}</p>
+<p>public int hashCode() { … }</p>
+<p>}</p>
+<p>参数必须是Object类型，不能是外围类。</p>
+<p>foo.equals(null) 必须返回false，不能抛NullPointerException。（注意，null instanceof 任意类 总是返回false，因此上面的代码可以运行。）</p>
+<p>基本类型域（比如，int）的比较使用 == ，基本类型数组域的比较使用Arrays.equals()。</p>
+<p>覆盖equals()时，记得要相应地覆盖 hashCode()，与 equals() 保持一致。</p>
+<p>参考： java.lang.Object.equals(Object)。</p>
+<p>实现hashCode()</p>
+<p>class Person {</p>
+<p>String a;</p>
+<p>Object b;</p>
+<p>byte c;</p>
+<p>int[] d;</p>
+<p>public int hashCode() {</p>
+<p>return a.hashCode() + b.hashCode() + c + Arrays.hashCode(d);</p>
+<p>}</p>
+<p>public boolean equals(Object o) { … }</p>
+<p>}</p>
+<p>当x和y两个对象具有x.equals(y) == true ，你必须要确保x.hashCode() == y.hashCode()。</p>
+<p>根据逆反命题，如果x.hashCode() != y.hashCode()，那么x.equals(y) == false 必定成立。</p>
+<p>你不需要保证，当x.equals(y) == false时，x.hashCode() != y.hashCode()。但是，如果你可以尽可能地使它成立的话，这会提高哈希表的性能。</p>
+<p>hashCode()最简单的合法实现就是简单地return 0；虽然这个实现是正确的，但是这会导致HashMap这些数据结构运行得很慢。</p>
+<p>参考：java.lang.Object.hashCode()。</p>
+<p>实现compareTo()</p>
+<p>class Person implements Comparable<person> {</person></p>
+<p>String firstName;</p>
+<p>String lastName;</p>
+<p>int birthdate;</p>
+<p>// Compare by firstName, break ties by lastName, finally break ties by birthdate</p>
+<p>public int compareTo(Person other) {</p>
+<p>if (firstName.compareTo(other.firstName) != 0)</p>
+<p>return firstName.compareTo(other.firstName);</p>
+<p>else if (lastName.compareTo(other.lastName) != 0)</p>
+<p>return lastName.compareTo(other.lastName);</p>
+<p>else if (birthdate &lt; other.birthdate)</p>
+<p>return -1;</p>
+<p>else if (birthdate &gt; other.birthdate)</p>
+<p>return 1;</p>
+<p>else</p>
+<p>return 0;</p>
+<p>}</p>
+<p>}</p>
+<p>总是实现泛型版本 Comparable 而不是实现原始类型 Comparable 。因为这样可以节省代码量和减少不必要的麻烦。</p>
+<p>只关心返回结果的正负号（负/零/正），它们的大小不重要。</p>
+<p>Comparator.compare()的实现与这个类似。</p>
+<p>参考：java.lang.Comparable。</p>
+<p>实现clone()</p>
+<p>class Values implements Cloneable {</p>
+<p>String abc;</p>
+<p>double foo;</p>
+<p>int[] bars;</p>
+<p>Date hired;</p>
+<p>public Values clone() {</p>
+<p>try {</p>
+<p>Values result = (Values)super.clone();</p>
+<p>result.bars = result.bars.clone();</p>
+<p>result.hired = result.hired.clone();</p>
+<p>return result;</p>
+<p>} catch (CloneNotSupportedException e) { // Impossible</p>
+<p>throw new AssertionError(e);</p>
+<p>}</p>
+<p>}</p>
+<p>}</p>
+<p>使用 super.clone() 让Object类负责创建新的对象。</p>
+<p>基本类型域都已经被正确地复制了。同样，我们不需要去克隆String和BigInteger等不可变类型。</p>
+<p>手动对所有的非基本类型域（对象和数组）进行深度复制（deep copy）。</p>
+<p>实现了Cloneable的类，clone()方法永远不要抛CloneNotSupportedException。因此，需要捕获这个异常并忽略它，或者使用不受检异常（unchecked exception）包装它。</p>
+<p>不使用Object.clone()方法而是手动地实现clone()方法是可以的也是合法的。</p>
+<p>参考：java.lang.Object.clone()、java.lang.Cloneable()。</p>
+<p>使用StringBuilder或StringBuffer</p>
+<p>// join([“a”, “b”, “c”]) -&gt; “a and b and c”</p>
+<p>String join(List<string> strs) {</string></p>
+<p>StringBuilder sb = new StringBuilder();</p>
+<p>boolean first = true;</p>
+<p>for (String s : strs) {</p>
+<p>if (first) first = false;</p>
+<p>else sb.append(“ and “);</p>
+<p>sb.append(s);</p>
+<p>}</p>
+<p>return sb.toString();</p>
+<p>}</p>
+<p>不要像这样使用重复的字符串连接：s += item ，因为它的时间效率是O(n^2)。</p>
+<p>使用StringBuilder或者StringBuffer时，可以使用append()方法添加文本和使用toString()方法去获取连接起来的整个文本。</p>
+<p>优先使用StringBuilder，因为它更快。StringBuffer的所有方法都是同步的，而你通常不需要同步的方法。</p>
+<p>参考java.lang.StringBuilder、java.lang.StringBuffer。</p>
+<p>生成一个范围内的随机整数</p>
+<p>Random rand = new Random();</p>
+<p>// Between 1 and 6, inclusive</p>
+<p>int diceRoll() {</p>
+<p>return rand.nextInt(6) + 1;</p>
+<p>}</p>
+<p>总是使用Java API方法去生成一个整数范围内的随机数。</p>
+<p>不要试图去使用 Math.abs(rand.nextInt()) % n 这些不确定的用法，因为它的结果是有偏差的。此外，它的结果值有可能是负数，比如当rand.nextInt() == Integer.MIN_VALUE时就会如此。</p>
+<p>参考：java.util.Random.nextInt(int)。</p>
+<p>使用Iterator.remove()</p>
+<p>void filter(List<string> list) {</string></p>
+<p>for (Iterator<string> iter = list.iterator(); iter.hasNext(); ) {</string></p>
+<p>String item = iter.next();</p>
+<p>if (…)</p>
+<p>iter.remove();</p>
+<p>}</p>
+<p>}</p>
+<p>remove()方法作用在next()方法最近返回的条目上。每个条目只能使用一次remove()方法。</p>
+<p>参考：java.util.Iterator.remove()。</p>
+<p>返转字符串</p>
+<p>String reverse(String s) {</p>
+<p>return new StringBuilder(s).reverse().toString();</p>
+<p>}</p>
+<p>这个方法可能应该加入Java标准库。</p>
+<p>参考：java.lang.StringBuilder.reverse()。</p>
+<p>启动一条线程</p>
+<p>下面的三个例子使用了不同的方式完成了同样的事情。</p>
+<p>实现Runnnable的方式：</p>
+<p>void startAThread0() {</p>
+<p>new Thread(new MyRunnable()).start();</p>
+<p>}</p>
+<p>class MyRunnable implements Runnable {</p>
+<p>public void run() {</p>
+<p>…</p>
+<p>}</p>
+<p>}</p>
+<p>继承Thread的方式：</p>
+<p>void startAThread1() {</p>
+<p>new MyThread().start();</p>
+<p>}</p>
+<p>class MyThread extends Thread {</p>
+<p>public void run() {</p>
+<p>…</p>
+<p>}</p>
+<p>}</p>
+<p>匿名继承Thread的方式：</p>
+<p>void startAThread2() {</p>
+<p>new Thread() {</p>
+<p>public void run() {</p>
+<p>…</p>
+<p>}</p>
+<p>}.start();</p>
+<p>}</p>
+<p>不要直接调用run()方法。总是调用Thread.start()方法，这个方法会创建一条新的线程并使新建的线程调用run()。</p>
+<p>参考：java.lang.Thread, java.lang.Runnable。</p>
+<p>使用try-finally</p>
+<p>I/O流例子：</p>
+<p>void writeStuff() throws IOException {</p>
+<p>OutputStream out = new FileOutputStream(…);</p>
+<p>try {</p>
+<p>out.write(…);</p>
+<p>} finally {</p>
+<p>out.close();</p>
+<p>}</p>
+<p>}</p>
+<p>锁例子：</p>
+<p>void doWithLock(Lock lock) {</p>
+<p>lock.acquire();</p>
+<p>try {</p>
+<p>…</p>
+<p>} finally {</p>
+<p>lock.release();</p>
+<p>}</p>
+<p>}</p>
+<p>如果try之前的语句运行失败并且抛出异常，那么finally语句块就不会执行。但无论怎样，在这个例子里不用担心资源的释放。</p>
+<p>如果try语句块里面的语句抛出异常，那么程序的运行就会跳到finally语句块里执行尽可能多的语句，然后跳出这个方法（除非这个方法还有另一个外围的finally语句块）。</p>
+<p>从输入流里读取字节数据</p>
+<p>InputStream in = (…);</p>
+<p>try {</p>
+<p>while (true) {</p>
+<p>int b = in.read();</p>
+<p>if (b == -1)</p>
+<p>break;</p>
+<p>(… process b …)</p>
+<p>}</p>
+<p>} finally {</p>
+<p>in.close();</p>
+<p>}</p>
+<p>read()方法要么返回下一次从流里读取的字节数（0到255，包括0和255），要么在达到流的末端时返回-1。</p>
+<p>参考：java.io.InputStream.read()。</p>
+<p>从输入流里读取块数据</p>
+<p>InputStream in = (…);</p>
+<p>try {</p>
+<p>byte[] buf = new byte[100];</p>
+<p>while (true) {</p>
+<p>int n = in.read(buf);</p>
+<p>if (n == -1)</p>
+<p>break;</p>
+<p>(… process buf with offset=0 and length=n …)</p>
+<p>}</p>
+<p>} finally {</p>
+<p>in.close();</p>
+<p>}</p>
+<p>要记住的是，read()方法不一定会填满整个buf，所以你必须在处理逻辑中考虑返回的长度。</p>
+<p>参考： java.io.InputStream.read(byte[])、java.io.InputStream.read(byte[], int, int)。</p>
+<p>从文件里读取文本</p>
+<p>BufferedReader in = new BufferedReader(</p>
+<p>new InputStreamReader(new FileInputStream(…), “UTF-8”));</p>
+<p>try {</p>
+<p>while (true) {</p>
+<p>String line = in.readLine();</p>
+<p>if (line == null)</p>
+<p>break;</p>
+<p>(… process line …)</p>
+<p>}</p>
+<p>} finally {</p>
+<p>in.close();</p>
+<p>}</p>
+<p>BufferedReader对象的创建显得很冗长。这是因为Java把字节和字符当成两个不同的概念来看待（这与C语言不同）。</p>
+<p>你可以使用任何类型的InputStream来代替FileInputStream，比如socket。</p>
+<p>当达到流的末端时，BufferedReader.readLine()会返回null。</p>
+<p>要一次读取一个字符，使用Reader.read()方法。</p>
+<p>你可以使用其他的字符编码而不使用UTF-8，但最好不要这样做。</p>
+<p>参考：java.io.BufferedReader、java.io.InputStreamReader。</p>
+<p>向文件里写文本</p>
+<p>PrintWriter out = new PrintWriter(</p>
+<p>new OutputStreamWriter(new FileOutputStream(…), “UTF-8”));</p>
+<p>try {</p>
+<p>out.print(“Hello “);</p>
+<p>out.print(42);</p>
+<p>out.println(“ world!”);</p>
+<p>} finally {</p>
+<p>out.close();</p>
+<p>}</p>
+<p>Printwriter对象的创建显得很冗长。这是因为Java把字节和字符当成两个不同的概念来看待（这与C语言不同）。</p>
+<p>就像System.out，你可以使用print()和println()打印多种类型的值。</p>
+<p>你可以使用其他的字符编码而不使用UTF-8，但最好不要这样做。</p>
+<p>参考：java.io.PrintWriter、java.io.OutputStreamWriter。</p>
+<p>预防性检测（Defensive checking）数值</p>
+<p>int factorial(int n) {</p>
+<p>if (n &lt; 0)</p>
+<p>throw new IllegalArgumentException(“Undefined”);</p>
+<p>else if (n &gt;= 13)</p>
+<p>throw new ArithmeticException(“Result overflow”);</p>
+<p>else if (n == 0)</p>
+<p>return 1;</p>
+<p>else</p>
+<p>return n * factorial(n - 1);</p>
+<p>}</p>
+<p>不要认为输入的数值都是正数、足够小的数等等。要显式地检测这些条件。</p>
+<p>一个设计良好的函数应该对所有可能性的输入值都能够正确地执行。要确保所有的情况都考虑到了并且不会产生错误的输出（比如溢出）。</p>
+<p>预防性检测对象</p>
+<p>int findIndex(List<string> list, String target) {</string></p>
+<p>if (list == null || target == null)</p>
+<p>throw new NullPointerException();</p>
+<p>…</p>
+<p>}</p>
+<p>不要认为对象参数不会为空（null）。要显式地检测这个条件。</p>
+<p>预防性检测数组索引</p>
+<p>void frob(byte[] b, int index) {</p>
+<p>if (b == null)</p>
+<p>throw new NullPointerException();</p>
+<p>if (index &lt; 0 || index &gt;= b.length)</p>
+<p>throw new IndexOutOfBoundsException();</p>
+<p>…</p>
+<p>}</p>
+<p>不要认为所以给的数组索引不会越界。要显式地检测它。</p>
+<p>预防性检测数组区间</p>
+<p>void frob(byte[] b, int off, int len) {</p>
+<p>if (b == null)</p>
+<p>throw new NullPointerException();</p>
+<p>if (off &lt; 0 || off &gt; b.length</p>
+<p>|| len &lt; 0 || b.length - off &lt; len)</p>
+<p>throw new IndexOutOfBoundsException();</p>
+<p>…</p>
+<p>}</p>
+<p>不要认为所给的数组区间（比如，从off开始，读取len个元素）是不会越界。要显式地检测它。</p>
+<p>填充数组元素</p>
+<p>使用循环：</p>
+<p>// Fill each element of array ‘a’ with 123</p>
+<p>byte[] a = (…);</p>
+<p>for (int i = 0; i &lt; a.length; i++)</p>
+<p>a[i] = 123;</p>
+<p>（优先）使用标准库的方法：</p>
+<p>Arrays.fill(a, (byte)123);</p>
+<p>参考：java.util.Arrays.fill(T[], T)。</p>
+<p>参考：java.util.Arrays.fill(T[], int, int, T)。</p>
+<p>复制一个范围内的数组元素</p>
+<p>使用循环：</p>
+<p>// Copy 8 elements from array ‘a’ starting at offset 3</p>
+<p>// to array ‘b’ starting at offset 6,</p>
+<p>// assuming ‘a’ and ‘b’ are distinct arrays</p>
+<p>byte[] a = (…);</p>
+<p>byte[] b = (…);</p>
+<p>for (int i = 0; i &lt; 8; i++)</p>
+<p>b[6 + i] = a[3 + i];</p>
+<p>（优先）使用标准库的方法：</p>
+<p>System.arraycopy(a, 3, b, 6, 8);</p>
+<p>参考：java.lang.System.arraycopy(Object, int, Object, int, int)。</p>
+<p>调整数组大小</p>
+<p>使用循环（扩大规模）：</p>
+<p>// Make array ‘a’ larger to newLen</p>
+<p>byte[] a = (…);</p>
+<p>byte[] b = new byte[newLen];</p>
+<p>for (int i = 0; i &lt; a.length; i++) // Goes up to length of A</p>
+<p>b[i] = a[i];</p>
+<p>a = b;</p>
+<p>使用循环（减小规模）：</p>
+<p>// Make array ‘a’ smaller to newLen</p>
+<p>byte[] a = (…);</p>
+<p>byte[] b = new byte[newLen];</p>
+<p>for (int i = 0; i &lt; b.length; i++) // Goes up to length of B</p>
+<p>b[i] = a[i];</p>
+<p>a = b;</p>
+<p>（优先）使用标准库的方法：</p>
+<p>a = Arrays.copyOf(a, newLen);</p>
+<p>参考：java.util.Arrays.copyOf(T[], int)。</p>
+<p>参考：java.util.Arrays.copyOfRange(T[], int, int)。</p>
+<p>把4个字节包装（packing）成一个int</p>
+<p>int packBigEndian(byte[] b) {</p>
+<p>return (b[0] &amp; 0xFF) &lt;&lt; 24</p>
+<p>| (b[1] &amp; 0xFF) &lt;&lt; 16</p>
+<p>| (b[2] &amp; 0xFF) &lt;&lt; 8</p>
+<p>| (b[3] &amp; 0xFF) &lt;&lt; 0;</p>
+<p>}</p>
+<p>int packLittleEndian(byte[] b) {</p>
+<p>return (b[0] &amp; 0xFF) &lt;&lt; 0</p>
+<p>| (b[1] &amp; 0xFF) &lt;&lt; 8</p>
+<p>| (b[2] &amp; 0xFF) &lt;&lt; 16</p>
+<p>| (b[3] &amp; 0xFF) &lt;&lt; 24;</p>
+<p>}</p>
+<p>把int分解（Unpacking）成4个字节</p>
+<p>byte[] unpackBigEndian(int x) {</p>
+<p>return new byte[] {</p>
+<p>(byte)(x &gt;&gt;&gt; 24),</p>
+<p>(byte)(x &gt;&gt;&gt; 16),</p>
+<p>(byte)(x &gt;&gt;&gt; 8),</p>
+<p>(byte)(x &gt;&gt;&gt; 0)</p>
+<p>};</p>
+<p>}</p>
+<p>byte[] unpackLittleEndian(int x) {</p>
+<p>return new byte[] {</p>
+<p>(byte)(x &gt;&gt;&gt; 0),</p>
+<p>(byte)(x &gt;&gt;&gt; 8),</p>
+<p>(byte)(x &gt;&gt;&gt; 16),</p>
+<p>(byte)(x &gt;&gt;&gt; 24)</p>
+<p>};</p>
+<p>}</p>
+<p>总是使用无符号右移操作符（&gt;&gt;&gt;）对位进行包装（packing），不要使用算术右移操作符（&gt;&gt;）。<br>版权声明：本文为博主原创文章，未经博主允许不得转载。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2015/07/18/Java习惯用法总结/" data-title="Java习惯用法总结 | 刘兴的博客" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/19/孤立点挖掘算法/" title="孤立点挖掘算法">
+  <strong>上一篇：</strong><br/>
+  <span>
+  孤立点挖掘算法</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/18/减少GC的5个编程技巧/"  title="减少GC的5个编程技巧">
+ <strong>下一篇：</strong><br/> 
+ <span>减少GC的5个编程技巧
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://weibo.com/jiayou087" target="_blank" title="微博主页">微博主页</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="CSDN">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m LiuXing in ZJUCS. <br/>
+			这是我的技术博客.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="刘兴">刘兴</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

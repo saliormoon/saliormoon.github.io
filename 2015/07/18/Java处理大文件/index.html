@@ -1,0 +1,685 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java处理大文件 | 刘兴的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="刘兴">
+    
+
+    
+    <meta name="description" content="最近要处理一套存储历史实时数据的大文件fx market data，使用传统的InputStream不能够将它们读取到内存，因为每一个文件都超过了4G。甚至编辑器都不能够打开这些文件。
+处理这个问题的方式通常就是使用内存映射文件递增地处理区域的数据。关于内存映射文件的一个好处就是它们不会使用虚拟内存和换页空间，因为它们是从磁盘上的文件返回来的数据。
+这些文件和额外的一些数据，似乎它们使用逗号分隔的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java处理大文件">
+<meta property="og:url" content="http://yoursite.com/2015/07/18/Java处理大文件/index.html">
+<meta property="og:site_name" content="刘兴的博客">
+<meta property="og:description" content="最近要处理一套存储历史实时数据的大文件fx market data，使用传统的InputStream不能够将它们读取到内存，因为每一个文件都超过了4G。甚至编辑器都不能够打开这些文件。
+处理这个问题的方式通常就是使用内存映射文件递增地处理区域的数据。关于内存映射文件的一个好处就是它们不会使用虚拟内存和换页空间，因为它们是从磁盘上的文件返回来的数据。
+这些文件和额外的一些数据，似乎它们使用逗号分隔的">
+<meta property="og:updated_time" content="2015-07-18T10:00:40.319Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java处理大文件">
+<meta name="twitter:description" content="最近要处理一套存储历史实时数据的大文件fx market data，使用传统的InputStream不能够将它们读取到内存，因为每一个文件都超过了4G。甚至编辑器都不能够打开这些文件。
+处理这个问题的方式通常就是使用内存映射文件递增地处理区域的数据。关于内存映射文件的一个好处就是它们不会使用虚拟内存和换页空间，因为它们是从磁盘上的文件返回来的数据。
+这些文件和额外的一些数据，似乎它们使用逗号分隔的">
+
+    
+    <link rel="alternative" href="http://blog.csdn.net/pangjiuzala" title="刘兴的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="刘兴的博客" title="刘兴的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/18/Java处理大文件/" title="Java处理大文件" itemprop="url">Java处理大文件</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-18T09:59:19.000Z" itemprop="datePublished"> 发表于 2015-07-18</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>最近要处理一套存储历史实时数据的大文件fx market data，使用传统的InputStream不能够将它们读取到内存，因为每一个文件都超过了4G。甚至编辑器都不能够打开这些文件。</p>
+<p>处理这个问题的方式通常就是使用内存映射文件递增地处理区域的数据。关于内存映射文件的一个好处就是它们不会使用虚拟内存和换页空间，因为它们是从磁盘上的文件返回来的数据。</p>
+<p>这些文件和额外的一些数据，似乎它们使用逗号分隔的字段包含ASCII文本行。</p>
+<p>格式：[currency-pair],[timestamp],[bid-price],[ask-price]</p>
+<p>例子：EUR/USD,20120102 00:01:30.420,1.29451,1.2949</p>
+<p>可以为这种格式去写一个程序，但是，读取文件和解析文件是无关的概念。让我们退一步来想一个通用的设计，当在将来面临相似的问题时这个设计可以被重复利用。</p>
+<p>这个问题可以归结为递增地解码一个已经在无限长的数组中被编码的记录，并且没有耗尽内存。实际上，以逗号分割的示例格式编码与通常的解决方案是不相关的。所以，很明显需要一个解码器来处理不同的格式。</p>
+<p>再来看，知道整个文件处理完成，每一条记录都不能被解析并保存在内存中，所以我们需要一种方式来转移记录，在它们成为垃圾被回收之前可以被写到其他地方，例如磁盘或者网络。</p>
+<p>迭代器是处理这个需求的很好的抽象，因为它们就像游标一样，可以正确的指向某个位置。每一次迭代都可以转发文件指针，并且可以让我们使用数据做其他的事情。</p>
+<p>首先来写一个Decoder 接口，递增地把对象从MappedByteBuffer中解码，如果buffer中没有对象，则返回null。</p>
+<p>public interface Decoder<t> {</t></p>
+<p>public T decode(ByteBuffer buffer);</p>
+<p>}</p>
+<p>然后让FileReader 实现Iterable接口。每一个迭代器将会处理下一个4096字节的数据，并使用Decoder把它们解码成一个对象的List集合。注意，FileReader 接收文件(files)的list对象，这样是很好的，因为它可以遍历数据，并且不需要考虑聚合的问题。顺便说一下，4096个字节块对于大文件来说是非常小的。</p>
+<p>public class FileReader implements Iterable<list<t>&gt; {</list<t></p>
+<p>private static final long CHUNK_SIZE = 4096;</p>
+<p>private final Decoder<t> decoder;</t></p>
+<p>private Iterator<file> files;</file></p>
+<p>private FileReader(Decoder<t> decoder, File… files) {</t></p>
+<p>this(decoder, Arrays.asList(files));</p>
+<p>}</p>
+<p>private FileReader(Decoder<t> decoder, List<file> files) {</file></t></p>
+<p>this.files = files.iterator();</p>
+<p>this.decoder = decoder;</p>
+<p>}</p>
+<p>public static <t> FileReader<t> create(Decoder<t> decoder, List<file> files) {</file></t></t></t></p>
+<p>return new FileReader<t>(decoder, files);</t></p>
+<p>}</p>
+<p>public static <t> FileReader<t> create(Decoder<t> decoder, File… files) {</t></t></t></p>
+<p>return new FileReader<t>(decoder, files);</t></p>
+<p>}</p>
+<p>@Override</p>
+<p>public Iterator<list<t>&gt; iterator() {</list<t></p>
+<p>return new Iterator<list<t>&gt;() {</list<t></p>
+<p>private List<t> entries;</t></p>
+<p>private long chunkPos = 0;</p>
+<p>private MappedByteBuffer buffer;</p>
+<p>private FileChannel channel;</p>
+<p>@Override</p>
+<p>public boolean hasNext() {</p>
+<p>if (buffer == null || !buffer.hasRemaining()) {</p>
+<p>buffer = nextBuffer(chunkPos);</p>
+<p>if (buffer == null) {</p>
+<p>return false;</p>
+<p>}</p>
+<p>}</p>
+<p>T result = null;</p>
+<p>while ((result = decoder.decode(buffer)) != null) {</p>
+<p>if (entries == null) {</p>
+<p>entries = new ArrayList<t>();</t></p>
+<p>}</p>
+<p>entries.add(result);</p>
+<p>}</p>
+<p>// set next MappedByteBuffer chunk</p>
+<p>chunkPos += buffer.position();</p>
+<p>buffer = null;</p>
+<p>if (entries != null) {</p>
+<p>return true;</p>
+<p>} else {</p>
+<p>Closeables.closeQuietly(channel);</p>
+<p>return false;</p>
+<p>}</p>
+<p>}</p>
+<p>private MappedByteBuffer nextBuffer(long position) {</p>
+<p>try {</p>
+<p>if (channel == null || channel.size() == position) {</p>
+<p>if (channel != null) {</p>
+<p>Closeables.closeQuietly(channel);</p>
+<p>channel = null;</p>
+<p>}</p>
+<p>if (files.hasNext()) {</p>
+<p>File file = files.next();</p>
+<p>channel = new RandomAccessFile(file, “r”).getChannel();</p>
+<p>chunkPos = 0;</p>
+<p>position = 0;</p>
+<p>} else {</p>
+<p>return null;</p>
+<p>}</p>
+<p>}</p>
+<p>long chunkSize = CHUNK_SIZE;</p>
+<p>if (channel.size() - position &lt; chunkSize) {</p>
+<p>chunkSize = channel.size() - position;</p>
+<p>}</p>
+<p>return channel.map(FileChannel.MapMode.READ_ONLY, chunkPos, chunkSize);</p>
+<p>} catch (IOException e) {</p>
+<p>Closeables.closeQuietly(channel);</p>
+<p>throw new RuntimeException(e);</p>
+<p>}</p>
+<p>}</p>
+<p>@Override</p>
+<p>public List<t> next() {</t></p>
+<p>List<t> res = entries;</t></p>
+<p>entries = null;</p>
+<p>return res;</p>
+<p>}</p>
+<p>@Override</p>
+<p>public void remove() {</p>
+<p>throw new UnsupportedOperationException();</p>
+<p>}</p>
+<p>};</p>
+<p>}</p>
+<p>}</p>
+<p>下一个任务就是写一个Decoder 。针对逗号分隔的任何文本格式，编写一个TextRowDecoder 类。接收的参数是每行字段的数量和一个字段分隔符，返回byte的二维数组。TextRowDecoder 可以被操作不同字符集的特定格式解码器重复利用。</p>
+<p>public class TextRowDecoder implements Decoder<byte[][]> {</byte[][]></p>
+<p>private static final byte LF = 10;</p>
+<p>private final int numFields;</p>
+<p>private final byte delimiter;</p>
+<p>public TextRowDecoder(int numFields, byte delimiter) {</p>
+<p>this.numFields = numFields;</p>
+<p>this.delimiter = delimiter;</p>
+<p>}</p>
+<p>@Override</p>
+<p>public byte[][] decode(ByteBuffer buffer) {</p>
+<p>int lineStartPos = buffer.position();</p>
+<p>int limit = buffer.limit();</p>
+<p>while (buffer.hasRemaining()) {</p>
+<p>byte b = buffer.get();</p>
+<p>if (b == LF) { // reached line feed so parse line</p>
+<p>int lineEndPos = buffer.position();</p>
+<p>// set positions for one row duplication</p>
+<p>if (buffer.limit() &lt; lineEndPos + 1) {</p>
+<p>buffer.position(lineStartPos).limit(lineEndPos);</p>
+<p>} else {</p>
+<p>buffer.position(lineStartPos).limit(lineEndPos + 1);</p>
+<p>}</p>
+<p>byte[][] entry = parseRow(buffer.duplicate());</p>
+<p>if (entry != null) {</p>
+<p>// reset main buffer</p>
+<p>buffer.position(lineEndPos);</p>
+<p>buffer.limit(limit);</p>
+<p>// set start after LF</p>
+<p>lineStartPos = lineEndPos;</p>
+<p>}</p>
+<p>return entry;</p>
+<p>}</p>
+<p>}</p>
+<p>buffer.position(lineStartPos);</p>
+<p>return null;</p>
+<p>}</p>
+<p>public byte[][] parseRow(ByteBuffer buffer) {</p>
+<p>int fieldStartPos = buffer.position();</p>
+<p>int fieldEndPos = 0;</p>
+<p>int fieldNumber = 0;</p>
+<p>byte[][] fields = new byte[numFields][];</p>
+<p>while (buffer.hasRemaining()) {</p>
+<p>byte b = buffer.get();</p>
+<p>if (b == delimiter || b == LF) {</p>
+<p>fieldEndPos = buffer.position();</p>
+<p>// save limit</p>
+<p>int limit = buffer.limit();</p>
+<p>// set positions for one row duplication</p>
+<p>buffer.position(fieldStartPos).limit(fieldEndPos);</p>
+<p>fields[fieldNumber] = parseField(buffer.duplicate(), fieldNumber, fieldEndPos - fieldStartPos - 1);</p>
+<p>fieldNumber++;</p>
+<p>// reset main buffer</p>
+<p>buffer.position(fieldEndPos);</p>
+<p>buffer.limit(limit);</p>
+<p>// set start after LF</p>
+<p>fieldStartPos = fieldEndPos;</p>
+<p>}</p>
+<p>if (fieldNumber == numFields) {</p>
+<p>return fields;</p>
+<p>}</p>
+<p>}</p>
+<p>return null;</p>
+<p>}</p>
+<p>private byte[] parseField(ByteBuffer buffer, int pos, int length) {</p>
+<p>byte[] field = new byte[length];</p>
+<p>for (int i = 0; i &lt; field.length; i++) {</p>
+<p>field[i] = buffer.get();</p>
+<p>}</p>
+<p>return field;</p>
+<p>}</p>
+<p>}</p>
+<p>这是文件被处理的过程。每一个List包含的元素都从一个单独的buffer中解码，每一个元素都是被TextRowDecoder定义的byte二维数组。</p>
+<p>TextRowDecoder decoder = new TextRowDecoder(4, comma);</p>
+<p>FileReader<byte[][]> reader = FileReader.create(decoder, file.listFiles());</byte[][]></p>
+<p>for (List<byte[][]> chunk : reader) {</byte[][]></p>
+<p>// do something with each chunk</p>
+<p>}</p>
+<p>我们可以在这里打住，不过还有额外的需求。每一行都包含一个时间戳，每一批都必须分组，使用时间段来代替buffers，如按照天分组、或者按照小时分组。我还想要遍历每一批的数据，因此，第一反应就是，为FileReader创建一个Iterable包装器，实现它的行为。一个额外的细节，每一个元素必须通过实现Timestamped接口（这里没有显示）提供时间戳到PeriodEntries。</p>
+<p>public class PeriodEntries<t extends="" timestamped=""> implements Iterable<list<t>&gt; {</list<t></t></p>
+<p>private final Iterator<list<t extends="" timestamped="">&gt; entriesIt;</list<t></p>
+<p>private final long interval;</p>
+<p>private PeriodEntries(Iterable<list<t>&gt; entriesIt, long interval) {</list<t></p>
+<p>this.entriesIt = entriesIt.iterator();</p>
+<p>this.interval = interval;</p>
+<p>}</p>
+<p>public static <t extends="" timestamped=""> PeriodEntries<t> create(Iterable<list<t>&gt; entriesIt, long interval) {</list<t></t></t></p>
+<p>return new PeriodEntries<t>(entriesIt, interval);</t></p>
+<p>}</p>
+<p>@Override</p>
+<p>public Iterator<list<t extends="" timestamped="">&gt; iterator() {</list<t></p>
+<p>return new Iterator<list<t>&gt;() {</list<t></p>
+<p>private Queue<list<t>&gt; queue = new LinkedList<list<t>&gt;();</list<t></list<t></p>
+<p>private long previous;</p>
+<p>private Iterator<t> entryIt;</t></p>
+<p>@Override</p>
+<p>public boolean hasNext() {</p>
+<p>if (!advanceEntries()) {</p>
+<p>return false;</p>
+<p>}</p>
+<p>T entry = entryIt.next();</p>
+<p>long time = normalizeInterval(entry);</p>
+<p>if (previous == 0) {</p>
+<p>previous = time;</p>
+<p>}</p>
+<p>if (queue.peek() == null) {</p>
+<p>List<t> group = new ArrayList<t>();</t></t></p>
+<p>queue.add(group);</p>
+<p>}</p>
+<p>while (previous == time) {</p>
+<p>queue.peek().add(entry);</p>
+<p>if (!advanceEntries()) {</p>
+<p>break;</p>
+<p>}</p>
+<p>entry = entryIt.next();</p>
+<p>time = normalizeInterval(entry);</p>
+<p>}</p>
+<p>previous = time;</p>
+<p>List<t> result = queue.peek();</t></p>
+<p>if (result == null || result.isEmpty()) {</p>
+<p>return false;</p>
+<p>}</p>
+<p>return true;</p>
+<p>}</p>
+<p>private boolean advanceEntries() {</p>
+<p>// if there are no rows left</p>
+<p>if (entryIt == null || !entryIt.hasNext()) {</p>
+<p>// try get more rows if possible</p>
+<p>if (entriesIt.hasNext()) {</p>
+<p>entryIt = entriesIt.next().iterator();</p>
+<p>return true;</p>
+<p>} else {</p>
+<p>// no more rows</p>
+<p>return false;</p>
+<p>}</p>
+<p>}</p>
+<p>return true;</p>
+<p>}</p>
+<p>private long normalizeInterval(Timestamped entry) {</p>
+<p>long time = entry.getTime();</p>
+<p>int utcOffset = TimeZone.getDefault().getOffset(time);</p>
+<p>long utcTime = time + utcOffset;</p>
+<p>long elapsed = utcTime % interval;</p>
+<p>return time - elapsed;</p>
+<p>}</p>
+<p>@Override</p>
+<p>public List<t> next() {</t></p>
+<p>return queue.poll();</p>
+<p>}</p>
+<p>@Override</p>
+<p>public void remove() {</p>
+<p>throw new UnsupportedOperationException();</p>
+<p>}</p>
+<p>};</p>
+<p>}</p>
+<p>}</p>
+<p>最后的处理代码通过引入这个函数并无太大变动，只有一个干净的且紧密的循环，不必关心文件、缓冲区、时间周期的分组元素。PeriodEntries也是足够的灵活管理任何时长的时间。</p>
+<p>TrueFxDecoder decoder = new TrueFxDecoder();</p>
+<p>FileReader<truefxdata> reader = FileReader.create(decoder, file.listFiles());</truefxdata></p>
+<p>long periodLength = TimeUnit.DAYS.toMillis(1);</p>
+<p>PeriodEntries<truefxdata> periods = PeriodEntries.create(reader, periodLength);</truefxdata></p>
+<p>for (List<truefxdata> entries : periods) {</truefxdata></p>
+<p>// data for each day</p>
+<p>for (TrueFxData entry : entries) {</p>
+<p>// process each entry</p>
+<p>}</p>
+<p>}</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2015/07/18/Java处理大文件/" data-title="Java处理大文件 | 刘兴的博客" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/18/减少GC的5个编程技巧/" title="减少GC的5个编程技巧">
+  <strong>上一篇：</strong><br/>
+  <span>
+  减少GC的5个编程技巧</span>
+</a>
+</div>
+
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://weibo.com/jiayou087" target="_blank" title="微博主页">微博主页</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="CSDN">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m LiuXing in ZJUCS. <br/>
+			这是我的技术博客.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2015 
+		
+		<a href="/about" target="_blank" title="刘兴">刘兴</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
