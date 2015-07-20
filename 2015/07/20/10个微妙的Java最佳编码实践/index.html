@@ -1,0 +1,522 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>10个微妙的Java最佳编码实践 | 刘兴的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="刘兴">
+    
+
+    
+    <meta name="description" content="编写和维护jOOQ(Java中内部DSL建模的SQL)时遇到过这些。作为一个内部DSL，jOOQ最大限度的挑战了Java的编译器和泛型，把泛型，可变参数和重载结合在一起，Josh Bloch可能不会推荐的这种太宽泛的API。
+10个微妙的Java编码最佳实践：
+牢记C++的析构函数记得C++的析构函数？不记得了？那么你真的很幸运，因为你不必去调试那些由于对象删除后分配的内存没有被释放而导致内存泄露">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10个微妙的Java最佳编码实践">
+<meta property="og:url" content="http://yoursite.com/2015/07/20/10个微妙的Java最佳编码实践/index.html">
+<meta property="og:site_name" content="刘兴的博客">
+<meta property="og:description" content="编写和维护jOOQ(Java中内部DSL建模的SQL)时遇到过这些。作为一个内部DSL，jOOQ最大限度的挑战了Java的编译器和泛型，把泛型，可变参数和重载结合在一起，Josh Bloch可能不会推荐的这种太宽泛的API。
+10个微妙的Java编码最佳实践：
+牢记C++的析构函数记得C++的析构函数？不记得了？那么你真的很幸运，因为你不必去调试那些由于对象删除后分配的内存没有被释放而导致内存泄露">
+<meta property="og:updated_time" content="2015-07-20T13:17:48.279Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="10个微妙的Java最佳编码实践">
+<meta name="twitter:description" content="编写和维护jOOQ(Java中内部DSL建模的SQL)时遇到过这些。作为一个内部DSL，jOOQ最大限度的挑战了Java的编译器和泛型，把泛型，可变参数和重载结合在一起，Josh Bloch可能不会推荐的这种太宽泛的API。
+10个微妙的Java编码最佳实践：
+牢记C++的析构函数记得C++的析构函数？不记得了？那么你真的很幸运，因为你不必去调试那些由于对象删除后分配的内存没有被释放而导致内存泄露">
+
+    
+    <link rel="alternative" href="http://blog.csdn.net/pangjiuzala" title="刘兴的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="刘兴的博客" title="刘兴的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/20/10个微妙的Java最佳编码实践/" title="10个微妙的Java最佳编码实践" itemprop="url">10个微妙的Java最佳编码实践</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-20T13:14:46.000Z" itemprop="datePublished"> 发表于 2015-07-20</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#牢记C++的析构函数"><span class="toc-number">1.</span> <span class="toc-text">牢记C++的析构函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#不要相信你早期的SPI演进判断"><span class="toc-number">2.</span> <span class="toc-text">不要相信你早期的SPI演进判断</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#避免返回匿名，本地或者内部类"><span class="toc-number">3.</span> <span class="toc-text">避免返回匿名，本地或者内部类</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#现在就开始编写SAM！"><span class="toc-number">4.</span> <span class="toc-text">现在就开始编写SAM！</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#避免让方法返回null"><span class="toc-number">5.</span> <span class="toc-text">避免让方法返回null</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设计API时永远不要返回空(null)数组或List"><span class="toc-number">6.</span> <span class="toc-text">设计API时永远不要返回空(null)数组或List</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#避免状态，使用函数"><span class="toc-number">7.</span> <span class="toc-text">避免状态，使用函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#短路式_equals()"><span class="toc-number">8.</span> <span class="toc-text">短路式 equals()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#尽量使方法默认为final"><span class="toc-number">9.</span> <span class="toc-text">尽量使方法默认为final</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#避免方法(T…)签名"><span class="toc-number">10.</span> <span class="toc-text">避免方法(T…)签名</span></a></li></ol>
+		
+		</div>
+		
+		<p>编写和维护jOOQ(Java中内部DSL建模的SQL)时遇到过这些。作为一个内部DSL，jOOQ最大限度的挑战了Java的编译器和泛型，把泛型，可变参数和重载结合在一起，Josh Bloch可能不会推荐的这种太宽泛的API。</p>
+<p>10个微妙的Java编码最佳实践：</p>
+<h1 id="牢记C++的析构函数">牢记C++的析构函数</h1><p>记得C++的析构函数？不记得了？那么你真的很幸运，因为你不必去调试那些由于对象删除后分配的内存没有被释放而导致内存泄露的代码。感谢Sun / Oracle实现的垃圾回收机制吧！</p>
+<p>尽管如此，析构函数仍提供了一个有趣的特征。它理解逆分配顺序释放内存。记住在Java中也是这样的，当你操作类析构函数语法：</p>
+<p>使用JUnit的@Before和@After注释<br>分配，释放JDBC资源<br>调用super方法</p>
+<p>还有其他各种用例。这里有一个具体的例子，说明如何实现一些事件侦听器的SPI：</p>
+<p>@Override<br>public void beforeEvent(EventContext e)<br>{<br>    super.beforeEvent(e);<br>    // Super code before my code<br>}<br>@Override<br>public void afterEvent(EventContext e)<br>{<br>    // Super code after my code<br>    super.afterEvent(e);<br>}</p>
+<p>臭名昭著的哲学家就餐问题是另一个说明它为什么重要的好例子。 关于哲学家用餐的问题，请查看链接：<br><a href="http://adit.io/posts/2013-05-11-The-Dining-Philosophers-Problem-With-Ron-Swanson.html" target="_blank" rel="external">http://adit.io/posts/2013-05-11-The-Dining-Philosophers-Problem-With-Ron-Swanson.html</a></p>
+<p>规则：无论何时使用before / after, allocate / free, take / return语义实现逻辑时，考虑是否逆序执行after / free / return操作。</p>
+<h1 id="不要相信你早期的SPI演进判断">不要相信你早期的SPI演进判断</h1><p>向客户提供SPI可以使他们轻松的向你的库 / 代码中注入自定义行为的方法。当心你的SPI演进判断可能会迷惑你，使你认为你 (不)打算需要附加参数。 当然，不应当过早增加功能。但一旦你发布了你的SPI，一旦你决定遵循语义版本控制，当你意识到在某种情况下你可能需要另外一个参数时，你会真的后悔在SPI中增加一个愚蠢的单参数的方法:</p>
+<p>interface EventListener<br>{<br>    // Bad<br>    void message(String message);<br>}</p>
+<p>如果你也需要消息ID和消息源，怎么办？API演进将会阻止你向上面的类型添加参数。当然，有了Java8，你可以添加一个defender方法，“防御”你早期糟糕的设计决策：</p>
+<p>interface EventListener<br>{<br>    // Bad<br>default void message(String message)<br>    {<br>        message(message, null, null);<br>    }<br>    // Better?<br>    void message(<br>        String message,<br>        Integer id,<br>        MessageSource source<br>    );<br>}</p>
+<p>注意，不幸的是，defender方法不能使用final修饰符。</p>
+<p>但是比起使用许多方法污染你的SPI，使用上下文对象(或者参数对象)会好很多。</p>
+<p>interface MessageContext<br>{<br>    String message();<br>    Integer id();<br>    MessageSource source();<br>}<br>interface EventListener<br>{<br>    // Awesome!<br>    void message(MessageContext context);<br>}</p>
+<p>比起EventListner SPI你可以更容易演进MessageContext API，因为很少用户会实现它。</p>
+<p>规则: 无论何时指定SPI时，考虑使用上下文 / 参数对象，而不是写带有固定参数的方法。</p>
+<p>备注: 通过专用的MessageResult类型交换结果也是一个好主意，该类型可以使用建设者API构造它。这样将大大增加SPI进化的灵活性。</p>
+<h1 id="避免返回匿名，本地或者内部类">避免返回匿名，本地或者内部类</h1><p>Swing程序员通常只要按几下快捷键即可生成成百上千的匿名类。在多数情况下，只要遵循接口、不违反SPI子类型的生命周期(SPI subtype lifecycle)，这样做也无妨。 但是不要因为一个简单的原因——它们会保存对外部类的引用，就频繁的使用匿名、局部或者内部类。因为无论它们走到哪，外部类就得跟到哪。例如，在局部类的域外操作不当的话，那么整个对象图就会发生微妙的变化从而可能引起内存泄露。</p>
+<p>规则：在编写匿名、局部或内部类前请三思能否将它转化为静态的或普通的顶级类，从而避免方法将它们的对象返回到更外层的域中。</p>
+<p>注意：使用双层花括号来初始化简单对象：</p>
+<p>new HashMap<string, string="">()<br>{<br>    {<br>        put(“1”, “a”);<br>        put(“2”, “b”);<br>    }<br>}</string,></p>
+<p>这个方法利用了 JLS §8.6规范里描述的实例初始化方法(initializer)。表面上看起来不错，但实际上不提倡这种做法。因为要是使用完全独立的HashMap对象，那么实例就不会一直保存着外部对象的引用。此外，这也会让类加载器管理更多的类。</p>
+<h1 id="现在就开始编写SAM！">现在就开始编写SAM！</h1><p>Java8的脚步近了。伴随着Java8带来了lambda表达式，无论你是否喜欢。尽管你的API用户可能会喜欢，但是你最好确保他们可以尽可能经常的使用。因此除非你的API接收简单的“标量”类型，比如int、long、String 、Date，否则让你的API尽可能经常的接收SAM。</p>
+<p>什么是SAM？SAM是单一抽象方法[类型]。也称为函数接口，不久会被注释为@FunctionalInterface。这与规则2很配，EventListener实际上就是一个SAM。最好的SAM只有一个参数，因为这将会进一步简化lambda表达式的编写。设想编写</p>
+<p>listeners.add(c -&gt; System.out.println(c.message()));</p>
+<p>来替代</p>
+<p>listeners.add(new EventListener()<br>{<br>    @Override<br>    public void message(MessageContext c)<br>    {<br>        System.out.println(c.message()));<br>    }<br>});</p>
+<p>设想以JOOX的方式来处理XML。JOOX就包含很多的SAM：</p>
+<p>$(document)<br>// Find elements with an ID<br>.find(c -&gt; $(c).id() != null)<br>// Find their child elements<br>.children(c -&gt; $(c).tag().equals(“order”))<br>// Print all matches<br>.each(c -&gt; System.out.println($(c)))</p>
+<p>规则：对你的API用户好一点儿，从现在开始编写SAM / 函数接口。</p>
+<p>备注：有许多关于Java8 lambda表达式和改善的Collections API的有趣的博客：</p>
+<p><a href="http://blog.informatech.cr/2013/04/10/java-optional-objects/" target="_blank" rel="external">http://blog.informatech.cr/2013/04/10/java-optional-objects/</a><br><a href="http://blog.informatech.cr/2013/03/25/java-streams-api-preview/" target="_blank" rel="external">http://blog.informatech.cr/2013/03/25/java-streams-api-preview/</a><br><a href="http://blog.informatech.cr/2013/03/24/java-streams-preview-vs-net-linq/" target="_blank" rel="external">http://blog.informatech.cr/2013/03/24/java-streams-preview-vs-net-linq/</a><br><a href="http://blog.informatech.cr/2013/03/11/java-infinite-streams/" target="_blank" rel="external">http://blog.informatech.cr/2013/03/11/java-infinite-streams/</a></p>
+<h1 id="避免让方法返回null">避免让方法返回null</h1><p>我曾写过1、2篇关于java NULLs的文章，也讲解过Java8中引入新的Optional类。从学术或实用的角度来看，这些话题还是比较有趣的。</p>
+<p>尽管现阶段Null和NullPointerException依然是Java的硬伤，但是你仍可以设计出不会出现任何问题的API。在设计API时，应当尽可能的避免让方法返回null，因为你的用户可能会链式调用方法：</p>
+<p>initialise(someArgument).calculate(data).dispatch();</p>
+<p>从上面代码中可看出，任何一个方法都不应返回null。实际上，在通常情况下使用null会被认为相当的异类。像 jQuery或 jOOX这样的库在可迭代的对象上已完全的摒弃了null。</p>
+<p>Null通常用在延迟初始化中。在许多情况下，在不严重影响性能的条件下，延迟初始化也应该被避免。实际上，如果涉及的数据结构过于庞大，那么就要慎用延迟初始化。</p>
+<p>规则：无论何时方法都应避免返回null。null仅用来表示“未初始化”或“不存在”的语义。</p>
+<h1 id="设计API时永远不要返回空(null)数组或List">设计API时永远不要返回空(null)数组或List</h1><p>尽管在一些情况下方法返回值为null是可以的，但是绝不要返回空数组或空集合！请看 java.io.File.list()方法，它是这样设计的：</p>
+<p>此方法会返回一个指定目录下所有文件或目录的字符串数组。如果目录为空(empty)那么返回的数组也为空(empty)。如果指定的路径不存在或发生I / O错误，则返回null。</p>
+<p>因此，这个方法通常要这样使用：</p>
+<p>File directory = // …<br>    if (directory.isDirectory())<br>{<br>    String[] list = directory.list();<br>    if (list != null)<br>    {<br>        for (String file : list)<br>        {<br>            // …<br>        }<br>    }<br>}</p>
+<p>大家觉得null检查有必要吗？大多数I / O操作会产生IOExceptions，但这个方法却只返回了null。Null是无法存放I / O错误信息的。因此这样的设计，有以下3方面的不足：</p>
+<p>Null无助于发现错误<br>Null无法表明I / O错误是由File实例所对应的路径不正确引起的<br>每个人都可能会忘记判断null情况</p>
+<p>以集合的思维来看待问题的话，那么空的(empty)的数组或集合就是对“不存在”的最佳实现。返回空(null)数组或集合几乎是无任何实际意义的，除非用于延迟初始化。</p>
+<p>规则：返回的数组或集合不应为null。</p>
+<h1 id="避免状态，使用函数">避免状态，使用函数</h1><p>HTTP的好处是无状态。所有相关的状态在每次请求和响应中转移。这是REST命名的本质：含状态传输(Representational state transfer)。在Java中这样做也很赞。当方法接收状态参数对象的时候从规则2的角度想想这件事。如果状态通过这种对象传输，而不是从外边操作状态，那么事情将会更简单。以JDBC为例。下述例子从一个存储的程序中读取一个光标。</p>
+<p>CallableStatement s =<br>    connection.prepareCall(“{ ? = … }”);<br>    // Verbose manipulation of statement state:<br>    s.registerOutParameter(1, cursor);<br>    s.setString(2, “abc”);<br>    s.execute();<br>    ResultSet rs = s.getObject(1);<br>// Verbose manipulation of result set state:<br>rs.next();<br> rs.next();</p>
+<p>这使得JDBC API如此的古怪。每个对象都是有状态的，难以操作。具体的说，有两个主要的问题：</p>
+<p>在多线程环境很难正确的处理有状态的API<br>很难让有状态的资源全局可用，因为状态没有被描述<br> 规则：更多的以函数风格实现。通过方法参数转移状态。极少操作对象状态。</p>
+<h1 id="短路式_equals()">短路式 equals()</h1><p>这是一个比较容易操作的方法。在比较复杂的对象系统中，你可以获得显著的性能提升，只要你在所有对象的equals()方法中首先进行相等判断:<br>@Override<br>public boolean equals(Object other)<br>{<br>    if (this == other) return true;<br>    // 其它相等判断逻辑…<br>}</p>
+<p>注意，其它短路式检查可能涉及到null值检查，所以也应当加进去:</p>
+<p>@Override<br>public boolean equals(Object other)<br>{<br>    if (this == other) return true;<br>    if (other == null) return false;<br>    // Rest of equality logic…<br>}</p>
+<p>规则: 在你所有的equals()方法中使用短路来提升性能。</p>
+<h1 id="尽量使方法默认为final">尽量使方法默认为final</h1><p>有些人可能不同意这一条，因为使方法默认为final与Java开发者的习惯相违背。但是如果你对代码有完全的掌控，那么使方法默认为final是肯定没错的：</p>
+<p>如果你确实需要覆盖（override）一个方法（你真的需要？），你仍然可以移除final关键字<br>你将永远不会意外地覆盖（override）任何方法</p>
+<p>这特别适用于静态方法，在这种情况下“覆盖”（实际上是遮蔽）几乎不起作用。我最近在Apache Tika中遇到了一个很糟糕的遮蔽静态方法的例子。看一下：</p>
+<p>TaggedInputStream.get(InputStream)<br>TikaInputStream.get(InputStream)</p>
+<p>TikaInputStream扩展了TaggedInputStream，以一种相对不同的实现遮蔽了它的静态get()方法。</p>
+<p>与常规方法不同，静态方法不能互相覆盖，因为调用的地方在编译时就绑定了静态方法调用。如果你不走运，你可能会意外获得错误的方法。</p>
+<p>规则：如果你完全掌控你的API，那么使尽可能多的方法默认为final。</p>
+<h1 id="避免方法(T…)签名">避免方法(T…)签名</h1><p>在特殊场合下使用“accept - all”变量参数方法接收一个Object…参数就没有错的：</p>
+<p>void acceptAll(Object… all);</p>
+<p>编写这样的方法为Java生态系统带来一点儿JavaScript的感觉。当然你可能想要根据真实的情形限制实际的类型，比如String…。因为你不想要限制太多，你可能会认为用泛型T取代Object是一个好想法：</p>
+<p>void acceptAll(T… all);</p>
+<p>但是不是。T总是会被推断为Object。实际上你可能仅仅认为上述方法中不能使用泛型。更重要的是你可能认为你可以重载上述方法，但是你不能：</p>
+<p>void acceptAll(T… all);<br>void acceptAll(String message, T… all);</p>
+<p>这看起来好像你可以可选地传递一个String消息到方法。但是这个调用会发生什么呢？</p>
+<p>acceptAll(“Message”, 123, “abc”);</p>
+<p>编译器将T推断为 &lt;? extends Serializable &amp; Comparable&lt;? &gt;&gt; ，这将会使调用不明确！</p>
+<p>所以无论何时你有一个“accept - all”签名（即使是泛型），你将永远不能类型安全地重载它。API使用者可能仅仅在走运的时候才会让编译器“偶然地”选择“正确的”方法。但是也可能使用accept - all方法或者无法调用任何方法。</p>
+<p>规则: 如果可能，避免“accept - all”签名。如果不能，不要重载这样的方法。</p>
+<p>结论</p>
+<p>Java是一个野兽。不像其它更理想主义的语言，它慢慢地演进为今天的样子。这可能是一件好事，因为以Java的开发速度就已经有成百上千个警告，而且这些警告只能通过多年的经验去把握。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2015/07/20/10个微妙的Java最佳编码实践/" data-title="10个微妙的Java最佳编码实践 | 刘兴的博客" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/07/19/程序员必须知道的10大基础算法及讲解/"  title="程序员必须知道的10大基础算法及讲解">
+ <strong>下一篇：</strong><br/> 
+ <span>程序员必须知道的10大基础算法及讲解
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#牢记C++的析构函数"><span class="toc-number">1.</span> <span class="toc-text">牢记C++的析构函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#不要相信你早期的SPI演进判断"><span class="toc-number">2.</span> <span class="toc-text">不要相信你早期的SPI演进判断</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#避免返回匿名，本地或者内部类"><span class="toc-number">3.</span> <span class="toc-text">避免返回匿名，本地或者内部类</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#现在就开始编写SAM！"><span class="toc-number">4.</span> <span class="toc-text">现在就开始编写SAM！</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#避免让方法返回null"><span class="toc-number">5.</span> <span class="toc-text">避免让方法返回null</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设计API时永远不要返回空(null)数组或List"><span class="toc-number">6.</span> <span class="toc-text">设计API时永远不要返回空(null)数组或List</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#避免状态，使用函数"><span class="toc-number">7.</span> <span class="toc-text">避免状态，使用函数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#短路式_equals()"><span class="toc-number">8.</span> <span class="toc-text">短路式 equals()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#尽量使方法默认为final"><span class="toc-number">9.</span> <span class="toc-text">尽量使方法默认为final</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#避免方法(T…)签名"><span class="toc-number">10.</span> <span class="toc-text">避免方法(T…)签名</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://weibo.com/jiayou087" target="_blank" title="刘兴的微博主页">微博</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="刘兴的CSDN博客">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">10</span></li></ul>
+  </div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			The more you diligent, the more you lucky!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@2015 Liuxing All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+<script type="text/javascript">
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

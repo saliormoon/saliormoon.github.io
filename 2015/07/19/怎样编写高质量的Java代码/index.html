@@ -26,7 +26,7 @@
 代码质量所涉及的5个方面，编码标准、代码重复、代码覆盖率、依赖项分析、复杂度分析。这5方面很大程序上决定了一份代码的质量高低。我们分别来看一下这5方面：
 编码标准：这个想必都很清楚，每个公">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0035.jpg">
-<meta property="og:updated_time" content="2015-07-19T02:56:33.577Z">
+<meta property="og:updated_time" content="2015-07-20T12:57:35.058Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="怎样编写高质量的Java代码">
 <meta name="twitter:description" content="代码质量概述
@@ -104,6 +104,13 @@
 </header>
 	<div class="article-content">
 		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#编码标准（CheckStyle的使用）"><span class="toc-number">1.</span> <span class="toc-text">编码标准（CheckStyle的使用）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自定义CheckStyle规则："><span class="toc-number">2.</span> <span class="toc-text">自定义CheckStyle规则：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码重复（PMD的CPD的使用）"><span class="toc-number">3.</span> <span class="toc-text">代码重复（PMD的CPD的使用）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码覆盖率（Eclemma的使用）"><span class="toc-number">4.</span> <span class="toc-text">代码覆盖率（Eclemma的使用）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#依赖项分析（JDepend的使用）"><span class="toc-number">5.</span> <span class="toc-text">依赖项分析（JDepend的使用）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#复杂度分析（Metrics的使用）"><span class="toc-number">6.</span> <span class="toc-text">复杂度分析（Metrics的使用）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小结"><span class="toc-number">7.</span> <span class="toc-text">小结</span></a></li></ol>
+		
+		</div>
+		
 		<p>代码质量概述</p>
 <p>怎样辨别一个项目代码写得好还是坏？优秀的代码和腐化的代码区别在哪里？怎么让自己写的代码既漂亮又有生命力？接下来将对代码质量的问题进行一些粗略的介绍。也请有过代码质量相关经验的朋友提出宝贵的意见。</p>
 <p><img src="http://7xiur2.com1.z0.glb.clouddn.com/0035.jpg" alt=""></p>
@@ -120,8 +127,7 @@
 <p>依赖项分析：JDepend 插件URL：<a href="http://andrei.gmxhome.de/eclipse/" target="_blank" rel="external">http://andrei.gmxhome.de/eclipse/</a></p>
 <p>复杂度分析：Eclipse Metric  插件URL：<a href="http://metrics.sourceforge.net/update" target="_blank" rel="external">http://metrics.sourceforge.net/update</a></p>
 <p>注：某些插件需要科学上网才能更新</p>
-<p>编码标准（CheckStyle的使用）</p>
-<p>在eclipse上安装好了CheckStyle插件后，我们来建一个类用它跑一下。这个类很简单，一个常见的用户实体，包含了id，用户名、密码、邮件等属性，并包含get set方法，一个标准的POJO。运行CheckStyle检查一下：</p>
+<h1 id="编码标准（CheckStyle的使用）">编码标准（CheckStyle的使用）</h1><p>在eclipse上安装好了CheckStyle插件后，我们来建一个类用它跑一下。这个类很简单，一个常见的用户实体，包含了id，用户名、密码、邮件等属性，并包含get set方法，一个标准的POJO。运行CheckStyle检查一下：</p>
 <p>一个我们平时再普通不过的一个类，被checkstyle弄出这么多问题，情何以堪，我们来看看究竟是什么情况？</p>
 <p>看一下这些警告信息：</p>
 <p>line 1、<br>，说缺少package-info.java文件。</p>
@@ -132,8 +138,7 @@
 <p>我们这里只是建立了一个最简单的类用CheckStyle来检查，随着你的类代码越来越多，逻辑越来越复杂，CheckStyle能检查出来的毛病也越来越多。常见的CheckStyle错误有这些：</p>
 <p>1.Type is missing a javadoc commentClass<br>缺少类型说明<br>2.“{” should be on the previous line<br>“{” 应该位于前一行<br>3.Methods is missing a javadoc comment<br>方法前面缺少javadoc注释<br>4.Expected @throws tag for “Exception”<br>在注释中希望有@throws的说明<br>5.“.” Is preceeded with whitespace “.”<br>前面不能有空格<br>6.“.” Is followed by whitespace“.”<br>后面不能有空格<br>7.“=” is not preceeded with whitespace<br>“=” 前面缺少空格<br>8.“=” is not followed with whitespace<br>“=” 后面缺少空格<br>9.“}” should be on the same line<br>“}” 应该与下条语句位于同一行<br>10.Unused @param tag for “unused”<br>没有参数“unused”，不需注释<br>11.Variable “CA” missing javadoc<br>变量“CA”缺少javadoc注释<br>12.Line longer than 80characters<br>行长度超过80<br>13.Line contains a tab character<br>行含有”tab” 字符<br>14.Redundant “Public” modifier<br>冗余的“public” modifier<br>15.Final modifier out of order with the JSL<br>suggestionFinal modifier的顺序错误<br>16.Avoid using the “.<em>” form of import<br>Import格式避免使用“.</em>”<br>17.Redundant import from the same package<br>从同一个包中Import内容<br>18.Unused import-java.util.list<br>Import进来的java.util.list没有被使用<br>19.Duplicate import to line 13<br>重复Import同一个内容<br>20.Import from illegal package<br>从非法包中 Import内容<br>21.“while” construct must use “{}”<br>“while” 语句缺少“{}”<br>22.Variable “sTest1” must be private and have accessor method<br>变量“sTest1”应该是private的，并且有调用它的方法<br>23.Variable “ABC” must match pattern “^[a-z][a-zA-Z0-9]<em>$”<br>变量“ABC”不符合命名规则“^[a-z][a-zA-Z0-9]</em>$”<br>24.“(” is followed by whitespace<br>“(” 后面不能有空格<br>25.“)” is proceeded by whitespace<br>“)” 前面不能有空格</p>
 <p>可以看出CheckStyle检查出来的问题，大多是编码规则以及风格上的问题，这是编写高质量代码最基本的。值得注意的是，我们将一些优秀的开源代码用CheckStyle来检查也会检查出不少问题，这不能不说这些开源不优秀，而是每个公司组织有自己的编写规范度，这个度既可以减少程序员的工作量又可以让代码的可读性合格，但这个度不一样符合CheckStyle的完整标准。所以我们一般使用CheckStyle都不会用他的默认标准，而是通过配置，制定适合自己的编码规则。</p>
-<p>自定义CheckStyle规则：</p>
-<p>打开CheckStyle配置，新建一个配置，选择外部配置文件。在这之前最好导出一个eclipse自带的checkstyle配置文件（sun_checks.xml），然后重命名作为一个外部的配置导进去，这么做的目的是导入之后可以修改相应的配置，达到自定义配置的目的（因为eclipse自带的配置是加锁的，不能修改）。导入之后，点击右边的“Configure”进行编辑。</p>
+<h1 id="自定义CheckStyle规则：">自定义CheckStyle规则：</h1><p>打开CheckStyle配置，新建一个配置，选择外部配置文件。在这之前最好导出一个eclipse自带的checkstyle配置文件（sun_checks.xml），然后重命名作为一个外部的配置导进去，这么做的目的是导入之后可以修改相应的配置，达到自定义配置的目的（因为eclipse自带的配置是加锁的，不能修改）。导入之后，点击右边的“Configure”进行编辑。</p>
 <p>先去掉缺少package-info.java文件的提示</p>
 <p>再将第一句注释要以“.”结尾这个规则去掉，双击“Style javadoc”，将窗口内“checkFirstSentence”勾选去掉。</p>
 <p>对于实体类，属性有了注释，get set方法也不需要注释了，双击“Method javadoc”将allowMissingPropertyJavadoc勾选中。</p>
@@ -142,17 +147,14 @@
 <p>另外还有一个错误“’id’ hides a field.”，原因是方法的参数和类里面定义的域重名了，但使用eclipse生成的get set方法都会这样，所以可以忽略此项。</p>
 <p>至此我们再使用checkstyle检查一篇，发现仅剩下属性缺少注释这个警告。</p>
 <p>对每个属性加上java doc注释，所有问题都清除了。以此类推，解决checkstyle问题的方法就是：1、按规则解决代码问题；2、如果觉得这个问题对你的项目质量影响不大，则可以忽略它。</p>
-<p>代码重复（PMD的CPD的使用）</p>
-<p>对于多人开发的项目，难以避免出现重复代码的问题，尽管我们尽量对共用的代码进行了封装，但随着需求的增加、人员技术水平差异、沟通不足等原因，重复代码会越来越多。这不仅严重影响代码质量，也无形中增加了代码量。</p>
+<h1 id="代码重复（PMD的CPD的使用）">代码重复（PMD的CPD的使用）</h1><p>对于多人开发的项目，难以避免出现重复代码的问题，尽管我们尽量对共用的代码进行了封装，但随着需求的增加、人员技术水平差异、沟通不足等原因，重复代码会越来越多。这不仅严重影响代码质量，也无形中增加了代码量。</p>
 <p>注：精简的程序和高复用度的代码是我们一直追求的目标。</p>
 <p>PMD的CPD工具就是为检查重复代码而生的。右键项目—&gt;PMD—-&gt;Find Suspect Cut and Paste,执行重复代码检查：</p>
 <p>检查出来的重复代码，可以双击查看。然后根据业务逻辑以及代码特征，决定要不要做封装、怎么封装。</p>
-<p>代码覆盖率（Eclemma的使用）</p>
-<p>一份质量合格的代码，不仅包含功能程序本身也包含了对应的测试代码，Eclemma插件可以用来统计测试代码覆盖整体代码中的比率，以此来评估代码的功能性和稳定性。</p>
+<h1 id="代码覆盖率（Eclemma的使用）">代码覆盖率（Eclemma的使用）</h1><p>一份质量合格的代码，不仅包含功能程序本身也包含了对应的测试代码，Eclemma插件可以用来统计测试代码覆盖整体代码中的比率，以此来评估代码的功能性和稳定性。</p>
 <p>使用Junit编写好测试用例之后，右键Coverage As—&gt;Junit Test，运行测试用例，Eclemma会统计出相关的代码覆盖率：</p>
 <p>根据这个结果，你可以看出自己编写的测试用例覆盖到了那些代码，而没有覆盖到的代码，则有可能成为代码质量的盲区。</p>
-<p>依赖项分析（JDepend的使用）</p>
-<p>随着程序业务逻辑的增加，代码的依赖关系也变的越来越复杂，JDepend插件可以统计包和类的依赖关系，分析出程序的稳定性、抽象性和是否存在循环依赖的问题。右键包—&gt;Run JDepend Analysis：</p>
+<h1 id="依赖项分析（JDepend的使用）">依赖项分析（JDepend的使用）</h1><p>随着程序业务逻辑的增加，代码的依赖关系也变的越来越复杂，JDepend插件可以统计包和类的依赖关系，分析出程序的稳定性、抽象性和是否存在循环依赖的问题。右键包—&gt;Run JDepend Analysis：</p>
 <p>看一下这几项指标：</p>
 <p>CC（Number of Classes)</p>
 <p>被分析package的具体和抽象类（和接口）的数量，用于衡量package的可扩展性。如果一个类中实现了其他类，如实现了监听类，则监听类的数目也记录在此。</p>
@@ -171,14 +173,12 @@
 <p>Cycle</p>
 <p>循环依赖的数量。</p>
 <p>有个这个报告我们就可以有针对性的对代码进行设计和重构。</p>
-<p>复杂度分析（Metrics的使用）</p>
-<p>对于阅读代码的人来说，越简单的代码越好理解和维护，如果你的代码阅读起来很费劲或者你自己过段时间后再来看都看不懂，你就得想办法解决下代码的复杂度问题了。Metrics插件可以帮你做到这点。</p>
+<h1 id="复杂度分析（Metrics的使用）">复杂度分析（Metrics的使用）</h1><p>对于阅读代码的人来说，越简单的代码越好理解和维护，如果你的代码阅读起来很费劲或者你自己过段时间后再来看都看不懂，你就得想办法解决下代码的复杂度问题了。Metrics插件可以帮你做到这点。</p>
 <p>首先在Java透视图下右键一个项目—-&gt;Properties，选择Metrics，勾选Enble Metrics。</p>
 <p>然后Window—&gt;Show View—-&gt;Other—-&gt;Metrics View</p>
 <p>打开Metrics视图，点击右上角运行图标，即可得到复杂度分析的结果：</p>
 <p>可以根据复杂度指标，对自己的程序进行优化。</p>
-<p>小结</p>
-<p>本文介绍了和java代码质量相关的5个方面问题，并介绍对应eclipse插件的用法和作用。在我们实际开发中，尽量根据自己公司和团队的情况来制定一些检查规则，来提高代码质量。并且在大多数情况下，会有两个检查环节，即本地检查和持续集成环境的检查，我们常用的Hudson就可以集成很多插件。</p>
+<h1 id="小结">小结</h1><p>本文介绍了和java代码质量相关的5个方面问题，并介绍对应eclipse插件的用法和作用。在我们实际开发中，尽量根据自己公司和团队的情况来制定一些检查规则，来提高代码质量。并且在大多数情况下，会有两个检查环节，即本地检查和持续集成环境的检查，我们常用的Hudson就可以集成很多插件。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -230,7 +230,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#编码标准（CheckStyle的使用）"><span class="toc-number">1.</span> <span class="toc-text">编码标准（CheckStyle的使用）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自定义CheckStyle规则："><span class="toc-number">2.</span> <span class="toc-text">自定义CheckStyle规则：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码重复（PMD的CPD的使用）"><span class="toc-number">3.</span> <span class="toc-text">代码重复（PMD的CPD的使用）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码覆盖率（Eclemma的使用）"><span class="toc-number">4.</span> <span class="toc-text">代码覆盖率（Eclemma的使用）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#依赖项分析（JDepend的使用）"><span class="toc-number">5.</span> <span class="toc-text">依赖项分析（JDepend的使用）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#复杂度分析（Metrics的使用）"><span class="toc-number">6.</span> <span class="toc-text">复杂度分析（Metrics的使用）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小结"><span class="toc-number">7.</span> <span class="toc-text">小结</span></a></li></ol>
  
   </div>
 
@@ -269,7 +269,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">9</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">10</span></li></ul>
   </div>
 
 
@@ -313,6 +313,7 @@
 <script src="/js/jquery.imagesloaded.min.js"></script>
 <script src="/js/gallery.js"></script>
 <script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+<script type="text/javascript">
 
 <script type="text/javascript">
 $(document).ready(function(){ 
