@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://yoursite.com/2015/07/19/Java8十大新特性详解/index.html">
 <meta property="og:site_name" content="刘兴的博客">
 <meta property="og:description" content="本文将Java8的新特新逐一列出，并将使用简单的代码示例来指导你如何使用默认接口方法，lambda表达式，方法引用以及多重Annotation，之后你将会学到最新的API上的改进，比如流，函数式接口，Map以及全新的日期API“Java is still not dead—and people are starting to figure that out.”本教程将用带注释的简单代码来描述新特性">
-<meta property="og:updated_time" content="2015-07-21T02:15:31.204Z">
+<meta property="og:updated_time" content="2015-07-21T09:21:46.968Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java8十大新特性详解">
 <meta name="twitter:description" content="本文将Java8的新特新逐一列出，并将使用简单的代码示例来指导你如何使用默认接口方法，lambda表达式，方法引用以及多重Annotation，之后你将会学到最新的API上的改进，比如流，函数式接口，Map以及全新的日期API“Java is still not dead—and people are starting to figure that out.”本教程将用带注释的简单代码来描述新特性">
@@ -32,7 +32,7 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="../../../../css/style.css" type="text/css">
 </head>
 
   <body>
@@ -97,14 +97,14 @@
 		
 		</div>
 		
-		<p>本文将Java8的新特新逐一列出，并将使用简单的代码示例来指导你如何使用默认接口方法，lambda表达式，方法引用以及多重Annotation，之后你将会学到最新的API上的改进，比如流，函数式接口，Map以及全新的日期API<br>“Java is still not dead—and people are starting to figure that out.”<br>本教程将用带注释的简单代码来描述新特性，你将看不到大片吓人的文字。</p>
+		<p>本文将Java8的新特新逐一列出，并将使用简单的代码示例来指导你如何使用默认接口方法，lambda表达式，方法引用以及多重Annotation，之后你将会学到最新的API上的改进，比如流，函数式接口，Map以及全新的日期API<br>“Java is still not dead—and people are starting to figure that out.”<br>本教程将用带注释的简单代码来描述新特性，你将看不到大片吓人的文字。<br><a id="more"></a></p>
 <h1 id="接口的默认方法">接口的默认方法</h1><p>Java 8允许我们给接口添加一个非抽象的方法实现，只需要使用 default关键字即可，这个特征又叫做扩展方法，示例如下：<br>复制代码 代码如下:</p>
 <p>interface Formula {<br>   double calculate(int a);<br>   default double sqrt(int a) {<br>       return Math.sqrt(a);<br>   }<br>}</p>
 <p>Formula接口在拥有calculate方法之外同时还定义了sqrt方法，实现了Formula接口的子类只需要实现一个calculate方法，默认方法sqrt将在子类上可以直接使用。<br>复制代码 代码如下:</p>
 <p>Formula formula = new Formula() {<br>   @Override<br>   public double calculate(int a) {<br>       return sqrt(a * 100);<br>   }<br>};<br>formula.calculate(100);     // 100.0<br>formula.sqrt(16);           // 4.0</p>
 <p>文中的formula被实现为一个匿名类的实例，该代码非常容易理解，6行代码实现了计算 sqrt(a * 100)。在下一节中，我们将会看到实现单方法接口的更简单的做法。<br>译者注： 在Java中只有单继承，如果要让一个类赋予新的特性，通常是使用接口来实现，在C++中支持多继承，允许一个子类同时具有多个父类的接口与功能，在其他语言中，让一个类同时具有其他的可复用代码的方法叫做mixin。新的Java 8 的这个特新在编译器实现的角度上来说更加接近Scala的trait。 在C#中也有名为扩展方法的概念，允许给已存在的类型扩展方法，和Java 8的这个在语义上有差别。</p>
 <h1 id="Lambda_表达式">Lambda 表达式</h1><p>首先看看在老版本的Java中是如何排列字符串的：<br>复制代码 代码如下:</p>
-<p>List<String> names = Arrays.asList(“peter”, “anna”, “mike”, “xenia”);<br>Collections.sort(names, new Comparator<String>() {<br>   @Override<br>   public int compare(String a, String b) {<br>       return b.compareTo(a);<br>   }<br>});</p>
+<p>List<string> names = Arrays.asList(“peter”, “anna”, “mike”, “xenia”);<br>Collections.sort(names, new Comparator<string>() {<br>   @Override<br>   public int compare(String a, String b) {<br>       return b.compareTo(a);<br>   }<br>});</string></string></p>
 <p>只需要给静态方法 Collections.sort 传入一个List对象以及一个比较器来按指定顺序排列。通常做法都是创建一个匿名的比较器对象然后将其传递给sort方法。<br>在Java 8 中你就没必要使用这种传统的匿名对象的方式了，Java 8提供了更简洁的语法，lambda表达式：<br>复制代码 代码如下:</p>
 <p>Collections.sort(names, (String a, String b) -&gt; {<br>   return b.compareTo(a);<br>});</p>
 <p>看到了吧，代码变得更段且更具有可读性，但是实际上还可以写得更短：<br>复制代码 代码如下:</p>
@@ -113,44 +113,44 @@
 <p>Collections.sort(names, (a, b) -&gt; b.compareTo(a));</p>
 <p>Java编译器可以自动推导出参数类型，所以你可以不用再写一次类型。接下来我们看看lambda表达式还能作出什么更方便的东西来：</p>
 <h1 id="函数式接口">函数式接口</h1><p>Lambda表达式是如何在java的类型系统中表示的呢？每一个lambda表达式都对应一个类型，通常是接口类型。而“函数式接口”是指仅仅只包含一个抽象方法的接口，每一个该类型的lambda表达式都会被匹配到这个抽象方法。因为 默认方法 不算抽象方法，所以你也可以给你的函数式接口添加默认方法。<br>我们可以将lambda表达式当作任意只包含一个抽象方法的接口类型，确保你的接口一定达到这个要求，你只需要给你的接口添加 @FunctionalInterface 注解，编译器如果发现你标注了这个注解的接口有多于一个抽象方法的时候会报错的。<br>示例如下：<br>复制代码 代码如下:</p>
-<p>@FunctionalInterface<br>interface Converter<F, T> {<br>   T convert(F from);<br>}<br>Converter<String, Integer> converter = (from) -&gt; Integer.valueOf(from);<br>Integer converted = converter.convert(“123”);<br>System.out.println(converted);    // 123</p>
+<p>@FunctionalInterface<br>interface Converter<f, t=""> {<br>   T convert(F from);<br>}<br>Converter<string, integer=""> converter = (from) -&gt; Integer.valueOf(from);<br>Integer converted = converter.convert(“123”);<br>System.out.println(converted);    // 123</string,></f,></p>
 <p>需要注意如果@FunctionalInterface如果没有指定，上面的代码也是对的。<br>译者注 将lambda表达式映射到一个单方法的接口上，这种做法在Java 8之前就有别的语言实现，比如Rhino JavaScript解释器，如果一个函数参数接收一个单方法的接口而你传递的是一个function，Rhino 解释器会自动做一个单接口的实例到function的适配器，典型的应用场景有 org.w3c.dom.events.EventTarget 的addEventListener 第二个参数 EventListener。</p>
 <h1 id="方法与构造函数引用">方法与构造函数引用</h1><p>前一节中的代码还可以通过静态方法引用来表示：<br>复制代码 代码如下:</p>
-<p>Converter<String, Integer> converter = Integer::valueOf;<br>Integer converted = converter.convert(“123”);<br>System.out.println(converted);   // 123</p>
+<p>Converter<string, integer=""> converter = Integer::valueOf;<br>Integer converted = converter.convert(“123”);<br>System.out.println(converted);   // 123</string,></p>
 <p>Java 8 允许你使用 :: 关键字来传递方法或者构造函数引用，上面的代码展示了如何引用一个静态方法，我们也可以引用一个对象的方法：<br>复制代码 代码如下:</p>
 <p>converter = something::startsWith;<br>String converted = converter.convert(“Java”);<br>System.out.println(converted);    // “J”</p>
 <p>接下来看看构造函数是如何使用::关键字来引用的，首先我们定义一个包含多个构造函数的简单类：<br>复制代码 代码如下:</p>
 <p>class Person {<br>   String firstName;<br>   String lastName;<br>   Person() {}<br>   Person(String firstName, String lastName) {<br>       this.firstName = firstName;<br>       this.lastName = lastName;<br>   }<br>}</p>
 <p>接下来我们指定一个用来创建Person对象的对象工厂接口：<br>复制代码 代码如下:</p>
-<p>interface PersonFactory<P extends Person> {<br>   P create(String firstName, String lastName);<br>}</p>
+<p>interface PersonFactory</p><p extends="" person=""> {<br>   P create(String firstName, String lastName);<br>}</p>
 <p>这里我们使用构造函数引用来将他们关联起来，而不是实现一个完整的工厂：<br>复制代码 代码如下:</p>
-<p>PersonFactory<Person> personFactory = Person::new;<br>Person person = personFactory.create(“Peter”, “Parker”);</p>
+<p>PersonFactory<person> personFactory = Person::new;<br>Person person = personFactory.create(“Peter”, “Parker”);</person></p>
 <p>我们只需要使用 Person::new 来获取Person类构造函数的引用，Java编译器会自动根据PersonFactory.create方法的签名来选择合适的构造函数。</p>
 <h1 id="Lambda_作用域">Lambda 作用域</h1><p>在lambda表达式中访问外层作用域和老版本的匿名对象中的方式很相似。你可以直接访问标记了final的外层局部变量，或者实例的字段以及静态变量。<br>六、访问局部变量<br>我们可以直接在lambda表达式中访问外层的局部变量：<br>复制代码 代码如下:</p>
-<p>final int num = 1;<br>Converter<Integer, String> stringConverter =<br>       (from) -&gt; String.valueOf(from + num);<br>stringConverter.convert(2);     // 3</p>
+<p>final int num = 1;<br>Converter<integer, string=""> stringConverter =<br>       (from) -&gt; String.valueOf(from + num);<br>stringConverter.convert(2);     // 3</integer,></p>
 <p>但是和匿名对象不同的是，这里的变量num可以不用声明为final，该代码同样正确：<br>复制代码 代码如下:</p>
-<p>int num = 1;<br>Converter<Integer, String> stringConverter =<br>       (from) -&gt; String.valueOf(from + num);<br>stringConverter.convert(2);     // 3</p>
+<p>int num = 1;<br>Converter<integer, string=""> stringConverter =<br>       (from) -&gt; String.valueOf(from + num);<br>stringConverter.convert(2);     // 3</integer,></p>
 <p>不过这里的num必须不可被后面的代码修改（即隐性的具有final的语义），例如下面的就无法编译：<br>复制代码 代码如下:</p>
-<p>int num = 1;<br>Converter<Integer, String> stringConverter =<br>       (from) -&gt; String.valueOf(from + num);<br>num = 3;</p>
+<p>int num = 1;<br>Converter<integer, string=""> stringConverter =<br>       (from) -&gt; String.valueOf(from + num);<br>num = 3;</integer,></p>
 <p>在lambda表达式中试图修改num同样是不允许的。</p>
-<h1 id="访问对象字段与静态变量">访问对象字段与静态变量</h1><p>和本地变量不同的是，lambda内部对于实例的字段以及静态变量是即可读又可写。该行为和匿名对象是一致的：<br>复制代码 代码如下:<br>class Lambda4 {<br>   static int outerStaticNum;<br>   int outerNum;<br>   void testScopes() {<br>       Converter<Integer, String> stringConverter1 = (from) -&gt; {<br>           outerNum = 23;<br>           return String.valueOf(from);<br>       };<br>       Converter<Integer, String> stringConverter2 = (from) -&gt; {<br>           outerStaticNum = 72;<br>           return String.valueOf(from);<br>       };<br>   }<br>}</p>
+<h1 id="访问对象字段与静态变量">访问对象字段与静态变量</h1><p>和本地变量不同的是，lambda内部对于实例的字段以及静态变量是即可读又可写。该行为和匿名对象是一致的：<br>复制代码 代码如下:<br>class Lambda4 {<br>   static int outerStaticNum;<br>   int outerNum;<br>   void testScopes() {<br>       Converter<integer, string=""> stringConverter1 = (from) -&gt; {<br>           outerNum = 23;<br>           return String.valueOf(from);<br>       };<br>       Converter<integer, string=""> stringConverter2 = (from) -&gt; {<br>           outerStaticNum = 72;<br>           return String.valueOf(from);<br>       };<br>   }<br>}</integer,></integer,></p>
 <h1 id="访问接口的默认方法">访问接口的默认方法</h1><p>还记得第一节中的formula例子么，接口Formula定义了一个默认方法sqrt可以直接被formula的实例包括匿名对象访问到，但是在lambda表达式中这个是不行的。<br>Lambda表达式中是无法访问到默认方法的，以下代码将无法编译：<br>复制代码 代码如下:</p>
 <p>Formula formula = (a) -&gt; sqrt( a * 100);<br>Built-in Functional Interfaces</p>
 <p>JDK 1.8 API包含了很多内建的函数式接口，在老Java中常用到的比如Comparator或者Runnable接口，这些接口都增加了@FunctionalInterface注解以便能用在lambda上。<br>Java 8 API同样还提供了很多全新的函数式接口来让工作更加方便，有一些接口是来自Google Guava库里的，即便你对这些很熟悉了，还是有必要看看这些是如何扩展到lambda上使用的。</p>
 <h2 id="Predicate接口">Predicate接口</h2><p>Predicate 接口只有一个参数，返回boolean类型。该接口包含多种默认方法来将Predicate组合成其他复杂的逻辑（比如：与，或，非）：<br>复制代码 代码如下:</p>
-<p>Predicate<String> predicate = (s) -&gt; s.length() &gt; 0;<br>predicate.test(“foo”);              // true<br>predicate.negate().test(“foo”);     // false<br>Predicate<Boolean> nonNull = Objects::nonNull;<br>Predicate<Boolean> isNull = Objects::isNull;<br>Predicate<String> isEmpty = String::isEmpty;<br>Predicate<String> isNotEmpty = isEmpty.negate();</p>
+<p>Predicate<string> predicate = (s) -&gt; s.length() &gt; 0;<br>predicate.test(“foo”);              // true<br>predicate.negate().test(“foo”);     // false<br>Predicate<boolean> nonNull = Objects::nonNull;<br>Predicate<boolean> isNull = Objects::isNull;<br>Predicate<string> isEmpty = String::isEmpty;<br>Predicate<string> isNotEmpty = isEmpty.negate();</string></string></boolean></boolean></string></p>
 <h2 id="Function_接口">Function 接口</h2><p>Function 接口有一个参数并且返回一个结果，并附带了一些可以和其他函数组合的默认方法（compose, andThen）：<br>复制代码 代码如下:</p>
-<p>Function<String, Integer> toInteger = Integer::valueOf;<br>Function<String, String> backToString = toInteger.andThen(String::valueOf);<br>backToString.apply(“123”);     // “123”</p>
+<p>Function<string, integer=""> toInteger = Integer::valueOf;<br>Function<string, string=""> backToString = toInteger.andThen(String::valueOf);<br>backToString.apply(“123”);     // “123”</string,></string,></p>
 <h2 id="Supplier_接口">Supplier 接口</h2><p>Supplier 接口返回一个任意范型的值，和Function接口不同的是该接口没有任何参数<br>复制代码 代码如下:</p>
-<p>Supplier<Person> personSupplier = Person::new;<br>personSupplier.get();   // new Person</p>
+<p>Supplier<person> personSupplier = Person::new;<br>personSupplier.get();   // new Person</person></p>
 <h2 id="Consumer_接口">Consumer 接口</h2><p>Consumer 接口表示执行在单个参数上的操作。<br>复制代码 代码如下:</p>
-<p>Consumer<Person> greeter = (p) -&gt; System.out.println(“Hello, “ + p.firstName);<br>greeter.accept(new Person(“Luke”, “Skywalker”));</p>
+<p>Consumer<person> greeter = (p) -&gt; System.out.println(“Hello, “ + p.firstName);<br>greeter.accept(new Person(“Luke”, “Skywalker”));</person></p>
 <h2 id="Comparator_接口">Comparator 接口</h2><p>Comparator 是老Java中的经典接口， Java 8在此之上添加了多种默认方法：<br>复制代码 代码如下:</p>
-<p>Comparator<Person> comparator = (p1, p2) -&gt; p1.firstName.compareTo(p2.firstName);<br>Person p1 = new Person(“John”, “Doe”);<br>Person p2 = new Person(“Alice”, “Wonderland”);<br>comparator.compare(p1, p2);             // &gt; 0<br>comparator.reversed().compare(p1, p2);  // &lt; 0</p>
+<p>Comparator<person> comparator = (p1, p2) -&gt; p1.firstName.compareTo(p2.firstName);<br>Person p1 = new Person(“John”, “Doe”);<br>Person p2 = new Person(“Alice”, “Wonderland”);<br>comparator.compare(p1, p2);             // &gt; 0<br>comparator.reversed().compare(p1, p2);  // &lt; 0</person></p>
 <h2 id="Optional_接口">Optional 接口</h2><p>Optional 不是函数是接口，这是个用来防止NullPointerException异常的辅助类型，这是下一届中将要用到的重要概念，现在先简单的看看这个接口能干什么：<br>Optional 被定义为一个简单的容器，其值可能是null或者不是null。在Java 8之前一般某个函数应该返回非空对象但是偶尔却可能返回了null，而在Java 8中，不推荐你返回null而是返回Optional。<br>复制代码 代码如下:</p>
-<p>Optional<String> optional = Optional.of(“bam”);<br>optional.isPresent();           // true<br>optional.get();                 // “bam”<br>optional.orElse(“fallback”);    // “bam”<br>optional.ifPresent((s) -&gt; System.out.println(s.charAt(0)));     // “b”</p>
+<p>Optional<string> optional = Optional.of(“bam”);<br>optional.isPresent();           // true<br>optional.get();                 // “bam”<br>optional.orElse(“fallback”);    // “bam”<br>optional.ifPresent((s) -&gt; System.out.println(s.charAt(0)));     // “b”</string></p>
 <h1 id="Stream_接口">Stream 接口</h1><p>java.util.Stream 表示能应用在一组元素上一次执行的操作序列。Stream 操作分为中间操作或者最终操作两种，最终操作返回一特定类型的计算结果，而中间操作返回Stream本身，这样你就可以将多个操作依次串起来。Stream 的创建需要指定一个数据源，比如 java.util.Collection的子类，List或者Set， Map不支持。Stream的操作可以串行执行或者并行执行。<br>首先看看Stream是怎么用，首先创建实例代码的用到的数据List：<br>复制代码 代码如下:</p>
-<p>List<String> stringCollection = new ArrayList&lt;&gt;();<br>stringCollection.add(“ddd2”);<br>stringCollection.add(“aaa2”);<br>stringCollection.add(“bbb1”);<br>stringCollection.add(“aaa1”);<br>stringCollection.add(“bbb3”);<br>stringCollection.add(“ccc”);<br>stringCollection.add(“bbb2”);<br>stringCollection.add(“ddd1”);</p>
+<p>List<string> stringCollection = new ArrayList&lt;&gt;();<br>stringCollection.add(“ddd2”);<br>stringCollection.add(“aaa2”);<br>stringCollection.add(“bbb1”);<br>stringCollection.add(“aaa1”);<br>stringCollection.add(“bbb3”);<br>stringCollection.add(“ccc”);<br>stringCollection.add(“bbb2”);<br>stringCollection.add(“ddd1”);</string></p>
 <p>Java 8扩展了集合类，可以通过 Collection.stream() 或者 Collection.parallelStream() 来创建一个Stream。下面几节将详细解释常用的Stream操作：<br>Filter 过滤<br>过滤通过一个predicate接口来过滤并只保留符合条件的元素，该操作属于中间操作，所以我们可以在过滤后的结果来应用其他Stream操作（比如forEach）。forEach需要一个函数来对过滤后的元素依次执行。forEach是一个最终操作，所以我们不能在forEach之后来执行其他Stream操作。<br>复制代码 代码如下:</p>
 <p>stringCollection<br>   .stream()<br>   .filter((s) -&gt; s.startsWith(“a”))<br>   .forEach(System.out::println);<br>// “aaa2”, “aaa1”</p>
 <h2 id="Sort_排序">Sort 排序</h2><p>排序是一个中间操作，返回的是排序好后的Stream。如果你不指定一个自定义的Comparator则会使用默认排序。<br>复制代码 代码如下:</p>
@@ -164,13 +164,13 @@
 <p>计数是一个最终操作，返回Stream中元素的个数，返回值类型是long。<br>复制代码 代码如下:</p>
 <p>long startsWithB =<br>   stringCollection<br>       .stream()<br>       .filter((s) -&gt; s.startsWith(“b”))<br>       .count();<br>System.out.println(startsWithB);    // 3</p>
 <h1 id="Reduce_规约">Reduce 规约</h1><p>这是一个最终操作，允许通过指定的函数来讲stream中的多个元素规约为一个元素，规越后的结果是通过Optional接口表示的：<br>复制代码 代码如下:</p>
-<p>Optional<String> reduced =<br>   stringCollection<br>       .stream()<br>       .sorted()<br>       .reduce((s1, s2) -&gt; s1 + “#” + s2);<br>reduced.ifPresent(System.out::println);<br>// “aaa1#aaa2#bbb1#bbb2#bbb3#ccc#ddd1#ddd2”</p>
+<p>Optional<string> reduced =<br>   stringCollection<br>       .stream()<br>       .sorted()<br>       .reduce((s1, s2) -&gt; s1 + “#” + s2);<br>reduced.ifPresent(System.out::println);<br>// “aaa1#aaa2#bbb1#bbb2#bbb3#ccc#ddd1#ddd2”</string></p>
 <p>并行Streams<br>前面提到过Stream有串行和并行两种，串行Stream上的操作是在一个线程中依次完成，而并行Stream则是在多个线程上同时执行。<br>下面的例子展示了是如何通过并行Stream来提升性能：<br>首先我们创建一个没有重复元素的大表：<br>复制代码 代码如下:</p>
-<p>int max = 1000000;<br>List<String> values = new ArrayList&lt;&gt;(max);<br>for (int i = 0; i &lt; max; i++) {<br>   UUID uuid = UUID.randomUUID();<br>   values.add(uuid.toString());<br>}</p>
+<p>int max = 1000000;<br>List<string> values = new ArrayList&lt;&gt;(max);<br>for (int i = 0; i &lt; max; i++) {<br>   UUID uuid = UUID.randomUUID();<br>   values.add(uuid.toString());<br>}</string></p>
 <p>然后我们计算一下排序这个Stream要耗时多久，<br>串行排序：<br>复制代码 代码如下:</p>
 <p>long t0 = System.nanoTime();<br>long count = values.stream().sorted().count();<br>System.out.println(count);<br>long t1 = System.nanoTime();<br>long millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0);<br>System.out.println(String.format(“sequential sort took: %d ms”, millis));<br>// 串行耗时: 899 ms<br>并行排序：<br>复制代码 代码如下:</p>
 <p>long t0 = System.nanoTime();<br>long count = values.parallelStream().sorted().count();<br>System.out.println(count);<br>long t1 = System.nanoTime();<br>long millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0);<br>System.out.println(String.format(“parallel sort took: %d ms”, millis));<br>// 并行排序耗时: 472 ms<br>上面两个代码几乎是一样的，但是并行版的快了50%之多，唯一需要做的改动就是将stream()改为parallelStream()。<br>Map<br>前面提到过，Map类型不支持stream，不过Map提供了一些新的有用的方法来处理一些日常任务。<br>复制代码 代码如下:</p>
-<p>Map<Integer, String> map = new HashMap&lt;&gt;();<br>for (int i = 0; i &lt; 10; i++) {<br>   map.putIfAbsent(i, “val” + i);<br>}<br>map.forEach((id, val) -&gt; System.out.println(val));<br>以上代码很容易理解， putIfAbsent 不需要我们做额外的存在性检查，而forEach则接收一个Consumer接口来对map里的每一个键值对进行操作。<br>下面的例子展示了map上的其他有用的函数：<br>复制代码 代码如下:</p>
+<p>Map<integer, string=""> map = new HashMap&lt;&gt;();<br>for (int i = 0; i &lt; 10; i++) {<br>   map.putIfAbsent(i, “val” + i);<br>}<br>map.forEach((id, val) -&gt; System.out.println(val));<br>以上代码很容易理解， putIfAbsent 不需要我们做额外的存在性检查，而forEach则接收一个Consumer接口来对map里的每一个键值对进行操作。<br>下面的例子展示了map上的其他有用的函数：<br>复制代码 代码如下:</integer,></p>
 <p>map.computeIfPresent(3, (num, val) -&gt; val + num);<br>map.get(3);             // val33<br>map.computeIfPresent(9, (num, val) -&gt; null);<br>map.containsKey(9);     // false<br>map.computeIfAbsent(23, num -&gt; “val” + num);<br>map.containsKey(23);    // true<br>map.computeIfAbsent(3, num -&gt; “bam”);<br>map.get(3);             // val33</p>
 <p>接下来展示如何在Map里删除一个键值全都匹配的项：<br>复制代码 代码如下:</p>
 <p>map.remove(3, “val3”);<br>map.get(3);             // val33<br>map.remove(3, “val33”);<br>map.get(3);             // null</p>
@@ -198,7 +198,7 @@
 <p>Instant instant = sylvester<br>       .atZone(ZoneId.systemDefault())<br>       .toInstant();<br>Date legacyDate = Date.from(instant);<br>System.out.println(legacyDate);     // Wed Dec 31 23:59:59 CET 2014</p>
 <p>格式化LocalDateTime和格式化时间和日期一样的，除了使用预定义好的格式外，我们也可以自己定义格式：<br>复制代码 代码如下:</p>
 <p>DateTimeFormatter formatter =<br>   DateTimeFormatter<br>       .ofPattern(“MMM dd, yyyy - HH:mm”);<br>LocalDateTime parsed = LocalDateTime.parse(“Nov 03, 2014 - 07:13”, formatter);<br>String string = formatter.format(parsed);<br>System.out.println(string);     // Nov 03, 2014 - 07:13</p>
-<p>和java.text.NumberFormat不一样的是新版的DateTimeFormatter是不可变的，所以它是线程安全的。<br>关于时间日期格式的详细信息：<a href="http://download.java.net/jdk8/docs/api/java/time/format/DateTimeFormatter.html">http://download.java.net/jdk8/docs/api/java/time/format/DateTimeFormatter.html</a></p>
+<p>和java.text.NumberFormat不一样的是新版的DateTimeFormatter是不可变的，所以它是线程安全的。<br>关于时间日期格式的详细信息：<a href="http://download.java.net/jdk8/docs/api/java/time/format/DateTimeFormatter.html" target="_blank" rel="external">http://download.java.net/jdk8/docs/api/java/time/format/DateTimeFormatter.html</a></p>
 <h2 id="Annotation_注解">Annotation 注解</h2><p>在Java 8中支持多重注解了，先看个例子来理解一下是什么意思。<br>首先定义一个包装类Hints注解用来放置一组具体的Hint注解：<br>复制代码 代码如下:</p>
 <p>@interface Hints {<br>   Hint[] value();<br>}<br>@Repeatable(Hints.class)<br>@interface Hint {<br>   String value();<br>}</p>
 <p>Java 8允许我们把同一个类型的注解使用多次，只需要给该注解标注一下@Repeatable即可。<br>例 1: 使用包装类当容器来存多个注解（老方法）<br>复制代码 代码如下:</p>
@@ -377,7 +377,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">10</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2015/index.html">July 2015</a><span class="archive-list-count">10</span></li></ul>
   </div>
 
 

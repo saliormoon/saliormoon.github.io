@@ -11,25 +11,16 @@
     
 
     
-    <meta name="description" content="垃圾收集器（GC）在分配内存以及释放内存上面，占用更少的CPU时间，减少GC的开销。当内存被回收的时候，GC处理很长时间经常会导致我们的代码中断（又叫做”stop the world”）。
-背景
-GC用来处理大量的短期的对象的分配（试想打开一个web页面，一旦页面被加载之后，被分配内存的大部分对象都会被废弃）。
-GC使用一个被称作”新生代”堆空间来完成这件事情。”新生代”是用来存放新建对象的堆内存">
+    <meta name="description" content="垃圾收集器（GC）在分配内存以及释放内存上面，占用更少的CPU时间，减少GC的开销。当内存被回收的时候，GC处理很长时间经常会导致我们的代码中断（又叫做”stop the world”）。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="减少GC的5个编程技巧">
 <meta property="og:url" content="http://yoursite.com/2015/07/18/减少GC的5个编程技巧/index.html">
 <meta property="og:site_name" content="刘兴的博客">
-<meta property="og:description" content="垃圾收集器（GC）在分配内存以及释放内存上面，占用更少的CPU时间，减少GC的开销。当内存被回收的时候，GC处理很长时间经常会导致我们的代码中断（又叫做”stop the world”）。
-背景
-GC用来处理大量的短期的对象的分配（试想打开一个web页面，一旦页面被加载之后，被分配内存的大部分对象都会被废弃）。
-GC使用一个被称作”新生代”堆空间来完成这件事情。”新生代”是用来存放新建对象的堆内存">
-<meta property="og:updated_time" content="2015-07-20T13:40:43.351Z">
+<meta property="og:description" content="垃圾收集器（GC）在分配内存以及释放内存上面，占用更少的CPU时间，减少GC的开销。当内存被回收的时候，GC处理很长时间经常会导致我们的代码中断（又叫做”stop the world”）。">
+<meta property="og:updated_time" content="2015-07-21T09:23:05.771Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="减少GC的5个编程技巧">
-<meta name="twitter:description" content="垃圾收集器（GC）在分配内存以及释放内存上面，占用更少的CPU时间，减少GC的开销。当内存被回收的时候，GC处理很长时间经常会导致我们的代码中断（又叫做”stop the world”）。
-背景
-GC用来处理大量的短期的对象的分配（试想打开一个web页面，一旦页面被加载之后，被分配内存的大部分对象都会被废弃）。
-GC使用一个被称作”新生代”堆空间来完成这件事情。”新生代”是用来存放新建对象的堆内存">
+<meta name="twitter:description" content="垃圾收集器（GC）在分配内存以及释放内存上面，占用更少的CPU时间，减少GC的开销。当内存被回收的时候，GC处理很长时间经常会导致我们的代码中断（又叫做”stop the world”）。">
 
     
     <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
@@ -41,7 +32,7 @@ GC使用一个被称作”新生代”堆空间来完成这件事情。”新生
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="../../../../css/style.css" type="text/css">
 </head>
 
   <body>
@@ -106,8 +97,7 @@ GC使用一个被称作”新生代”堆空间来完成这件事情。”新生
 		
 		</div>
 		
-		<p>垃圾收集器（GC）在分配内存以及释放内存上面，占用更少的CPU时间，减少GC的开销。当内存被回收的时候，GC处理很长时间经常会导致我们的代码中断（又叫做”stop the world”）。</p>
-<p>背景</p>
+		<p>垃圾收集器（GC）在分配内存以及释放内存上面，占用更少的CPU时间，减少GC的开销。当内存被回收的时候，GC处理很长时间经常会导致我们的代码中断（又叫做”stop the world”）。<br><a id="more"></a><br>背景</p>
 <p>GC用来处理大量的短期的对象的分配（试想打开一个web页面，一旦页面被加载之后，被分配内存的大部分对象都会被废弃）。</p>
 <p>GC使用一个被称作”新生代”堆空间来完成这件事情。”新生代”是用来存放新建对象的堆内存。每一个对象都有一个”age”（存储在对象的头信息中），用来定义存放很多没有被回收的垃圾集合。一旦一个确定的”age”到达，对象就会被复制到堆中的另一块空间，这个空间被称作”幸存者空间”或者”老年代空间”。（译者注：实际上幸存者空间位于新生代空间中，原文有误，不过这里暂时按照原文来翻译，更详细的内容请点击成为JavaGC专家Part I — 深入浅出Java垃圾回收机制）</p>
 <p>虽然这样很有效，但是还是有很大代价的。减少临时分配的数量确实可以帮助我们增加吞吐量，尤其是在大规模数据的环境下，或者资源有限制的app中。</p>
@@ -322,7 +312,7 @@ GC使用一个被称作”新生代”堆空间来完成这件事情。”新生
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">10</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2015/index.html">July 2015</a><span class="archive-list-count">10</span></li></ul>
   </div>
 
 
