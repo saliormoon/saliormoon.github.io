@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://localhost:4000/2015/07/21/数据挖掘笔记/index.html">
 <meta property="og:site_name" content="刘兴的博客">
 <meta property="og:description" content="数据挖掘（KDD）（1）数据清理（消除噪声和删除不一致数据）（2）数据集成（多种数据源可以组合在一起）（3）数据选择（从数据库中提取与分析任务相关的数据）（4）数据变换（通过汇总或聚集操作，把数据变换和统一成适合挖掘的形式）（5）数据挖掘（基本步骤，使用智能方法提取数据模式）（6）模式评估（根据某种兴趣度度量，识别代表知识真正有趣的模式）（7）知识表示（使用可视化和知识表示技术，向用户提供挖掘的知">
-<meta property="og:updated_time" content="2015-07-21T10:55:05.061Z">
+<meta property="og:updated_time" content="2015-07-21T10:56:42.635Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据挖掘笔记">
 <meta name="twitter:description" content="数据挖掘（KDD）（1）数据清理（消除噪声和删除不一致数据）（2）数据集成（多种数据源可以组合在一起）（3）数据选择（从数据库中提取与分析任务相关的数据）（4）数据变换（通过汇总或聚集操作，把数据变换和统一成适合挖掘的形式）（5）数据挖掘（基本步骤，使用智能方法提取数据模式）（6）模式评估（根据某种兴趣度度量，识别代表知识真正有趣的模式）（7）知识表示（使用可视化和知识表示技术，向用户提供挖掘的知">
@@ -137,7 +137,10 @@
 <p>截尾均值：丢弃高低端值后的均值，对于倾斜（非对称）数据，数据中心更好度量是中位数。在概率论和统计学，中位数一般用于数据数值。</p>
 <p>具有一个、两个、三个众数的数据集合分别称为单峰、双峰和三峰的。</p>
 <p>具有两个或者更多众数的数据是多峰的，在另一种极端情况下，如果每个数据值仅出现一次，则它没有众数。</p>
-<h1 id="MapReduce编程模型">MapReduce编程模型</h1><p>迭代（iteration），遍历输入数据，并将之解析成key/value对。<br>将输入key/value对映射（map）成另外一些key/value对。<br>依据key对中间数据进行数组（grouping）。<br>以组为单位对数据进行归约（reduce）。</p>
+<h1 id="MapReduce编程模型">MapReduce编程模型</h1><p>迭代（iteration），遍历输入数据，并将之解析成key/value对。</p>
+<p>将输入key/value对映射（map）成另外一些key/value对。</p>
+<p>依据key对中间数据进行数组（grouping）。</p>
+<p>以组为单位对数据进行归约（reduce）。</p>
 <h1 id="迭代，将最终产生的key/value对保存到输出文件。">迭代，将最终产生的key/value对保存到输出文件。</h1><p>Hadoop是一个数据处理框架，而在当前大多数应用中处理数据的主力是标准的关系数据库。SQL是针对结构化数据设计的，而Hadoop最初的许多应用针对的是</p>
 <p>文本这种非结构化数据。SQL是一种查询语言，将Hadoop作为其执行引擎。</p>
 <p>具体比较</p>
