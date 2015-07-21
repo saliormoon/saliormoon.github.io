@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://localhost:4000/2015/07/21/数据挖掘笔记/index.html">
 <meta property="og:site_name" content="刘兴的博客">
 <meta property="og:description" content="数据挖掘（KDD）（1）数据清理（消除噪声和删除不一致数据）（2）数据集成（多种数据源可以组合在一起）（3）数据选择（从数据库中提取与分析任务相关的数据）（4）数据变换（通过汇总或聚集操作，把数据变换和统一成适合挖掘的形式）（5）数据挖掘（基本步骤，使用智能方法提取数据模式）（6）模式评估（根据某种兴趣度度量，识别代表知识真正有趣的模式）（7）知识表示（使用可视化和知识表示技术，向用户提供挖掘的知">
-<meta property="og:updated_time" content="2015-07-21T09:50:41.805Z">
+<meta property="og:updated_time" content="2015-07-21T10:55:05.061Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据挖掘笔记">
 <meta name="twitter:description" content="数据挖掘（KDD）（1）数据清理（消除噪声和删除不一致数据）（2）数据集成（多种数据源可以组合在一起）（3）数据选择（从数据库中提取与分析任务相关的数据）（4）数据变换（通过汇总或聚集操作，把数据变换和统一成适合挖掘的形式）（5）数据挖掘（基本步骤，使用智能方法提取数据模式）（6）模式评估（根据某种兴趣度度量，识别代表知识真正有趣的模式）（7）知识表示（使用可视化和知识表示技术，向用户提供挖掘的知">
@@ -93,7 +93,7 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据挖掘（KDD）"><span class="toc-number">1.</span> <span class="toc-text">数据挖掘（KDD）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#机器学习"><span class="toc-number">2.</span> <span class="toc-text">机器学习</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#信息检索："><span class="toc-number">3.</span> <span class="toc-text">信息检索：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据挖掘应用：商务智能和搜索引擎。"><span class="toc-number">4.</span> <span class="toc-text">数据挖掘应用：商务智能和搜索引擎。</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据挖掘主要问题"><span class="toc-number">5.</span> <span class="toc-text">数据挖掘主要问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#挖掘方法"><span class="toc-number">5.1.</span> <span class="toc-text">挖掘方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户界面"><span class="toc-number">5.2.</span> <span class="toc-text">用户界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有效性和可伸缩性"><span class="toc-number">5.3.</span> <span class="toc-text">有效性和可伸缩性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库类型的多样性"><span class="toc-number">5.4.</span> <span class="toc-text">数据库类型的多样性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据挖掘与社会"><span class="toc-number">5.5.</span> <span class="toc-text">数据挖掘与社会</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MapReduce编程模型"><span class="toc-number">6.</span> <span class="toc-text">MapReduce编程模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#迭代（iteration），遍历输入数据，并将之解析成key/value对。"><span class="toc-number">6.1.</span> <span class="toc-text">迭代（iteration），遍历输入数据，并将之解析成key/value对。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#将输入key/value对映射（map）成另外一些key/value对。"><span class="toc-number">6.2.</span> <span class="toc-text">将输入key/value对映射（map）成另外一些key/value对。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#依据key对中间数据进行数组（grouping）。"><span class="toc-number">6.3.</span> <span class="toc-text">依据key对中间数据进行数组（grouping）。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#以组为单位对数据进行归约（reduce）。"><span class="toc-number">6.4.</span> <span class="toc-text">以组为单位对数据进行归约（reduce）。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#迭代，将最终产生的key/value对保存到输出文件。"><span class="toc-number">6.5.</span> <span class="toc-text">迭代，将最终产生的key/value对保存到输出文件。</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据可视化旨在通过图形表示清晰有效的表达数据。"><span class="toc-number">7.</span> <span class="toc-text">数据可视化旨在通过图形表示清晰有效的表达数据。</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于像素的可视化技术"><span class="toc-number">7.1.</span> <span class="toc-text">基于像素的可视化技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#几何投影可视化技术"><span class="toc-number">7.2.</span> <span class="toc-text">几何投影可视化技术</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据挖掘（KDD）"><span class="toc-number">1.</span> <span class="toc-text">数据挖掘（KDD）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#机器学习"><span class="toc-number">2.</span> <span class="toc-text">机器学习</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#信息检索："><span class="toc-number">3.</span> <span class="toc-text">信息检索：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据挖掘应用：商务智能和搜索引擎。"><span class="toc-number">4.</span> <span class="toc-text">数据挖掘应用：商务智能和搜索引擎。</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据挖掘主要问题"><span class="toc-number">5.</span> <span class="toc-text">数据挖掘主要问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#挖掘方法"><span class="toc-number">5.1.</span> <span class="toc-text">挖掘方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户界面"><span class="toc-number">5.2.</span> <span class="toc-text">用户界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有效性和可伸缩性"><span class="toc-number">5.3.</span> <span class="toc-text">有效性和可伸缩性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库类型的多样性"><span class="toc-number">5.4.</span> <span class="toc-text">数据库类型的多样性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据挖掘与社会"><span class="toc-number">5.5.</span> <span class="toc-text">数据挖掘与社会</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MapReduce编程模型"><span class="toc-number">6.</span> <span class="toc-text">MapReduce编程模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#迭代，将最终产生的key/value对保存到输出文件。"><span class="toc-number">7.</span> <span class="toc-text">迭代，将最终产生的key/value对保存到输出文件。</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据可视化旨在通过图形表示清晰有效的表达数据。"><span class="toc-number">8.</span> <span class="toc-text">数据可视化旨在通过图形表示清晰有效的表达数据。</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于像素的可视化技术"><span class="toc-number">8.1.</span> <span class="toc-text">基于像素的可视化技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#几何投影可视化技术"><span class="toc-number">8.2.</span> <span class="toc-text">几何投影可视化技术</span></a></li></ol></li></ol>
 		
 		</div>
 		
@@ -137,22 +137,22 @@
 <p>截尾均值：丢弃高低端值后的均值，对于倾斜（非对称）数据，数据中心更好度量是中位数。在概率论和统计学，中位数一般用于数据数值。</p>
 <p>具有一个、两个、三个众数的数据集合分别称为单峰、双峰和三峰的。</p>
 <p>具有两个或者更多众数的数据是多峰的，在另一种极端情况下，如果每个数据值仅出现一次，则它没有众数。</p>
-<h1 id="MapReduce编程模型">MapReduce编程模型</h1><h2 id="迭代（iteration），遍历输入数据，并将之解析成key/value对。">迭代（iteration），遍历输入数据，并将之解析成key/value对。</h2><h2 id="将输入key/value对映射（map）成另外一些key/value对。">将输入key/value对映射（map）成另外一些key/value对。</h2><h2 id="依据key对中间数据进行数组（grouping）。">依据key对中间数据进行数组（grouping）。</h2><h2 id="以组为单位对数据进行归约（reduce）。">以组为单位对数据进行归约（reduce）。</h2><h2 id="迭代，将最终产生的key/value对保存到输出文件。">迭代，将最终产生的key/value对保存到输出文件。</h2><p> Hadoop是一个数据处理框架，而在当前大多数应用中处理数据的主力是标准的关系数据库。SQL是针对结构化数据设计的，而Hadoop最初的许多应用针对的是</p>
-<p> 文本这种非结构化数据。SQL是一种查询语言，将Hadoop作为其执行引擎。</p>
-<p> 具体比较</p>
-<p> 1.用向外扩展代替向上扩展</p>
-<p> Hadoop的设计就是为了能够在商用PC集群上实现向外扩展的架构。添加更多资源，对于Hadoop集群就是增加更多的机器。一个Hadoop群的标配是十至数百台计</p>
-<p> 算机。</p>
-<p> 2.用键/值对代替关系表</p>
-<p> 关系数据库的一个基本原则是让数据按某种模式存放在具有关系型数据结构的表中。大数据集往往是非结构化或半结构化的。Hadoop中的来源可以有任何形式</p>
-<p> ，但最终会转化为键/值对以供处理。</p>
-<p> 3.用函数式编程（MapReduce)代替声明式查询(SQL)</p>
-<p> SQL从根本上说是一个高级声明式语言，查询数据的手段是，声明想要的查询结果并让数据库引擎判定如何获取数据。在MapReduce中，实际的数据处理步骤是</p>
-<p> 由开发者指定的，它很类似于SQL引擎的一个执行计划。SQL使用查询语句，而MapReduce则使用脚本和代码。利用MapReduce可以用比SQL查询更为一般化的数</p>
-<p> 据处理方式。</p>
-<p> 4.用离线批处理代替在线处理</p>
-<p> Hadoop是专为离线处理和大规模数据分析而设计的，它并不适合哪种对几个记录随机读写的在线事务处理模式。Hadoop最适合一次写入，多次读取的数据存储</p>
-<p> 要求。</p>
+<h1 id="MapReduce编程模型">MapReduce编程模型</h1><p>迭代（iteration），遍历输入数据，并将之解析成key/value对。<br>将输入key/value对映射（map）成另外一些key/value对。<br>依据key对中间数据进行数组（grouping）。<br>以组为单位对数据进行归约（reduce）。</p>
+<h1 id="迭代，将最终产生的key/value对保存到输出文件。">迭代，将最终产生的key/value对保存到输出文件。</h1><p>Hadoop是一个数据处理框架，而在当前大多数应用中处理数据的主力是标准的关系数据库。SQL是针对结构化数据设计的，而Hadoop最初的许多应用针对的是</p>
+<p>文本这种非结构化数据。SQL是一种查询语言，将Hadoop作为其执行引擎。</p>
+<p>具体比较</p>
+<p>1.用向外扩展代替向上扩展</p>
+<p>Hadoop的设计就是为了能够在商用PC集群上实现向外扩展的架构。添加更多资源，对于Hadoop集群就是增加更多的机器。一个Hadoop群的标配是十至数百台计<br>算机。</p>
+<p>2.用键/值对代替关系表</p>
+<p>关系数据库的一个基本原则是让数据按某种模式存放在具有关系型数据结构的表中。大数据集往往是非结构化或半结构化的。Hadoop中的来源可以有任何形式</p>
+<p>，但最终会转化为键/值对以供处理。</p>
+<p>3.用函数式编程（MapReduce)代替声明式查询(SQL)</p>
+<p>SQL从根本上说是一个高级声明式语言，查询数据的手段是，声明想要的查询结果并让数据库引擎判定如何获取数据。在MapReduce中，实际的数据处理步骤是</p>
+<p>由开发者指定的，它很类似于SQL引擎的一个执行计划。SQL使用查询语句，而MapReduce则使用脚本和代码。利用MapReduce可以用比SQL查询更为一般化的数</p>
+<p>据处理方式。</p>
+<p>4.用离线批处理代替在线处理</p>
+<p>Hadoop是专为离线处理和大规模数据分析而设计的，它并不适合哪种对几个记录随机读写的在线事务处理模式。Hadoop最适合一次写入，多次读取的数据存储</p>
+<p>要求。</p>
 <p>例:统计一组文档中每个单词出现的次数<br> define wordCount as MultiSet;<br> for each document in documentSet{<br> T=tokenize(document);<br> for each token in T{<br>    wordCount[token]++;<br> }<br>     display(wordCount);<br> }<br> 这个程序只适合处理少量文档，一旦文档数量激增，就不能胜任。例如想编写一个垃圾邮件过滤器来获取接收到的几百万封垃圾邮件中经常使用的单词。使用</p>
 <p> 单台计算机遍历所有文档将会非常费时。重写程序，让工作可以分布在多台机器上，每台机器处理这些文档的不同部分。当所有机器都完成时，第二个处</p>
 <p> 理阶段将合并这些结果。第一阶段要分布到多台机器上去的伪代码为：</p>
@@ -262,7 +262,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据挖掘（KDD）"><span class="toc-number">1.</span> <span class="toc-text">数据挖掘（KDD）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#机器学习"><span class="toc-number">2.</span> <span class="toc-text">机器学习</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#信息检索："><span class="toc-number">3.</span> <span class="toc-text">信息检索：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据挖掘应用：商务智能和搜索引擎。"><span class="toc-number">4.</span> <span class="toc-text">数据挖掘应用：商务智能和搜索引擎。</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据挖掘主要问题"><span class="toc-number">5.</span> <span class="toc-text">数据挖掘主要问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#挖掘方法"><span class="toc-number">5.1.</span> <span class="toc-text">挖掘方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户界面"><span class="toc-number">5.2.</span> <span class="toc-text">用户界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有效性和可伸缩性"><span class="toc-number">5.3.</span> <span class="toc-text">有效性和可伸缩性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库类型的多样性"><span class="toc-number">5.4.</span> <span class="toc-text">数据库类型的多样性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据挖掘与社会"><span class="toc-number">5.5.</span> <span class="toc-text">数据挖掘与社会</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MapReduce编程模型"><span class="toc-number">6.</span> <span class="toc-text">MapReduce编程模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#迭代（iteration），遍历输入数据，并将之解析成key/value对。"><span class="toc-number">6.1.</span> <span class="toc-text">迭代（iteration），遍历输入数据，并将之解析成key/value对。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#将输入key/value对映射（map）成另外一些key/value对。"><span class="toc-number">6.2.</span> <span class="toc-text">将输入key/value对映射（map）成另外一些key/value对。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#依据key对中间数据进行数组（grouping）。"><span class="toc-number">6.3.</span> <span class="toc-text">依据key对中间数据进行数组（grouping）。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#以组为单位对数据进行归约（reduce）。"><span class="toc-number">6.4.</span> <span class="toc-text">以组为单位对数据进行归约（reduce）。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#迭代，将最终产生的key/value对保存到输出文件。"><span class="toc-number">6.5.</span> <span class="toc-text">迭代，将最终产生的key/value对保存到输出文件。</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据可视化旨在通过图形表示清晰有效的表达数据。"><span class="toc-number">7.</span> <span class="toc-text">数据可视化旨在通过图形表示清晰有效的表达数据。</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于像素的可视化技术"><span class="toc-number">7.1.</span> <span class="toc-text">基于像素的可视化技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#几何投影可视化技术"><span class="toc-number">7.2.</span> <span class="toc-text">几何投影可视化技术</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据挖掘（KDD）"><span class="toc-number">1.</span> <span class="toc-text">数据挖掘（KDD）</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#机器学习"><span class="toc-number">2.</span> <span class="toc-text">机器学习</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#信息检索："><span class="toc-number">3.</span> <span class="toc-text">信息检索：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据挖掘应用：商务智能和搜索引擎。"><span class="toc-number">4.</span> <span class="toc-text">数据挖掘应用：商务智能和搜索引擎。</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据挖掘主要问题"><span class="toc-number">5.</span> <span class="toc-text">数据挖掘主要问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#挖掘方法"><span class="toc-number">5.1.</span> <span class="toc-text">挖掘方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户界面"><span class="toc-number">5.2.</span> <span class="toc-text">用户界面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有效性和可伸缩性"><span class="toc-number">5.3.</span> <span class="toc-text">有效性和可伸缩性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库类型的多样性"><span class="toc-number">5.4.</span> <span class="toc-text">数据库类型的多样性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据挖掘与社会"><span class="toc-number">5.5.</span> <span class="toc-text">数据挖掘与社会</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MapReduce编程模型"><span class="toc-number">6.</span> <span class="toc-text">MapReduce编程模型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#迭代，将最终产生的key/value对保存到输出文件。"><span class="toc-number">7.</span> <span class="toc-text">迭代，将最终产生的key/value对保存到输出文件。</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据可视化旨在通过图形表示清晰有效的表达数据。"><span class="toc-number">8.</span> <span class="toc-text">数据可视化旨在通过图形表示清晰有效的表达数据。</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基于像素的可视化技术"><span class="toc-number">8.1.</span> <span class="toc-text">基于像素的可视化技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#几何投影可视化技术"><span class="toc-number">8.2.</span> <span class="toc-text">几何投影可视化技术</span></a></li></ol></li></ol>
  
   </div>
 
@@ -290,6 +290,10 @@
 			
 		
 			
+				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/孤立点挖掘/" title="孤立点挖掘">孤立点挖掘<sup>1</sup></a></li>
 			
 		
@@ -311,10 +315,6 @@
 		
 			
 				<li><a href="/tags/openHAB/" title="openHAB">openHAB<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>1</sup></a></li>
 			
 		
 		</ul>
