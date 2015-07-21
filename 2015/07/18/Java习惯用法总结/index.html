@@ -60,7 +60,7 @@ byte[] raw;">
 				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
 				<h2 class="blog-motto"></h2>
 			</div>
-			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="Menu">
 			</a></div>
 			<nav class="animated">
 				<ul>
@@ -74,7 +74,7 @@ byte[] raw;">
  					
 					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
 						<label>Search</label>
-						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="Search" />
 					</form>
 					
 					</li>
@@ -96,14 +96,14 @@ byte[] raw;">
 		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
 		
   <p class="article-time">
-    <time datetime="2015-07-18T11:55:44.000Z" itemprop="datePublished"> 发表于 2015-07-18</time>
+    <time datetime="2015-07-18T11:55:44.000Z" itemprop="datePublished"> Published 2015-07-18</time>
     
   </p>
 </header>
 	<div class="article-content">
 		
 		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
+			<strong class="toc-title">Contents</strong>
 		
 			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用equals()"><span class="toc-number">1.</span> <span class="toc-text">使用equals()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用hashCode()"><span class="toc-number">2.</span> <span class="toc-text">使用hashCode()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用compareTo()"><span class="toc-number">3.</span> <span class="toc-text">使用compareTo()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用clone()"><span class="toc-number">4.</span> <span class="toc-text">使用clone()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用StringBuilder或StringBuffer"><span class="toc-number">5.</span> <span class="toc-text">使用StringBuilder或StringBuffer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成一个范围内的随机整数"><span class="toc-number">6.</span> <span class="toc-text">生成一个范围内的随机整数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用Iterator-remove()"><span class="toc-number">7.</span> <span class="toc-text">使用Iterator.remove()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#返转字符串"><span class="toc-number">8.</span> <span class="toc-text">返转字符串</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启动一条线程"><span class="toc-number">9.</span> <span class="toc-text">启动一条线程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#继承Thread的方式："><span class="toc-number">10.</span> <span class="toc-text">继承Thread的方式：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#匿名继承Thread的方式："><span class="toc-number">11.</span> <span class="toc-text">匿名继承Thread的方式：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用try-finally"><span class="toc-number">12.</span> <span class="toc-text">使用try-finally</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#从输入流里读取字节数据"><span class="toc-number">13.</span> <span class="toc-text">从输入流里读取字节数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#从输入流里读取块数据"><span class="toc-number">14.</span> <span class="toc-text">从输入流里读取块数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#从文件里读取文本"><span class="toc-number">15.</span> <span class="toc-text">从文件里读取文本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#向文件里写文本"><span class="toc-number">16.</span> <span class="toc-text">向文件里写文本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#预防性检测对象"><span class="toc-number">17.</span> <span class="toc-text">预防性检测对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#预防性检测数组索引"><span class="toc-number">18.</span> <span class="toc-text">预防性检测数组索引</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#预防性检测数组区间"><span class="toc-number">19.</span> <span class="toc-text">预防性检测数组区间</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#填充数组元素"><span class="toc-number">20.</span> <span class="toc-text">填充数组元素</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#复制一个范围内的数组元素"><span class="toc-number">21.</span> <span class="toc-text">复制一个范围内的数组元素</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#调整数组大小"><span class="toc-number">22.</span> <span class="toc-text">调整数组大小</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#把4个字节包装（packing）成一个int"><span class="toc-number">23.</span> <span class="toc-text">把4个字节包装（packing）成一个int</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#把int分解（Unpacking）成4个字节"><span class="toc-number">24.</span> <span class="toc-text">把int分解（Unpacking）成4个字节</span></a></li></ol>
 		
@@ -512,24 +512,26 @@ byte[] raw;">
 
 
 </div>  
-      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+      <div class="openaside"><a class="navbutton" href="#" title="Show Sidebar"></a></div>
 
   <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
+  <strong class="toc-title">Contents</strong>
  
  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用equals()"><span class="toc-number">1.</span> <span class="toc-text">使用equals()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用hashCode()"><span class="toc-number">2.</span> <span class="toc-text">使用hashCode()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用compareTo()"><span class="toc-number">3.</span> <span class="toc-text">使用compareTo()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用clone()"><span class="toc-number">4.</span> <span class="toc-text">使用clone()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用StringBuilder或StringBuffer"><span class="toc-number">5.</span> <span class="toc-text">使用StringBuilder或StringBuffer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成一个范围内的随机整数"><span class="toc-number">6.</span> <span class="toc-text">生成一个范围内的随机整数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用Iterator-remove()"><span class="toc-number">7.</span> <span class="toc-text">使用Iterator.remove()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#返转字符串"><span class="toc-number">8.</span> <span class="toc-text">返转字符串</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启动一条线程"><span class="toc-number">9.</span> <span class="toc-text">启动一条线程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#继承Thread的方式："><span class="toc-number">10.</span> <span class="toc-text">继承Thread的方式：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#匿名继承Thread的方式："><span class="toc-number">11.</span> <span class="toc-text">匿名继承Thread的方式：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用try-finally"><span class="toc-number">12.</span> <span class="toc-text">使用try-finally</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#从输入流里读取字节数据"><span class="toc-number">13.</span> <span class="toc-text">从输入流里读取字节数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#从输入流里读取块数据"><span class="toc-number">14.</span> <span class="toc-text">从输入流里读取块数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#从文件里读取文本"><span class="toc-number">15.</span> <span class="toc-text">从文件里读取文本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#向文件里写文本"><span class="toc-number">16.</span> <span class="toc-text">向文件里写文本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#预防性检测对象"><span class="toc-number">17.</span> <span class="toc-text">预防性检测对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#预防性检测数组索引"><span class="toc-number">18.</span> <span class="toc-text">预防性检测数组索引</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#预防性检测数组区间"><span class="toc-number">19.</span> <span class="toc-text">预防性检测数组区间</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#填充数组元素"><span class="toc-number">20.</span> <span class="toc-text">填充数组元素</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#复制一个范围内的数组元素"><span class="toc-number">21.</span> <span class="toc-text">复制一个范围内的数组元素</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#调整数组大小"><span class="toc-number">22.</span> <span class="toc-text">调整数组大小</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#把4个字节包装（packing）成一个int"><span class="toc-number">23.</span> <span class="toc-text">把4个字节包装（packing）成一个int</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#把int分解（Unpacking）成4个字节"><span class="toc-number">24.</span> <span class="toc-text">把int分解（Unpacking）成4个字节</span></a></li></ol>
  
   </div>
 
 <div id="asidepart">
-<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<div class="closeaside"><a class="closebutton" href="#" title="Hide Sidebar"></a></div>
 <aside class="clearfix">
 
   
 
   
+
+  
 <div class="tagslist">
-	<p class="asidetitle">标签</p>
+	<p class="asidetitle">Tags</p>
 		<ul class="clearfix">
 		
 			
@@ -577,7 +579,7 @@ byte[] raw;">
 
 
   <div class="linkslist">
-  <p class="asidetitle">友情链接</p>
+  <p class="asidetitle">Links</p>
     <ul>
         
           <li>
@@ -600,13 +602,13 @@ byte[] raw;">
 
   
   <div class="archiveslist">
-    <p class="asidetitle"><a href="/archives">归档</a></p>
+    <p class="asidetitle"><a href="/archives">Archives</a></p>
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">11</span></li></ul>
   </div>
 
 
   <div class="rsspart">
-	<a href="https://github.com/search?q=pangjiuzala&amp;type=Users" target="_blank" title="rss">RSS 订阅</a>
+	<a href="https://github.com/search?q=pangjiuzala&amp;type=Users" target="_blank" title="rss">RSS</a>
 </div>
 
 </aside>
@@ -800,7 +802,7 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 <!-- Totop Begin -->
 
 	<div id="totop">
-	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	<a title="Back to Top"><img src="/img/scrollup.png"/></a>
 	</div>
 	<script src="/js/totop.js"></script>
 
