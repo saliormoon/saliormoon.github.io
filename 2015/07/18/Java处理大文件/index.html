@@ -29,7 +29,7 @@
 这些文件和额外的一些数据，似乎它们使用逗号分隔的">
 
     
-    <link rel="alternative" href="http://blog.csdn.net/pangjiuzala/rss/list" title="刘兴的博客" type="application/atom+xml">
+    <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
     
     
     <link rel="icon" href="/img/favicon.ico">
@@ -38,7 +38,7 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="../../../../css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
 
   <body>
@@ -113,31 +113,31 @@
 <p>再来看，知道整个文件处理完成，每一条记录都不能被解析并保存在内存中，所以我们需要一种方式来转移记录，在它们成为垃圾被回收之前可以被写到其他地方，例如磁盘或者网络。</p>
 <p>迭代器是处理这个需求的很好的抽象，因为它们就像游标一样，可以正确的指向某个位置。每一次迭代都可以转发文件指针，并且可以让我们使用数据做其他的事情。</p>
 <p>首先来写一个Decoder 接口，递增地把对象从MappedByteBuffer中解码，如果buffer中没有对象，则返回null。</p>
-<p>public interface Decoder<t> {</t></p>
+<p>public interface Decoder<T> {</p>
 <p>public T decode(ByteBuffer buffer);</p>
 <p>}</p>
 <p>然后让FileReader 实现Iterable接口。每一个迭代器将会处理下一个4096字节的数据，并使用Decoder把它们解码成一个对象的List集合。注意，FileReader 接收文件(files)的list对象，这样是很好的，因为它可以遍历数据，并且不需要考虑聚合的问题。顺便说一下，4096个字节块对于大文件来说是非常小的。</p>
-<p>public class FileReader implements Iterable<list<t>&gt; {</list<t></p>
+<p>public class FileReader implements Iterable<List<T>&gt; {</p>
 <p>private static final long CHUNK_SIZE = 4096;</p>
-<p>private final Decoder<t> decoder;</t></p>
-<p>private Iterator<file> files;</file></p>
-<p>private FileReader(Decoder<t> decoder, File… files) {</t></p>
+<p>private final Decoder<T> decoder;</p>
+<p>private Iterator<File> files;</p>
+<p>private FileReader(Decoder<T> decoder, File… files) {</p>
 <p>this(decoder, Arrays.asList(files));</p>
 <p>}</p>
-<p>private FileReader(Decoder<t> decoder, List<file> files) {</file></t></p>
+<p>private FileReader(Decoder<T> decoder, List<File> files) {</p>
 <p>this.files = files.iterator();</p>
 <p>this.decoder = decoder;</p>
 <p>}</p>
-<p>public static <t> FileReader<t> create(Decoder<t> decoder, List<file> files) {</file></t></t></t></p>
-<p>return new FileReader<t>(decoder, files);</t></p>
+<p>public static <T> FileReader<T> create(Decoder<T> decoder, List<File> files) {</p>
+<p>return new FileReader<T>(decoder, files);</p>
 <p>}</p>
-<p>public static <t> FileReader<t> create(Decoder<t> decoder, File… files) {</t></t></t></p>
-<p>return new FileReader<t>(decoder, files);</t></p>
+<p>public static <T> FileReader<T> create(Decoder<T> decoder, File… files) {</p>
+<p>return new FileReader<T>(decoder, files);</p>
 <p>}</p>
 <p>@Override</p>
-<p>public Iterator<list<t>&gt; iterator() {</list<t></p>
-<p>return new Iterator<list<t>&gt;() {</list<t></p>
-<p>private List<t> entries;</t></p>
+<p>public Iterator<List<T>&gt; iterator() {</p>
+<p>return new Iterator<List<T>&gt;() {</p>
+<p>private List<T> entries;</p>
 <p>private long chunkPos = 0;</p>
 <p>private MappedByteBuffer buffer;</p>
 <p>private FileChannel channel;</p>
@@ -152,7 +152,7 @@
 <p>T result = null;</p>
 <p>while ((result = decoder.decode(buffer)) != null) {</p>
 <p>if (entries == null) {</p>
-<p>entries = new ArrayList<t>();</t></p>
+<p>entries = new ArrayList<T>();</p>
 <p>}</p>
 <p>entries.add(result);</p>
 <p>}</p>
@@ -193,8 +193,8 @@
 <p>}</p>
 <p>}</p>
 <p>@Override</p>
-<p>public List<t> next() {</t></p>
-<p>List<t> res = entries;</t></p>
+<p>public List<T> next() {</p>
+<p>List<T> res = entries;</p>
 <p>entries = null;</p>
 <p>return res;</p>
 <p>}</p>
@@ -206,7 +206,7 @@
 <p>}</p>
 <p>}</p>
 <p>下一个任务就是写一个Decoder 。针对逗号分隔的任何文本格式，编写一个TextRowDecoder 类。接收的参数是每行字段的数量和一个字段分隔符，返回byte的二维数组。TextRowDecoder 可以被操作不同字符集的特定格式解码器重复利用。</p>
-<p>public class TextRowDecoder implements Decoder<byte[][]> {</byte[][]></p>
+<p>public class TextRowDecoder implements Decoder<byte[][]> {</p>
 <p>private static final byte LF = 10;</p>
 <p>private final int numFields;</p>
 <p>private final byte delimiter;</p>
@@ -279,27 +279,27 @@
 <p>}</p>
 <p>这是文件被处理的过程。每一个List包含的元素都从一个单独的buffer中解码，每一个元素都是被TextRowDecoder定义的byte二维数组。</p>
 <p>TextRowDecoder decoder = new TextRowDecoder(4, comma);</p>
-<p>FileReader<byte[][]> reader = FileReader.create(decoder, file.listFiles());</byte[][]></p>
-<p>for (List<byte[][]> chunk : reader) {</byte[][]></p>
+<p>FileReader<byte[][]> reader = FileReader.create(decoder, file.listFiles());</p>
+<p>for (List<byte[][]> chunk : reader) {</p>
 <p>// do something with each chunk</p>
 <p>}</p>
 <p>我们可以在这里打住，不过还有额外的需求。每一行都包含一个时间戳，每一批都必须分组，使用时间段来代替buffers，如按照天分组、或者按照小时分组。我还想要遍历每一批的数据，因此，第一反应就是，为FileReader创建一个Iterable包装器，实现它的行为。一个额外的细节，每一个元素必须通过实现Timestamped接口（这里没有显示）提供时间戳到PeriodEntries。</p>
-<p>public class PeriodEntries<t extends="" timestamped=""> implements Iterable<list<t>&gt; {</list<t></t></p>
-<p>private final Iterator<list<t extends="" timestamped="">&gt; entriesIt;</list<t></p>
+<p>public class PeriodEntries<T extends Timestamped> implements Iterable<List<T>&gt; {</p>
+<p>private final Iterator<List<T extends Timestamped>&gt; entriesIt;</p>
 <p>private final long interval;</p>
-<p>private PeriodEntries(Iterable<list<t>&gt; entriesIt, long interval) {</list<t></p>
+<p>private PeriodEntries(Iterable<List<T>&gt; entriesIt, long interval) {</p>
 <p>this.entriesIt = entriesIt.iterator();</p>
 <p>this.interval = interval;</p>
 <p>}</p>
-<p>public static <t extends="" timestamped=""> PeriodEntries<t> create(Iterable<list<t>&gt; entriesIt, long interval) {</list<t></t></t></p>
-<p>return new PeriodEntries<t>(entriesIt, interval);</t></p>
+<p>public static <T extends Timestamped> PeriodEntries<T> create(Iterable<List<T>&gt; entriesIt, long interval) {</p>
+<p>return new PeriodEntries<T>(entriesIt, interval);</p>
 <p>}</p>
 <p>@Override</p>
-<p>public Iterator<list<t extends="" timestamped="">&gt; iterator() {</list<t></p>
-<p>return new Iterator<list<t>&gt;() {</list<t></p>
-<p>private Queue<list<t>&gt; queue = new LinkedList<list<t>&gt;();</list<t></list<t></p>
+<p>public Iterator<List<T extends Timestamped>&gt; iterator() {</p>
+<p>return new Iterator<List<T>&gt;() {</p>
+<p>private Queue<List<T>&gt; queue = new LinkedList<List<T>&gt;();</p>
 <p>private long previous;</p>
-<p>private Iterator<t> entryIt;</t></p>
+<p>private Iterator<T> entryIt;</p>
 <p>@Override</p>
 <p>public boolean hasNext() {</p>
 <p>if (!advanceEntries()) {</p>
@@ -311,7 +311,7 @@
 <p>previous = time;</p>
 <p>}</p>
 <p>if (queue.peek() == null) {</p>
-<p>List<t> group = new ArrayList<t>();</t></t></p>
+<p>List<T> group = new ArrayList<T>();</p>
 <p>queue.add(group);</p>
 <p>}</p>
 <p>while (previous == time) {</p>
@@ -323,7 +323,7 @@
 <p>time = normalizeInterval(entry);</p>
 <p>}</p>
 <p>previous = time;</p>
-<p>List<t> result = queue.peek();</t></p>
+<p>List<T> result = queue.peek();</p>
 <p>if (result == null || result.isEmpty()) {</p>
 <p>return false;</p>
 <p>}</p>
@@ -351,7 +351,7 @@
 <p>return time - elapsed;</p>
 <p>}</p>
 <p>@Override</p>
-<p>public List<t> next() {</t></p>
+<p>public List<T> next() {</p>
 <p>return queue.poll();</p>
 <p>}</p>
 <p>@Override</p>
@@ -363,10 +363,10 @@
 <p>}</p>
 <p>最后的处理代码通过引入这个函数并无太大变动，只有一个干净的且紧密的循环，不必关心文件、缓冲区、时间周期的分组元素。PeriodEntries也是足够的灵活管理任何时长的时间。</p>
 <p>TrueFxDecoder decoder = new TrueFxDecoder();</p>
-<p>FileReader<truefxdata> reader = FileReader.create(decoder, file.listFiles());</truefxdata></p>
+<p>FileReader<TrueFxData> reader = FileReader.create(decoder, file.listFiles());</p>
 <p>long periodLength = TimeUnit.DAYS.toMillis(1);</p>
-<p>PeriodEntries<truefxdata> periods = PeriodEntries.create(reader, periodLength);</truefxdata></p>
-<p>for (List<truefxdata> entries : periods) {</truefxdata></p>
+<p>PeriodEntries<TrueFxData> periods = PeriodEntries.create(reader, periodLength);</p>
+<p>for (List<TrueFxData> entries : periods) {</p>
 <p>// data for each day</p>
 <p>for (TrueFxData entry : entries) {</p>
 <p>// process each entry</p>
@@ -526,12 +526,12 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2015/index.html">July 2015</a><span class="archive-list-count">10</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">10</span></li></ul>
   </div>
 
 
   <div class="rsspart">
-	<a href="http://blog.csdn.net/pangjiuzala/rss/list" target="_blank" title="rss">RSS 订阅</a>
+	<a href="https://github.com/search?q=pangjiuzala&amp;type=Users" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>

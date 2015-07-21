@@ -50,7 +50,7 @@ Person other = (Person)obj;
 r">
 
     
-    <link rel="alternative" href="http://blog.csdn.net/pangjiuzala/rss/list" title="刘兴的博客" type="application/atom+xml">
+    <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
     
     
     <link rel="icon" href="/img/favicon.ico">
@@ -59,7 +59,7 @@ r">
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="../../../../css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
 
   <body>
@@ -159,7 +159,7 @@ r">
 <p>你不需要保证，当x.equals(y) == false时，x.hashCode() != y.hashCode()。但是，如果你可以尽可能地使它成立的话，这会提高哈希表的性能。</p>
 <p>hashCode()最简单的合法实现就是简单地return 0；虽然这个实现是正确的，但是这会导致HashMap这些数据结构运行得很慢。</p>
 <p>参考：java.lang.Object.hashCode()。</p>
-<h1 id="使用compareTo()">使用compareTo()</h1><p>class Person implements Comparable<person> {</person></p>
+<h1 id="使用compareTo()">使用compareTo()</h1><p>class Person implements Comparable<Person> {</p>
 <p>String firstName;</p>
 <p>String lastName;</p>
 <p>int birthdate;</p>
@@ -204,7 +204,7 @@ r">
 <p>不使用Object.clone()方法而是手动地实现clone()方法是可以的也是合法的。</p>
 <p>参考：java.lang.Object.clone()、java.lang.Cloneable()。</p>
 <h1 id="使用StringBuilder或StringBuffer">使用StringBuilder或StringBuffer</h1><p>// join([“a”, “b”, “c”]) -&gt; “a and b and c”</p>
-<p>String join(List<string> strs) {</string></p>
+<p>String join(List<String> strs) {</p>
 <p>StringBuilder sb = new StringBuilder();</p>
 <p>boolean first = true;</p>
 <p>for (String s : strs) {</p>
@@ -226,8 +226,8 @@ r">
 <p>总是使用Java API方法去生成一个整数范围内的随机数。</p>
 <p>不要试图去使用 Math.abs(rand.nextInt()) % n 这些不确定的用法，因为它的结果是有偏差的。此外，它的结果值有可能是负数，比如当rand.nextInt() == Integer.MIN_VALUE时就会如此。</p>
 <p>参考：java.util.Random.nextInt(int)。</p>
-<h1 id="使用Iterator-remove()">使用Iterator.remove()</h1><p>void filter(List<string> list) {</string></p>
-<p>for (Iterator<string> iter = list.iterator(); iter.hasNext(); ) {</string></p>
+<h1 id="使用Iterator-remove()">使用Iterator.remove()</h1><p>void filter(List<String> list) {</p>
+<p>for (Iterator<String> iter = list.iterator(); iter.hasNext(); ) {</p>
 <p>String item = iter.next();</p>
 <p>if (…)</p>
 <p>iter.remove();</p>
@@ -358,7 +358,7 @@ r">
 <p>}</p>
 <p>不要认为输入的数值都是正数、足够小的数等等。要显式地检测这些条件。</p>
 <p>一个设计良好的函数应该对所有可能性的输入值都能够正确地执行。要确保所有的情况都考虑到了并且不会产生错误的输出（比如溢出）。</p>
-<h1 id="预防性检测对象">预防性检测对象</h1><p>int findIndex(List<string> list, String target) {</string></p>
+<h1 id="预防性检测对象">预防性检测对象</h1><p>int findIndex(List<String> list, String target) {</p>
 <p>if (list == null || target == null)</p>
 <p>throw new NullPointerException();</p>
 <p>…</p>
@@ -610,12 +610,12 @@ r">
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="../../../../archives/2015/index.html">July 2015</a><span class="archive-list-count">10</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">10</span></li></ul>
   </div>
 
 
   <div class="rsspart">
-	<a href="http://blog.csdn.net/pangjiuzala/rss/list" target="_blank" title="rss">RSS 订阅</a>
+	<a href="https://github.com/search?q=pangjiuzala&amp;type=Users" target="_blank" title="rss">RSS 订阅</a>
 </div>
 
 </aside>
