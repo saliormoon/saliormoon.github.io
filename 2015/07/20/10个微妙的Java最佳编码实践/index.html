@@ -21,7 +21,7 @@
 <meta property="og:description" content="编写和维护jOOQ(Java中内部DSL建模的SQL)时遇到过这些。作为一个内部DSL，jOOQ最大限度的挑战了Java的编译器和泛型，把泛型，可变参数和重载结合在一起，Josh Bloch可能不会推荐的这种太宽泛的API。
 10个微妙的Java编码最佳实践：
 牢记C++的析构函数">
-<meta property="og:updated_time" content="2015-07-22T00:54:34.177Z">
+<meta property="og:updated_time" content="2015-07-22T03:31:06.582Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="10个微妙的Java最佳编码实践">
 <meta name="twitter:description" content="编写和维护jOOQ(Java中内部DSL建模的SQL)时遇到过这些。作为一个内部DSL，jOOQ最大限度的挑战了Java的编译器和泛型，把泛型，可变参数和重载结合在一起，Josh Bloch可能不会推荐的这种太宽泛的API。
@@ -109,32 +109,25 @@
 <p>记得C++的析构函数？不记得了？那么你真的很幸运，因为你不必去调试那些由于对象删除后分配的内存没有被释放而导致内存泄露的代码。感谢Sun / Oracle实现的垃圾回收机制吧！</p>
 <p>尽管如此，析构函数仍提供了一个有趣的特征。它理解逆分配顺序释放内存。记住在Java中也是这样的，当你操作类析构函数语法：</p>
 <p>使用JUnit的@Before和@After注释<br>分配，释放JDBC资源<br>调用super方法</p>
-<p>还有其他各种用例。这里有一个具体的例子，说明如何实现一些事件侦听器的SPI：</p>
-<p>@Override<br>public void beforeEvent(EventContext e)<br>{<br>    super.beforeEvent(e);<br>    // Super code before my code<br>}<br>@Override<br>public void afterEvent(EventContext e)<br>{<br>    // Super code after my code<br>    super.afterEvent(e);<br>}</p>
+<p>还有其他各种用例。这里有一个具体的例子，说明如何实现一些事件侦听器的SPI：<br><figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">beforeEvent</span><span class="params">(EventContext e)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.beforeEvent(e);</span><br><span class="line">    <span class="comment">// Super code before my code</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">afterEvent</span><span class="params">(EventContext e)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="comment">// Super code after my code</span></span><br><span class="line">    <span class="keyword">super</span>.afterEvent(e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>臭名昭著的哲学家就餐问题是另一个说明它为什么重要的好例子。 关于哲学家用餐的问题，请查看链接：<br><a href="http://adit.io/posts/2013-05-11-The-Dining-Philosophers-Problem-With-Ron-Swanson.html" target="_blank" rel="external">http://adit.io/posts/2013-05-11-The-Dining-Philosophers-Problem-With-Ron-Swanson.html</a></p>
 <p>规则：无论何时使用before / after, allocate / free, take / return语义实现逻辑时，考虑是否逆序执行after / free / return操作。</p>
-<h1 id="不要相信你早期的SPI演进判断">不要相信你早期的SPI演进判断</h1><p>向客户提供SPI可以使他们轻松的向你的库 / 代码中注入自定义行为的方法。当心你的SPI演进判断可能会迷惑你，使你认为你 (不)打算需要附加参数。 当然，不应当过早增加功能。但一旦你发布了你的SPI，一旦你决定遵循语义版本控制，当你意识到在某种情况下你可能需要另外一个参数时，你会真的后悔在SPI中增加一个愚蠢的单参数的方法:</p>
-<p>interface EventListener<br>{<br>    // Bad<br>    void message(String message);<br>}</p>
-<p>如果你也需要消息ID和消息源，怎么办？API演进将会阻止你向上面的类型添加参数。当然，有了Java8，你可以添加一个defender方法，“防御”你早期糟糕的设计决策：</p>
-<p>interface EventListener<br>{<br>    // Bad<br>default void message(String message)<br>    {<br>        message(message, null, null);<br>    }<br>    // Better?<br>    void message(<br>        String message,<br>        Integer id,<br>        MessageSource source<br>    );<br>}</p>
+<h1 id="不要相信你早期的SPI演进判断">不要相信你早期的SPI演进判断</h1><p>向客户提供SPI可以使他们轻松的向你的库 / 代码中注入自定义行为的方法。当心你的SPI演进判断可能会迷惑你，使你认为你 (不)打算需要附加参数。 当然，不应当过早增加功能。但一旦你发布了你的SPI，一旦你决定遵循语义版本控制，当你意识到在某种情况下你可能需要另外一个参数时，你会真的后悔在SPI中增加一个愚蠢的单参数的方法:<br><figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title">EventListener</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Bad</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">message</span>(<span class="params">String message</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果你也需要消息ID和消息源，怎么办？API演进将会阻止你向上面的类型添加参数。当然，有了Java8，你可以添加一个defender方法，“防御”你早期糟糕的设计决策：<br><figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title">EventListener</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Bad</span></span><br><span class="line"><span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">message</span>(<span class="params">String message</span>)</span><br><span class="line">    </span>&#123;</span><br><span class="line">        message(message, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Better?</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">message</span>(<span class="params"></span><br><span class="line">        String message,</span><br><span class="line">        Integer id,</span><br><span class="line">        MessageSource source</span><br><span class="line">    </span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>注意，不幸的是，defender方法不能使用final修饰符。</p>
-<p>但是比起使用许多方法污染你的SPI，使用上下文对象(或者参数对象)会好很多。</p>
-<p>interface MessageContext<br>{<br>    String message();<br>    Integer id();<br>    MessageSource source();<br>}<br>interface EventListener<br>{<br>    // Awesome!<br>    void message(MessageContext context);<br>}</p>
+<p>但是比起使用许多方法污染你的SPI，使用上下文对象(或者参数对象)会好很多。<br><figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title">MessageContext</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">String <span class="title">message</span>(<span class="params"></span>)</span>;</span><br><span class="line">    <span class="function">Integer <span class="title">id</span>(<span class="params"></span>)</span>;</span><br><span class="line">    <span class="function">MessageSource <span class="title">source</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">interface</span> <span class="title">EventListener</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Awesome!</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">message</span>(<span class="params">MessageContext context</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>比起EventListner SPI你可以更容易演进MessageContext API，因为很少用户会实现它。</p>
 <p>规则: 无论何时指定SPI时，考虑使用上下文 / 参数对象，而不是写带有固定参数的方法。</p>
 <p>备注: 通过专用的MessageResult类型交换结果也是一个好主意，该类型可以使用建设者API构造它。这样将大大增加SPI进化的灵活性。</p>
 <h1 id="避免返回匿名，本地或者内部类">避免返回匿名，本地或者内部类</h1><p>Swing程序员通常只要按几下快捷键即可生成成百上千的匿名类。在多数情况下，只要遵循接口、不违反SPI子类型的生命周期(SPI subtype lifecycle)，这样做也无妨。 但是不要因为一个简单的原因——它们会保存对外部类的引用，就频繁的使用匿名、局部或者内部类。因为无论它们走到哪，外部类就得跟到哪。例如，在局部类的域外操作不当的话，那么整个对象图就会发生微妙的变化从而可能引起内存泄露。</p>
 <p>规则：在编写匿名、局部或内部类前请三思能否将它转化为静态的或普通的顶级类，从而避免方法将它们的对象返回到更外层的域中。</p>
-<p>注意：使用双层花括号来初始化简单对象：</p>
-<p>new HashMap<string, string="">()<br>{<br>    {<br>        put(“1”, “a”);<br>        put(“2”, “b”);<br>    }<br>}</string,></p>
+<p>注意：使用双层花括号来初始化简单对象：<br><figure class="highlight processing"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="keyword">HashMap</span>&lt;<span class="keyword">String</span>, <span class="keyword">String</span>&gt;()</span><br><span class="line">&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        put(<span class="string">"1"</span>, <span class="string">"a"</span>);</span><br><span class="line">        put(<span class="string">"2"</span>, <span class="string">"b"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>这个方法利用了 JLS §8.6规范里描述的实例初始化方法(initializer)。表面上看起来不错，但实际上不提倡这种做法。因为要是使用完全独立的HashMap对象，那么实例就不会一直保存着外部对象的引用。此外，这也会让类加载器管理更多的类。</p>
 <h1 id="现在就开始编写SAM！">现在就开始编写SAM！</h1><p>Java8的脚步近了。伴随着Java8带来了lambda表达式，无论你是否喜欢。尽管你的API用户可能会喜欢，但是你最好确保他们可以尽可能经常的使用。因此除非你的API接收简单的“标量”类型，比如int、long、String 、Date，否则让你的API尽可能经常的接收SAM。</p>
 <p>什么是SAM？SAM是单一抽象方法[类型]。也称为函数接口，不久会被注释为@FunctionalInterface。这与规则2很配，EventListener实际上就是一个SAM。最好的SAM只有一个参数，因为这将会进一步简化lambda表达式的编写。设想编写</p>
 <p>listeners.add(c -&gt; System.out.println(c.message()));</p>
-<p>来替代</p>
-<p>listeners.add(new EventListener()<br>{<br>    @Override<br>    public void message(MessageContext c)<br>    {<br>        System.out.println(c.message()));<br>    }<br>});</p>
-<p>设想以JOOX的方式来处理XML。JOOX就包含很多的SAM：</p>
-<p>$(document)<br>// Find elements with an ID<br>.find(c -&gt; $(c).id() != null)<br>// Find their child elements<br>.children(c -&gt; $(c).tag().equals(“order”))<br>// Print all matches<br>.each(c -&gt; System.out.println($(c)))</p>
+<p>来替代<br><figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">listeners.add(<span class="keyword">new</span> EventListener()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">message</span><span class="params">(MessageContext c)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        System.out.println(c.message()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>设想以JOOX的方式来处理XML。JOOX就包含很多的SAM：<br><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">$(document)</span><br><span class="line"><span class="comment">// Find elements with an ID</span></span><br><span class="line">.<span class="function"><span class="title">find</span><span class="params">(c -&gt; $(c)</span></span>.<span class="function"><span class="title">id</span><span class="params">()</span></span> != null)</span><br><span class="line"><span class="comment">// Find their child elements</span></span><br><span class="line">.<span class="function"><span class="title">children</span><span class="params">(c -&gt; $(c)</span></span>.<span class="function"><span class="title">tag</span><span class="params">()</span></span>.<span class="function"><span class="title">equals</span><span class="params">(<span class="string">"order"</span>)</span></span>)</span><br><span class="line"><span class="comment">// Print all matches</span></span><br><span class="line">.<span class="function"><span class="title">each</span><span class="params">(c -&gt; System.out.println($(c)</span></span>))</span><br></pre></td></tr></table></figure></p>
 <p>规则：对你的API用户好一点儿，从现在开始编写SAM / 函数接口。</p>
 <p>备注：有许多关于Java8 lambda表达式和改善的Collections API的有趣的博客：</p>
 <p><a href="http://blog.informatech.cr/2013/04/10/java-optional-objects/" target="_blank" rel="external">http://blog.informatech.cr/2013/04/10/java-optional-objects/</a><br><a href="http://blog.informatech.cr/2013/03/25/java-streams-api-preview/" target="_blank" rel="external">http://blog.informatech.cr/2013/03/25/java-streams-api-preview/</a><br><a href="http://blog.informatech.cr/2013/03/24/java-streams-preview-vs-net-linq/" target="_blank" rel="external">http://blog.informatech.cr/2013/03/24/java-streams-preview-vs-net-linq/</a><br><a href="http://blog.informatech.cr/2013/03/11/java-infinite-streams/" target="_blank" rel="external">http://blog.informatech.cr/2013/03/11/java-infinite-streams/</a></p>
@@ -146,19 +139,16 @@
 <p>规则：无论何时方法都应避免返回null。null仅用来表示“未初始化”或“不存在”的语义。</p>
 <h1 id="设计API时永远不要返回空(null)数组或List">设计API时永远不要返回空(null)数组或List</h1><p>尽管在一些情况下方法返回值为null是可以的，但是绝不要返回空数组或空集合！请看 java.io.File.list()方法，它是这样设计的：</p>
 <p>此方法会返回一个指定目录下所有文件或目录的字符串数组。如果目录为空(empty)那么返回的数组也为空(empty)。如果指定的路径不存在或发生I / O错误，则返回null。</p>
-<p>因此，这个方法通常要这样使用：</p>
-<p>File directory = // …<br>    if (directory.isDirectory())<br>{<br>    String[] list = directory.list();<br>    if (list != null)<br>    {<br>        for (String file : list)<br>        {<br>            // …<br>        }<br>    }<br>}</p>
+<p>因此，这个方法通常要这样使用：<br><figure class="highlight stata"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">File</span> directory = <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">if</span> (directory.isDirectory())</span><br><span class="line">&#123;</span><br><span class="line">    String[] <span class="keyword">list</span> = directory.<span class="keyword">list</span>();</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">list</span> != null)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (String <span class="keyword">file</span> : <span class="keyword">list</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>大家觉得null检查有必要吗？大多数I / O操作会产生IOExceptions，但这个方法却只返回了null。Null是无法存放I / O错误信息的。因此这样的设计，有以下3方面的不足：</p>
 <p>Null无助于发现错误<br>Null无法表明I / O错误是由File实例所对应的路径不正确引起的<br>每个人都可能会忘记判断null情况</p>
 <p>以集合的思维来看待问题的话，那么空的(empty)的数组或集合就是对“不存在”的最佳实现。返回空(null)数组或集合几乎是无任何实际意义的，除非用于延迟初始化。</p>
 <p>规则：返回的数组或集合不应为null。</p>
-<h1 id="避免状态，使用函数">避免状态，使用函数</h1><p>HTTP的好处是无状态。所有相关的状态在每次请求和响应中转移。这是REST命名的本质：含状态传输(Representational state transfer)。在Java中这样做也很赞。当方法接收状态参数对象的时候从规则2的角度想想这件事。如果状态通过这种对象传输，而不是从外边操作状态，那么事情将会更简单。以JDBC为例。下述例子从一个存储的程序中读取一个光标。</p>
-<p>CallableStatement s =<br>    connection.prepareCall(“{ ? = … }”);<br>    // Verbose manipulation of statement state:<br>    s.registerOutParameter(1, cursor);<br>    s.setString(2, “abc”);<br>    s.execute();<br>    ResultSet rs = s.getObject(1);<br>// Verbose manipulation of result set state:<br>rs.next();<br> rs.next();</p>
+<h1 id="避免状态，使用函数">避免状态，使用函数</h1><p>HTTP的好处是无状态。所有相关的状态在每次请求和响应中转移。这是REST命名的本质：含状态传输(Representational state transfer)。在Java中这样做也很赞。当方法接收状态参数对象的时候从规则2的角度想想这件事。如果状态通过这种对象传输，而不是从外边操作状态，那么事情将会更简单。以JDBC为例。下述例子从一个存储的程序中读取一个光标。<br><figure class="highlight nimrod"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">CallableStatement</span> s =</span><br><span class="line">    connection.prepareCall(<span class="string">"&#123; ? = ... &#125;"</span>);</span><br><span class="line">    // <span class="type">Verbose</span> manipulation <span class="keyword">of</span> statement state:</span><br><span class="line">    s.registerOutParameter(<span class="number">1</span>, cursor);</span><br><span class="line">    s.setString(<span class="number">2</span>, <span class="string">"abc"</span>);</span><br><span class="line">    s.execute();</span><br><span class="line">    <span class="type">ResultSet</span> rs = s.getObject(<span class="number">1</span>);</span><br><span class="line">// <span class="type">Verbose</span> manipulation <span class="keyword">of</span> <span class="literal">result</span> <span class="type">set</span> state:</span><br><span class="line">rs.next();</span><br><span class="line"> rs.next();</span><br></pre></td></tr></table></figure></p>
 <p>这使得JDBC API如此的古怪。每个对象都是有状态的，难以操作。具体的说，有两个主要的问题：</p>
 <p>在多线程环境很难正确的处理有状态的API<br>很难让有状态的资源全局可用，因为状态没有被描述<br> 规则：更多的以函数风格实现。通过方法参数转移状态。极少操作对象状态。</p>
-<h1 id="短路式_equals()">短路式 equals()</h1><p>这是一个比较容易操作的方法。在比较复杂的对象系统中，你可以获得显著的性能提升，只要你在所有对象的equals()方法中首先进行相等判断:<br>@Override<br>public boolean equals(Object other)<br>{<br>    if (this == other) return true;<br>    // 其它相等判断逻辑…<br>}</p>
-<p>注意，其它短路式检查可能涉及到null值检查，所以也应当加进去:</p>
-<p>@Override<br>public boolean equals(Object other)<br>{<br>    if (this == other) return true;<br>    if (other == null) return false;<br>    // Rest of equality logic…<br>}</p>
+<h1 id="短路式_equals()">短路式 equals()</h1><p>这是一个比较容易操作的方法。在比较复杂的对象系统中，你可以获得显著的性能提升，只要你在所有对象的equals()方法中首先进行相等判断:<br><figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object other)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> == other) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    <span class="comment">// 其它相等判断逻辑...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意，其它短路式检查可能涉及到null值检查，所以也应当加进去:<br><figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object other)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> == other) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (other == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="comment">// Rest of equality logic...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>规则: 在你所有的equals()方法中使用短路来提升性能。</p>
 <h1 id="尽量使方法默认为final">尽量使方法默认为final</h1><p>有些人可能不同意这一条，因为使方法默认为final与Java开发者的习惯相违背。但是如果你对代码有完全的掌控，那么使方法默认为final是肯定没错的：</p>
 <p>如果你确实需要覆盖（override）一个方法（你真的需要？），你仍然可以移除final关键字<br>你将永远不会意外地覆盖（override）任何方法</p>
@@ -285,7 +275,7 @@
 			
 		
 			
-				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+				<li><a href="/tags/算法/" title="算法">算法<sup>3</sup></a></li>
 			
 		
 			
@@ -297,11 +287,19 @@
 			
 		
 			
-				<li><a href="/tags/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/openHAB/" title="openHAB">openHAB<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C">C<sup>1</sup></a></li>
 			
 		
 			
@@ -313,7 +311,7 @@
 			
 		
 			
-				<li><a href="/tags/openHAB/" title="openHAB">openHAB<sup>1</sup></a></li>
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -345,7 +343,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">11</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">12</span></li></ul>
   </div>
 
 

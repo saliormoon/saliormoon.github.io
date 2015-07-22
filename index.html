@@ -79,6 +79,66 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/07/22/常见算法代码/" title="常见算法代码" itemprop="url">常见算法代码</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-22T02:36:38.000Z" itemprop="datePublished"> 发表于 2015-07-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="BF算法">BF算法</h1><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;iostream&gt;</span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> &lt;string&gt;</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">BF_Find</span><span class="params">(<span class="built_in">string</span> &amp;s, <span class="built_in">string</span> &amp;t)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, count = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span>(i &lt; s.size())</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(s.at(i) == t.at(j))</span><br><span class="line">        &#123;</span><br><span class="line">            i++;</span><br><span class="line">            j++;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            i++;</span><br><span class="line">            j = <span class="number">0</span>;</span><br><span class="line">            count = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(count == t.size())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">cout</span> &lt;&lt; <span class="string">"模式匹配成功,起始位置是:"</span> &lt;&lt; i - count + <span class="number">1</span> &lt;&lt; endl;</span><br><span class="line">            <span class="keyword">return</span> (i - count + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"字符串匹配失败!"</span> &lt;&lt; endl;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="built_in">string</span> str1, str2;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入主串:"</span> &lt;&lt; endl;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; str1;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"请输入子串:"</span> &lt;&lt; endl;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; str2;</span><br><span class="line">    BF_Find(str1, str2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/07/22/常见算法代码/#more">阅读更多</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C</a><a href="/tags/C/">C++</a><a href="/tags/算法/">算法</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/07/22/常见算法代码/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/07/22/常见算法代码/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+  
+ 
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/07/21/数据挖掘笔记/" title="数据挖掘笔记" itemprop="url">数据挖掘笔记</a>
   </h1>
   <p class="article-author">By
@@ -577,10 +637,7 @@
     <div class="article-content">
         
         <p>在Java编程中，有一些些最常用的习惯用法，总结如下：</p>
-<h1 id="使用equals()">使用equals()</h1><p>class Person {</p>
-<p>String name;</p>
-<p>int birthYear;</p>
-<p>byte[] raw;</p>
+<h1 id="使用equals()">使用equals()</h1><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">class <span class="keyword">Person</span> &#123;</span><br><span class="line"></span><br><span class="line">String name;</span><br><span class="line"></span><br><span class="line">int birthYear;</span><br><span class="line"></span><br><span class="line">byte<span class="comment">[]</span> raw;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public boolean equals(Object obj) &#123;</span><br><span class="line"></span><br><span class="line">if (!obj instanceof <span class="keyword">Person</span>)</span><br><span class="line"></span><br><span class="line">return false;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">Person</span> other = (<span class="keyword">Person</span>)obj;</span><br><span class="line"></span><br><span class="line">return name.equals(other.name)</span><br><span class="line"></span><br><span class="line">&amp;&amp; birthYear == other.birthYear</span><br><span class="line"></span><br><span class="line">&amp;&amp; Arrays.equals(raw, other.raw);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public int hashCode() &#123; ... &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         
         
         <p class="article-more-link">
@@ -620,66 +677,6 @@
 
 
 
-  
- 
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/07/18/减少GC的5个编程技巧/" title="减少GC的5个编程技巧" itemprop="url">减少GC的5个编程技巧</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
-		
-  <p class="article-time">
-    <time datetime="2015-07-18T11:47:30.000Z" itemprop="datePublished"> 发表于 2015-07-18</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>垃圾收集器（GC）在分配内存以及释放内存上面，占用更少的CPU时间，减少GC的开销。当内存被回收的时候，GC处理很长时间经常会导致我们的代码中断（又叫做”stop the world”）。<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/07/18/减少GC的5个编程技巧/#more">阅读更多</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/GC/">GC</a><a href="/tags/Java/">Java</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/07/18/减少GC的5个编程技巧/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/07/18/减少GC的5个编程技巧/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -706,7 +703,7 @@
 			
 		
 			
-				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+				<li><a href="/tags/算法/" title="算法">算法<sup>3</sup></a></li>
 			
 		
 			
@@ -718,11 +715,19 @@
 			
 		
 			
-				<li><a href="/tags/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/openHAB/" title="openHAB">openHAB<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C">C<sup>1</sup></a></li>
 			
 		
 			
@@ -734,7 +739,7 @@
 			
 		
 			
-				<li><a href="/tags/openHAB/" title="openHAB">openHAB<sup>1</sup></a></li>
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -766,7 +771,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">11</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">12</span></li></ul>
   </div>
 
 
