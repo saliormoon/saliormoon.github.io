@@ -31,7 +31,7 @@
     <link rel="apple-touch-icon" href="/img/jacman.jpg">
     <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
     
-    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 
   <body>
@@ -97,7 +97,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2015/07/23/数据挖掘笔记/#more">阅读更多</a>
+            <a href="2015/07/23/index.html#more">阅读更多</a>
           
        </p>
     </div>
@@ -157,7 +157,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2015/07/22/Scrapy安装及使用/#more">阅读更多</a>
+            <a href="2015/07/22/index.html#more">阅读更多</a>
           
        </p>
     </div>
@@ -217,7 +217,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2015/07/21/大数据，云计算，物联网和移动互联网关系图解/#more">阅读更多</a>
+            <a href="2015/07/21/index.html#more">阅读更多</a>
           
        </p>
     </div>
@@ -277,7 +277,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2015/07/20/程序员必须知道的10大基础算法及讲解/#more">阅读更多</a>
+            <a href="2015/07/20/index.html#more">阅读更多</a>
           
        </p>
     </div>
@@ -338,7 +338,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2015/07/19/孤立点挖掘算法/#more">阅读更多</a>
+            <a href="2015/07/19/index.html#more">阅读更多</a>
           
        </p>
     </div>
@@ -398,7 +398,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2015/07/18/openHAB简介/#more">阅读更多</a>
+            <a href="2015/07/18/index.html#more">阅读更多</a>
           
        </p>
     </div>
@@ -459,7 +459,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2015/07/17/怎样编写高质量的Java代码/#more">阅读更多</a>
+            <a href="2015/07/17/index.html#more">阅读更多</a>
           
        </p>
     </div>
@@ -514,12 +514,12 @@
 </header>
     <div class="article-content">
         
-        <h1 id="安卓打开应用程序">安卓打开应用程序</h1><h2 id="打开设置主界面">打开设置主界面</h2><figure class="highlight fortran"><table><tr><td class="code"><pre><span class="line"><span class="type">Intent</span> <span class="type">intent</span> = new <span class="type">Intent</span>(android.provider.Settings.ACTION_SETTINGS); //系统设置</span><br><span class="line">startActivityForResult( <span class="type">intent</span> , <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+        <h1 id="安卓打开应用程序">安卓打开应用程序</h1><h2 id="打开设置主界面">打开设置主界面</h2><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Intent</span> <span class="type">intent</span> = new <span class="type">Intent</span>(android.provider.Settings.ACTION_SETTINGS); //系统设置</span><br><span class="line">startActivityForResult( <span class="type">intent</span> , <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
         
         
         <p class="article-more-link">
           
-            <a href="/2015/07/16/Android功能代码/#more">阅读更多</a>
+            <a href="2015/07/16/index.html#more">阅读更多</a>
           
        </p>
     </div>
@@ -575,12 +575,12 @@
     <div class="article-content">
         
         <p>在Java编程中，有一些些最常用的习惯用法，总结如下：</p>
-<h1 id="使用equals()">使用equals()</h1><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">class <span class="keyword">Person</span> &#123;</span><br><span class="line"></span><br><span class="line">String name;</span><br><span class="line"></span><br><span class="line">int birthYear;</span><br><span class="line"></span><br><span class="line">byte<span class="comment">[]</span> raw;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public boolean equals(Object obj) &#123;</span><br><span class="line"></span><br><span class="line">if (!obj instanceof <span class="keyword">Person</span>)</span><br><span class="line"></span><br><span class="line">return false;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">Person</span> other = (<span class="keyword">Person</span>)obj;</span><br><span class="line"></span><br><span class="line">return name.equals(other.name)</span><br><span class="line"></span><br><span class="line">&amp;&amp; birthYear == other.birthYear</span><br><span class="line"></span><br><span class="line">&amp;&amp; Arrays.equals(raw, other.raw);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public int hashCode() &#123; ... &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="使用equals()">使用equals()</h1><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">class <span class="keyword">Person</span> &#123;</span><br><span class="line"></span><br><span class="line">String name;</span><br><span class="line"></span><br><span class="line">int birthYear;</span><br><span class="line"></span><br><span class="line">byte<span class="comment">[]</span> raw;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public boolean equals(Object obj) &#123;</span><br><span class="line"></span><br><span class="line">if (!obj instanceof <span class="keyword">Person</span>)</span><br><span class="line"></span><br><span class="line">return false;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">Person</span> other = (<span class="keyword">Person</span>)obj;</span><br><span class="line"></span><br><span class="line">return name.equals(other.name)</span><br><span class="line"></span><br><span class="line">&amp;&amp; birthYear == other.birthYear</span><br><span class="line"></span><br><span class="line">&amp;&amp; Arrays.equals(raw, other.raw);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public int hashCode() &#123; ... &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         
         
         <p class="article-more-link">
           
-            <a href="/2015/07/15/Java习惯用法总结/#more">阅读更多</a>
+            <a href="2015/07/15/index.html#more">阅读更多</a>
           
        </p>
     </div>
@@ -642,7 +642,7 @@
         
         <p class="article-more-link">
           
-            <a href="/2015/07/14/10个微妙的Java最佳编码实践/#more">阅读更多</a>
+            <a href="2015/07/14/index.html#more">阅读更多</a>
           
        </p>
     </div>
@@ -679,7 +679,7 @@
 
 
   <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页<span></span></a>
+    <span class="page-number current">1</span><a class="page-number" href="page/index.html">2</a><a class="extend next" rel="next" href="page/index.html">下一页<span></span></a>
   </nav>
 
 </div>
@@ -783,7 +783,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="archives/2015/index.html">July 2015</a><span class="archive-list-count">14</span></li></ul>
   </div>
 
 
