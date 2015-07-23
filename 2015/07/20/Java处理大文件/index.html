@@ -15,11 +15,11 @@
 处理这个问题的方式通常就是使用内存映射文件递增地处理区域的数据。关于内存映射文件的一个好处就是它们不会使用虚拟内存和换页空间，因为它们是从磁盘上的文件返回来的数据。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java处理大文件">
-<meta property="og:url" content="http://pangjiuzala.github.io/2015/07/18/Java处理大文件/index.html">
+<meta property="og:url" content="http://pangjiuzala.github.io/2015/07/20/Java处理大文件/index.html">
 <meta property="og:site_name" content="刘兴的博客">
 <meta property="og:description" content="最近要处理一套存储历史实时数据的大文件fx market data，使用传统的InputStream不能够将它们读取到内存，因为每一个文件都超过了4G。甚至编辑器都不能够打开这些文件。
 处理这个问题的方式通常就是使用内存映射文件递增地处理区域的数据。关于内存映射文件的一个好处就是它们不会使用虚拟内存和换页空间，因为它们是从磁盘上的文件返回来的数据。">
-<meta property="og:updated_time" content="2015-07-22T03:21:48.215Z">
+<meta property="og:updated_time" content="2015-07-23T07:26:51.810Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java处理大文件">
 <meta name="twitter:description" content="最近要处理一套存储历史实时数据的大文件fx market data，使用传统的InputStream不能够将它们读取到内存，因为每一个文件都超过了4G。甚至编辑器都不能够打开这些文件。
@@ -80,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/07/18/Java处理大文件/" title="Java处理大文件" itemprop="url">Java处理大文件</a>
+      <a href="/2015/07/20/Java处理大文件/" title="Java处理大文件" itemprop="url">Java处理大文件</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
 		
   <p class="article-time">
-    <time datetime="2015-07-18T09:59:19.000Z" itemprop="datePublished"> 发表于 2015-07-18</time>
+    <time datetime="2015-07-20T09:59:19.000Z" itemprop="datePublished"> 发表于 2015-07-20</time>
     
   </p>
 </header>
@@ -171,19 +171,27 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/07/18/减少GC的5个编程技巧/" title="减少GC的5个编程技巧">
+ <a href="/2015/07/21/常见算法代码/" title="常见算法代码">
   <strong>上一篇：</strong><br/>
   <span>
-  减少GC的5个编程技巧</span>
+  常见算法代码</span>
 </a>
 </div>
 
+
+<div class="next">
+<a href="/2015/07/19/孤立点挖掘算法/"  title="孤立点挖掘算法">
+ <strong>下一篇：</strong><br/> 
+ <span>孤立点挖掘算法
+</span>
+</a>
+</div>
 
 </nav>
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/07/18/Java处理大文件/" data-title="Java处理大文件" data-url="http://pangjiuzala.github.io/2015/07/18/Java处理大文件/"></div>
+	<div class="ds-thread" data-thread-key="2015/07/20/Java处理大文件/" data-title="Java处理大文件" data-url="http://pangjiuzala.github.io/2015/07/20/Java处理大文件/"></div>
 </section>
 
 
@@ -211,7 +219,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>7</sup></a></li>
 			
 		
 			
@@ -219,11 +227,11 @@
 			
 		
 			
-				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+				<li><a href="/tags/物联网/" title="物联网">物联网<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/物联网/" title="物联网">物联网<sup>2</sup></a></li>
+				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
 			
 		
 			
@@ -235,7 +243,7 @@
 			
 		
 			
-				<li><a href="/tags/网络爬虫/" title="网络爬虫">网络爬虫<sup>1</sup></a></li>
+				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
 			
 		
 			
@@ -259,7 +267,11 @@
 			
 		
 			
-				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+				<li><a href="/tags/网络爬虫/" title="网络爬虫">网络爬虫<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -291,7 +303,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">13</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">14</span></li></ul>
   </div>
 
 
