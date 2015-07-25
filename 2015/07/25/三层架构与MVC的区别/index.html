@@ -1,0 +1,636 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>三层架构与MVC的区别 | 刘兴的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="刘兴">
+    
+
+    
+    <meta name="description" content="我们平时总是将混为一谈，殊不知它俩并不是一个概念。下面我来为大家揭晓我所知道的一些真相。
+首先，它俩根本不是一个概念。
+　　三层架构是一个分层式的软件体系架构设计，它可适用于任何一个项目。
+　　MVC是一个设计模式，它是根据项目的具体需求来决定是否适用于该项目。
+　　那么架构跟设计模式有什么区别呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="三层架构与MVC的区别">
+<meta property="og:url" content="http://pangjiuzala.github.io/2015/07/25/三层架构与MVC的区别/index.html">
+<meta property="og:site_name" content="刘兴的博客">
+<meta property="og:description" content="我们平时总是将混为一谈，殊不知它俩并不是一个概念。下面我来为大家揭晓我所知道的一些真相。
+首先，它俩根本不是一个概念。
+　　三层架构是一个分层式的软件体系架构设计，它可适用于任何一个项目。
+　　MVC是一个设计模式，它是根据项目的具体需求来决定是否适用于该项目。
+　　那么架构跟设计模式有什么区别呢？">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0050.jpg">
+<meta property="og:updated_time" content="2015-07-25T02:17:50.661Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="三层架构与MVC的区别">
+<meta name="twitter:description" content="我们平时总是将混为一谈，殊不知它俩并不是一个概念。下面我来为大家揭晓我所知道的一些真相。
+首先，它俩根本不是一个概念。
+　　三层架构是一个分层式的软件体系架构设计，它可适用于任何一个项目。
+　　MVC是一个设计模式，它是根据项目的具体需求来决定是否适用于该项目。
+　　那么架构跟设计模式有什么区别呢？">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="刘兴的博客" title="刘兴的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/25/三层架构与MVC的区别/" title="三层架构与MVC的区别" itemprop="url">三层架构与MVC的区别</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-25T02:13:27.000Z" itemprop="datePublished"> 发表于 2015-07-25</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>我们平时总是将混为一谈，殊不知它俩并不是一个概念。下面我来为大家揭晓我所知道的一些真相。</p>
+<p>首先，它俩根本不是一个概念。</p>
+<p>　　三层架构是一个分层式的软件体系架构设计，它可适用于任何一个项目。</p>
+<p>　　MVC是一个设计模式，它是根据项目的具体需求来决定是否适用于该项目。</p>
+<p>　　那么架构跟设计模式有什么区别呢？<br><a id="more"></a><br>　　我们从接手一个项目开始，首先，我们需要进行架构设计，一般我们采用的就是分层式的架构设计，即我们的三层架构。</p>
+<p>　　然后，在确定了架构以后，我们再根据项目的具体需求去考虑是否需要应用一些设计模式，比如是否应用我们的MVC模式，抽象工厂模式等等。（在这里我们看出，MVC与三层架构不是一个等级的，而与抽象工厂等设计模式才是一路的）</p>
+<p>　　最后，确定了模式以后，就是我们的一些具体的实现了。（当然一个项目不仅仅考虑这些问题，我只是为了说明两者的区别，将其他问题已省略）</p>
+<p>其次，它俩划分的层次不同。</p>
+<p>　　三层架构将整个项目划分为：表现层（UI）、业务逻辑层（BLL）、数据访问层（DAL）。</p>
+<p>　　MVC 即Model（模型），View（视图），Controller（控制）。</p>
+<p>　　下面看一下他俩的区别与联系：<br>　　<br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0050.jpg" alt=""></p>
+<p>　　通过这个图我们可以知道，我们平常所说的V是UI，C是BLL，M是DAL的观点是错误的。</p>
+<p>　　而我们通常所见到的MVC一般也都是在应用三层架构的基础上，即将Model层再进行分层。而如果Model不再进行划分的话，那么使用MVC的意义也就不大了。</p>
+<p>然后，它俩的目的着重点不同。</p>
+<p>　　三层架构的目的着重点是“高内聚，低耦合”，即解耦。</p>
+<p>　　MVC的目的则是实现Web系统的职能分工，即职责划分。</p>
+<p>　　其实职责划分也是解耦，但是三层侧重的是整体的一个解耦，而MVC侧重的是web系统的解耦，即侧重jsp和Servlet的一个解耦。</p>
+<p>最后，为何我们会将其混为一谈？</p>
+<p>　　既然两者有这么多的不同，我们为什么还总是将其混淆呢，下面我列举了几个我们常常将其混为一谈的几个原因：</p>
+<p>　　1.二者都是“三层”。</p>
+<p>　　这个原因是最容易迷惑我们初学者的，一个是UI,BLL,DAL，一个是View，Controller，Model，不都是三层吗？</p>
+<p>　　虽然都是“三层”（不一定是真的三层，还可以是多层），但是它们的划分的不一样。大家可从上面的图中看出不同。</p>
+<p>　　2.MVC总是伴随着三层架构。</p>
+<p>　　这个就是我在前面一再强调的，我们一般是在考虑使用（也可以不使用）了三层架构的基础上再根据具体需求决定是否需要使用MVC，于是我们常说的MVC中总是伴随着三层架构，所以大家总是会认为MVC就是三层架构，三层架构就是MVC，殊不知，它们二者是一起出现的。</p>
+<p>　　3.都是在分层，即都是在解耦。</p>
+<p>　　前面说它们目的的时候也说了，虽然它们的侧重点不同，但是它们的总体目的是一样的，都是为了解耦，对于初学者而言，是不知道这两个侧重点有何不同的。</p>
+<p>　　大家往往对它们的联系知道很多，不然也不会混为一谈，但是对它们的区别却知道较少，希望我上面讲解的它们两者之间的区别可以让大家对它们有些了解，如有写的不妥的地方，请指教。</p>
+<p>　　　三层架构（3-tier application） 通常意义上的三层架构就是将整个业务应用划分为：表现层（UI）、业务逻辑层（BLL）、数据访问层（DAL）。区分层次的目的即为了“高内聚，低耦合”的思想。</p>
+<p>　　　1、表现层（UI）：通俗讲就是展现给用户的界面，即用户在使用一个系统的时候他的所见所得。</p>
+<p>　　　2、业务逻辑层（BLL）：针对具体问题的操作，也可以说是对数据层的操作，对数据业务逻辑处理。</p>
+<p>　　　3、数据访问层（DAL）：该层所做事务直接操作数据库，针对数据的增添、删除、修改、更新、查找等。</p>
+<p>　　　　MVC是 Model-View-Controller，严格说这三个加起来以后才是三层架构中的UI层，也就是说，MVC把三层架构中的UI层再度进行了分化，分成了控制器、视图、实体三个部分，控制器完成页面逻辑，通过实体来与界面层完成通话；而C层直接与三层中的BLL进行对话。</p>
+<p>　　　mvc可以是三层中的一个表现层框架，属于表现层。三层和mvc可以共存。</p>
+<p>　　　　三层是基于业务逻辑来分的，而mvc是基于页面来分的。</p>
+<p>　　　　MVC主要用于表现层，3层主要用于体系架构，3层一般是表现层、中间层、数据层，其中表现层又可以分成M、V、C，（Model View Controller）模型－视图－控制器</p>
+<p>　　　　曾把MVC模式和Web开发中的三层结构的概念混为一谈，直到今天才发现一直是我的理解错误。MVC模式是GUI界面开发的指导模式，基于表现层分离的思想把程序分为三大部分：Model-View-Controller，呈三角形结构。Model是指数据以及应用程序逻辑，View是指 Model的视图，也就是用户界面。这两者都很好理解，关键点在于Controller的角色以及三者之间的关系。在MVC模式中，Controller和View同属于表现层，通常成对出现。Controller被设计为处理用户交互的逻辑。一个通常的误解是认为Controller负责处理View和Model的交互，而实际上View和Model之间是可以直接通信的。由于用户的交互通常会涉及到Model的改变和View的更新，所以这些可以认为是Controller的副作用。</p>
+<p>　　　　MVC是表现层的架构，MVC的Model实际上是ViewModel，即供View进行展示的数据。 ViewModel不包含业务逻辑，也不包含数据读取。</p>
+<p>　　　　而在N层架构中，一般还会有一个Model层，用来与数据库的表相对应，也就是所谓ORM中的O.这个Model可能是POCO，也可能是包含一些验证逻辑的实体类，一般也不包含数据读取。进行数据读取的是数据访问层。而作为UI层的MVC一般不直接操作数据访问层，中间会有一个业务逻辑层封装业务逻辑、调用数据访问层。UI层（Controller）通过业务逻辑层来得到数据（Model），并进行封装（ViewModel），然后选择相应的View.</p>
+<p>　　　　MVC本来是存在于Desktop程序中的，M是指数据模型，V是指用户界面，C则是控制器。使用MVC的目的是将M和V的实现代码分离，从而使同一个程序可以使用不同的表现形式。比如一批统计数据你可以分别用柱状图、饼图来表示。C存在的目的则是确保M和V的同步，一旦M改变，V应该同步更新。</p>
+<p>　　　　MVC如何工作MVC是一个设计模式，它强制性的使应用程序的输入、处理和输出分开。使用MVC应用程序被分成三个核心部件：模型、视图、控制器。它们各自处理自己的任务。</p>
+<p>　　　　视图V视图是用户看到并与之交互的界面。对老式的Web应用程序来说，视图就是由HTML元素组成的界面，在新式的Web应用程序中，HTML依旧在视图中扮演着重要的角色，但一些新的技术已层出不穷，它们包括Macromedia Flash和象XHTML，XML/XSL，WML等一些标识语言和Web services.如何处理应用程序的界面变得越来越有挑战性。MVC一个大的好处是它能为你的应用程序处理很多不同的视图。在视图中其实没有真正的处理发生，不管这些数据是联机存储的还是一个雇员列表，作为视图来讲，它只是作为一种输出数据并允许用户操纵的方式。</p>
+<p>　　　　模型M模型表示企业数据和业务规则。在MVC的三个部件中，模型拥有最多的处理任务。被模型返回的数据是中立的，就是说模型与数据格式无关，这样一个模型能为多个视图提供数据。由于应用于模型的代码只需写一次就可以被多个视图重用，所以减少了代码的重复性。</p>
+<p>　　　　控制器C控制器接受用户的输入并调用模型和视图去完成用户的需求。所以当单击Web页面中的超链接和发送HTML表单时，控制器本身不输出任何东西和做任何处理。它只是接收请求并决定调用哪个模型构件去处理请求，然后再确定用哪个视图来显示返回的数据。</p>
+<p>　　　　模型Model 模型是应用程序的主体部分。模型表示业务数据，或者业务逻辑。 实现具体的业务逻辑、状态管理的功能。</p>
+<p>　　　　视图View 视图是应用程序中用户界面相关的部分，是用户看到并与之交互的界面。 就是与用户实现交互的页面，通常实现数据的输入和输出功能。</p>
+<p>　　　　控制器controller 控制器工作就是根据用户的输入，控制用户界面数据显示和更新model对象状态。起到控制整个业务流程的作用，实现View层跟Model层的协同工作。</p>
+<p>　　　　3层架构指：表现层（显示层） 业务逻辑层 数据访问层（持久化）如果大家非要“生搬硬套”把它和MVC扯上关系话那我就只能在这里”强扭这个瓜”了即：V 3层架构中”表现层”aspx页面对应MVC中View（继承的类不一样）</p>
+<p>　　　　C 三层架构中”表现层”的aspx.cs页面（类）对应MVC中的Controller，理解这一点并不难，大家想一想我们以前写过的 Redirect，当然它本身就是跳转了一些链接页面，而MVC中的Controller要做的更爽，它控制并显示输出了一个视图。即然所起到的作用都是对业务流程和显示信息的控制，只不过是实现手段不同而已。</p>
+<p>　　　　M 3层架构中业务逻辑层和数据访问层对应MVC中Model（必定View和Controller已找到“婆家”剩下Model只能是业务逻辑层和数据访问层了）</p>
+<p>　　　　为什么要使用 MVC大部分Web应用程序都是用像ASP，PHP，或者CFML这样的过程化（自PHP5.0版本后已全面支持面向对象模型）语言来创建的。它们将像数据库查询语句这样的数据层代码和像HTML这样的表示层代码混在一起。经验比较丰富的开发者会将数据从表示层分离开来，但这通常不是很容易做到的，它需要精心的计划和不断的尝试。MVC从根本上强制性的将它们分开。尽管构造MVC应用程序需要一些额外的工作，但是它给我们带来的好处是无庸质疑的。</p>
+<p>　　　　首先，最重要的一点是多个视图能共享一个模型，现在需要用越来越多的方式来访问你的应用程序。对此，其中一个解决之道是使用MVC，无论你的用户想要Flash界面或是 WAP 界面；用一个模型就能处理它们。由于你已经将数据和业务规则从表示层分开，所以你可以最大化的重用你的代码了。</p>
+<p>　　　　由于模型返回的数据没有进行格式化，所以同样的构件能被不同界面使用。例如，很多数据可能用HTML来表示，但是它们也有可能要用Adobe Flash和WAP来表示。模型也有状态管理和数据持久性处理的功能，例如，基于会话的购物车和电子商务过程也能被Flash网站或者无线联网的应用程序所重用。</p>
+<p>　　　　因为模型是自包含的，并且与控制器和视图相分离，所以很容易改变你的应用程序的数据层和业务规则。如果你想把你的数据库从MySQL移植到Oracle，或者改变你的基于RDBMS数据源到LDAP，只需改变你的模型即可。一旦你正确的实现了模型，不管你的数据来自数据库或是LDAP服务器，视图将会正确的显示它们。由于运用MVC的应用程序的三个部件是相互独立，改变其中一个不会影响其它两个，所以依据这种设计思想你能构造良好的松耦合的构件。</p>
+<p>　　　　对我来说，控制器也提供了一个好处，就是可以使用控制器来联接不同的模型和视图去完成用户的需求，这样控制器可以为构造应用程序提供强有力的手段。给定一些可重用的模型和视图，控制器可以根据用户的需求选择模型进行处理，然后选择视图将处理结果显示给用户。</p>
+<p>　　　　拿一个简单的登陆模块说，需求是你输入一个用户名、密码，如果输入的跟预先定义好的一样，那么就进入到正确页面，如果不一样，就提示个错误信息。</p>
+<p>　　　　V 这个小小的模块中，起始的输入用户名密码的页面跟经过校验后显示的页面就相当于View C 而这里还需要一个controller页面，就是用于接收输入进来的用户名密码，还有经过校验后返回的一个flg（此flg就是用于判断你输入的是否正确，而跳转到相应的页面的）</p>
+<p>　　　　M 最后还缺一个Model，那么就是你那个用于校验的类了，他就是处理你输入的是否跟预先订好的一样不一样的，之后返回一个flg.这样就完全实现了逻辑跟页面的分离，我页面不管你咋整，反正我就一个显示，而controller呢也不管你Model咋判断对不对，反正我给你了用户名跟密码，你就得给我整回来一个flg来，而Medol呢，则是反正你敢给我个用户名跟密码，我就给你整过去个flg</p>
+<p>　　　　m 提供数据，数据之间的关系，转化等。并可以通知视图和控制器自己哪些地方发生了变化。</p>
+<p>　　　　v 提供显示，能根据m的改变来更新自己c 比如视图做了点击一个按钮，会先发给这个视图的控制器，然后这个控制器来决定做什么操作（让模型更新数据，控制视图改变）</p>
+<p>　　　　mvc是一个复合模式mv，mc都是观察者模式m内部的组件组合模式vc之间是策略模式（可以随时更换不同的控制器）</p>
+<p>　　——————————————————-</p>
+<p>　　　　MVC模式是上世纪70年代提出，最初用于Smalltalk平台上的。</p>
+<p>　　　　MVC是表现模式，是用来向用户展现的许多组建的一个模式（UI/Presentation Patten）</p>
+<p>　　　　MVC有三种角色：Model：用来储存数据的组件（与领域模型概念不同，两者会相互交叉）</p>
+<p>　　　　View：从Model中获取数据进行内容展示的组件。同样的Model在不同的View下可展示不同的效果。获取Model的状态，而不对其进行操作。</p>
+<p>　　　　Controller：接受并处理用户指令（操作Model（业务）），选择一个View进行操作。</p>
+<p>　　　　MVC概述：协作存在单向引用，例如Model不知道View和Controller的存在。View不知道Controller的存在。这就隔离了表现和数据。View和controller是单向引用。而实际中View和Controller也是有数据交互的。</p>
+<p>　　　　MVC的重要特点是分离。两种分离：View和数据（Model）的分离使用不同的View对相同的数据进行展示；分离可视和不可视的组件，能够对Model进行独立测试。因为分离了可视组件减少了外部依赖利于测试。（数据库也是一种外部组件）</p>
+<p>　　　　View和表现逻辑（Controller）的分离Controller是一个表现逻辑的组件，并非一个业务逻辑组件。MVC可以作为表现模式也可以作为建构模式，意味这Controller也可以是业务逻辑。分离逻辑和具体展示，能够对逻辑进行独立测试。</p>
+<p>　　　　MVC和三层架构MVC与三层架构类似么？</p>
+<p>　　　　View-UI Layer | Controller-Bussiness Layer | Model-Data Access Layer其实这样是错误的MVC是表现模式（Presentation Pattern）</p>
+<p>　　　　三层架构是典型的架构模式（Architecture Pattern）</p>
+<p>　　　　三层架构的分层模式是典型的上下关系，上层依赖于下层。但MVC作为表现模式是不存在上下关系的，而是相互协作关系。即使将MVC当作架构模式，也不是分层模式。MVC和三层架构基本没有可比性，是应用于不同领域的技术。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/设计模式/">设计模式</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/07/24/后缀数组/"  title="后缀数组">
+ <strong>下一篇：</strong><br/> 
+ <span>后缀数组
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/07/25/三层架构与MVC的区别/" data-title="三层架构与MVC的区别" data-url="http://pangjiuzala.github.io/2015/07/25/三层架构与MVC的区别/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动互联网/" title="移动互联网">移动互联网<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/物联网/" title="物联网">物联网<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C">C<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云平台/" title="云平台">云平台<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/GC/" title="GC">GC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/openHAB/" title="openHAB">openHAB<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络爬虫/" title="网络爬虫">网络爬虫<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/智慧医疗/" title="智慧医疗">智慧医疗<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://weibo.com/jiayou087" target="_blank" title="刘兴的微博主页">微博</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="刘兴的CSDN博客">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">19</span></li></ul>
+  </div>
+
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=pangjiuzala&amp;type=Users" target="_blank" title="关注刘兴的github">关注</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			The more you diligent, the more you lucky!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@2015 Liuxing All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+<script type="text/javascript">
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"pangjiuzala"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Ffeafc504b70a541dd3845d467335f367' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
