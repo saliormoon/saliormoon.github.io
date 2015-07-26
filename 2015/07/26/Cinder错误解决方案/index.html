@@ -1,0 +1,589 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Cinder错误解决方案 | 刘兴的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="刘兴">
+    
+
+    
+    <meta name="description" content="很多初学者在进行OpenStack Havana 安装过程中进行设置Cinder时，进行重启服务service iscsitarget startservice open-iscsi start
+经常出现 “modules iscsi_trgt not found”这样的错误，很多情况下是因为 /lib/modules/3.1.0-32-generic/kernel/iscsi文件中缺少iscsi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cinder错误解决方案">
+<meta property="og:url" content="http://pangjiuzala.github.io/2015/07/26/Cinder错误解决方案/index.html">
+<meta property="og:site_name" content="刘兴的博客">
+<meta property="og:description" content="很多初学者在进行OpenStack Havana 安装过程中进行设置Cinder时，进行重启服务service iscsitarget startservice open-iscsi start
+经常出现 “modules iscsi_trgt not found”这样的错误，很多情况下是因为 /lib/modules/3.1.0-32-generic/kernel/iscsi文件中缺少iscsi">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0049.jpg">
+<meta property="og:updated_time" content="2015-07-26T10:08:47.061Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cinder错误解决方案">
+<meta name="twitter:description" content="很多初学者在进行OpenStack Havana 安装过程中进行设置Cinder时，进行重启服务service iscsitarget startservice open-iscsi start
+经常出现 “modules iscsi_trgt not found”这样的错误，很多情况下是因为 /lib/modules/3.1.0-32-generic/kernel/iscsi文件中缺少iscsi">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="刘兴的博客" title="刘兴的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/26/Cinder错误解决方案/" title="Cinder错误解决方案" itemprop="url">Cinder错误解决方案</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-26T10:03:42.000Z" itemprop="datePublished"> 发表于 2015-07-26</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Target端的配置"><span class="toc-number">1.</span> <span class="toc-text">Target端的配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载iscsitarget"><span class="toc-number">1.1.</span> <span class="toc-text">下载iscsitarget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建iscsi_trgt-ko文件"><span class="toc-number">1.2.</span> <span class="toc-text">创建iscsi_trgt.ko文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置/etc/ietd-conf"><span class="toc-number">1.3.</span> <span class="toc-text">配置/etc/ietd.conf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iscsi_trgt-ko复制到内核"><span class="toc-number">1.4.</span> <span class="toc-text">iscsi_trgt.ko复制到内核</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#inititor端配置"><span class="toc-number">2.</span> <span class="toc-text">inititor端配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#软件包"><span class="toc-number">2.1.</span> <span class="toc-text">软件包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装文件"><span class="toc-number">2.2.</span> <span class="toc-text">安装文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连接target"><span class="toc-number">2.3.</span> <span class="toc-text">连接target</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#target和initiator间使用CHAP验证。"><span class="toc-number">2.4.</span> <span class="toc-text">target和initiator间使用CHAP验证。</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#initiator端配置/etc/iscsi/iscsid-conf"><span class="toc-number">2.4.1.</span> <span class="toc-text">initiator端配置/etc/iscsi/iscsid.conf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#target端针对discovery配置/etc/ietd-conf"><span class="toc-number">2.4.2.</span> <span class="toc-text">target端针对discovery配置/etc/ietd.conf</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<p>很多初学者在进行OpenStack Havana 安装过程中进行设置Cinder时，进行重启服务<br><figure class="highlight puppet"><table><tr><td class="code"><pre><span class="line"><span class="keyword">service</span> iscsitarget <span class="literal">start</span></span><br><span class="line"><span class="keyword">service</span> open-iscsi <span class="literal">start</span></span><br></pre></td></tr></table></figure></p>
+<p>经常出现 <strong>“modules iscsi_trgt not found”</strong>这样的错误，很多情况下是因为 /lib/modules/3.1.0-32-generic/kernel/iscsi文件中缺少<strong>iscsi_trgt.ko</strong>文件。所以接下来要通过以下办法来解决这个错误。<br><a id="more"></a></p>
+<h1 id="Target端的配置">Target端的配置</h1><h2 id="下载iscsitarget">下载iscsitarget</h2><p>  进入终端，输入<br><code>#wpt http://sourceforge.net/projects/iscsitarget/files/</code> </p>
+<h2 id="创建iscsi_trgt-ko文件">创建iscsi_trgt.ko文件</h2><p>输入<code>#ls</code>，会发现在当前目录下出现 branchs tags trunks三个文件夹然后<code>#cd trunks</code>进入trunks文件目录，输入 以下两条命令<br><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line"><span class="id">#sudo</span> make</span><br><span class="line"><span class="id">#sudo</span> make install</span><br></pre></td></tr></table></figure></p>
+<p>查看当前目录，会发现文件中iscsi_trgt.ko已经创建。<br>该包会将iscsitarget需要的内核模块，用户层工具，服务启动脚本，配置文件，man手册等安装到系统中<br>　　包括：
+　　</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">iscsi_trgt<span class="class">.ko</span> 内核模块</span><br><span class="line">　　ietd iscsitarget的守护进程</span><br><span class="line">　　ietadm iscsitarget的用户层管理工具</span><br><span class="line">　　/etc/init.d/iscsi-target iscsitarget的启动脚本</span><br><span class="line">　　/etc/ietd<span class="class">.conf</span> iscsitarget的配置文件</span><br><span class="line">　　/etc/initiators<span class="class">.allow</span> 控制initiator对target的访问权限。</span><br><span class="line">　　/etc/initiators<span class="class">.deny</span> 控制initiator对target的访问权限。</span><br><span class="line">　　/etc/iet/targets<span class="class">.allow</span> 控制不同target的被访问权限。</span><br></pre></td></tr></table></figure>
+<p>　　</p>
+<h2 id="配置/etc/ietd-conf">配置/etc/ietd.conf</h2><p>　　<code>Target iqn.2001-04.com.example:storage.disk2.sys1.xyz
+　　Lun 0 Path=/dev/sda1,Type=fileio
+　　Alias lun0</code><br>　　大致说明：<br>　　Target iqn.2001-04.com.example:storage.disk2.sys1.xyz 表示该ISCSI Target 的命名，命名在同一子网内应该是唯一的，标准命名方式为：<br>　　“Target “+ target名字 (格式如下： iqn.yyyy-mm.[:identifier] )<br>　　“Lun 0 Path=/dev/sda1”表示块设备号为0，映射的磁盘为/dev/sda1。<br>　　本次配置中 Type 的设定为”fileio”,我主要用来对一个磁盘进行存储共享。<br>　　当然也可以针对需要设置为： “file” or “LVM”。<br>　　除此之外还有很多其他参数可以设置，具体参考：<br>启动iscsitarget</p>
+<figure class="highlight puppet"><table><tr><td class="code"><pre><span class="line">/etc/init.d/iscsi-<span class="literal">target</span> <span class="literal">start</span></span><br></pre></td></tr></table></figure>
+<p>　　
+　　</p>
+<h2 id="iscsi_trgt-ko复制到内核">iscsi_trgt.ko复制到内核</h2><p>在iscsi_trgt.ko所在文件夹中执行以下命令<br><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line"><span class="id">#mkdir</span> /lib/modules/`uname -r`/kernel/iscsi</span><br><span class="line"><span class="id">#find</span> / -name “iscsi_trgt.ko”</span><br><span class="line"><span class="id">#cp</span> iscsi_trgt<span class="class">.ko</span> /lib/modules/`uname -r`/kernel/iscsi</span><br><span class="line"><span class="id">#depmod</span> -aq</span><br></pre></td></tr></table></figure></p>
+<p>这样重新启动服务，就不会出现上述错误了。<br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0049.jpg" alt="当前网络架构"></p>
+<h1 id="inititor端配置">inititor端配置</h1><h2 id="软件包">软件包</h2><p>　　源码包是open-iscsi，经过rpm包封装后，名字是iscsi-initiator-utils。</p>
+<h2 id="安装文件">安装文件</h2><figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line">　 <span class="regexp">/etc/</span>iscsi/iscsid.conf</span><br><span class="line">　　<span class="regexp">/etc/</span>rc.d<span class="regexp">/init.d/</span>iscsi</span><br><span class="line">　　<span class="regexp">/etc/</span>rc.d<span class="regexp">/init.d/</span>iscsid</span><br><span class="line">　　<span class="regexp">/sbin/</span>iscsi-iname</span><br><span class="line">　　<span class="regexp">/sbin/</span>iscsiadm</span><br><span class="line">　　<span class="regexp">/sbin/</span>iscsid</span><br><span class="line">　　<span class="regexp">/sbin/</span>iscsistart</span><br><span class="line">　　<span class="regexp">/var/</span>lib/iscsi</span><br><span class="line">　　<span class="regexp">/var/</span>lib<span class="regexp">/iscsi/</span>ifaces</span><br><span class="line">　　<span class="regexp">/var/</span>lib<span class="regexp">/iscsi/</span>isns</span><br><span class="line">　　<span class="regexp">/var/</span>lib<span class="regexp">/iscsi/</span>nodes</span><br><span class="line">　　<span class="regexp">/var/</span>lib<span class="regexp">/iscsi/</span>send_targets</span><br><span class="line">　　<span class="regexp">/var/</span>lib<span class="regexp">/iscsi/</span>slp</span><br><span class="line">　　<span class="regexp">/var/</span>lib<span class="regexp">/iscsi/</span><span class="keyword">static</span></span><br><span class="line">　　<span class="regexp">/var/</span>lock/iscsi</span><br></pre></td></tr></table></figure>
+<p>　</p>
+<h2 id="连接target">连接target</h2><p>　　首先要保证iscsid守护进程启动，否测iscsiadm的一系列操作都会失败：<br>　　/etc/init.d/iscsid start<br>　　发现target：<br>　　iscsiadm -m discovery -t sendtargets -p :<br>　　默认情况下是3260，除非你有特殊的设置。<br>　　与target建立连接：<br>　　iscsiadm -m node -T   -p : —login<br>　　此处target-name为上一步发现target时的获得的<br>此时通过fdisk -l就可以看到映射过来的磁盘，该磁盘可以像使用本地磁盘一样进行格式化，分区等操作。<br>　　可以通过以下命令实验：
+　　</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">　  fdisk /dev/sdc</span><br><span class="line">　　mkfs<span class="class">.ext3</span> /dev/sdc1</span><br><span class="line">　　mount /dev/sdc1 /mnt</span><br><span class="line">　　<span class="tag">dd</span> <span class="keyword">if</span>=/dev/zero of=<span class="number">100</span>M<span class="class">.img</span> bs=<span class="number">1</span>M count=<span class="number">100</span></span><br></pre></td></tr></table></figure>
+<p>　</p>
+<h2 id="target和initiator间使用CHAP验证。">target和initiator间使用CHAP验证。</h2><p>　　CHAP验证有两种，一种是针对discovery的，即如果不符合验证的用户名和密码，则initiator端便无法通过”-m discovery”发现指定主机上的任何一个target。<br>　　命令会返回验证失败，如下:<br>　<br><figure class="highlight applescript"><table><tr><td class="code"><pre><span class="line">$  iscsiadm -m discovery -t sendtargets -p <span class="number">192.168</span>.29.224</span><br><span class="line">　　iscsiadm: Login failed <span class="keyword">to</span> authenticate <span class="keyword">with</span> target</span><br><span class="line">　　iscsiadm: discovery login <span class="keyword">to</span> <span class="number">192.168</span>.29.224 rejected:     initiator <span class="keyword">error</span> (<span class="number">02</span>/<span class="number">01</span>), non-retryable, giving up</span><br></pre></td></tr></table></figure></p>
+<p>　<br>　　另一种是针对node login的，即果不符合验证的用户名和密码，则initiator端编无法通过—login登录指定主机上的某一个target。<br>　　命令会返回验证失败，如下：<br>　　<br><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">　　$ iscsiadm -m discovery -t sendtargets -<span class="tag">p</span> <span class="number">192.168</span>.<span class="number">29.224</span>  #成功discover指定主机上的target</span><br><span class="line">　　<span class="number">192.168</span>.<span class="number">29.224</span>:<span class="number">3260</span>,<span class="number">1</span> iqn.<span class="number">2001</span>-<span class="number">04</span><span class="class">.com</span><span class="class">.example</span>:storage<span class="class">.disk2</span><span class="class">.sys1</span><span class="class">.xyz</span></span><br><span class="line">　　$ iscsiadm -m node -T iqn.<span class="number">2001</span>-<span class="number">04</span><span class="class">.com</span><span class="class">.example</span>:storage<span class="class">.disk2</span><span class="class">.sys1</span><span class="class">.xyz</span> -<span class="tag">p</span> <span class="number">192.168</span>.<span class="number">29.224</span> --login  #无法通过验证，登录失败</span><br><span class="line">　　Logging <span class="keyword">in</span> to [iface: default, target: iqn.<span class="number">2001</span>-<span class="number">04</span><span class="class">.com</span><span class="class">.example</span>:storage<span class="class">.disk2</span><span class="class">.sys1</span><span class="class">.xyz</span>, portal: <span class="number">192.168</span>.<span class="number">29.224</span>,<span class="number">3260</span>]</span><br><span class="line">　　iscsiadm: Could not login to [iface: default, target: iqn.<span class="number">2001</span>-<span class="number">04</span><span class="class">.com</span><span class="class">.example</span>:storage<span class="class">.disk2</span><span class="class">.sys1</span><span class="class">.xyz</span>, portal: <span class="number">192.168</span>.<span class="number">29.224</span>,<span class="number">3260</span>]:</span><br><span class="line">　　iscsiadm: initiator reported error (<span class="number">15</span> - already exists)</span><br></pre></td></tr></table></figure></p>
+<h3 id="initiator端配置/etc/iscsi/iscsid-conf">initiator端配置/etc/iscsi/iscsid.conf</h3><p>添加如下选项：</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">#以下三个是针对discovery的。</span><br><span class="line">　　#discovery时启用CHAP验证</span><br><span class="line">　　discovery<span class="class">.sendtargets</span><span class="class">.auth</span><span class="class">.authmethod</span> = CHAP</span><br><span class="line">　　#initiator的名字，也可以是别的字符串，只要和target端IncomingUse配置的名字一样就行</span><br><span class="line">　　discovery<span class="class">.sendtargets</span><span class="class">.auth</span><span class="class">.username</span> = iqn.<span class="number">1994</span>-<span class="number">05</span><span class="class">.com</span><span class="class">.fedora</span>:ba72af8aaf5</span><br><span class="line">　　#验证密码，要和target端相同</span><br><span class="line">discovery<span class="class">.sendtargets</span><span class="class">.auth</span><span class="class">.password</span> = <span class="number">1234567890</span>ab</span><br><span class="line">　　#以下三个是针对login的。</span><br><span class="line">　　#login时启用CHAP验证</span><br><span class="line">　　node<span class="class">.session</span><span class="class">.auth</span><span class="class">.authmethod</span> = CHAP</span><br><span class="line">　　#initiator的名字，也可以是别的字符串，只要和target端IncomingUse配置的名字一样就行</span><br><span class="line">　　node<span class="class">.session</span><span class="class">.auth</span><span class="class">.username</span> = iqn.<span class="number">1994</span>-   <span class="number">05</span><span class="class">.com</span><span class="class">.fedora</span>:ba72af8aaf5</span><br><span class="line">　　#验证密码，要和target端相同</span><br><span class="line">　　node<span class="class">.session</span><span class="class">.auth</span><span class="class">.password</span> = <span class="number">1234567890</span></span><br><span class="line">　　然后重启initiator。</span><br><span class="line">　　/etc/init.d/iscsid stop</span><br><span class="line">　　/etc/init.d/iscsid start</span><br></pre></td></tr></table></figure>
+<p>　　</p>
+<h3 id="target端针对discovery配置/etc/ietd-conf">target端针对discovery配置/etc/ietd.conf</h3><p>  在全局参数处（定义第一个target之前），添加如下一行：<br>  <code>IncomingUser iqn.1994-05.com.fedora:ba72af8aaf5  1234567890ab</code><br>   IncomingUser 和 OutgoingUser 表示ISCSI 客户端的用户名和密码，用户名和密码都可以为空,默认为allow权限，密码最长可为12个字符。<br>　此处iqn.1994-05.com.fedora:ba72af8aaf5是initiator的名字（也可以是别的字符串），1234567890ab是initiator的密码，名字和密码必须和initiator上/etc/iscsi/iscsid.conf<br>　中的用户名密码一致。如果不一致，则initiator执行”-m discovery” 是就会失败。<br>　针对login配置/etc/ietd.conf，既然是针对login的，那么添加IncomingUser是就应该添加的指定的target上。如下：
+　</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">　Target iqn.<span class="number">2001</span>-<span class="number">04</span><span class="class">.com</span><span class="class">.example</span>:storage<span class="class">.disk2</span><span class="class">.sys1</span><span class="class">.xyz</span></span><br><span class="line">　Lun <span class="number">0</span> Path=/dev/sda1,Type=fileio</span><br><span class="line">　IncomingUser iqn.<span class="number">1994</span>-<span class="number">05</span><span class="class">.com</span><span class="class">.fedora</span>:ba72af8aaf5 <span class="number">1234567890</span></span><br></pre></td></tr></table></figure>
+<p>　然后重启iscsitarget<br>　/etc/init.d/iscsi-target stop<br>　/etc/init.d/iscsi-target start<br>　参考文档：<a href="https://github.com/xidianpanpei/OpenStack-Havana-Install-Guide-CN-OVS_MutliNode/blob/master/OpenStack_Grizzly_Install_Guide.rst#%E5%86%85%E5%AE%B9%E5%88%97%E8%A1%A8" target="_blank" rel="external">OpenStack Havana 安装指南</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/OpenStack/">OpenStack</a><a href="/tags/云平台/">云平台</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/07/25/三层架构与MVC的区别/"  title="三层架构与MVC的区别">
+ <strong>下一篇：</strong><br/> 
+ <span>三层架构与MVC的区别
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/07/26/Cinder错误解决方案/" data-title="Cinder错误解决方案" data-url="http://pangjiuzala.github.io/2015/07/26/Cinder错误解决方案/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Target端的配置"><span class="toc-number">1.</span> <span class="toc-text">Target端的配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#下载iscsitarget"><span class="toc-number">1.1.</span> <span class="toc-text">下载iscsitarget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建iscsi_trgt-ko文件"><span class="toc-number">1.2.</span> <span class="toc-text">创建iscsi_trgt.ko文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置/etc/ietd-conf"><span class="toc-number">1.3.</span> <span class="toc-text">配置/etc/ietd.conf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iscsi_trgt-ko复制到内核"><span class="toc-number">1.4.</span> <span class="toc-text">iscsi_trgt.ko复制到内核</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#inititor端配置"><span class="toc-number">2.</span> <span class="toc-text">inititor端配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#软件包"><span class="toc-number">2.1.</span> <span class="toc-text">软件包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装文件"><span class="toc-number">2.2.</span> <span class="toc-text">安装文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#连接target"><span class="toc-number">2.3.</span> <span class="toc-text">连接target</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#target和initiator间使用CHAP验证。"><span class="toc-number">2.4.</span> <span class="toc-text">target和initiator间使用CHAP验证。</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#initiator端配置/etc/iscsi/iscsid-conf"><span class="toc-number">2.4.1.</span> <span class="toc-text">initiator端配置/etc/iscsi/iscsid.conf</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#target端针对discovery配置/etc/ietd-conf"><span class="toc-number">2.4.2.</span> <span class="toc-text">target端针对discovery配置/etc/ietd.conf</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动互联网/" title="移动互联网">移动互联网<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云平台/" title="云平台">云平台<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/物联网/" title="物联网">物联网<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/openHAB/" title="openHAB">openHAB<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C">C<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/GC/" title="GC">GC<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络爬虫/" title="网络爬虫">网络爬虫<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenStack/" title="OpenStack">OpenStack<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/智慧医疗/" title="智慧医疗">智慧医疗<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://weibo.com/jiayou087" target="_blank" title="刘兴的微博主页">微博</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="刘兴的CSDN博客">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">20</span></li></ul>
+  </div>
+
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=pangjiuzala&amp;type=Users" target="_blank" title="关注刘兴的github">关注</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			The more you diligent, the more you lucky!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Liuxing All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"pangjiuzala"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Ffeafc504b70a541dd3845d467335f367' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
