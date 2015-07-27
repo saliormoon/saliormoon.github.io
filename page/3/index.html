@@ -4,23 +4,22 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Debug命令大全 | 刘兴的博客</title>
+    <title>刘兴的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="刘兴">
     
 
     
-    <meta name="description" content="DEBUG在每个人的机器里都会有，只是很多人对它都很陌生，不要小看它,对你的破解会很有帮助的。如你掌握了它的用法，对你的日常使用及维护工作会带来很大的方便，下面介绍一些它的基本指令用法：">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Debug命令大全">
-<meta property="og:url" content="http://pangjiuzala.github.io/2015/07/07/Debug命令大全/index.html">
+    <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="刘兴的博客">
+<meta property="og:url" content="http://pangjiuzala.github.io/page/3/index.html">
 <meta property="og:site_name" content="刘兴的博客">
-<meta property="og:description" content="DEBUG在每个人的机器里都会有，只是很多人对它都很陌生，不要小看它,对你的破解会很有帮助的。如你掌握了它的用法，对你的日常使用及维护工作会带来很大的方便，下面介绍一些它的基本指令用法：">
-<meta property="og:updated_time" content="2015-07-24T07:32:00.633Z">
+<meta property="og:description">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Debug命令大全">
-<meta name="twitter:description" content="DEBUG在每个人的机器里都会有，只是很多人对它都很陌生，不要小看它,对你的破解会很有帮助的。如你掌握了它的用法，对你的日常使用及维护工作会带来很大的方便，下面介绍一些它的基本指令用法：">
+<meta name="twitter:title" content="刘兴的博客">
+<meta name="twitter:description">
 
     
     <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
@@ -71,10 +70,12 @@
 </div>
     </header>
     <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
-  
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
   <h1 itemprop="name">
     
       <a href="/2015/07/07/Debug命令大全/" title="Debug命令大全" itemprop="url">Debug命令大全</a>
@@ -88,38 +89,18 @@
     
   </p>
 </header>
-	<div class="article-content">
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		
-			
-		
-		</div>
-		
-		<p>DEBUG在每个人的机器里都会有，只是很多人对它都很陌生，不要小看它,对你的破解会很有帮助的。如你掌握了它的用法，对你的日常使用及维护工作会带来很大的方便，下面介绍一些它的基本指令用法：<br><a id="more"></a><br>　指令　格式 功能 　　　　　　　　　　　　备注<br>　　A　　A 　[记忆体位址] 　　　　　　　　组译汇编语言指令 A 100<br>　　C　　C 　[区段1] [区段范围] [区段2] 　将两块内存作比较 C 100 L20 200<br>　　D　　D 　[记忆体拉址] 　　　　　　　　显示记忆体的内容 D 100<br>　　E　　E 　[记忆体位址] 　　　　　　　　编辑记忆体资料 E 100<br>　　F　　F 　[指定区段范围] 　　　　　　　填充指定内存区块内容 F 100 L10 90<br>　　G　　G 　[区段:区址]　　　　　　　　　带有任选断点执行 G 100<br>　　H　　H 　[运算子] [运算子]　　　　　　十六进制加减运算 H 44 33<br>　　I　　I 　[端口]　　　　　　　　　　 　读/显示输入字节<br>　　L　　L 　[记忆位址]或[磁碟,磁轨,磁区] 装入文件或磁区 L 100 2 1 2<br>　　M　　M 　[区段范围] [记忆体位址]　　　传送内存区块 M 100 L10 110<br>　　N　　N 　[档案名称] 　　　　　　　　　定义文件及参量 N bb.com<br>　　O　　O 　[端口位址] 　　　　　　　　　输出字节到端口<br>　　P　　P 　[区段:区址]　　　　　　　　　在下一指令上停止 P 2<br>　　Q　　Q 　退出 DEBUG 界面　　　　　　　Q<br>　　R　　R 　[寄存器] 　　　　　　　　　　显示修改寄存器/标志 R AX<br>　　S　　S 　[记忆区段范围] 　　　　　　　对字符进行检索 S 100 L70 ‘j’<br>　　T　　T 　[=记忆区段]或[数值范围]　　　单步追踪 T<br>　　U　　U 　[记忆位址] 　　　　　　　　　对指令进行反汇编 U 100<br>　　W　　W 　[记忆区段]或[指定范围] 　　　写入文件或磁盘扇区 W 100 0 1 1 </p>
-<p>下面对一些常用指令进行详细剖析：</p>
-<p>　A （Assemble）汇编指令<br>　1、输入汇编语句被汇编到内存的指定区段，此区段在开始时用 A address 指定。<br>　2、所有语句输入完成后，按 ENTER 键返回。<br>　3、完成输入后，可以用 U 命令观看它的机械码。</p>
-<p>　D （Dump）显示命令<br>　1、从指定的地址开始显示内容，如果没有指定地址，则从前一个D命令继续显示。<br>　2、如果没指定地址并是第一次，则从 DS:100 处开始显示。</p>
-<p>　G （Go）转移命令<br>　1、执行正在调试的程序，当执行到指定的地址时停止，并显示寄存器樗和下一条要<br>　　 执行的命令。<br>　2、G [=address]用于执行正在调试没有断点的程式。<br>　3、程序运行结束，DEBUG 显示“Porgram terminated normally”。</p>
-<p>　R （Register）寄存器命令<br>　1、显示一个寄存器的十六进制内容,并可根据需要改变它们。<br>　2、显示8个字母的状态标志,并可根据需要更改它们之中的任一个或全部。</p>
-<p>　U （Unassemble）反汇编命令<br>　1、对指令进行反汇编，它们的地址和十六进制以类似于汇编语言的语句一起显示出<br>　　 来。<br>　2、单独用 U 命令从 CS:100 处开始反汇编。<br>　3、U命令默认段地址包含 CS 寄存器中。</p>
-<p>　</p>
-<p>　DEBUG 技巧应用</p>
-<p>　1、用 DEBUG 对子目录加密<br>　DOS在管理文件目录时，用 32 个字节来保存根目录和子目录的信息。对子目录而言<br>　0-10 字节为子目录域，第 11 字节为属性。我们只要将子目录属性字节的值从 10H<br>　改为 13H 时，子目录即具有拒绝 DIR、TREE 等命令的性能。<br>　<br>　例如：</p>
-<p>　对 A 盘的 SUBDIK 子目录进行加密：</p>
-<p>　　　　C:>DEBUG<br>　　　　-L 100 0 5 7 （将 A 盘中目录读入内存）<br>　　　　-S 100 FFF “SUBDIK” （搜索子目录）<br>　　　　-38EB:07c0 （搜索到的子目录地址）<br>　　　　-E 07CB (07C)+0B=07CB（为属性字节位址）<br>　　　　38EB:07CB 10.13 （修改完成）<br>　　　　-W 100 0 5 7 （目录写回A盘中）<br>　　　　-Q （退出）</p>
-<p>　2、解除 BIOS 密码</p>
-<p>　　　　C:>DEBUG<br>　　　　-O 70 10<br>　　　　-O 71 11<br>　　　　重新启动,BIOS 密码已被攻破。</p>
-<p>　3、冷启动实现</p>
-<p>　　　　C:>DEBUG RESET.COM<br>　　　　-A 100<br>　　　　JMP FFFF:0000<br>　　　　INT 20<br>　　　　-RCX<br>　　　　00007<br>　　　　-W<br>　　　　-Q </p>
-<p>　4、热启动实现</p>
-<p>　　　　C:\DEBUG BOOT.COM<br>　　　　-A 0100<br>　　　　MOV AX,0040<br>　　　　MOV DS,AX<br>　　　　MOV AX,1234<br>　　　　MOV SI,0072<br>　　　　MOV [SI],AX<br>　　　　JMP FFFF:0<br>　　　　INT 20<br>　　　　-RCX<br>　　　　0014<br>　　　　-W<br>　　　　-Q </p>
-<p>下面一些东东自己下载后，在自己的机器上调试一下吧，顺便熟悉一下 DEBUG 的操作环境。</p>
-<p>　DOS 下改变边框颜色的东东<br>　DOS 下改变显示字符的东东<br>　DOS 下密码输入的东东：输入不正确,就会当掉键盘，它的密码是：68885 </p>
-  
-	</div>
-		<footer class="article-footer clearfix">
+    <div class="article-content">
+        
+        <p>DEBUG在每个人的机器里都会有，只是很多人对它都很陌生，不要小看它,对你的破解会很有帮助的。如你掌握了它的用法，对你的日常使用及维护工作会带来很大的方便，下面介绍一些它的基本指令用法：<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/07/07/Debug命令大全/#more">阅读更多</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
 <div class="article-catetags">
 
 
@@ -132,69 +113,31 @@
 
 
 
-	<div class="article-share" id="share">
+
+<div class="comments-count">
 	
-	<div class="share-jiathis">
-	  
-<div class="jiathis_style_24x24">
-	<a class="jiathis_button_tsina"></a>
-	<a class="jiathis_button_weixin"></a>
-	<a class="jiathis_button_renren"></a>
-	<a class="jiathis_button_qzone"></a>
-	<a class="jiathis_button_googleplus"></a>
-	<a class="jiathis_button_douban"></a>
-	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	<a class="jiathis_counter_style"></a>
+	  	<span></span>
+		<a href="/2015/07/07/Debug命令大全/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/07/07/Debug命令大全/" data-count-type="comments">&nbsp;</a>
+	
 </div>
-<script type="text/javascript" >
-    var jiathis_config={
-    data_track_clickback:true,
-    sm:"copy,renren,cqq",
-    pic:"",
-    summary:"",
-    
-  </script> 
-<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
-" charset="utf-8"></script>      
-
-	 </div>
-	
-	</div>
-
 
 </footer>
 
-   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2015/07/08/国内外智慧医疗云平台调研/" title="国内外智慧医疗云平台调研">
-  <strong>上一篇：</strong><br/>
-  <span>
-  国内外智慧医疗云平台调研</span>
-</a>
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/2/"><span></span>上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
 </div>
-
-
-</nav>
-
-	
-<section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/07/07/Debug命令大全/" data-title="Debug命令大全" data-url="http://pangjiuzala.github.io/2015/07/07/Debug命令大全/"></div>
-</section>
-
-
-</div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
- 
- 
- 
-  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -402,36 +345,8 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
         
     }
-  });
-});
-</script>
-
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  c.click(function(){
-    ta.css('display', 'block').addClass('fadeIn');
-  });
-  o.click(function(){
-    ta.css('display', 'none');
-  });
-  $(window).scroll(function(){
-    ta.css("top",Math.max(140,320-$(this).scrollTop()));
   });
 });
 </script>
@@ -570,4 +485,4 @@ _ts(option);
 <!-- Tiny_search End -->
 
   </body>
-</html>
+ </html>
