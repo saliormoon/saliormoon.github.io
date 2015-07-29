@@ -11,12 +11,12 @@
     
 
     
-    <meta name="description" content="JDK 是 Java 规范的实现， Java 程序在运行期间除了 JVM 的因素外， JDK 也是另外一个重要的影响因素， Java 规范中定义了众多的接口 规范， 但实现则取决于各个 Java 规范实现的厂商， 例如 Sun、 IBM、 Bea， 其在实现 Java 规范时采用的方法并不一定相同， 在编写 Java程序时， 由于 Java 提供了众多看似功能一样的类， 如何选择合适的类来实现需求">
+    <meta name="description" content="JDK 是 Java 规范的实现，Java 程序在运行期间除了 JVM 的因素外，JDK 也是另外一个重要的影响因素， Java 规范中定义了众多的接口 规范，但实现则取决于各个 Java 规范实现的厂商， 例如 Sun、 IBM、 Bea， 其在实现 Java 规范时采用的方法并不一定相同,在编写 Java程序时，由于Java提供了众多看似功能一样的类，如何选择合适的类来实现需求就成了一个难题了">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入JDK">
 <meta property="og:url" content="http://pangjiuzala.github.io/2015/07/29/深入JDK/index.html">
 <meta property="og:site_name" content="刘兴的博客">
-<meta property="og:description" content="JDK 是 Java 规范的实现， Java 程序在运行期间除了 JVM 的因素外， JDK 也是另外一个重要的影响因素， Java 规范中定义了众多的接口 规范， 但实现则取决于各个 Java 规范实现的厂商， 例如 Sun、 IBM、 Bea， 其在实现 Java 规范时采用的方法并不一定相同， 在编写 Java程序时， 由于 Java 提供了众多看似功能一样的类， 如何选择合适的类来实现需求">
+<meta property="og:description" content="JDK 是 Java 规范的实现，Java 程序在运行期间除了 JVM 的因素外，JDK 也是另外一个重要的影响因素， Java 规范中定义了众多的接口 规范，但实现则取决于各个 Java 规范实现的厂商， 例如 Sun、 IBM、 Bea， 其在实现 Java 规范时采用的方法并不一定相同,在编写 Java程序时，由于Java提供了众多看似功能一样的类，如何选择合适的类来实现需求就成了一个难题了">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0074.png">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0075.png">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0076.png">
@@ -25,10 +25,10 @@
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0079.png">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0080.png">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0081.png">
-<meta property="og:updated_time" content="2015-07-29T07:19:58.184Z">
+<meta property="og:updated_time" content="2015-07-29T07:42:18.582Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入JDK">
-<meta name="twitter:description" content="JDK 是 Java 规范的实现， Java 程序在运行期间除了 JVM 的因素外， JDK 也是另外一个重要的影响因素， Java 规范中定义了众多的接口 规范， 但实现则取决于各个 Java 规范实现的厂商， 例如 Sun、 IBM、 Bea， 其在实现 Java 规范时采用的方法并不一定相同， 在编写 Java程序时， 由于 Java 提供了众多看似功能一样的类， 如何选择合适的类来实现需求">
+<meta name="twitter:description" content="JDK 是 Java 规范的实现，Java 程序在运行期间除了 JVM 的因素外，JDK 也是另外一个重要的影响因素， Java 规范中定义了众多的接口 规范，但实现则取决于各个 Java 规范实现的厂商， 例如 Sun、 IBM、 Bea， 其在实现 Java 规范时采用的方法并不一定相同,在编写 Java程序时，由于Java提供了众多看似功能一样的类，如何选择合适的类来实现需求就成了一个难题了">
 
     
     <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
@@ -105,7 +105,7 @@
 		
 		</div>
 		
-		<p>JDK 是 Java 规范的实现， Java 程序在运行期间除了 JVM 的因素外， JDK 也是另外一个重要的影响因素， Java 规范中定义了众多的接口 规范， 但实现则取决于各个 Java 规范实现的厂商， 例如 Sun、 IBM、 Bea， 其在实现 Java 规范时采用的方法并不一定相同， 在编写 Java<br>程序时， 由于 Java 提供了众多看似功能一样的类， 如何选择合适的类来实现需求就成了一个难题了 ， 这也是需要深入理解 JDK 的原因， 以做到根据需求来选择合适的类， 而不是想当然的认为调用某个类的某个方法时就会达到预期的效果， 否则很有可能因为对 JDK 的实现不<br>了解而导致最终程序运行的效果和预期不一致。<br><a id="more"></a><br>本章基于 JDK 6 Update 12 的代码对 Sun JDK 常用 package 中的常用类进行分析， 分析的方法为掌握常用的类中的方法的实现原理， 并评估类中的常用方法在不同场景下的性能表现，在掌握了这些知识点后， 对于合理的根据需求选择类会有很大的帮助。<br>JDK 分为了几个大的包， 对于构建大型分布式 Java 应用而言， 其中最需要掌握的有集合、并发、 线程、 网络（ 包括 BIO 以及 NIO） 以及序列化， 关于线程在第三章中已经做了深入的分析， 而网络包则遵循通信协议和操作系统实现方式而实现， 因此其表现更多的取决于通信<br>协议和操作系统的实现方式， 这方面知识还请大家自行查看 TCP/IP、 UDP/IP、 Multicast、 Http等协议方面的书籍， 以及操作关系关于 BIO、 NIO 或 AIO 方面的实现的分析， 在通信时的性能表现更多的取决于基于 JDK 的封装方式以及对连接的处理方式（ 例如长连、 连接复用等）等， 这方面的知识需要大家自行查看 Mina、 Grizzly 等通信框架的封装， 在本章就不进行分析了 ， 因此在本章中将对除线程、 网络之外的包进行分析， 在掌握了这些包的实现方式后，<br>对于编写高稳定和高性能的程序而言会有很大的帮助。</p>
+		<p>JDK 是 Java 规范的实现，Java 程序在运行期间除了 JVM 的因素外，JDK 也是另外一个重要的影响因素， Java 规范中定义了众多的接口 规范，但实现则取决于各个 Java 规范实现的厂商， 例如 Sun、 IBM、 Bea， 其在实现 Java 规范时采用的方法并不一定相同,在编写 Java程序时，由于Java提供了众多看似功能一样的类，如何选择合适的类来实现需求就成了一个难题了,这也是需要深入理解JDK的原因，以做到根据需求来选择合适的类，而不是想当然的认为调用某个类的某个方法时就会达到预期的效果，否则很有可能因为对 JDK 的实现不了解而导致最终程序运行的效果和预期不一致。<br><a id="more"></a><br>本章基于 JDK 6 Update 12 的代码对 Sun JDK 常用 package 中的常用类进行分析，分析的方法为掌握常用的类中的方法的实现原理， 并评估类中的常用方法在不同场景下的性能表现，在掌握了这些知识点后， 对于合理的根据需求选择类会有很大的帮助。<br>JDK 分为了几个大的包， 对于构建大型分布式 Java 应用而言， 其中最需要掌握的有集合、并发、 线程、 网络（ 包括 BIO 以及 NIO） 以及序列化， 关于线程在第三章中已经做了深入的分析， 而网络包则遵循通信协议和操作系统实现方式而实现， 因此其表现更多的取决于通信<br>协议和操作系统的实现方式， 这方面知识还请大家自行查看 TCP/IP、 UDP/IP、 Multicast、 Http等协议方面的书籍， 以及操作关系关于 BIO、 NIO 或 AIO 方面的实现的分析， 在通信时的性能表现更多的取决于基于 JDK 的封装方式以及对连接的处理方式（ 例如长连、 连接复用等）等， 这方面的知识需要大家自行查看 Mina、 Grizzly 等通信框架的封装， 在本章就不进行分析了 ， 因此在本章中将对除线程、 网络之外的包进行分析， 在掌握了这些包的实现方式后，<br>对于编写高稳定和高性能的程序而言会有很大的帮助。</p>
 <h1 id="ArrayList">ArrayList</h1><p>对应上面需要掌握的几点， 来看看 ArrayList 的实现方式。<br>ArrayList()此默认构造器通过调用 ArrayList(int)来完成 ArrayList 的创建， 传入的值为 10， ArrayList(int)<br>方法的实现代码为：</p>
 <figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"><span class="keyword">super</span>();</span><br><span class="line"><span class="keyword">if</span> (initialCapacity &lt; <span class="number">0</span>)</span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal Capacity: "</span>+</span><br><span class="line">initialCapacity);</span><br><span class="line"><span class="keyword">this</span>. elementData = <span class="keyword">new</span> <span class="built_in">Object</span>[initialCapacity];</span><br><span class="line"><span class="keyword">super</span>()</span><br></pre></td></tr></table></figure>
 <p>调用的为 AbstractList 的默认构造器方法， 该方法为一个空方法， 因此这段代码中最关键的为实例化了一个 Object 的数组， 并将此数组赋给了当前实例的 elementData 属性，此 Object 数组的大小即为传入的initialCapacity 的值， 因此在调用空构造器的情况下会创建一个大小为 10 的 Object 数组， 根据此也可看出， ArrayList 采用的是数组的方式来存放对象。</p>
