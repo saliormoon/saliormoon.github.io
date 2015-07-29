@@ -28,7 +28,7 @@
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0071.png">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0072.png">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0073.png">
-<meta property="og:updated_time" content="2015-07-28T12:46:41.214Z">
+<meta property="og:updated_time" content="2015-07-29T03:31:40.151Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分类算法">
 <meta name="twitter:description" content="本文总结了数据挖掘以及机器学习中常见算法如神经网络算法、随机森林算法以及决策树等，希望能对数据挖掘爱好者有一定帮助。">
@@ -130,7 +130,7 @@
 <h3 id="随机决策树">随机决策树</h3><p>我们知道随机森林是其他的模型聚合，但它聚合了什么类型模型？你可能已经从其名称、随机森林聚合分类（或回归）的树中猜到。决策树是由一系列的决策的组合，可用于分类观察数据集。</p>
 <h3 id="随机森林">随机森林</h3><p>算法引入了一个随机森林来自动创建随机决策树群。由于树随机生成的树，大部分的树(或许99.9%树)不会对学习的分类/回归问题都有意义。<br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0066.png" alt=""></p>
 <p>如果观察到长度为45，蓝眼睛，和2条腿，就被归类为 红色 。</p>
-<h3 id="树的投票">树的投票</h3><p>所以10000个（概率上）糟糕的模型有TMD什么好的？好吧，这样确实没什么特别的好处。但是随着很多糟糕的决策树被生成，其中也会有很少确实很优秀的决策树。<br>    当你要做预测的时候，新的观察到的特征随着决策树自上而下走下来，这样一组观察到的特征将会被贴上一个预测值/标签。一旦森林中的每棵树都给出了预测值/标签，所有的预测结果将被归总到一起，所有树的模式投票被返回做为最终的预测结果。<br>   简单来说，99.9%不相关的树做出的预测结果涵盖所有的情况，这些预测结果将会彼此抵消。少数优秀的树的预测结果将会超脱于芸芸“噪音”，做出一个好的预测。<br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0067.png" alt=""></p>
+<h3 id="树的投票">树的投票</h3><p>但是随着很多糟糕的决策树被生成，其中也会有很少确实很优秀的决策树。<br>    当你要做预测的时候，新的观察到的特征随着决策树自上而下走下来，这样一组观察到的特征将会被贴上一个预测值/标签。一旦森林中的每棵树都给出了预测值/标签，所有的预测结果将被归总到一起，所有树的模式投票被返回做为最终的预测结果。<br>   简单来说，99.9%不相关的树做出的预测结果涵盖所有的情况，这些预测结果将会彼此抵消。少数优秀的树的预测结果将会超脱于芸芸“噪音”，做出一个好的预测。<br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0067.png" alt=""></p>
 <h3 id="一个映射的例子">一个映射的例子</h3><p>随机森林在没有精心准备的数据映射的情况下也能学习。以方程f(x) = log(x)为例。制造一些假数据，并且加上一点儿噪音。</p>
 <figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">x = np<span class="class">.random</span><span class="class">.uniform</span>(<span class="number">1</span>, <span class="number">100</span>, <span class="number">1000</span>)</span><br><span class="line">y = np.<span class="function"><span class="title">log</span><span class="params">(x)</span></span> + np<span class="class">.random</span><span class="class">.normal</span>(<span class="number">0</span>, .<span class="number">3</span>, <span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
 <p><img src="http://7xiur2.com1.z0.glb.clouddn.com/0068.png" alt=""></p>
