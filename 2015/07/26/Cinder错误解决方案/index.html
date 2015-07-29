@@ -20,7 +20,7 @@
 <meta property="og:description" content="很多初学者在进行OpenStack Havana 安装过程中进行设置Cinder时，进行重启服务service iscsitarget startservice open-iscsi start
 经常出现 “modules iscsi_trgt not found”这样的错误，很多情况下是因为 /lib/modules/3.1.0-32-generic/kernel/iscsi文件中缺少iscsi">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0049.jpg">
-<meta property="og:updated_time" content="2015-07-26T10:16:48.061Z">
+<meta property="og:updated_time" content="2015-07-29T05:31:08.404Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cinder错误解决方案">
 <meta name="twitter:description" content="很多初学者在进行OpenStack Havana 安装过程中进行设置Cinder时，进行重启服务service iscsitarget startservice open-iscsi start
@@ -116,7 +116,8 @@
 <p>　　
 　　</p>
 <h2 id="iscsi_trgt-ko复制到内核">iscsi_trgt.ko复制到内核</h2><p>在iscsi_trgt.ko所在文件夹中执行以下命令<br><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line"><span class="id">#mkdir</span> /lib/modules/`uname -r`/kernel/iscsi</span><br><span class="line"><span class="id">#find</span> / -name “iscsi_trgt.ko”</span><br><span class="line"><span class="id">#cp</span> iscsi_trgt<span class="class">.ko</span> /lib/modules/`uname -r`/kernel/iscsi</span><br><span class="line"><span class="id">#depmod</span> -aq</span><br></pre></td></tr></table></figure></p>
-<p>这样重新启动服务，就不会出现上述错误了。<br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0049.jpg" alt="当前网络架构"></p>
+<p>这样重新启动服务，就不会出现上述错误了。</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0049.jpg" alt="当前网络架构"><br></center></p>
 <h1 id="inititor端配置">inititor端配置</h1><h2 id="软件包">软件包</h2><p>　　源码包是open-iscsi，经过rpm包封装后，名字是iscsi-initiator-utils。</p>
 <h2 id="安装文件">安装文件</h2><figure class="highlight groovy"><table><tr><td class="code"><pre><span class="line">　 <span class="regexp">/etc/</span>iscsi/iscsid.conf</span><br><span class="line">　　<span class="regexp">/etc/</span>rc.d<span class="regexp">/init.d/</span>iscsi</span><br><span class="line">　　<span class="regexp">/etc/</span>rc.d<span class="regexp">/init.d/</span>iscsid</span><br><span class="line">　　<span class="regexp">/sbin/</span>iscsi-iname</span><br><span class="line">　　<span class="regexp">/sbin/</span>iscsiadm</span><br><span class="line">　　<span class="regexp">/sbin/</span>iscsid</span><br><span class="line">　　<span class="regexp">/sbin/</span>iscsistart</span><br><span class="line">　　<span class="regexp">/var/</span>lib/iscsi</span><br><span class="line">　　<span class="regexp">/var/</span>lib<span class="regexp">/iscsi/</span>ifaces</span><br><span class="line">　　<span class="regexp">/var/</span>lib<span class="regexp">/iscsi/</span>isns</span><br><span class="line">　　<span class="regexp">/var/</span>lib<span class="regexp">/iscsi/</span>nodes</span><br><span class="line">　　<span class="regexp">/var/</span>lib<span class="regexp">/iscsi/</span>send_targets</span><br><span class="line">　　<span class="regexp">/var/</span>lib<span class="regexp">/iscsi/</span>slp</span><br><span class="line">　　<span class="regexp">/var/</span>lib<span class="regexp">/iscsi/</span><span class="keyword">static</span></span><br><span class="line">　　<span class="regexp">/var/</span>lock/iscsi</span><br></pre></td></tr></table></figure>
 <p>　</p>
