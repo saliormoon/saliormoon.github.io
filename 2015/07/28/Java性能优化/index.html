@@ -14,7 +14,7 @@
     <meta name="description" content="随着系统数据量的不断增长， 访问量的不断提升， 系统的响应通常会越来越慢， 又或是编写的新的应用在性能上无法满足需求， 这个时候需要对系统的性能进行调优， 调优过程是构建高性能应用的必备过程， 也是一个相当复杂的过程， 而且涉及到了很多的方面， 硬件、操作系统、 运行环境软件以及应用本身， 要实现调优， 首先需要做的是找到性能低的根本原因， 然后才是针对性的进行调优， 本章节就来介绍下寻找性能瓶颈">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java性能优化">
-<meta property="og:url" content="http://pangjiuzala.github.io/2015/07/30/Java性能优化/index.html">
+<meta property="og:url" content="http://pangjiuzala.github.io/2015/07/28/Java性能优化/index.html">
 <meta property="og:site_name" content="刘兴的博客">
 <meta property="og:description" content="随着系统数据量的不断增长， 访问量的不断提升， 系统的响应通常会越来越慢， 又或是编写的新的应用在性能上无法满足需求， 这个时候需要对系统的性能进行调优， 调优过程是构建高性能应用的必备过程， 也是一个相当复杂的过程， 而且涉及到了很多的方面， 硬件、操作系统、 运行环境软件以及应用本身， 要实现调优， 首先需要做的是找到性能低的根本原因， 然后才是针对性的进行调优， 本章节就来介绍下寻找性能瓶颈">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0082.png">
@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0088.png">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0089.png">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0090.png">
-<meta property="og:updated_time" content="2015-07-30T01:52:36.170Z">
+<meta property="og:updated_time" content="2015-07-30T05:26:54.699Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java性能优化">
 <meta name="twitter:description" content="随着系统数据量的不断增长， 访问量的不断提升， 系统的响应通常会越来越慢， 又或是编写的新的应用在性能上无法满足需求， 这个时候需要对系统的性能进行调优， 调优过程是构建高性能应用的必备过程， 也是一个相当复杂的过程， 而且涉及到了很多的方面， 硬件、操作系统、 运行环境软件以及应用本身， 要实现调优， 首先需要做的是找到性能低的根本原因， 然后才是针对性的进行调优， 本章节就来介绍下寻找性能瓶颈">
@@ -86,14 +86,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/07/30/Java性能优化/" title="Java性能优化" itemprop="url">Java性能优化</a>
+      <a href="/2015/07/28/Java性能优化/" title="Java性能优化" itemprop="url">Java性能优化</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
 		
   <p class="article-time">
-    <time datetime="2015-07-30T01:49:43.000Z" itemprop="datePublished"> 发表于 2015-07-30</time>
+    <time datetime="2015-07-28T01:49:43.000Z" itemprop="datePublished"> 发表于 2015-07-28</time>
     
   </p>
 </header>
@@ -182,11 +182,19 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2015/07/29/深入JDK/" title="深入JDK">
+  <strong>上一篇：</strong><br/>
+  <span>
+  深入JDK</span>
+</a>
+</div>
+
 
 <div class="next">
-<a href="/2015/07/29/深入JDK/"  title="深入JDK">
+<a href="/2015/07/27/深入JVM/"  title="深入JVM">
  <strong>下一篇：</strong><br/> 
- <span>深入JDK
+ <span>深入JVM
 </span>
 </a>
 </div>
@@ -195,7 +203,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/07/30/Java性能优化/" data-title="Java性能优化" data-url="http://pangjiuzala.github.io/2015/07/30/Java性能优化/"></div>
+	<div class="ds-thread" data-thread-key="2015/07/28/Java性能优化/" data-title="Java性能优化" data-url="http://pangjiuzala.github.io/2015/07/28/Java性能优化/"></div>
 </section>
 
 
@@ -229,11 +237,7 @@
 			
 		
 			
-				<li><a href="/tags/算法/" title="算法">算法<sup>5</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>3</sup></a></li>
+				<li><a href="/tags/算法/" title="算法">算法<sup>4</sup></a></li>
 			
 		
 			
@@ -241,11 +245,15 @@
 			
 		
 			
+				<li><a href="/tags/云平台/" title="云平台">云平台<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Android/" title="Android">Android<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/云平台/" title="云平台">云平台<sup>2</sup></a></li>
+				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>2</sup></a></li>
 			
 		
 			
