@@ -1,0 +1,679 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>深入理解Hadoop集群和网络 | 刘兴的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="刘兴">
+    
+
+    
+    <meta name="description" content="云计算和Hadoop中网络是讨论得相对比较少的领域。本文原文由Dell企业技术专家Brad Hedlund撰写，他曾在思科工作多年，专长是数据中心、云网络等。文章素材基于作者自己的研究、实验和Cloudera的培训资料。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解Hadoop集群和网络">
+<meta property="og:url" content="http://pangjiuzala.github.io/2015/08/01/深入理解Hadoop集群和网络/index.html">
+<meta property="og:site_name" content="刘兴的博客">
+<meta property="og:description" content="云计算和Hadoop中网络是讨论得相对比较少的领域。本文原文由Dell企业技术专家Brad Hedlund撰写，他曾在思科工作多年，专长是数据中心、云网络等。文章素材基于作者自己的研究、实验和Cloudera的培训资料。">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0092.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0093.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0094.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0095.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0096.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0097.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0098.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0099.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0100.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0101.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0102.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0103.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0104.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0105.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0106.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0107.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0108.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0109.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0110.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0111.png">
+<meta property="og:updated_time" content="2015-08-01T06:55:40.525Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解Hadoop集群和网络">
+<meta name="twitter:description" content="云计算和Hadoop中网络是讨论得相对比较少的领域。本文原文由Dell企业技术专家Brad Hedlund撰写，他曾在思科工作多年，专长是数据中心、云网络等。文章素材基于作者自己的研究、实验和Cloudera的培训资料。">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="刘兴的博客" title="刘兴的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/08/01/深入理解Hadoop集群和网络/" title="深入理解Hadoop集群和网络" itemprop="url">深入理解Hadoop集群和网络</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-08-01T06:51:12.000Z" itemprop="datePublished"> 发表于 2015-08-01</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Hadoop里的服务器角色"><span class="toc-number">1.</span> <span class="toc-text">Hadoop里的服务器角色</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hadoop集群"><span class="toc-number">2.</span> <span class="toc-text">Hadoop集群</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hadoop的工作流程"><span class="toc-number">3.</span> <span class="toc-text">Hadoop的工作流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#向HDFS里写入File"><span class="toc-number">4.</span> <span class="toc-text">向HDFS里写入File</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hadoop的Rack_Awareness"><span class="toc-number">5.</span> <span class="toc-text">Hadoop的Rack Awareness</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备HDFS写入"><span class="toc-number">6.</span> <span class="toc-text">准备HDFS写入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HDFS载入通道"><span class="toc-number">7.</span> <span class="toc-text">HDFS载入通道</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HDFS通道载入成功"><span class="toc-number">8.</span> <span class="toc-text">HDFS通道载入成功</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Client写入跨度集群"><span class="toc-number">9.</span> <span class="toc-text">Client写入跨度集群</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#名称节点"><span class="toc-number">10.</span> <span class="toc-text">名称节点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重新复制缺失副本"><span class="toc-number">11.</span> <span class="toc-text">重新复制缺失副本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二级名称节点"><span class="toc-number">12.</span> <span class="toc-text">二级名称节点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#从HDFS客户端读取"><span class="toc-number">13.</span> <span class="toc-text">从HDFS客户端读取</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#从HDFS中读取数据节点"><span class="toc-number">14.</span> <span class="toc-text">从HDFS中读取数据节点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Map_Task"><span class="toc-number">15.</span> <span class="toc-text">Map Task</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Map_Task非本地"><span class="toc-number">16.</span> <span class="toc-text">Map Task非本地</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#不平衡的Hadoop集群"><span class="toc-number">17.</span> <span class="toc-text">不平衡的Hadoop集群</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hadoop集群均衡器"><span class="toc-number">18.</span> <span class="toc-text">Hadoop集群均衡器</span></a></li></ol>
+		
+		</div>
+		
+		<p>云计算和Hadoop中网络是讨论得相对比较少的领域。本文原文由Dell企业技术专家Brad Hedlund撰写，他曾在思科工作多年，专长是数据中心、云网络等。文章素材基于作者自己的研究、实验和Cloudera的培训资料。</p>
+<a id="more"></a>
+<p>本文将着重于讨论Hadoop集群的体系结构和方法，及它如何与网络和服务器基础设施的关系。最开始我们先学习一下Hadoop集群运作的基础原理。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0092.png" alt=""><br></center>
+
+<h1 id="Hadoop里的服务器角色">Hadoop里的服务器角色</h1><p>Hadoop主要的任务部署分为3个部分，分别是：Client机器，主节点和从节点。主节点主要负责Hadoop两个关键功能模块HDFS、Map Reduce的监督。当Job Tracker使用Map Reduce进行监控和调度数据的并行处理时，名称节点则负责HDFS监视和调度。从节点负责了机器运行的绝大部分，担当所有数据储存和指令计算的苦差。每个从节点既扮演者数据节点的角色又冲当与他们主节点通信的守护进程。守护进程隶属于Job Tracker，数据节点在归属于名称节点。</p>
+<p>Client机器集合了Hadoop上所有的集群设置，但既不包括主节点也不包括从节点。取而代之的是客户端机器的作用是把数据加载到集群中，递交给Map Reduce数据处理工作的描述，并在工作结束后取回或者查看结果。在小的集群中（大约40个节点）可能会面对单物理设备处理多任务，比如同时Job Tracker和名称节点。作为大集群的中间件，一般情况下都是用独立的服务器去处理单个任务。</p>
+<p>在真正的产品集群中是没有虚拟服务器和管理层的存在的，这样就没有了多余的性能损耗。Hadoop在Linux系统上运行的最好，直接操作底层硬件设施。这就说明Hadoop实际上是直接在虚拟机上工作。这样在花费、易学性和速度上有着无与伦比的优势。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0093.png" alt=""><br></center>
+
+<h1 id="Hadoop集群">Hadoop集群</h1><p>上面是一个典型Hadoop集群的构造。一系列机架通过大量的机架转换与机架式服务器（不是刀片服务器）连接起来，通常会用1GB或者2GB的宽带来支撑连接。10GB的带宽虽然不常见，但是却能显著的提高CPU核心和磁盘驱动器的密集性。上一层的机架转换会以相同的带宽同时连接着许多机架，形成集群。大量拥有自身磁盘储存器、CPU及DRAM的服务器将成为从节点。同样有些机器将成为主节点，这些拥有少量磁盘储存器的机器却有着更快的CPU及更大的DRAM。</p>
+<p>下面我们来看一下应用程序是怎样运作的吧：</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0094.png" alt=""><br></center>
+
+<h1 id="Hadoop的工作流程">Hadoop的工作流程</h1><p>在计算机行业竞争如此激烈的情况下，究竟什么是Hadoop的生存之道？它又切实的解决了什么问题？简而言之，商业及政府都存在大量的数据需要被快速的分析和处理。把这些大块的数据切开，然后分给大量的计算机，让计算机并行的处理这些数据 — 这就是Hadoop能做的。</p>
+<p>下面这个简单的例子里，我们将有一个庞大的数据文件（给客服部门的电子邮件）。我想快速的截取下“Refund”在邮件中出现的次数。这是个简单的字数统计练习。Client将把数据加载到集群中（File.txt），提交数据分析工作的描述（word cout），集群将会把结果储存到一个新的文件中（Results.txt），然后Client就会读结果文档。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0095.png" alt=""><br></center>
+
+
+<h1 id="向HDFS里写入File">向HDFS里写入File</h1><p>Hadoop集群在没有注入数据之前是不起作用的，所以我们先从加载庞大的File.txt到集群中开始。首要的目标当然是数据快速的并行处理。为了实现这个目标，我们需要竟可能多的机器同时工作。最后，Client将把数据分成更小的模块，然后分到不同的机器上贯穿整个集群。模块分的越小，做数据并行处理的机器就越多。同时这些机器机器还可能出故障，所以为了避免数据丢失就需要单个数据同时在不同的机器上处理。所以每块数据都会在集群上被重复的加载。Hadoop的默认设置是每块数据重复加载3次。这个可以通过hdfs-site.xml文件中的dfs.replication参数来设置。</p>
+<p>Client把File.txt文件分成3块。Cient会和名称节点达成协议（通常是TCP 9000协议）然后得到将要拷贝数据的3个数据节点列表。然后Client将会把每块数据直接写入数据节点中（通常是TCP 50010协议）。收到数据的数据节点将会把数据复制到其他数据节点中，循环只到所有数据节点都完成拷贝为止。名称节点只负责提供数据的位置和数据在族群中的去处（文件系统元数据）。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0096.png" alt=""><br></center>
+
+
+<h1 id="Hadoop的Rack_Awareness">Hadoop的Rack Awareness</h1><p>Hadoop还拥有“Rack Awareness”的理念。作为Hadoop的管理员，你可以在集群中自行的定义从节点的机架数量。但是为什么这样做会给你带来麻烦呢？两个关键的原因是：数据损失预防及网络性能。别忘了，为了防止数据丢失，每块数据都会拷贝在多个机器上。假如同一块数据的多个拷贝都在同一个机架上，而恰巧的是这个机架出现了故障，那么这带来的绝对是一团糟。为了阻止这样的事情发生，则必须有人知道数据节点的位置，并根据实际情况在集群中作出明智的位置分配。这个人就是名称节点。</p>
+<p>假使通个机架中两台机器对比不同机架的两台机器会有更多的带宽更低的延时。大部分情况下这是真实存在的。机架转换的上行带宽一般都低于其下行带宽。此外，机架内的通信的延时一般都低于跨机架的（也不是全部）。那么假如Hadoop能实现“Rack Awareness”的理念，那么在集群性能上无疑会有着显著的提升！是的，它真的做到了！太棒了，对不对？</p>
+<p>但是扫兴的事情发生了，首次使用你必须手动的去定义它。不断的优化，保持信息的准确。假如机架转换能够自动的给名称节点提供它的数据节点列表，这样又完美了？或者反过来，数据节点可以自行的告知名称节点他们所连接的机架转换，这样也的话也同样完美。</p>
+<p>在括补结构中网络中，假如能知道名称节点可以通过OpenFlow控制器查询到节点的位置，那无疑是更加令人兴奋的。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0097.png" alt=""><br></center>
+
+<h1 id="准备HDFS写入">准备HDFS写入</h1><p>现在Client已经把File.txt分块并做好了向集群中加载的准备，下面先从Block A开始。Client向名称节点发出写File.txt的请求，从名称节点处获得通行证，然后得到每块数据目标数据节点的列表。名称节点使用自己的Rack Awareness数据来改变数据节点提供列表。核心规则就是对于每块数据3份拷贝，总有两份存在同一个机架上，另外一份则必须放到另一个机架上。所以给Client的列表都必须遵从这个规则。</p>
+<p>在Client将File.txt的“Block A”部分写入集群之前，Client还期待知道所有的目标数据节点是否已准备就绪。它将取出列表中给Block A准备的第一个数据节点，打开TCP 50010协议，并告诉数据节点，注意！准备好接收1块数据，这里还有一份列表包括了数据节点5和数据节点6，确保他们同样已准备就绪。然后再由1传达到5，接着5传达到6。</p>
+<p>数据节点将从同样的TCP通道中响应上一级的命令，只到Client收到原始数据节点1发送的的“就绪”。只到此刻，Client才真正的准备在集群中加载数据块。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0098.png" alt=""><br></center>
+
+
+
+
+<h1 id="HDFS载入通道">HDFS载入通道</h1><p>当数据块写入集群后，3个（当然数据节点个数参照上文的设置）数据节点将打开一个同步通道。这就意味着，当一个数据节点接收到数据后，它同时将在通道中给下一个数据节点送上一份拷贝。</p>
+<p>这里同样是一个借助Rack Awareness数据提升集群性能的例子。注意到没有，第二个和第三个数据节点运输在同一个机架中，这样他们之间的传输就获得了高带宽和低延时。只到这个数据块被成功的写入3个节点中，下一个就才会开始。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0099.png" alt=""><br></center>
+
+<h1 id="HDFS通道载入成功">HDFS通道载入成功</h1><p>当3个节点都成功的接收到数据块后，他们将给名称节点发送个“Block Received”报告。并向通道返回“Success”消息，然后关闭TCP回话。Client收到成功接收的消息后会报告给名称节点数据已成功接收。名称节点将会更新它元数据中的节点位置信息。Client将会开启下一个数据块的处理通道，只到所有的数据块都写入数据节点。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0100.png" alt=""><br></center>
+
+<p>Hadoop会使用大量的网络带宽和存储。我们将代表性的处理一些TB级别的文件。使用Hadoop的默认配置，每个文件都会被复制三份。也就是1TB的文件将耗费3TB的网络传输及3TB的磁盘空间。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0101.png" alt=""><br></center>
+
+
+<h1 id="Client写入跨度集群">Client写入跨度集群</h1><p>每个块的复制管道完成后的文件被成功写入到集群。如预期的文件被散布在整个集群的机器，每台机器有一个相对较小的部分数据。个文件的块数越多，更多的机器的数据有可能传播。更多的CPU核心和磁盘驱动器，意味着数据能得到更多的并行处理能力和更快的结果。这是建造大型的、宽的集群的背后的动机，为了数据处理更多、更快。当机器数增加和集群增宽时，我们的网络需要进行适当的扩展。</p>
+<p>扩展集群的另一种方法是深入。就是在你的机器扩展更多个磁盘驱动器和更多的CPU核心，而不是增加机器的数量。在扩展深度上，你把自己的注意力集中在用较少的机器来满足更多的网络I/O需求上。在这个模型中，你的Hadoop集群如何过渡到万兆以太网节点成为一个重要的考虑因素。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0102.png" alt=""><br></center>
+
+<h1 id="名称节点">名称节点</h1><p>名称节点包含所有集群的文件系统元数据和监督健康状况的数据节点以及协调对数据的访问。这个名字节点是HDFS的中央控制器。它本身不拥有任何集群数据。这个名称节点只知道块构成一个文件，并在这些块位于集群中。</p>
+<p>数据节点每3秒通过TCP信号交换向名称节点发送检测信号，使用相同的端口号定义名称节点守护进程，通常TCP 9000。每10个检测信号作为一个块报告，那里的数据节点告知它的所有块的名称节点。块报告允许名称节点构建它的元数据和确保第三块副本存在不同的机架上存在于不同的节点上。</p>
+<p>名称节点是Hadoop分布式文件系统（HDFS）的一个关键组件。没有它，客户端将无法从HDFS写入或读取文件，它就不可能去调度和执行Map Reduce工作。正因为如此，用双电源、热插拔风扇、冗余网卡连接等等来装备名称节点和配置高度冗余的企业级服务器使一个不错的想法。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0103.png" alt=""><br></center>
+
+<h1 id="重新复制缺失副本">重新复制缺失副本</h1><p>如果名称节点停止从一个数据节点接收检测信号，假定它已经死亡，任何数据必须也消失了。基于块从死亡节点接受到报告，这个名称节点知道哪个副本连同节点块死亡，并可决定重新复制这些块到其他数据节点。它还将参考机架感知数据，以保持在一个机架内的两个副本。</p>
+<p>考虑一下这个场景，整个机架的服务器网络脱落，也许是因为一个机架交换机故障或电源故障。这个名称节点将开始指示集群中的其余节点重新复制该机架中丢失的所有数据块。如果在那个机架中的每个服务器有12TB的数据，这可能是数百个TB的数据需要开始穿越网络。</p>
+ <center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0104.png" alt=""><br></center>
+
+<h1 id="二级名称节点">二级名称节点</h1><p>Hadoop服务器角色被称为二级名称节点。一个常见的误解是，这个角色为名称节点提供了一个高可用性的备份，这并非如此。</p>
+<p>二级名称节点偶尔连接到名字节点，并获取一个副本的名字节点内存中的元数据和文件用于存储元数据。二级名称节点在一个新的文件集中结合这些信息，并将其递送回名称节点，同时自身保留一份复本。</p>
+<p>如果名称节点死亡，二级名称节点保留的文件可用于恢复名称节点。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0105.png" alt=""><br></center>
+
+<h1 id="从HDFS客户端读取">从HDFS客户端读取</h1><p>当客户想要从HDFS读取一个文件，它再一次咨询名称节点，并要求提供文件块的位置。</p>
+<p>客户从每个块列表选择一个数据节点和用TCP的50010端口读取一个块。直到前块完成，它才会进入下一个块。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0106.png" alt=""><br></center>
+
+<h1 id="从HDFS中读取数据节点">从HDFS中读取数据节点</h1><p>有些情况下，一个数据节点守护进程本身需要从HDFS中读取数据块。一种这样的情况是数据节点被要求处理本地没有的数据，因此它必须从网络上的另一个数据节点检索数据，在它开始处理之前。</p>
+<p>另一个重要的例子是这个名称节点的Rack Awareness认知提供了最佳的网络行为。当数据节点询问数据块里名称节点的位置时，名称节点将检查是否在同一机架中的另一种数据节点有数据。如果是这样，这个名称节点从检索数据里提供了机架上的位置。该流程不需要遍历两个以上的交换机和拥挤的链接找到另一个机架中的数据。在机架上检索的数据更快，数据处理就可以开始的更早，,工作完成得更快。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0107.png" alt=""><br></center>
+
+
+<h1 id="Map_Task">Map Task</h1><p>现在file.txt在我的机器集群中蔓延，我有机会提供极其快速和高效的并行处理的数据。包含Hadoop的并行处理框架被称为Map Reduce，模型中命名之后的两个步骤是Map和Reduce。</p>
+<p>第一步是Map过程。这就是我们同时要求我们的机器他们本地的数据块上来运行一个计算。在这种情况下，我们要求我们的机器对“Refund”这个词在File.txt的数据块中出现的次数进行计数。</p>
+<p>开始此过程，客户端机器提交Map Reduce作业的Job Tracker，询问“多少次不会在File.txt 中出现Refund”(意译Java代码)。Job Tracker查询名称节点了解哪些数据节点有File.txt块。Job Tracker提供了这些节点上运行的Task Tracker与Java代码需要在他们的本地数据上执行的Map计算。这个Task Tracker启动一个Map任务和监视任务进展。这Task Tracker提供了检测信号并向Job Tracker返回任务状态。</p>
+<p>每个Map任务完成后，每个节点在其临时本地存储中存储其本地计算的结果。这被称作“中间数据”。 下一步将通过网络传输发送此中间数据到Reduce任务最终计算节点上运行。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0108.png" alt=""><br></center>
+
+<h1 id="Map_Task非本地">Map Task非本地</h1><p>虽然Job Tracker总是试图选择与当地数据做Map task的节点，但它可能并不总是能够这样做。其中一个原因可能是因为所有的节点与本地数据，已经有太多的其他任务运行，并且不能接受了。</p>
+<p>在这种情况下, Job Tracker将查阅名称节点的Rack Awareness知识，可推荐同一机架中的其他节点的名称节点。作业跟踪器将把这个任务交给同一机架中的一个节点，节点去寻找的数据时，它需要的名称节点将指示其机架中的另一个节点来获取数据。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0109.png" alt=""><br></center>
+
+
+<p>Reduce Task从Map Tasks计算接收到的数据</p>
+<p>第二阶段的Map Reduce框架称为Reduce。机器上的Map任务已经完成了和生成它们的中间数据。现在我们需要收集所有的这些中间数据，组合并提纯以便进一步处理，这样我们会有一个最终结果。</p>
+<p>Job Tracker在集群中的任何一个节点上开始一个Reduce任务，并指示Reduce任务从所有已完成的Map任务中获取中间数据。Map任务可能几乎同时应对Reducer，导致让你一下子有大量的节点发送TCP数据到一个节点。这种流量状况通常被称为“Incast”或者“fan-in”。对于网络处理大量的incast条件，其重要的网络交换机拥有精心设计的内部流量管理能力，以及足够的缓冲区（不太大也不能太小）。</p>
+<p>Reducer任务现在已经从Map任务里收集了所有的中间数据，可以开始最后的计算阶段。在本例中，我们只需添加出现“Refund”这个词的总数，并将结果写入到一个名为Results的txt文件里。</p>
+<p>这个名为Results的txt文件，被写入到HDFS以下我们已经涵盖的进程中，把文件分成块，流水线复制这些块等。当完成时，客户机可以从HDFS和被认为是完整的工作里读取Results.txt。</p>
+<p>我们简单的字数统计工作并不会导致大量的中间数据在网络上传输。然而，其他工作可能会产生大量的中间数据，比如对TB级数据进行排序。</p>
+<p>如果你是一个勤奋的网络管理员，你将了解更多关于Map Reduce和你的集群将运行的作业类型，以及作业类型如何影响你的网络流量。如果你是一个Hadoop网络明星，你甚至能够提出更好的代码来解决Map Reduce任务，以优化网络的性能，从而加快工作完工时间。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0110.png" alt=""><br></center>
+
+
+<h1 id="不平衡的Hadoop集群">不平衡的Hadoop集群</h1><p>Hadoop可以为你的组织提供一个真正的成功，它让你身边的数据开发出了很多之前未发现的业务价值。当业务人员了解这一点，你可以确信，很快就会有更多的钱为你的Hadoop集群购买更多机架服务器和网络。</p>
+<p>当你在现有的Hadoop集群里添加新的机架服务器和网络这种情况时，你的集群是不平衡的。在这种情况下，机架1&amp;2是我现有的包含File.txt的机架和运行我的Map Reduce任务的数据。当我添加了两个新的架到集群，我的File.txt数据并不会自动开始蔓延到新的机架。</p>
+<p>新的服务器是闲置的，直到我开始加载新数据到集群中。此外,如果机架1&amp;2上服务器都非常繁忙，Job Tracker可能没有其他选择，但会指定File.txt上的Map任务到新的没有本地数据的服务器上。新的服务器需要通过网络去获取数据。作为结果，你可能看到更多的网络流量和较长工作完成时间。</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0111.png" alt=""><br></center>
+
+
+<h1 id="Hadoop集群均衡器">Hadoop集群均衡器</h1><p>为了弥补集群的平衡性，Hadoop还包含了均衡器。</p>
+<p>Balancer目光聚焦于节点间有效储存的差异，力所能及的将平衡维持在一定的临界值上。假如发现剩余大量储存空间的节点，Balancer将找出储存空间剩余量少的节点并把数据剪切到有大量剩余空间的节点上。只有的终端上输入指令Balancer才会运行，当接收到终端取消命令或者终端被关闭时，Balancer将会关闭。</p>
+<p>Balancer可以调用的网络带宽很小，默认只有1MB/s。带宽可以通过hdfs-site.xml文件中的dfs.balance.bandwidthPerSec参数来设置。</p>
+<p>Balancer是集群的好管家。没当有新机组添加时候就会用到它，甚至一经开启就会运行整个星期。给均衡器低带宽可以让它保持着长时间的运行。</p>
+<p>个人认为假如均衡器能成为Hadoop的核心而不是只是一项功能，那样一定会比较有意思！<br><strong>参考文献：</strong><a href="http://bradhedlund.com/2011/09/10/understanding-hadoop-clusters-and-the-network/" target="_blank" rel="external">Understanding Hadoop Clusters and the Network</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Hadoop/">Hadoop</a><a href="/tags/大数据/">大数据</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/07/31/分类算法/"  title="分类算法">
+ <strong>下一篇：</strong><br/> 
+ <span>分类算法
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/08/01/深入理解Hadoop集群和网络/" data-title="深入理解Hadoop集群和网络" data-url="http://pangjiuzala.github.io/2015/08/01/深入理解Hadoop集群和网络/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Hadoop里的服务器角色"><span class="toc-number">1.</span> <span class="toc-text">Hadoop里的服务器角色</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hadoop集群"><span class="toc-number">2.</span> <span class="toc-text">Hadoop集群</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hadoop的工作流程"><span class="toc-number">3.</span> <span class="toc-text">Hadoop的工作流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#向HDFS里写入File"><span class="toc-number">4.</span> <span class="toc-text">向HDFS里写入File</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hadoop的Rack_Awareness"><span class="toc-number">5.</span> <span class="toc-text">Hadoop的Rack Awareness</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备HDFS写入"><span class="toc-number">6.</span> <span class="toc-text">准备HDFS写入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HDFS载入通道"><span class="toc-number">7.</span> <span class="toc-text">HDFS载入通道</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HDFS通道载入成功"><span class="toc-number">8.</span> <span class="toc-text">HDFS通道载入成功</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Client写入跨度集群"><span class="toc-number">9.</span> <span class="toc-text">Client写入跨度集群</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#名称节点"><span class="toc-number">10.</span> <span class="toc-text">名称节点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重新复制缺失副本"><span class="toc-number">11.</span> <span class="toc-text">重新复制缺失副本</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#二级名称节点"><span class="toc-number">12.</span> <span class="toc-text">二级名称节点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#从HDFS客户端读取"><span class="toc-number">13.</span> <span class="toc-text">从HDFS客户端读取</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#从HDFS中读取数据节点"><span class="toc-number">14.</span> <span class="toc-text">从HDFS中读取数据节点</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Map_Task"><span class="toc-number">15.</span> <span class="toc-text">Map Task</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Map_Task非本地"><span class="toc-number">16.</span> <span class="toc-text">Map Task非本地</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#不平衡的Hadoop集群"><span class="toc-number">17.</span> <span class="toc-text">不平衡的Hadoop集群</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hadoop集群均衡器"><span class="toc-number">18.</span> <span class="toc-text">Hadoop集群均衡器</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2129798793&verifier=c0951e84&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>11</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动互联网/" title="移动互联网">移动互联网<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云平台/" title="云平台">云平台<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/物联网/" title="物联网">物联网<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/openHAB/" title="openHAB">openHAB<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/智慧医疗/" title="智慧医疗">智慧医疗<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C">C<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络爬虫/" title="网络爬虫">网络爬虫<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenStack/" title="OpenStack">OpenStack<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">25</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="刘兴的CSDN博客">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=pangjiuzala&amp;type=Users" target="_blank" title="关注刘兴的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			The more you diligent, the more you lucky!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Liuxing All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"pangjiuzala"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Ffeafc504b70a541dd3845d467335f367' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
