@@ -11,12 +11,12 @@
     
 
     
-    <meta name="description" content="云计算和Hadoop中网络是讨论得相对比较少的领域。本文原文由Dell企业技术专家Brad Hedlund撰写，他曾在思科工作多年，专长是数据中心、云网络等。文章素材基于作者自己的研究、实验和Cloudera的培训资料。">
+    <meta name="description" content="云计算和Hadoop中网络是讨论得相对比较少的领域。本文将着重于讨论Hadoop集群的体系结构和方法，及它如何与网络和服务器基础设施的关系。最开始我们先学习一下Hadoop集群运作的基础原理。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深入理解Hadoop集群和网络">
 <meta property="og:url" content="http://pangjiuzala.github.io/2015/08/01/深入理解Hadoop集群和网络/index.html">
 <meta property="og:site_name" content="刘兴的博客">
-<meta property="og:description" content="云计算和Hadoop中网络是讨论得相对比较少的领域。本文原文由Dell企业技术专家Brad Hedlund撰写，他曾在思科工作多年，专长是数据中心、云网络等。文章素材基于作者自己的研究、实验和Cloudera的培训资料。">
+<meta property="og:description" content="云计算和Hadoop中网络是讨论得相对比较少的领域。本文将着重于讨论Hadoop集群的体系结构和方法，及它如何与网络和服务器基础设施的关系。最开始我们先学习一下Hadoop集群运作的基础原理。">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0092.png">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0093.png">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0094.png">
@@ -37,10 +37,10 @@
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0109.png">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0110.png">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0111.png">
-<meta property="og:updated_time" content="2015-08-01T06:55:40.525Z">
+<meta property="og:updated_time" content="2015-08-01T07:02:48.114Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深入理解Hadoop集群和网络">
-<meta name="twitter:description" content="云计算和Hadoop中网络是讨论得相对比较少的领域。本文原文由Dell企业技术专家Brad Hedlund撰写，他曾在思科工作多年，专长是数据中心、云网络等。文章素材基于作者自己的研究、实验和Cloudera的培训资料。">
+<meta name="twitter:description" content="云计算和Hadoop中网络是讨论得相对比较少的领域。本文将着重于讨论Hadoop集群的体系结构和方法，及它如何与网络和服务器基础设施的关系。最开始我们先学习一下Hadoop集群运作的基础原理。">
 
     
     <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
@@ -117,9 +117,8 @@
 		
 		</div>
 		
-		<p>云计算和Hadoop中网络是讨论得相对比较少的领域。本文原文由Dell企业技术专家Brad Hedlund撰写，他曾在思科工作多年，专长是数据中心、云网络等。文章素材基于作者自己的研究、实验和Cloudera的培训资料。</p>
+		<p>云计算和Hadoop中网络是讨论得相对比较少的领域。本文将着重于讨论Hadoop集群的体系结构和方法，及它如何与网络和服务器基础设施的关系。最开始我们先学习一下Hadoop集群运作的基础原理。</p>
 <a id="more"></a>
-<p>本文将着重于讨论Hadoop集群的体系结构和方法，及它如何与网络和服务器基础设施的关系。最开始我们先学习一下Hadoop集群运作的基础原理。</p>
 <center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0092.png" alt=""><br></center>
 
 <h1 id="Hadoop里的服务器角色">Hadoop里的服务器角色</h1><p>Hadoop主要的任务部署分为3个部分，分别是：Client机器，主节点和从节点。主节点主要负责Hadoop两个关键功能模块HDFS、Map Reduce的监督。当Job Tracker使用Map Reduce进行监控和调度数据的并行处理时，名称节点则负责HDFS监视和调度。从节点负责了机器运行的绝大部分，担当所有数据储存和指令计算的苦差。每个从节点既扮演者数据节点的角色又冲当与他们主节点通信的守护进程。守护进程隶属于Job Tracker，数据节点在归属于名称节点。</p>
