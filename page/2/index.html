@@ -78,6 +78,66 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/07/23/Cinder错误解决方案/" title="Cinder错误解决方案" itemprop="url">Cinder错误解决方案</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-23T11:44:53.000Z" itemprop="datePublished"> 发表于 2015-07-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>很多初学者在进行OpenStack Havana 安装过程中进行设置Cinder时，进行重启服务<br><figure class="highlight puppet"><table><tr><td class="code"><pre><span class="line"><span class="keyword">service</span> iscsitarget <span class="literal">start</span></span><br><span class="line"><span class="keyword">service</span> open-iscsi <span class="literal">start</span></span><br></pre></td></tr></table></figure></p>
+<p>经常出现 <strong>“modules iscsi_trgt not found”</strong>这样的错误，很多情况下是因为 /lib/modules/3.1.0-32-generic/kernel/iscsi文件中缺少<strong>iscsi_trgt.ko</strong>文件。所以接下来要通过以下办法来解决这个错误。<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/07/23/Cinder错误解决方案/#more">阅读更多</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/OpenStack/">OpenStack</a><a href="/tags/云平台/">云平台</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/07/23/Cinder错误解决方案/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/07/23/Cinder错误解决方案/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/07/22/Scrapy安装及使用/" title="Scrapy安装及使用" itemprop="url">Scrapy安装及使用</a>
   </h1>
   <p class="article-author">By
@@ -606,65 +666,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/07/13/减少GC的5个编程技巧/" title="减少GC的5个编程技巧" itemprop="url">减少GC的5个编程技巧</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
-		
-  <p class="article-time">
-    <time datetime="2015-07-13T11:47:30.000Z" itemprop="datePublished"> 发表于 2015-07-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>垃圾收集器（GC）在分配内存以及释放内存上面，占用更少的CPU时间，减少GC的开销。当内存被回收的时候，GC处理很长时间经常会导致我们的代码中断（又叫做”stop the world”）。<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/07/13/减少GC的5个编程技巧/#more">阅读更多</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Java/">Java</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/07/13/减少GC的5个编程技巧/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/07/13/减少GC的5个编程技巧/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页<span></span></a>
@@ -697,7 +698,7 @@
 			
 		
 			
-				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>3</sup></a></li>
+				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>4</sup></a></li>
 			
 		
 			
@@ -759,7 +760,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">25</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">25</span></li></ul>
   </div>
 
 
