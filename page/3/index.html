@@ -78,6 +78,66 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/07/15/Java习惯用法总结/" title="Java习惯用法总结" itemprop="url">Java习惯用法总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-15T11:55:44.000Z" itemprop="datePublished"> 发表于 2015-07-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>在Java编程中，有一些些最常用的习惯用法，总结如下：</p>
+<h1 id="使用equals()">使用equals()</h1><figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">class <span class="keyword">Person</span> &#123;</span><br><span class="line"></span><br><span class="line">String name;</span><br><span class="line"></span><br><span class="line">int birthYear;</span><br><span class="line"></span><br><span class="line">byte<span class="comment">[]</span> raw;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public boolean equals(Object obj) &#123;</span><br><span class="line"></span><br><span class="line">if (!obj instanceof <span class="keyword">Person</span>)</span><br><span class="line"></span><br><span class="line">return false;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">Person</span> other = (<span class="keyword">Person</span>)obj;</span><br><span class="line"></span><br><span class="line">return name.equals(other.name)</span><br><span class="line"></span><br><span class="line">&amp;&amp; birthYear == other.birthYear</span><br><span class="line"></span><br><span class="line">&amp;&amp; Arrays.equals(raw, other.raw);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public int hashCode() &#123; ... &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2015/07/15/Java习惯用法总结/#more">阅读更多</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/07/15/Java习惯用法总结/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/07/15/Java习惯用法总结/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/07/14/10个微妙的Java最佳编码实践/" title="10个微妙的Java最佳编码实践" itemprop="url">10个微妙的Java最佳编码实践</a>
   </h1>
   <p class="article-author">By
@@ -581,15 +641,15 @@
 			
 		
 			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>3</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/移动互联网/" title="移动互联网">移动互联网<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/大数据/" title="大数据">大数据<sup>3</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/云平台/" title="云平台">云平台<sup>2</sup></a></li>
 			
 		
 			
@@ -601,7 +661,7 @@
 			
 		
 			
-				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+				<li><a href="/tags/云平台/" title="云平台">云平台<sup>2</sup></a></li>
 			
 		
 			
@@ -639,7 +699,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">25</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">25</span></li></ul>
   </div>
 
 
