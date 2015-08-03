@@ -1,0 +1,562 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>剖析Mapeduce程序 | 刘兴的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="刘兴">
+    
+
+    
+    <meta name="description" content="如前所述，MpaReduce程序通过操作键/值对来处理数据，一般形式为map:(K1,V1)-&amp;gt;list&amp;lt;K2,V2&amp;gt;reduce:(K2,list(V2))-&amp;gt;list&amp;lt;K3,V3&amp;gt;上面是这个数据流的一个相当普通的表现，并无特别之处。而在本节，我们将学习更多的细节，涉及一个典型MapReduce程序的每个阶段。下图显示了这个完整过程的高阶试图，我们将逐步遍历这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="剖析Mapeduce程序">
+<meta property="og:url" content="http://pangjiuzala.github.io/2015/08/03/剖析Mapeduce程序/index.html">
+<meta property="og:site_name" content="刘兴的博客">
+<meta property="og:description" content="如前所述，MpaReduce程序通过操作键/值对来处理数据，一般形式为map:(K1,V1)-&amp;gt;list&amp;lt;K2,V2&amp;gt;reduce:(K2,list(V2))-&amp;gt;list&amp;lt;K3,V3&amp;gt;上面是这个数据流的一个相当普通的表现，并无特别之处。而在本节，我们将学习更多的细节，涉及一个典型MapReduce程序的每个阶段。下图显示了这个完整过程的高阶试图，我们将逐步遍历这">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0124.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0125.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0126.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0127.png">
+<meta property="og:updated_time" content="2015-08-03T03:10:47.552Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="剖析Mapeduce程序">
+<meta name="twitter:description" content="如前所述，MpaReduce程序通过操作键/值对来处理数据，一般形式为map:(K1,V1)-&amp;gt;list&amp;lt;K2,V2&amp;gt;reduce:(K2,list(V2))-&amp;gt;list&amp;lt;K3,V3&amp;gt;上面是这个数据流的一个相当普通的表现，并无特别之处。而在本节，我们将学习更多的细节，涉及一个典型MapReduce程序的每个阶段。下图显示了这个完整过程的高阶试图，我们将逐步遍历这">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="刘兴的博客" title="刘兴的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/08/03/剖析Mapeduce程序/" title="剖析Mapeduce程序" itemprop="url">剖析Mapeduce程序</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-08-03T01:01:50.000Z" itemprop="datePublished"> 发表于 2015-08-03</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Hadoop数据类型"><span class="toc-number">1.</span> <span class="toc-text">Hadoop数据类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mapper"><span class="toc-number">2.</span> <span class="toc-text">Mapper</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reducer"><span class="toc-number">3.</span> <span class="toc-text">Reducer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Partitioner；重定向Mapper输出"><span class="toc-number">4.</span> <span class="toc-text">Partitioner；重定向Mapper输出</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Combiner：本地reduce"><span class="toc-number">5.</span> <span class="toc-text">Combiner：本地reduce</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#预定义mapper和Reducer类单词计数，如下是修改后的wordcount2例程"><span class="toc-number">6.</span> <span class="toc-text">预定义mapper和Reducer类单词计数，如下是修改后的wordcount2例程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#读和写"><span class="toc-number">7.</span> <span class="toc-text">读和写</span></a></li></ol>
+		
+		</div>
+		
+		<p>如前所述，MpaReduce程序通过操作键/值对来处理数据，一般形式为<br><code>map:(K1,V1)-&gt;list&lt;K2,V2&gt;reduce:(K2,list(V2))-&gt;list&lt;K3,V3&gt;</code><br>上面是这个数据流的一个相当普通的表现，并无特别之处。而在本节，我们将学习更多的细节，涉及一个典型MapReduce程序的每个阶段。下图显示了这个完整过程的高阶试图，我们将逐步遍历这个流程来进一步剖析每一个组成部分。<br><a id="more"></a></p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0124.png" alt=""><br></center><br>注意，输入数据被分配到不同节点之后，节点间通信的唯一时间是在“洗牌”阶段。这个通信约束对可扩展性有极大的帮助。</p>
+<h1 id="Hadoop数据类型">Hadoop数据类型</h1><p>尽管我们的许多讨论之提键和值，但还是得注意它们的类型。MapReduce框架并不允许它们是任意的类。例如，虽然我们可以并且的确经常把某些键与值称为整数、字符串等，但它们实际上并不是Interger、String等那些标准的Java类。这是因为为了让键值对可以再集群上移动，MapReduce框架提供了一种序列化键值对的方法。因此，只有那些支持这种序列化的类能够在这个框架中充当键或者值。<br>更具体而言，实现Writable接口的类可以是值，而实现WritableComparable<t>接口的类既可以是键也可以是值。注意WritableComparable<t>接口是Writable和java.lang.Comparable<t>接口的组合。对于键而言，我们需要这个比较，因为它们将在Reduce阶段进行排序，而值仅会被简单地传递。<br>Hadoop带有一些预定义的类用于实现WritableComparable，包括面向所有基本数据类型的封装类，如下图所示。</t></t></t></p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0125.png" alt=""><br></center><br>键和值所采用的数据类型可以超出hadoop自身所支持的基本类型。你可以自定义数据类型，只要它实现了WritableComparable<t>接口。例如如下代码用来表示一个网络的边界，这可能代表两个城市之间的航线。<br><figure class="highlight actionscript"><table><tr><td class="code"><pre><span class="line"><span class="preprocessor"><span class="keyword">import</span> java.io.DataInput;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> java.io.DataOutput;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> java.io.IOException;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> java.util.StringTokenizer;</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> org.apache.hadoop.conf.Configuration;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> org.apache.hadoop.conf.Configured;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> org.apache.hadoop.fs.Path;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> org.apache.hadoop.io.IntWritable;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> org.apache.hadoop.io.LongWritable;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> org.apache.hadoop.io.Text;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> org.apache.hadoop.io.WritableComparable;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> org.apache.hadoop.mapred.MapReduceBase;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> org.apache.hadoop.mapred.OutputCollector;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> org.apache.hadoop.mapreduce.Job;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> org.apache.hadoop.mapreduce.Mapper;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> org.apache.hadoop.mapreduce.Reducer;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> org.apache.hadoop.mapreduce.lib.input.FileInputFormat;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> org.apache.hadoop.util.GenericOptionsParser;</span></span><br><span class="line"><span class="preprocessor"><span class="keyword">import</span> org.apache.hadoop.util.Tool;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Edge</span> <span class="keyword">implements</span> <span class="title">WritableComparable</span>&lt;<span class="title">Edge</span>&gt;</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String departureNode;</span><br><span class="line">    <span class="keyword">private</span> String arrivalNode;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String getDepartureNode()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> departureNode;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> readFields(DataInput <span class="keyword">in</span>) throws IOException</span><br><span class="line">    &#123;</span><br><span class="line">        departureNode = <span class="keyword">in</span>.readUTF();</span><br><span class="line">        arrivalNode = <span class="keyword">in</span>.readUTF();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> write(DataOutput out) throws IOException</span><br><span class="line">    &#123;</span><br><span class="line">        out.writeUTF(departureNode);</span><br><span class="line">        out.writeUTF(arrivalNode);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> int compareTo(Edge o)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> (departureNode.compareTo(o.departureNode) != <span class="number">0</span> ? departureNode</span><br><span class="line">                .compareTo(o.departureNode) : arrivalNode</span><br><span class="line">                .compareTo(o.arrivalNode));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></t></p>
+<p>这个Edge类实现了Writable接口中的readFileds（）和write（）方法。它们与Java中的DataInput和DataOutput类一起用于类中内容的串行化。而Comparable接口中实现的是compareto（）方法。如果被调用的Edge小于等于或者大于给定的Edge，这个方法会分别返回-1,0,1。<br>利用现在定义的数据类型接口，我们可以开始数据流处理过程的第一阶段，即上图的mapper。</p>
+<h1 id="Mapper">Mapper</h1><p>一个类要作为mapper，需要继承MapReduceBase基类并实现Mapper接口。并不奇怪，mapper和reducer的基类均为MapReduceBase类。它包含类的构造和结构方法。</p>
+<p>void configure(JobConfjob)。该函数提取XML配置文件或者应用程序类中的参数，在数据处理之前调用该函数。<br>void close()。作为map任务结束前的最后一个操作，该函数完成所有的结尾工作，如关闭数据库连接、打卡文件等。<br>Mapper接口负责数据处理阶段。它采用的形式为Mapper<k1,v1,k2,v2>Java泛型，这里键类和值分别实现WritableComparable和Writable接口。Mapper只有一个方法——map，用于处理一个单独的键值对。<br><figure class="highlight processing"><table><tr><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="built_in">map</span>(K1 <span class="variable">key</span>,V value,OutputCollector&lt;K2, V2&gt; output,Reporter reporter) <span class="keyword">throws</span> IOException</span><br></pre></td></tr></table></figure></k1,v1,k2,v2></p>
+<p>该函数处理一个给定键值对（K1,V1），生成一个键值对（K2,V2）的列表（该列表也可以为空）。OutputCollector接收这个映射过程的输出，Reporter可提供对mapper相关附加信息的记录，形成任务进度。<br>hadoop提供了一些有用的mapper实现，如下图</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0126.png" alt=""><br></center><br>MapReduce，顾名思义在map之后的主要数据流操作是reduce。</p>
+<h1 id="Reducer">Reducer</h1><p>reducer的实现和mapper一样必须首先在MapReduce基类上扩展，允许配置和清理。此外，它还必须实现Reudcer接口使其具有如下单一的方法：<br><figure class="highlight processing"><table><tr><td class="code"><pre><span class="line"><span class="keyword">void</span> reduce(K2 <span class="variable">key</span>,Iterator&lt;V2&gt;values,OutputCollector&lt;K3, V3&gt; output,Reporter reporter) <span class="keyword">throws</span> IOException</span><br></pre></td></tr></table></figure></p>
+<p>当reducer任务接收来自各个mapper的输出是，它按照键值对中的键对输入数据进行排序，并将相同键的值归并。然后调研reduce（）函数，并通过迭代处理那些与指定键相关联的值，生成一个（可能为空）列表（K3,V3)。OutputCollector接收reduce阶段的输出，并写入输出文件。Reporter可提供对reducer相关附加信息的记录，形成任务进度。<br>在下图中列出了Hadoop提供的一些基本reducer实现。</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0127.png" alt=""><br></center></p>
+<h1 id="Partitioner；重定向Mapper输出">Partitioner；重定向Mapper输出</h1><p>初次使用MapReduced的程序员通常有一个误解，以为仅需使用一个reducer。毕竟，采用单一的reducer可以在处理之前对所有的数据进行排序——谁不喜欢排序的数据呢？但是，这样理解MapReduce是有问题的，它忽略了并行计算的好处。用一个reducer，我们的计算“云”就被降级成“雨点”了。<br>但是，当使用多个reducer时，我们就需要采取一些办法来确定mapper应该把键值对输出给谁。默认的作法是对键进行散列来确定reducer。Hadoop通过HashPartionner类强制执行这个策略。但有时HashPartitioner会让你出错。让我们回到Edge类<br>假设你使用Edge类来分析航班信息来决定从各个机场离港的乘客数目。这些数据可以为：<br>(San Francisco,Los Angeles) Chuck Lam<br>(San Francisco,Dallas)  James Warren</p>
+<p>如果你使用HashPartitioner，这两行可以被送到不同的reducer。离港的乘客数目被处理两次并且两次都是错误的。<br>如何为你的应用量身定制partitioner呢？在这种情况下，我们希望具有相同离港地的所有edge被送往相同的reducer。这也很容易做到，只要对edge类的departtureNode成员进行散列就可以了：<br><figure class="highlight nimrod"><table><tr><td class="code"><pre><span class="line">public class <span class="type">EdgePartionner</span> implements <span class="type">Partitioner</span>&lt;<span class="type">Edge</span>, <span class="type">Writeable</span>&gt; &#123;</span><br><span class="line"></span><br><span class="line">	@<span class="type">Override</span></span><br><span class="line">	public <span class="type">void</span> configure(<span class="type">JobConf</span> arg0) &#123;</span><br><span class="line">		// <span class="type">TODO</span> <span class="type">Auto</span>-generated <span class="keyword">method</span> stub</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	@<span class="type">Override</span></span><br><span class="line">	public <span class="type">int</span> getPartition(<span class="type">Edge</span> arg0, <span class="type">Writeable</span> arg1, <span class="type">int</span> arg2) &#123;</span><br><span class="line">		// <span class="type">TODO</span> <span class="type">Auto</span>-generated <span class="keyword">method</span> stub</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>一个定制的partitioner只需实现configure（）和getParttition（）两个函数。前者将Hadoop对作业的配置应用在partitioner上，而后者返回一个介于0和reduce任务之间的整数，指向键值对将要发送到的reducer。<br>在map和reduce阶段之间，一个MapReducer应用必然从mapper任务得到输出结果，并把这些结果发布给reducer任务。该过程通常被称为洗牌，因为在单节点上的mapper输出可能被送往分布在集群多个节点上的reducer。</p>
+<h1 id="Combiner：本地reduce">Combiner：本地reduce</h1><p>在许多mapreduce应用场景中，我们不妨在分发mapper结果之前做一下“本地Reduce”。再考虑一下wordcout的例子。如果作业处理文件中单词“the”出现了574次，存储并洗牌一次（“the”，574)键值对比许多次（“the”，1）更为高效。这种处理步骤被称为合并。</p>
+<h1 id="预定义mapper和Reducer类单词计数，如下是修改后的wordcount2例程">预定义mapper和Reducer类单词计数，如下是修改后的wordcount2例程</h1><figure class="highlight stata"><table><tr><td class="code"><pre><span class="line">public <span class="keyword">class</span> WordCount2</span><br><span class="line">&#123;</span><br><span class="line">    public static void main(String[] <span class="keyword">args</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        JobClient client = new JobClient();</span><br><span class="line"></span><br><span class="line">        @SuppressWarnings(<span class="string">"deprecation"</span>)</span><br><span class="line">        JobConf <span class="keyword">conf</span> = new JobConf(WordCount2.<span class="keyword">class</span>);</span><br><span class="line"></span><br><span class="line">        FileInputFormat.addInputPath(<span class="keyword">conf</span>, new Path(<span class="keyword">args</span>[0]));</span><br><span class="line">        FileOutputFormat.setOutputPath(<span class="keyword">conf</span>, new Path(<span class="keyword">args</span>[1]));</span><br><span class="line">        <span class="keyword">conf</span>.setOutputKeyClass(Text.<span class="keyword">class</span>);</span><br><span class="line">        <span class="keyword">conf</span>.setOutputValueClass(LongWritable.<span class="keyword">class</span>);</span><br><span class="line">        <span class="keyword">conf</span>.setMapperClass(TokenCountMapper.<span class="keyword">class</span>);</span><br><span class="line">        <span class="keyword">conf</span>.setCombinerClass(LongSumReducer.<span class="keyword">class</span>);</span><br><span class="line">        <span class="keyword">conf</span>.setReducerClass(LongSumReducer.<span class="keyword">class</span>);</span><br><span class="line">        client.setConf(<span class="keyword">conf</span>);</span><br><span class="line">        try</span><br><span class="line">        &#123;</span><br><span class="line">            JobClient.runJob(<span class="keyword">conf</span>);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        catch (Exception <span class="keyword">e</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">e</span>.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>因为我们使用了Hadoop预定义的类TokenCountMapper和LongSumReducer，MapReduce程序撰写就变得非常容易。虽然Hadoop也支持生成更复杂程序，但我们强调的是，Hadoop允许你通过最小的代码量快速生成实用的程序。</p>
+<h1 id="读和写">读和写</h1><p>为了易于分布式处理，MapReduce对所处理的数据做了一定的假设，但它也具有一定的灵活性，可支持多种数据格式。<br>输入数据通常驻留在较大的文件中，通常几十或数百GB,甚至更大。MapReduce处理的基本原则是将输入数据分割成块。这些块可以在多台计算机上并行处理，在Hadoop的术语中，这些块被称为输入分片。每个分片应该足够小以实现更细粒度的并行。另一方面，每个分片也不能太小，否则启动与停止各个分片处理所需的开销将占去很大一部分执行时间。<br>并行处理切分输入数据的原则解释了其背后hadoop通用文件系统的一些设计决策。例如hadoop的文件系统提供了FSDataInputStream类用于读取文件，而未采用Java中java.io.DataInputStream。FSDataInputStream扩展了DataInputStream以支持随机读，MapReduce需要这个特性，因为一台机器可能被指派从输入文件的中间开始处理一个分片。如果没有随机访问，则需要从头开始一直读取到分片的位置，效率就会非常低。你还可以看到HDFS为了存储MapReduce并行切分和处理的数据所做的设计。HDFS按块存储文件并分布在多台机器上。笼统而言，每个文件块分为一个分片。由于不同的机器会存储不同的块，如果每个分片/块都由它所驻留的机器进行处理，就自动实现了并行。此外，由于HDFS在多个节点上复制数据块以实现可靠性，MapReduce可以选择任意一个包含分片/数据块副本的节点。<br>注意，输入分片是一种记录的逻辑划分，而HDFS数据块是对输入数据的物理分割。当它们一致时，效率会非常高。但在实际应用中从未达到完全一致。记录可能会跨过数据块的边界。Hadoop确保全部记录都被处理。处理特定分片的计算节点会从一个数据块中获取记录的一个片段，该数据块可能不是该记录的“主”数据块，而会存放在远端。为获取一个记录片段所需的通信成本是微不足道的，因为它相对而言很少发生。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Hadoop/">Hadoop</a><a href="/tags/大数据/">大数据</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/08/03/HDFS文件操作/"  title="HDFS文件操作">
+ <strong>下一篇：</strong><br/> 
+ <span>HDFS文件操作
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/08/03/剖析Mapeduce程序/" data-title="剖析Mapeduce程序" data-url="http://pangjiuzala.github.io/2015/08/03/剖析Mapeduce程序/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Hadoop数据类型"><span class="toc-number">1.</span> <span class="toc-text">Hadoop数据类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Mapper"><span class="toc-number">2.</span> <span class="toc-text">Mapper</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reducer"><span class="toc-number">3.</span> <span class="toc-text">Reducer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Partitioner；重定向Mapper输出"><span class="toc-number">4.</span> <span class="toc-text">Partitioner；重定向Mapper输出</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Combiner：本地reduce"><span class="toc-number">5.</span> <span class="toc-text">Combiner：本地reduce</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#预定义mapper和Reducer类单词计数，如下是修改后的wordcount2例程"><span class="toc-number">6.</span> <span class="toc-text">预定义mapper和Reducer类单词计数，如下是修改后的wordcount2例程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#读和写"><span class="toc-number">7.</span> <span class="toc-text">读和写</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2129798793&verifier=c0951e84&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动互联网/" title="移动互联网">移动互联网<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/物联网/" title="物联网">物联网<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云平台/" title="云平台">云平台<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络爬虫/" title="网络爬虫">网络爬虫<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenStack/" title="OpenStack">OpenStack<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/智慧医疗/" title="智慧医疗">智慧医疗<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">25</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="刘兴的CSDN博客">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=pangjiuzala&amp;type=Users" target="_blank" title="关注刘兴的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			The more you diligent, the more you lucky!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Liuxing All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"pangjiuzala"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Ffeafc504b70a541dd3845d467335f367' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
