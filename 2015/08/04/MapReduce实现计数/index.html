@@ -1,0 +1,546 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>MapReduce实现计数 | 刘兴的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="刘兴">
+    
+
+    
+    <meta name="description" content="对于非计算机专人士，大多数统计就是计数，而且许多基础的Hadoop作业都包含了计数过程。我们希望从专利引用数据集中得到专利被引用的次数。这同样是计数。期望的输出结果如下：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MapReduce实现计数">
+<meta property="og:url" content="http://pangjiuzala.github.io/2015/08/04/MapReduce实现计数/index.html">
+<meta property="og:site_name" content="刘兴的博客">
+<meta property="og:description" content="对于非计算机专人士，大多数统计就是计数，而且许多基础的Hadoop作业都包含了计数过程。我们希望从专利引用数据集中得到专利被引用的次数。这同样是计数。期望的输出结果如下：">
+<meta property="og:updated_time" content="2015-08-04T02:06:50.270Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MapReduce实现计数">
+<meta name="twitter:description" content="对于非计算机专人士，大多数统计就是计数，而且许多基础的Hadoop作业都包含了计数过程。我们希望从专利引用数据集中得到专利被引用的次数。这同样是计数。期望的输出结果如下：">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="刘兴的博客" title="刘兴的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/08/04/MapReduce实现计数/" title="MapReduce实现计数" itemprop="url">MapReduce实现计数</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-08-04T01:21:41.000Z" itemprop="datePublished"> 发表于 2015-08-04</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>对于非计算机专人士，大多数统计就是计数，而且许多基础的Hadoop作业都包含了计数过程。我们希望从专利引用数据集中得到专利被引用的次数。这同样是计数。期望的输出结果如下：</p>
+<a id="more"></a>
+<p>专利号    出现次数<br>10000    1<br>100000    1<br>1000006    1<br>1000007    1<br>1000011    1<br>1000017    1<br>1000026    1<br>1000033    2<br>1000043    1<br>1000044    1<br>1000045    1<br>1000046    2<br>1000049    1<br>1000051    1<br>1000054    1<br>1000065    1<br>1000067    3<br>在每个记录中，专利号与引用次数相关联。我们可以为此写一个MapReduce程序。如果有一个类似方式处理数据的MapReduce程序，你就可以复制并修改它使之符合你的要求。<br>我们已经有了一个获得反向引用索引的程序。可以修改这个程序来输出技术结果，而不是一个专利引用列表。我们只需修改Reducer。如果我们选择让技术结果输出类型为IntWritable，就需要在Reducer代码的3个地方进行声明。在以前的注视着我们称它们为V3<br><figure class="highlight gradle"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> reduce(IntWritable key, Iterator&lt;IntWritable&gt; values,</span><br><span class="line">                   OutputCollector&lt;IntWritable, IntWritable&gt; output,</span><br><span class="line">                   Reporter reporter) <span class="keyword">throws</span> IOException</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">int</span> <span class="keyword">count</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (values.hasNext())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">count</span> += values.<span class="keyword">next</span>().get();</span><br><span class="line">    &#125;</span><br><span class="line">    output.<span class="keyword">collect</span>(key, <span class="keyword">new</span> IntWritable(<span class="keyword">count</span>));</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过修改几行代码并匹配好类型，我们就有了一个新的MapReuce程序。这个程序看上去做的修改很少。让我们再看一个修改较多的例程，不过它依然保留了MapReduce基础程序的结构。<br>运行前面的例子后，我们现在得到了一个数据集，包含了对每个专利的引用次数的统计。要想做好一个很好地练习，可以对这些统计值再做统计。让我们生成一个引用计数的直方图。我们预计会看到一个有趣的引用计数分布，即大多数专利仅被引用一次，而少部分被引用上百次。<br>编写MapReduce程序第一步就是了解数据流。当mapper读取一个记录时，它忽略专利号并输出一个键值对<citation_count,1>作为中间结果。Reducer将所有的“1”加起来算出每种引用次数的好，并将这个总值输出。<br>基于对数据流的理解，我们可以输入中间结果，输出的键值对K1、V1、K2、V2、K3和V3设定类型。这里使用KeyValueTextInputFormat，它自动将每个输入记录根据分隔符划分为键值对。在输入格式中设置K1和V1为文本。我们选择K2、V2、K3和V3的数据为IntWritable类型，因为它们的数据必然为整数，且使用该类型更加高效。<br>直接上干货</citation_count,1></p>
+<figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">CitationHistogram</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Configured</span> <span class="title">implements</span> <span class="title">Tool</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    public static <span class="class"><span class="keyword">class</span> <span class="title">MapClass</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">MapReduceBase</span> <span class="title">implements</span></span><br><span class="line"></span>        <span class="type">Mapper</span>&lt;<span class="type">Text</span>, <span class="type">Text</span>, <span class="type">IntWritable</span>, <span class="type">IntWritable</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> static <span class="type">IntWritable</span> uno = <span class="keyword">new</span> <span class="type">IntWritable</span>(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="type">IntWritable</span> citationCount = <span class="keyword">new</span> <span class="type">IntWritable</span>();</span><br><span class="line"></span><br><span class="line">        public void map(<span class="type">Text</span> key, <span class="type">Text</span> value,</span><br><span class="line">                        <span class="type">OutputCollector</span>&lt;<span class="type">IntWritable</span>, <span class="type">IntWritable</span>&gt; output,</span><br><span class="line">                        <span class="type">Reporter</span> reporter) <span class="keyword">throws</span> <span class="type">IOException</span></span><br><span class="line">        &#123;</span><br><span class="line">            citationCount.set(<span class="type">Integer</span>.parseInt(value.toString()));</span><br><span class="line">            output.collect(citationCount, uno);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static <span class="class"><span class="keyword">class</span> <span class="title">Reduce</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">MapReduceBase</span> <span class="title">implements</span></span><br><span class="line"></span>        <span class="type">Reducer</span>&lt;<span class="type">IntWritable</span>, <span class="type">IntWritable</span>, <span class="type">IntWritable</span>, <span class="type">IntWritable</span>&gt;</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="annotation">@Override</span></span><br><span class="line">        public void reduce(<span class="type">IntWritable</span> key, <span class="type">Iterator</span>&lt;<span class="type">IntWritable</span>&gt; values,</span><br><span class="line">                           <span class="type">OutputCollector</span>&lt;<span class="type">IntWritable</span>, <span class="type">IntWritable</span>&gt; output,</span><br><span class="line">                           <span class="type">Reporter</span> reporter) <span class="keyword">throws</span> <span class="type">IOException</span></span><br><span class="line">        &#123;</span><br><span class="line">            int count = <span class="number">0</span>;</span><br><span class="line">            <span class="keyword">while</span> (values.hasNext())</span><br><span class="line">            &#123;</span><br><span class="line">                count += values.next().get();</span><br><span class="line">            &#125;</span><br><span class="line">            output.collect(key, <span class="keyword">new</span> <span class="type">IntWritable</span>(count));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    public int run(<span class="type">String</span>[] args) <span class="keyword">throws</span> <span class="type">Exception</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">Configuration</span> conf = getConf();</span><br><span class="line">        <span class="type">JobConf</span> job = <span class="keyword">new</span> <span class="type">JobConf</span>(conf, <span class="type">CitationHistogram</span>.<span class="keyword">class</span>);</span><br><span class="line">        <span class="type">Path</span> in = <span class="keyword">new</span> <span class="type">Path</span>(args[<span class="number">0</span>]);</span><br><span class="line">        <span class="type">Path</span> out = <span class="keyword">new</span> <span class="type">Path</span>(args[<span class="number">1</span>]);</span><br><span class="line">        <span class="type">FileInputFormat</span>.setInputPaths(job, in);</span><br><span class="line">        <span class="type">FileOutputFormat</span>.setOutputPath(job, out);</span><br><span class="line">        job.setJobName(<span class="string">"CitationHistogram"</span>);</span><br><span class="line">        job.setMapperClass(<span class="type">MapClass</span>.<span class="keyword">class</span>);</span><br><span class="line">        job.setReducerClass(<span class="type">Reduce</span>.<span class="keyword">class</span>);</span><br><span class="line">        job.setInputFormat(<span class="type">KeyValueTextInputFormat</span>.<span class="keyword">class</span>);</span><br><span class="line">        job.setOutputFormat(<span class="type">TextOutputFormat</span>.<span class="keyword">class</span>);</span><br><span class="line">        job.setOutputKeyClass(<span class="type">IntWritable</span>.<span class="keyword">class</span>);</span><br><span class="line">        job.setOutputValueClass(<span class="type">IntWritable</span>.<span class="keyword">class</span>);</span><br><span class="line">        <span class="type">JobClient</span>.runJob(job);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(<span class="type">String</span>[] args) <span class="keyword">throws</span> <span class="type">Exception</span></span><br><span class="line">    &#123;</span><br><span class="line">        int res = <span class="type">ToolRunner</span>.run(<span class="keyword">new</span> <span class="type">Configuration</span>(), <span class="keyword">new</span> <span class="type">CitationHistogram</span>(),</span><br><span class="line">                                 args);</span><br><span class="line">        <span class="type">System</span>.out.println(res);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在类名为CitationHistogram，新的名字将替换程序中所有Myjob相关的部分。Main（）方法基本相同。Driver几乎没有改变。输入格式和输出格式任然分别为KeyValueTextInputFormat和TextOutPutFormat。主要的变化在输出的键和值的类，它们现在改为IntWritable来匹配K2和V2的新类型。我们还去掉了这一行：<br>job.set(“key.value.separator.in.input.line”,”,”);<br>它用于设置KeyValueTextInputFormat所采用的分隔符，把每个输入行划分为一个键值对。以前使用逗号来处理原始的专利引用数据。这里不对这个属性进行设置，分隔符默认采用制表符，它适合于分隔引用技术数据。<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MapClass</span>  <span class="keyword"><span class="keyword">extends</span></span> <span class="title">MapReduceBase</span> <span class="title">implements</span> <span class="title">Mapper&lt;Text</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>, <span class="title">IntWritable&gt;</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> static <span class="type">IntWritable</span> uno = <span class="keyword">new</span> <span class="type">IntWritable</span>();</span><br><span class="line">    <span class="keyword">private</span> <span class="type">IntWritable</span> citationCount = <span class="keyword">new</span> <span class="type">IntWritable</span>();</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    public void map(<span class="type">Text</span> key, <span class="type">Text</span> value,</span><br><span class="line">                    <span class="type">OutputCollector</span>&lt;<span class="type">IntWritable</span>, <span class="type">IntWritable</span>&gt; output, <span class="type">Reporter</span> reporter)</span><br><span class="line">    <span class="keyword">throws</span> <span class="type">IOException</span></span><br><span class="line">    &#123;</span><br><span class="line">        citationCount.set(<span class="type">Integer</span>.parseInt(value.toString()));</span><br><span class="line">        output.collect(citationCount, uno);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Map（）方法中多出了一行，用于设置citationCount做类型转换。出于对效率的考虑，citationCount和uno的定义被放在类中而不是方法中。有多少记录，map（）方法就会被调用多少次（对每个JVM而言，就是一个分片中的记录数）。减少在map（）方法中生成对象的个数可以提高性能，并减少垃圾回收。由于citationCount和uno被传递给output.collect(),我们依赖output.collect()方法的约定不会修改这两个对象。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Hadoop/">Hadoop</a><a href="/tags/大数据/">大数据</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/08/04/剖析Mapeduce程序/"  title="剖析Mapeduce程序">
+ <strong>下一篇：</strong><br/> 
+ <span>剖析Mapeduce程序
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/08/04/MapReduce实现计数/" data-title="MapReduce实现计数" data-url="http://pangjiuzala.github.io/2015/08/04/MapReduce实现计数/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2129798793&verifier=c0951e84&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动互联网/" title="移动互联网">移动互联网<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/物联网/" title="物联网">物联网<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云平台/" title="云平台">云平台<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络爬虫/" title="网络爬虫">网络爬虫<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenStack/" title="OpenStack">OpenStack<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/智慧医疗/" title="智慧医疗">智慧医疗<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">25</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="刘兴的CSDN博客">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=pangjiuzala&amp;type=Users" target="_blank" title="关注刘兴的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			The more you diligent, the more you lucky!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Liuxing All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"pangjiuzala"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Ffeafc504b70a541dd3845d467335f367' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
