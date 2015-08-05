@@ -1,0 +1,590 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>深入JDK | 刘兴的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="刘兴">
+    
+
+    
+    <meta name="description" content="JDK 是 Java 规范的实现，Java 程序在运行期间除了 JVM 的因素外，JDK 也是另外一个重要的影响因素， Java 规范中定义了众多的接口 规范，但实现则取决于各个 Java 规范实现的厂商， 例如 Sun、 IBM、 Bea， 其在实现 Java 规范时采用的方法并不一定相同,在编写 Java程序时，由于Java提供了众多看似功能一样的类，如何选择合适的类来实现需求就成了一个难题了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入JDK">
+<meta property="og:url" content="http://pangjiuzala.github.io/2015/07/29/深入JDK/index.html">
+<meta property="og:site_name" content="刘兴的博客">
+<meta property="og:description" content="JDK 是 Java 规范的实现，Java 程序在运行期间除了 JVM 的因素外，JDK 也是另外一个重要的影响因素， Java 规范中定义了众多的接口 规范，但实现则取决于各个 Java 规范实现的厂商， 例如 Sun、 IBM、 Bea， 其在实现 Java 规范时采用的方法并不一定相同,在编写 Java程序时，由于Java提供了众多看似功能一样的类，如何选择合适的类来实现需求就成了一个难题了">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0074.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0075.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0076.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0077.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0078.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0079.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0080.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0081.png">
+<meta property="og:updated_time" content="2015-07-30T05:24:58.589Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入JDK">
+<meta name="twitter:description" content="JDK 是 Java 规范的实现，Java 程序在运行期间除了 JVM 的因素外，JDK 也是另外一个重要的影响因素， Java 规范中定义了众多的接口 规范，但实现则取决于各个 Java 规范实现的厂商， 例如 Sun、 IBM、 Bea， 其在实现 Java 规范时采用的方法并不一定相同,在编写 Java程序时，由于Java提供了众多看似功能一样的类，如何选择合适的类来实现需求就成了一个难题了">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="刘兴的博客" title="刘兴的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/29/深入JDK/" title="深入JDK" itemprop="url">深入JDK</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-29T07:19:19.000Z" itemprop="datePublished"> 发表于 2015-07-29</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ArrayList"><span class="toc-number">1.</span> <span class="toc-text">ArrayList</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ConcurrentHashMap"><span class="toc-number">2.</span> <span class="toc-text">ConcurrentHashMap</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ConcurrentHashMap()"><span class="toc-number">3.</span> <span class="toc-text">ConcurrentHashMap()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#put(Object_key,Object_value)"><span class="toc-number">4.</span> <span class="toc-text">put(Object key,Object value)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#get(Object_key)"><span class="toc-number">5.</span> <span class="toc-text">get(Object key)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#containsKey(Object_key)"><span class="toc-number">6.</span> <span class="toc-text">containsKey(Object key)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#keySet()-iterator()"><span class="toc-number">7.</span> <span class="toc-text">keySet().iterator()</span></a></li></ol>
+		
+		</div>
+		
+		<p>JDK 是 Java 规范的实现，Java 程序在运行期间除了 JVM 的因素外，JDK 也是另外一个重要的影响因素， Java 规范中定义了众多的接口 规范，但实现则取决于各个 Java 规范实现的厂商， 例如 Sun、 IBM、 Bea， 其在实现 Java 规范时采用的方法并不一定相同,在编写 Java程序时，由于Java提供了众多看似功能一样的类，如何选择合适的类来实现需求就成了一个难题了,这也是需要深入理解JDK的原因，以做到根据需求来选择合适的类，而不是想当然的认为调用某个类的某个方法时就会达到预期的效果，否则很有可能因为对 JDK 的实现不了解而导致最终程序运行的效果和预期不一致。<br><a id="more"></a><br>本章基于 JDK 6 Update 12 的代码对 Sun JDK 常用 package 中的常用类进行分析，分析的方法为掌握常用的类中的方法的实现原理， 并评估类中的常用方法在不同场景下的性能表现，在掌握了这些知识点后， 对于合理的根据需求选择类会有很大的帮助。<br>JDK 分为了几个大的包， 对于构建大型分布式 Java 应用而言， 其中最需要掌握的有集合、并发、 线程、 网络（ 包括 BIO 以及 NIO） 以及序列化， 关于线程在第三章中已经做了深入的分析， 而网络包则遵循通信协议和操作系统实现方式而实现， 因此其表现更多的取决于通信<br>协议和操作系统的实现方式， 这方面知识还请大家自行查看 TCP/IP、 UDP/IP、 Multicast、 Http等协议方面的书籍， 以及操作关系关于 BIO、 NIO 或 AIO 方面的实现的分析， 在通信时的性能表现更多的取决于基于 JDK 的封装方式以及对连接的处理方式（ 例如长连、 连接复用等）等， 这方面的知识需要大家自行查看 Mina、 Grizzly 等通信框架的封装， 在本章就不进行分析了 ， 因此在本章中将对除线程、 网络之外的包进行分析， 在掌握了这些包的实现方式后，<br>对于编写高稳定和高性能的程序而言会有很大的帮助。</p>
+<h1 id="ArrayList">ArrayList</h1><p>对应上面需要掌握的几点， 来看看 ArrayList 的实现方式。<br>ArrayList()此默认构造器通过调用 ArrayList(int)来完成 ArrayList 的创建， 传入的值为 10， ArrayList(int)<br>方法的实现代码为：</p>
+<figure class="highlight dart"><table><tr><td class="code"><pre><span class="line"> <span class="keyword">super</span>();</span><br><span class="line"><span class="keyword">if</span> (initialCapacity &lt; <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal Capacity: "</span> +</span><br><span class="line">                                       initialCapacity);</span><br><span class="line"><span class="keyword">this</span>. elementData = <span class="keyword">new</span> <span class="built_in">Object</span>[initialCapacity];</span><br><span class="line"><span class="keyword">super</span>()</span><br></pre></td></tr></table></figure>
+<p>调用的为 AbstractList 的默认构造器方法， 该方法为一个空方法， 因此这段代码中最关键的为实例化了一个 Object 的数组， 并将此数组赋给了当前实例的 elementData 属性，此 Object 数组的大小即为传入的initialCapacity 的值， 因此在调用空构造器的情况下会创建一个大小为 10 的 Object 数组， 根据此也可看出， ArrayList 采用的是数组的方式来存放对象。</p>
+<p>#add(E)<br>add 方法简单来看就是将数组中某元素的值设为指向对象的地址而已， 但在 add 时有个很明显的问题是： 如果此时数组满了, 该怎么办？ 带着这些问题， 来看看 ArrayList 的实现方式。<br>当调用 ArrayList 的 add 方法时， 首先基于 ArrayList 中已有的元素数量加 1， 产生一个命名为 minCapacity 的变量， 然后比较此值和 Object 数组的大小， 如果此值大于 Object 数组的大小， 那么首先将当前的 Object 数组赋值给一个数组对象， 接着产生一个新的数组大小的<br>容量值， 此值的计算方法为当前数组大小 *1.5 并加 1， 如得出的新的容量值仍然小于minCapacity ， 那 么 就以 minCapacity 作 为新 的 容量 值 ， 在得 出 这个 容 量 值后 ， 调用Arrays.copyOf 来生成新的数组对象。<br>Arrays.copyOf 的实现方法简单来说， 首先是创建一个新的数组对象， 该数组对象的类型和之前 ArrayList 中元素的类型是一致的， 在这里 JDK 做了个小优化， 如果==Object 类型， 则直接通过 new Object[newLength]的方式来创建， 如不==Object 类型， 则通过 Array.newInstance调用 native 方法来创建相应类型的数组； 在创建完新的数组对象后， 调用 System.arraycopy通过 native 方法将之前数组中的对象复制到新的数组中。<br>在确保了有足够的空间放入新的元素后， 并将数组的末尾的地址指向对象的地址， 例如目前数组的大小为 10， 已经有 5 个元素了 ， 那么新加入的元素就自动的放在了数组的 6 的位置。<br>在往 Collection 中增加对象上， ArrayList 还提供了 add(int,E)这样的方法， 允许将元素直接插入到指定的 int 位置上， 这个方法的实现首先是确保需要插入的位置是目前的 Array 数组中存在的， 之后仍然是确保数组的容量是够用的， 在完成了这些动作后， 和 add(E)不同的<br>地方就出现了 ， 它需要将当前的数组对象进行一次复制动作， 即将目前 index 及其后的数据都往后挪动一位， 然后才能将指定的 index 位置的指针指向 E 元素的地址， 可以看到这种方式下需要多付出一次复制数组的代价。<br>除了 add(int,E)这种方法将对象插入指定的位置外， ArrayList 还提供了 set(int,E)这样的方法来将指定位置上的对象进行替换。<br>为了方便开发人员的使用， ArrayList 还对外提供了 addAll(Collection&lt;? extends E&gt;)以及addAll(int,Collection&lt;? extends E&gt;)这样的方法， 其实现方式和 add(E)、 add(int,E)基本类似。</p>
+<p>#remove(E)<br>remove 对于集合的性能而言也非常的重要， 当执行此方法时， ArrayList 首先判断对象是否为 null， 如为 null， 则遍历数组中已有值的元素， 并比较其是否为 null， 如为 null， 则调用 fastRemove 来删除相应位置的对象。 fastRemove 方法的实现方式为将 index 后的对象往前<br>复制复制一位， 并将数组中的最后一个元素的值设置为 null， 即释放了对此对象的引用； 如对象非 null， 唯一的不同在于通过 E 的 equals 来比较元素的值是否相同， 如相同则认为是需要删除的对象的位置， 然后同样是调用 fastRemove 来完成对象的删除。<br>ArrayList 中还另外提供了 remove(int)这样的方法来删除指定位置的对象， remove(int)的实现比 remove(E)多了一个数组范围的检测， 但少了对象位置的查找， 因此性能会高不少。</p>
+<p>#get(int)<br>get 传入的为数组的位置， 因此 ArrayList 仅需先做数组范围的检测， 然后即可直接返回数组中位于此位置的对象。</p>
+<p>#iterator()<br>iterator 由 ArrayList 的父类 AbstractList 实现， 当每次调用 iterator 方法时， 都会创建一个新的 AbstractList 内部类 Itr 的实例， 当调用此实例的 hasNext 方法时， 比较当前指向的数组的位置是否和数组中已有的元素大小相等， 如相等则返回 false， 否则返回 true；<br>当调用实例的 next 方法时， 首先比较在创建此 Iterator 时获取的 modCount 与目前的modCount， 如这两个 modCount 不相等， 则说明在获取 next 元素时， 发生了对于集合大小产生影响（ 新增、 删除）的动作， 当发生这种情况时， 则抛出ConcurrentModificationException，<br>如 modCount 相等， 那么则调用 get 方法来获取相应位置的元素， 当 get 获取不到抛出IndexOutOfBoundsException 时， 仍然是首先检测 modCount， 如 modCount 相等， 则抛出NoSuchElementException。</p>
+<p>#contains(E)<br>为了判断 E 在 ArrayList 中是否存在， ArrayList 的做法为遍历整个 ArrayList 中已有的元素，<br>如 E 为 null， 则直接判断已有元素是否为 null， 如为 null， 则返回 true； 如 E 不为 null， 则通过判断 E.equals 和元素是否相等， 如相等则返回 true。<br>indexOf 和 lastIndexOf 是 ArrayList 中用于获取对象所在位置的方法， 其中 indexOf 为从前往后寻找， 而 lastIndexOf 为从后向前寻找。<br>以下是根据上面提到的知识点整理的一些 ArrayList 的题目 ， 可以借此来巩固下以上的知识点。<br><strong>考察对于 ArrayList 抛出异常的原因的掌握</strong><br>请分别编写两段程序，让其在遍历 ArrayList 中元素时抛出IndexOutOfBoundsException以及ConcurrentModificationException。</p>
+<p><strong>考察对于 ArrayList 扩充数组大小的方式的掌握</strong><br>如 ArrayList 的大小设置为 50， 并已放入了 50 个元素， 请问当此时再调用 add(E)之后ArrayList.length 以及.size 的返回值分别是多少？<br><strong>考察对于 ArrayList 判断是否包含元素的方式的掌握</strong><br>如下一段程序：</p>
+<figure class="highlight lasso"><table><tr><td class="code"><pre><span class="line"><span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; <span class="built_in">list</span> = <span class="literal">new</span> ArrayList&lt;<span class="built_in">String</span>&gt;();</span><br><span class="line"><span class="built_in">list</span><span class="built_in">.</span>add(“bluedavy”);</span><br><span class="line"><span class="built_in">String</span> name = ”bluedavy”;</span><br><span class="line">System<span class="built_in">.</span>out<span class="built_in">.</span>println(<span class="built_in">list</span><span class="built_in">.</span>contains(name)); <span class="comment">// 打印什么？</span></span><br><span class="line">System<span class="built_in">.</span>out<span class="built_in">.</span>println(<span class="built_in">list</span><span class="built_in">.</span>contains(“bluedavy”)); <span class="comment">// 打印什么？</span></span><br></pre></td></tr></table></figure>
+<p>或者可以演变为对于 Object 是否存在的判断。<br>根据 ArrayList 实现的描述， 很容易解释为什么 ArrayList 是非线程安全的， 元素可为 null以及元素中可以有重复的集合对象。<br>在性能方面， 关注的主要是不同的集合对象在相同的场景下的性能对比状况， 场景设计上分为单线程场景和多线程场景。<br>在单线程下， 按照如下场景进行测试：<br><strong>测试在不同的集合大小下增加、 查找以及删除元素的性能变化情况；</strong><br> 集合大小分别为 10、 100、 1000、 10000；<br>在多线程下， 按照如下场景进行测试：<br>测试在不同的集合大小以及不同的线程数的情况下， 增加、 查找以及删除元素的性能的变化情况；<br>集合大小分别为 10、 100、 1000、 10000；<br>线程数分别为 10、 50、 100， 每个线程所做的事即为增加元素、 查找元素和删除元素。<br>对于本章节中提及的集合对象， 都进行以上场景的性能测试， 每个场景均运行 10 次，取平均值， 以尽量保证测试能公平的体现集合对象的性能状况， 所有集合对象的测试均采用以下代码进行， 由于集合操作的运行速度通常很快， 因此此处采用 nanoTime 来进行统计：</p>
+<figure class="highlight d"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> CollectionPerformanceTest</span><br><span class="line">&#123;</span><br><span class="line">    Collection&lt;String&gt; collection = <span class="literal">null</span>;</span><br><span class="line">    String findEle = <span class="string">""</span>;</span><br><span class="line">    <span class="keyword">static</span> CountDownLatch endLatch = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> collectionType;</span><br><span class="line">    <span class="keyword">static</span> boolean isThreadSafe;</span><br><span class="line">    Random random = <span class="keyword">new</span> Random();</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) throws Exception</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(args. length != <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">" 必须指定集合类型"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        collectionType = Integer. parseInt(args[<span class="number">0</span>]);</span><br><span class="line">        System. <span class="keyword">out</span>.println(<span class="string">" 测试的集合类型为： "</span> + collectionType);</span><br><span class="line">        isThreadSafe = CollectionUtils. isThreadSafe(collectionType);</span><br><span class="line">        <span class="comment">// 为了避免由于JIT编译的优化造成影响</span></span><br><span class="line">        Collection&lt;String&gt;</span><br><span class="line">        initCollections = CollectionUtils. get(collectionType, <span class="number">20000</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20000</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            initCollections.add(<span class="string">"bluedavy"</span>);</span><br><span class="line">            initCollections.contains(<span class="string">"bluedavy"</span>);</span><br><span class="line">            initCollections.remove(<span class="string">"bluedavy"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        CollectionPerformanceTest self = <span class="keyword">new</span> CollectionPerformanceTest();</span><br><span class="line">        <span class="keyword">int</span>[] sizes = <span class="keyword">new</span> <span class="keyword">int</span>[] &#123;<span class="number">10</span>, <span class="number">100</span>, <span class="number">1000</span>, <span class="number">10000</span>&#125;;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; sizes. length; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            System. <span class="keyword">out</span>.println(<span class="string">"===size: "</span> + sizes[j] + <span class="string">" threadcount:</span><br><span class="line">                                10==="</span>);</span><br><span class="line">            endLatch = <span class="keyword">new</span> CountDownLatch(<span class="number">100</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                self.runMultiThreadPerformanceTest(sizes[j], <span class="number">10</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            endLatch.await();</span><br><span class="line">            System. <span class="keyword">out</span>.println(<span class="string">"===END==="</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; sizes. length; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            System. <span class="keyword">out</span>.println(<span class="string">"===size: "</span> + sizes[j] + <span class="string">" threadcount:</span><br><span class="line">                                50==="</span>);</span><br><span class="line">            endLatch = <span class="keyword">new</span> CountDownLatch(<span class="number">500</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                self.runMultiThreadPerformanceTest(sizes[j], <span class="number">50</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            endLatch.await();</span><br><span class="line">            System. <span class="keyword">out</span>.println(<span class="string">"===END==="</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; sizes. length; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            System. <span class="keyword">out</span>.println(<span class="string">"===size: "</span> + sizes[j] + <span class="string">" threadcount:</span><br><span class="line">                                100==="</span>);</span><br><span class="line">            endLatch = <span class="keyword">new</span> CountDownLatch(<span class="number">1000</span>);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                self.runMultiThreadPerformanceTest(sizes[j], <span class="number">100</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            endLatch.await();</span><br><span class="line">            System. <span class="keyword">out</span>.println(<span class="string">"===END==="</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; sizes. length; j++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                self.runPerformanceTest(sizes[j]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> runPerformanceTest(<span class="keyword">int</span> size)</span><br><span class="line">    &#123;</span><br><span class="line">        collection = CollectionUtils. get(collectionType, size);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            collection.add(String. valueOf(i));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">long</span> beginTime = <span class="number">0L</span>;</span><br><span class="line">        findEle = String. valueOf(size / <span class="number">2</span>);</span><br><span class="line">        System. <span class="keyword">out</span>.println(<span class="string">"===PerformanceTest， Size: "</span> + size + <span class="string">"==="</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">1000</span>; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            beginTime = System. nanoTime();</span><br><span class="line">            collection.add(<span class="string">"TESTELE"</span>);</span><br><span class="line">            System. <span class="keyword">out</span>.println(<span class="string">"AddTime:</span><br><span class="line">                                "</span> + (System. nanoTime() - beginTime));</span><br><span class="line">            beginTime = System. nanoTime();</span><br><span class="line">            collection.contains(findEle);</span><br><span class="line">            System. <span class="keyword">out</span>.println(<span class="string">"FindTime:</span><br><span class="line">                                "</span> + (System. nanoTime() - beginTime));</span><br><span class="line">            beginTime = System. nanoTime();</span><br><span class="line">            collection.remove(<span class="string">"TESTELE"</span>);</span><br><span class="line">            System. <span class="keyword">out</span>.println(<span class="string">"RemoveTime:</span><br><span class="line">                                "</span> + (System. nanoTime() - beginTime));</span><br><span class="line">        &#125;</span><br><span class="line">        System. <span class="keyword">out</span>.println(<span class="string">"===END==="</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> runMultiThreadPerformanceTest(<span class="keyword">int</span> size, <span class="keyword">int</span></span><br><span class="line">            threadCount)</span><br><span class="line">    &#123;</span><br><span class="line">        findEle = String. valueOf(size / <span class="number">2</span>);</span><br><span class="line">        collection = CollectionUtils. get(collectionType, size);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            collection.add(String. valueOf(i));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; threadCount; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> TestTask()).start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">class</span> TestTask implements Runnable</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> run()</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">long</span> startTime = System. nanoTime();</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                Thread. sleep(random.nextInt(<span class="number">1000</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (InterruptedException e)</span><br><span class="line">            &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(isThreadSafe)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">long</span> beginTime = System. nanoTime();</span><br><span class="line">                collection.add(<span class="string">"TESTELE"</span> + startTime);</span><br><span class="line">                System. <span class="keyword">out</span>.println(<span class="string">"AddTime:</span><br><span class="line">                                    "</span> + (System. nanoTime() - beginTime));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">long</span> beginTime = System. nanoTime();</span><br><span class="line">                <span class="keyword">synchronized</span> (collection)</span><br><span class="line">                &#123;</span><br><span class="line">                    collection.add(<span class="string">"TESTELE"</span> + startTime);</span><br><span class="line">                &#125;</span><br><span class="line">                System. <span class="keyword">out</span>.println(<span class="string">"AddTime:</span><br><span class="line">                                    "</span> + (System. nanoTime() - beginTime));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(isThreadSafe)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">long</span> beginTime = System. nanoTime();</span><br><span class="line">                collection.contains(findEle);</span><br><span class="line">                System. <span class="keyword">out</span>.println(<span class="string">"FindTime:</span><br><span class="line">                                    "</span> + (System. nanoTime() - beginTime));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">long</span> beginTime = System. nanoTime();</span><br><span class="line">                <span class="keyword">synchronized</span> (collection)</span><br><span class="line">                &#123;</span><br><span class="line">                    collection.contains(findEle);</span><br><span class="line">                &#125;</span><br><span class="line">                System. <span class="keyword">out</span>.println(<span class="string">"FindTime:</span><br><span class="line">                                    "</span> + (System. nanoTime() - beginTime));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(isThreadSafe)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">long</span> beginTime = System. nanoTime();</span><br><span class="line">                collection.remove(<span class="string">"TESTELE"</span> + startTime);</span><br><span class="line">                System. <span class="keyword">out</span>.println(<span class="string">"RemoveTime:</span><br><span class="line">                                    "</span> + (System. nanoTime() - beginTime));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">long</span> beginTime = System. nanoTime();</span><br><span class="line">                <span class="keyword">synchronized</span> (collection)</span><br><span class="line">                &#123;</span><br><span class="line">                    collection.remove(<span class="string">"TESTELE"</span> + startTime);</span><br><span class="line">                &#125;</span><br><span class="line">                System. <span class="keyword">out</span>.println(<span class="string">"RemoveTime:</span><br><span class="line">                                    "</span> + (System. nanoTime() - beginTime));</span><br><span class="line">            &#125;</span><br><span class="line">            endLatch.countDown();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> CollectionUtils</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ARRAYLIST_TYPE = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> LINKEDLIST_TYPE = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> VECTOR_TYPE = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> STACK_TYPE = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> HASHSET_TYPE = <span class="number">5</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TREESET_TYPE = <span class="number">6</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Collection&lt;String&gt; get(<span class="keyword">int</span> type, <span class="keyword">int</span> size)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">switch</span> (type)</span><br><span class="line">        &#123;</span><br><span class="line">        <span class="keyword">case</span> ARRAYLIST_TYPE:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ArrayList&lt;String&gt;(size);</span><br><span class="line">        <span class="keyword">case</span> LINKEDLIST_TYPE:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> LinkedList&lt;String&gt;();</span><br><span class="line">        <span class="keyword">case</span> VECTOR_TYPE:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Vector&lt;String&gt;(size);</span><br><span class="line">        <span class="keyword">case</span> STACK_TYPE:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Stack&lt;String&gt;();</span><br><span class="line">        <span class="keyword">case</span> HASHSET_TYPE:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> HashSet&lt;String&gt;(size);</span><br><span class="line">        <span class="keyword">case</span> TREESET_TYPE:</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> TreeSet&lt;String&gt;();</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Unkown type: "</span> + type);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> boolean isThreadSafe(<span class="keyword">int</span> type)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">switch</span> (type)</span><br><span class="line">        &#123;</span><br><span class="line">        <span class="keyword">case</span> ARRAYLIST_TYPE:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">case</span> LINKEDLIST_TYPE:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">case</span> VECTOR_TYPE:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">case</span> STACK_TYPE:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">case</span> HASHSET_TYPE:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">case</span> TREESET_TYPE:</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Unkown type: "</span> + type);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>传入参数 1， 启动 CollectionPerformanceTest， 即为测试 ArrayList 在以上测试场景中的性能状况， 测试结果分析后图示如下。</p>
+<p><strong>在不同的集合大小下增加、 查找以及删除元素的性能变化情况；</strong><br>横轴为集合大小， 纵轴为执行 1 次操作所消耗的时间， 单位为纳秒。</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0074.png" alt=""><br></center><br>从以上图示来看， ArrayList 中的元素数量从 10 增长到 100 时， 性能变化不明显， 但从100 增长到 1000 后， 查找和删除元素的性能就有不小的下降了 ， 当元素增长到 10000 个后，查找和删除元素的性能就开始大幅度下降了 ， 增加元素的性能则基本没有变化。<br> <strong>在不同的集合大小以及不同的线程数的情况下， 增加、 查找以及删除元素的性能的变化情况；</strong><br>增加元素的性能变化如下图所示：</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0075.png" alt=""><br></center><br>由于在测试中采用的是多个线程在 sleep 一个 1000 的随机数后， 共同进行增加、 查找以及删除元素的动作， 因此有可能有些线程在执行增加元素时恰好碰到等到锁的现象， 导致其执行速度慢， 正是这种原因， 所以会出现上面有些时候线程少的增加元素的平均执行时间反而比线程多的长。<br>查找元素的性能变化如下图所示：</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0076.png" alt=""><br></center><br>删除元素的性能变化如下图所示：</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0077.png" alt=""><br></center><br>综合上面的测试结果来看， 在多线程的测试场景下， 基本也遵循单线程的状况， 增加元素的性能随集合增长变化不大， 只有当线程数增长到 100 后才会大幅度下降， 查找元素和删除元素的性能则在集合从 100 增长到 1000 后有较明显的下降， 同时集合数了 1000 后， 基本上会随着线程数越多性能下降的越明显， 但多线程中的任何操作与单线程对比而言性能都有较大幅度的下降。</p>
+<h1 id="ConcurrentHashMap">ConcurrentHashMap</h1><p>ConcurrentHashMap 是线程安全的 HashMap 的实现， 来具体看看其实现方法。</p>
+<h1 id="ConcurrentHashMap()">ConcurrentHashMap()</h1><p>和 HashMap 一样， 它同样有 initialCapacity 以及 loadFactor 属性， 不过还多了一个concurrencyLevel 属性， 在调用空构造器的情况下， 这个三个属性的值分别设置为了 16、 0.75以及 16。<br>在设置了以上三个属性值后， 基于以下方式计算 ssize 值：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> sshift = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> ssize = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span> (ssize &lt; concurrencyLevel)</span><br><span class="line">&#123;</span><br><span class="line">    ++sshift;</span><br><span class="line">    ssize &lt;&lt;= <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当concurrencyLevel 为 16 的情况下， 最终计算出的 ssize 为 32， 并使用此 ssize 作为参数传入 Segment 的 newArray 方法， 创建大小为 32 的 Segment 对象数组， 接着采用如下方<br>法计算 cap 变量的值：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> c = initialCapacity / ssize;</span><br><span class="line"><span class="keyword">if</span> (c * ssize &lt; initialCapacity)</span><br><span class="line">    ++c;</span><br><span class="line"><span class="keyword">int</span> cap = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">while</span> (cap &lt; c)</span><br><span class="line">    cap &lt;&lt;= <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>根据以上参数值， 计算出的 cap 为 2， 最后为 Segment 对象数组创建 Segment 对象， 传入的参数为 cap 和 loadFactor， Segment 对象继承 ReentrantLock， 在创建 Segment 对象时，其所做的动作为创建一个指定大小为 cap 的 HashEntry 对象数组， 并基于数组的大小以及<br>loadFactor 计算 threshold 的值： threshold = (int)(newTable.length * loadFactor);。</p>
+<h1 id="put(Object_key,Object_value)">put(Object key,Object value)</h1><p>ConcurrentHashMap 并没有在此方法上加上 synchronized， 首先判断 value 是否为 null，如为 null 则抛出 NullPointerException， 如不为 null， 则继续下面的步骤：<br>和 HashMap 一样， 首先对 key.hashCode 进行 hash 操作， 得到 key 的 hash 值， hash 操作的算法和 HashMap 也不同：</p>
+<figure class="highlight stata"><table><tr><td class="code"><pre><span class="line"><span class="keyword">h</span> += (<span class="keyword">h</span> &lt;&lt; 15) ^ 0xffffcd7d;</span><br><span class="line"><span class="keyword">h</span> ^= (<span class="keyword">h</span> &gt;&gt;&gt; 10);</span><br><span class="line"><span class="keyword">h</span> += (<span class="keyword">h</span> &lt;&lt; 3);</span><br><span class="line"><span class="keyword">h</span> ^= (<span class="keyword">h</span> &gt;&gt;&gt; 6);</span><br><span class="line"><span class="keyword">h</span> += (<span class="keyword">h</span> &lt;&lt; 2) + (<span class="keyword">h</span> &lt;&lt; 14);</span><br><span class="line"><span class="keyword">return</span> <span class="keyword">h</span> ^ (<span class="keyword">h</span> &gt;&gt;&gt; 16);</span><br></pre></td></tr></table></figure>
+<p>根据此 hash 值计算并获取其对应的数组中的 Segment 对象， 方法如下：<br>return segments[(hash &gt;&gt;&gt; segmentShift) &amp; segmentMask];<br>在找到了数组中的 Segment 对象后， 接着调用 Segment 对象的 put 方法来完成当前操作。<br>当调用 Segment 对象的 put 方法时， 首先进行 lock 操作， 接着判断当前存储的对象个数加 1 后是否大于 threshold， 如大于， 则将当前的 HashEntry 对象数组大小扩大两倍， 并将之前存储的对象进行重新 hash， 转移到新的对象数组中， 在确保了数组的大小足够后， 继<br>续下面的步骤。<br>接下去的动作则和 HashMap 基本一样， 通过对 hash 值和对象数组大小减 1 的值进行按位与后， 得到当前 key 需要放入数组的位置， 接着寻找对应的位置上的 HashEntry 对象链表是否有 key、 hash 值和当前 key 相同的， 如有， 则覆盖其 value， 如没有， 则创建一个新的<br>HashEntry 对象， 赋值给对应位置的数组对象， 并构成链表。<br>完成了上面的步骤后， 释放锁， 整个 put 动作得以完成。<br>根据以上分析， 可以看出 ， ConcurrentHashMap 基于concurrencyLevel 划分出了多个Segment 来对 key-value 进行存储， 从而避免每次 put 操作就得锁住整个数组， 在默认的情况<br>下， 最佳情况下可以允许 32 个线程并发无阻塞的操作集合对象， 尽可能的减少并发时的阻塞现象。</p>
+<p>#remove(Object key)<br>首先对 key.hashCode 进行 hash 操作， 基于得到 hash 的值找到对应的 Segment 对象， 调用其 remove 方法完成当前操作。<br>Segment 的 remove 方法进行进行加锁操作， 然后对 hash 值和对象数组大小减 1 的值进行按位与操作， 获取数组上对应位置的 HashEntry 对象， 接下去遍历此 HashEntry 对象以及其 next 对象， 找到 hash 和传入的 hash 值相等， 以及 key 和传入的 key equals 的 HashEntry<br>对象， 如未找到， 则返回 null。<br>如找到， 则将 HashEntry 链表中位于删除元素之前的所有 HashEntry 重新创建， 位于其后的元素则不用做动作。<br>最后释放锁， 完成 remove 操作。</p>
+<h1 id="get(Object_key)">get(Object key)</h1><p>首先对 key.hashCode 进行 hash 操作， 基于得到 hash 的值找到对应的 Segment 对象， 调用其 get 方法完成当前操作。<br>Segment 的 get 方法首先判断当前 HashEntry 对象数组中的已存储的对象大小是否为 0，如为 0， 则直接返回 null， 如不为 0， 则继续下面的步骤。对 hash 值和对象数组大小减 1 的值进行按位与操作， 获取数组上对应位置的 HashEntry对象， 接下去遍历此 HashEntry 以及其 next 对象， 寻找到 hash 值相等以及 key equals 的HashEntry 对象， 在找到的情况下， 获取其 value， 如 value 不为 null， 则直接返回此 value，<br>如为 null， 则调用 readValueUnderLock 方法， readValueUnderLock 方法首先进行 lock 操作，然后直接返回 HashEntry 的 value 属性， 最后释放锁。经过以上步骤后， 就完成了 get 操作， 从上面 Segment 的 get 步骤来看， 仅在寻找到的HashEntry 对象的 value 为 null 时， 才进行了锁操作， 其他情况下并没有锁操作， 也就是可以认为 ConcurrentHashMap 在读数据时大部分情况下是没有采用锁的， 那么它是如何保证并发场景下数据的一致性的呢。<br>对上面的实现步骤进行分析， get 操作首先通过 hash 值和对象数组大小减 1 的值进行按位与操作来获取数组上对应位置的 HashEntry， 在这个步骤中， 可能会因为对象数组大小的改变以及数组上对应位置的 HashEntry 产生不一致性， 来分析下 ConcurrentHashMap 是如何<br>保证的。<br>对象数组大小的改变只有在 put 操作时有可能发生， 由于 HashEntry 对象数组对应的变量是 voliate 类型的， 因此可以保证如 HashEntry 对象数组大小发生改变， 读操作时可看到最新的对象数组大小。<br>在 put 和 remove 操作进行时， 都有可能造成 HashEntry 对象数组上对应位置的 HashEntry发生改变， 如在读操作已获取到 HashEntry 对象后， 有一个 put 或 remove 操作完成， 此时读操作尚未完成， 那么这时确实会造成读的不一致性， 但这种几率相对而言非常的低。<br>在获取到了 HashEntry 对象后， 怎么能保证获取的 HashEntry 对象以及其 next 属性构成的链表上的对象不会改变呢， 这点 ConcurrentHashMap 采用了一个简单的方式， 即 HashEntry<br>对象中的 hash、 key 以及 next 属性都是 final 的， 这也就意味着没办法插入一个 HashEntry对象到 HashEntry 基于 next 属性构成的链表中间或末尾中， 这样可以保证当获取到 HashEntry对象后， 其基于 next 属性构建的链表是不会发生变化的。<br>至于为什么需要判断下获取的 HashEntry 的 value 是否为 null， 原因在于 put 操作创建一个新的 HashEntry 时， 并发读取时有可能此时 value 属性尚未完成设置， 因此将读取到默认值， 不过具体出现这种现象的原因还未知， 据说只有在老版本的 JDK 中才会有， 而其他属性由于是 final 的， 则可以保证是线程安全的， 因此这里做了个保护， 当value 为 null 则通过加锁操作来确保读到的 value 是一致的。</p>
+<h1 id="containsKey(Object_key)">containsKey(Object key)</h1><p>和 get 操作一样， 没有进行加锁操作， 整个步骤和 get 相同， 只是当寻找到有 key、 hash相等的 HashEntry 时， 则返回 true， 否则返回 false。</p>
+<h1 id="keySet()-iterator()">keySet().iterator()</h1><p>这 其 实 也 是 个 类 似 的 读 取 的 过 程 ， 只 是 需 要 读 取 所 有 分 段 中 的 数 据 ，ConcurrentHashMap 采用的方法即为遍历每个分段中的 HashEntry 对象数组， 完成集合中所有 对 象 的 读 取 ， 这 个 过 程 也 是 不 加 锁 的 ， 因 此 遍 历 ConcurrentHashMap 不 会 抛 出<br>ConcurrentModificationException， 这点和 HashMap 不同。<br>从上面的分析可以看出， ConcurrentHashMap 默认情况下采用将数据分为 32 个段进行存储， 并且 32 个段分别持有各自的锁， 锁仅用于 put 和 remove 等改变集合对象的操作， 基于 voliate 以及 HashEntry 链表的不变性实现读取的不加锁， 这些方式使得 ConcurrentHashMap<br>能够保持极好的并发支持， 尤其是对于读远比插入和删除频繁的 Map 而言， 而其采用的这些方法也可谓是对于 Java 内存、 并发机制的深刻掌握的体现， 是一个设计的非常不错的支<br>持高并发的集合对象， 不过对于 ConcurrentHashMap 这种而言， 由于没有一个全局锁， size这样的方法就比较复杂了 ， 在计算 size 时， ConcurrentHashMap 采取的方法为：<br>在不加锁的情况下遍历所有的段， 读取其 count 以及 modCount， 这两个属性都是 voliate类型的， 并进行统计， 完毕后， 再遍历一次所有的段， 比较 modCount 是否有改变， 如有改变， 则再尝试两次以上动作。如执行了三次上述动作后， 仍然有问题， 则遍历所有段， 分别进行加锁， 然后进行计算，计算完毕后释放所有锁， 从而完成计算动作。<br>从上可见， 以上的方法使得 size 方法在大部分情况下也可通过不加锁的方式计算出来。<br>基于 HashMap 的测试方法对 ConcurrentHashMap 进行性能测试， 最终的测试结果如下图所示。<br> 在不同的集合大小下增加、 查找以及删除元素的性能变化情况；<br> <center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0078.png" alt=""><br></center><br>从性能表现来看， 和 HashMap 基本没有差距， 表现出来的状况也基本一致。<br><strong>在不同的集合大小以及不同的线程数的情况下， 增加、 查找以及删除元素的性能的变化情况；</strong><br>增加元素的性能变化如下图所示：</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0079.png" alt=""><br></center><br>查找元素的性能变化如下图所示：</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0080.png" alt=""><br></center><br>删除元素的性能变化如下图所示：</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0081.png" alt=""><br></center><br>从以上结果来看， 在多线程的情况下， 以上三种操作的性能较单线程而言仍然是下降了不少，<br>但对比 HashMap 在多线程下的表现而言， ConcurrentHashMap 在多线程下的性能表现则明<br>显提升了不少， 这也是 ConcurrentHashMap 采取拆分锁方式带来的好处。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/30/数据挖掘笔记/" title="数据挖掘笔记">
+  <strong>上一篇：</strong><br/>
+  <span>
+  数据挖掘笔记</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/28/Java性能优化/"  title="Java性能优化">
+ <strong>下一篇：</strong><br/> 
+ <span>Java性能优化
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/07/29/深入JDK/" data-title="深入JDK" data-url="http://pangjiuzala.github.io/2015/07/29/深入JDK/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ArrayList"><span class="toc-number">1.</span> <span class="toc-text">ArrayList</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ConcurrentHashMap"><span class="toc-number">2.</span> <span class="toc-text">ConcurrentHashMap</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ConcurrentHashMap()"><span class="toc-number">3.</span> <span class="toc-text">ConcurrentHashMap()</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#put(Object_key,Object_value)"><span class="toc-number">4.</span> <span class="toc-text">put(Object key,Object value)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#get(Object_key)"><span class="toc-number">5.</span> <span class="toc-text">get(Object key)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#containsKey(Object_key)"><span class="toc-number">6.</span> <span class="toc-text">containsKey(Object key)</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#keySet()-iterator()"><span class="toc-number">7.</span> <span class="toc-text">keySet().iterator()</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2129798793&verifier=c0951e84&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动互联网/" title="移动互联网">移动互联网<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/物联网/" title="物联网">物联网<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云平台/" title="云平台">云平台<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络爬虫/" title="网络爬虫">网络爬虫<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenStack/" title="OpenStack">OpenStack<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/智慧医疗/" title="智慧医疗">智慧医疗<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">25</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="刘兴的CSDN博客">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=pangjiuzala&amp;type=Users" target="_blank" title="关注刘兴的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			The more you diligent, the more you lucky!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Liuxing All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"pangjiuzala"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Ffeafc504b70a541dd3845d467335f367' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

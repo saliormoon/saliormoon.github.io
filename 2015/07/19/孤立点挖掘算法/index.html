@@ -1,0 +1,561 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>孤立点挖掘算法 | 刘兴的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="刘兴">
+    
+
+    
+    <meta name="description" content="孤立点挖掘算法
+#简介孤立点是数据集中不符合一般模型的那些对象，即和其它 的数据有着不同的性质。它可能是度量或执行错误所导致的，也可能是固有数据变异性的结果。对此，Ｈａｗｋｉｎｓ［１］给出了其本质性定义：孤立点是在数据集中与众不同的数据，使人怀疑这些数据 并非随机偏差，而是产生于完全不同的机制。一般的，孤立点挖掘问题可以被看作两个子问题［１］：（１）在给定的数据集合中定义什么样的数据可以被认为不一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="孤立点挖掘算法">
+<meta property="og:url" content="http://pangjiuzala.github.io/2015/07/19/孤立点挖掘算法/index.html">
+<meta property="og:site_name" content="刘兴的博客">
+<meta property="og:description" content="孤立点挖掘算法
+#简介孤立点是数据集中不符合一般模型的那些对象，即和其它 的数据有着不同的性质。它可能是度量或执行错误所导致的，也可能是固有数据变异性的结果。对此，Ｈａｗｋｉｎｓ［１］给出了其本质性定义：孤立点是在数据集中与众不同的数据，使人怀疑这些数据 并非随机偏差，而是产生于完全不同的机制。一般的，孤立点挖掘问题可以被看作两个子问题［１］：（１）在给定的数据集合中定义什么样的数据可以被认为不一">
+<meta property="og:updated_time" content="2015-07-22T00:54:19.528Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="孤立点挖掘算法">
+<meta name="twitter:description" content="孤立点挖掘算法
+#简介孤立点是数据集中不符合一般模型的那些对象，即和其它 的数据有着不同的性质。它可能是度量或执行错误所导致的，也可能是固有数据变异性的结果。对此，Ｈａｗｋｉｎｓ［１］给出了其本质性定义：孤立点是在数据集中与众不同的数据，使人怀疑这些数据 并非随机偏差，而是产生于完全不同的机制。一般的，孤立点挖掘问题可以被看作两个子问题［１］：（１）在给定的数据集合中定义什么样的数据可以被认为不一">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="刘兴的博客" title="刘兴的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/19/孤立点挖掘算法/" title="孤立点挖掘算法" itemprop="url">孤立点挖掘算法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-19T01:03:08.000Z" itemprop="datePublished"> 发表于 2015-07-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>孤立点挖掘算法</p>
+<p>#简介<br>孤立点是数据集中不符合一般模型的那些对象，即和其它 的数据有着不同的性质。它可能是度量或执行错误所导致的，也可能是固有数据变异性的结果。对此，Ｈａｗｋｉｎｓ［１］给出了其本质性定义：孤立点是在数据集中与众不同的数据，使人怀疑这些数据 并非随机偏差，而是产生于完全不同的机制。<br>一般的，孤立点挖掘问题可以被看作两个子问题［１］：（１）在给定的数据集合中定义什么样的数据可以被认为不一致的；（２）找到一个有效的方法来挖掘这样的孤立点。<br><a id="more"></a></p>
+<p>#分类及应用<br>孤立点探测是数据挖掘中一个重要方面，用来发现＂小的模式＂（相对于聚类），即数据集中间显著不同于其它数据的对象。孤立点探测算法大致可以分为基于统计（ｓｔａｔｉｓｔｉｃａｌ－ｂａｓｅｄ）的方法，基于距离（ｄｉｓｔａｎｃｅ－ｂａｓｅｄ）的方法，基于偏差（ｄｅｖｉａｔｉｏｎ－ｂａｓｅｄ）的方法，基于密度（ｄｅｎｓｉｔｙ－ｂａｓｅｄ）的方法，以及高维数据的孤立点探测。孤立点挖掘有着广泛的应用：在信用卡欺诈探测中发现的孤立点可能预示着欺诈行为，而及时发现这种信用卡欺诈行为对商业银行而言相当重要，可以避免不必要的经济损失；在市场分析中，可用于确定极低或极高收入的客户的消费行为；在医疗分析中，可用于对多种治疗方式的不寻常的反应等；在网络安全方面；孤立点挖掘应用于网络入侵检测；在数据质量分析中，可以用孤立点挖掘算法检测错误数据；此外还可以应用到气象预报、个人隐私保护等方面。</p>
+<p>#传统的孤立点挖掘算法 </p>
+<p>##基于统计的方法<br>基于统计的方法假设给定的数据集服从一个随机分布（如正态分布等），用不一致性测试（）识别孤立点。但是这种方法存在一个问题：在许多情况下，用户并不知道这个数据分布，而且现实数据也往往不符合任何一种理想状态的数学分布；即使在低维（一维或二维）时的数据分布已知，在高维情况下，估计数据点的分布也是极其困难的。</p>
+<p>##基于距离的方法<br>Ｋｎｏｒｒ和Ｎｇ［２］ 提出一种基于距离的孤立点探测方法：数据集Ｓ中至少ｐ＊１００％的对象与Ｏ的距离大于距离Ｄ。采用不同的参数ｐ和Ｄ，ＤＢ（Ｐ，Ｄ）－ｏｕｔｌｉｅｒ可以表示所有的基于统计的孤立点。在基于距离的孤立点定义下，分别有基于索引（ｉｎｄｅｘ－ｂａｓｅｄ）的算法，嵌套循环（ｎｅｓｔｅｄ－ｌｏｏｐ）算法和基于单元（ｃｅｌｌ－ｂａｓｅｄ）的算法。 基于索引的算法可以通过对最近邻查询或以Ｏ为中心的范围查询的回答来实现寻找所有ＤＢ（Ｐ，Ｄ）－ｏｕｔｌｉｅｒ。基于多维索引结构Ｒ－Ｔｒｅｅ或ｋｄ－Ｔｒｅｅ算法复杂度是Ｏ（ＫＮ２），但它的缺点是： 需要建立多维索引结构，费时；嵌套循环算法将内存缓冲区空间划分成相等的两部分，数据集分成几个大小和每部分缓冲区相等的逻辑块，通过认真选择调入每一部分缓冲区的次序，使Ｉ／Ｏ次数最小算法复杂度是Ｏ（ＫＮ２），它具有：不需要建立多维索引结构，但选择划分区域也较费时的特点。 基于单元（ｃｅｌｌ－ｂａｓｅｄ）的方法：数据空间被划分为边长为Ｄ／２ｋ１／２的单元；每个单元有两个包围层；第一层为１倍的单元厚，第二层为ｉｎｔ（２ｋ１／２－１）＋１倍的单元厚。 对于该种基于距离的方法小结：由于索引建立的开销很大，简单索引算法没有竞争性；当ｋ＜＝４时，基于单元的算法在Ｎ越大时优越性越明显；当ｋ＞＝５之后，嵌套循环算法开始显现出优 势。</p>
+<p>##基于距离的算法的改进<br>Ｋｎｏｒｒ和Ｎｇ基于距离的孤立探测方法的缺陷在于：输入参 数ｐ与Ｄ很难确定，并且对于不同参数，结果有很大不稳定性。这就需要用户反复输入ｐ与Ｄ进行测试，以确定一个满意解；不能给定孤立的程度，且算法的复杂度较高。Ｒａｓｔｏｇｉ和Ｒａ－ｍａｓｗａｍｙ［３］提出了一个新的基于距离孤立点定义，用Ｄｋ（ｐ）表示点ｐ和它的第ｋ个最近邻的距离，给定ｄ维空间中包含Ｎ个点的数据集，参数ｎ和ｋ（自然数），如果满足Ｄｋ（ｐ）＞Ｄｋ（ｐ＇）的点ｐ＇不超过ｎ－１个，那么称ｐ为Ｄｎｋ孤立点。如果对数据点根据它们的 Ｄｋ（ｐ）距离进行排序，那么前ｎ个点就被看作孤立点。循环嵌套算法（Ｎｅｓｔｅｄ－ｌｏｏｐＡｌｇｏｒｉｔｈｍ）作为改进后的基于距离的算法，每次处理一个点ｐ，需要扫描一遍数据库，总共需要扫描Ｎ遍（Ｎ为数据点数）。基于索引的算法（Ｉｎｄｅｘ－ｂａｓｅｄＡｌ－ｇｏｒｉｔｈｍ）用类似Ｒ＊－树的空间索引结构存储，可以减少扫描数据库的次数。 改进后的基于划分的算法，如果某个点的Ｄｋ（ｐ）较小的话，那么不可能是Ｄｎｋ孤立点，可以先对数据集进行划分，然后估计 每个划分的Ｄｋ（ｐ）的上、下界，如果能判定某个划分不可能包含孤立的话，那么就可以直接把它删除掉；然后再从剩下的划分（侯选划分）来计算孤立点；现有的许多聚类算法可以用来划分数据集，如ＢＩＲＣＨ算法。</p>
+<p>##基于偏差的方法<br>Ａｒｇｒａｗａｌ和Ｒａｇａｒａｎ提出了＂序列孤立＂（ｓｅｑｕｅｎｔｉａｌｅｘｃｅｐ－ｔｉｏｎ）的概念中，对于给定ｎ个对象的集合Ｓ，建立一个子集序列｛Ｓ１，Ｓ２，…，Ｓｍ｝，对每个子集，确定该子集与前序子集的差异度的 差。为减少输入数据的顺序对结果的影响，可以用不同的次序多次重复上述过程，找出其中光滑因子最大的子集。 这个算法复杂度与数据集大小呈线性关系，有优异的计算性能。 但是序列孤立在对孤立存在的假设太过理想化，对现实复杂数据效果不太好。</p>
+<p>##基于密度的方法<br>基于距离的方法对全局各个聚类的数据提出了统一的P和D的参数，但是如果各个聚类本身的密度存在不同,则基于距离的方法则出出现问题，因此提出了基于密度模型的局部异常点挖掘算法，通过局部异常点因子LOF的计算来确定异常点, 只要一个对象的LOF远大于1, 它可能就是一个异常点。簇内靠近核心点的对象的LOF接近于1,处于簇的边缘或是簇的外面的对象的LOF相对较大，这样便能检测到局部异常点，更贴近于实际的数据集的特性。这种传统的局部异常点的挖掘算法的主要问题在于局部范围的参数Minpts值存在选择上的困难，可以运用多粒度偏差因子代替Minpts来评价，这样便能得到比较好的解决方案。</p>
+<p>##基于聚类的方法<br>基于聚类的方法的基本思想是将孤立点挖掘的过程转换成聚类的过程。首先将数据集利用已经成熟的模型进行聚类分析，是数据集形成簇，而那些不在簇中的样本点即被视为异常点进行再处理。除了上述所述的4中基本的聚类方法外，还包括基于网格的的方法等。<br>基于统计的孤立挖掘应用主要局限于科研计算，这主要是因为必须事先知道数据的分布特征这就限制了它的应用范围。 序列孤立挖掘算法提出的序列孤立的概念并没有得到普遍的认同。这是因为序列孤立在概念上仍然有一定缺陷，遗漏了不少的孤立数据。 基于距离的算法跟基于统计的算法相比，不需要用户拥有任何领域知识。与＂序列孤立＂相比，在概念上更加直观。更重要的是，距离孤立更接近Ｈａｗｋｉｎｓ的孤立本质定义。 </p>
+<p>#总结<br>基于密度的孤立观点比基于距离的孤立观点更贴近Ｈａｗｋｉｎｓ的孤立定义，因此能够检测出基于距离孤立算法所不 能识别的一类孤立数据－局部孤立。 局部孤立点观点摈弃了以前所有的孤立点定义中非此即彼的绝对孤立观念，更加符合现实生活中的应用。 实际数据往往具有较大的噪声，因此孤立模式经常只存在于低维子空间中，而在高维空间中难以确定；且以前算法在维数较高时，性能急剧下降。因此Ａｇｇａｒｗａｌ和Ｙｕ提出的高维数据孤立挖掘的方法，采用遗传优化算法，获得良好的计算性能。 近几年来，孤立点挖掘算法取得了许多进展：将基于距离和基于密度的算法并行化，能显著提高算法的性能；将高维空间中的点映射到低维空间，进而发现孤立点是高维数据孤立点挖掘的常用措施；而孤立点挖掘算法在气象数据分析，基因数据分析，个人隐私保护等方面的应用，也显示出孤立点挖掘算法具有独特的应用价值。当数据维数较高时，传统孤立点挖掘算法性能急剧下降，高维数据的孤立点的挖掘仍然是研究的难点。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/数据挖掘/">数据挖掘</a><a href="/tags/算法/">算法</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/20/程序员必须知道的10大基础算法及讲解/" title="程序员必须知道的10大基础算法及讲解">
+  <strong>上一篇：</strong><br/>
+  <span>
+  程序员必须知道的10大基础算法及讲解</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/18/openHAB简介/"  title="openHAB简介">
+ <strong>下一篇：</strong><br/> 
+ <span>openHAB简介
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/07/19/孤立点挖掘算法/" data-title="孤立点挖掘算法" data-url="http://pangjiuzala.github.io/2015/07/19/孤立点挖掘算法/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2129798793&verifier=c0951e84&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动互联网/" title="移动互联网">移动互联网<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/物联网/" title="物联网">物联网<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云平台/" title="云平台">云平台<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络爬虫/" title="网络爬虫">网络爬虫<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenStack/" title="OpenStack">OpenStack<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/智慧医疗/" title="智慧医疗">智慧医疗<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">25</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="刘兴的CSDN博客">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=pangjiuzala&amp;type=Users" target="_blank" title="关注刘兴的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			The more you diligent, the more you lucky!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Liuxing All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"pangjiuzala"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Ffeafc504b70a541dd3845d467335f367' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

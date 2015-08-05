@@ -1,0 +1,580 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java性能优化 | 刘兴的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="刘兴">
+    
+
+    
+    <meta name="description" content="随着系统数据量的不断增长， 访问量的不断提升， 系统的响应通常会越来越慢， 又或是编写的新的应用在性能上无法满足需求， 这个时候需要对系统的性能进行调优， 调优过程是构建高性能应用的必备过程， 也是一个相当复杂的过程， 而且涉及到了很多的方面， 硬件、操作系统、 运行环境软件以及应用本身， 要实现调优， 首先需要做的是找到性能低的根本原因， 然后才是针对性的进行调优， 本章节就来介绍下寻找性能瓶颈">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java性能优化">
+<meta property="og:url" content="http://pangjiuzala.github.io/2015/07/28/Java性能优化/index.html">
+<meta property="og:site_name" content="刘兴的博客">
+<meta property="og:description" content="随着系统数据量的不断增长， 访问量的不断提升， 系统的响应通常会越来越慢， 又或是编写的新的应用在性能上无法满足需求， 这个时候需要对系统的性能进行调优， 调优过程是构建高性能应用的必备过程， 也是一个相当复杂的过程， 而且涉及到了很多的方面， 硬件、操作系统、 运行环境软件以及应用本身， 要实现调优， 首先需要做的是找到性能低的根本原因， 然后才是针对性的进行调优， 本章节就来介绍下寻找性能瓶颈">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0082.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0083.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0084.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0085.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0086.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0087.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0088.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0089.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0090.png">
+<meta property="og:updated_time" content="2015-07-30T05:26:54.699Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java性能优化">
+<meta name="twitter:description" content="随着系统数据量的不断增长， 访问量的不断提升， 系统的响应通常会越来越慢， 又或是编写的新的应用在性能上无法满足需求， 这个时候需要对系统的性能进行调优， 调优过程是构建高性能应用的必备过程， 也是一个相当复杂的过程， 而且涉及到了很多的方面， 硬件、操作系统、 运行环境软件以及应用本身， 要实现调优， 首先需要做的是找到性能低的根本原因， 然后才是针对性的进行调优， 本章节就来介绍下寻找性能瓶颈">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="刘兴的博客" title="刘兴的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/28/Java性能优化/" title="Java性能优化" itemprop="url">Java性能优化</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-28T01:49:43.000Z" itemprop="datePublished"> 发表于 2015-07-28</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CPU_消耗分析"><span class="toc-number">1.</span> <span class="toc-text">CPU 消耗分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#top"><span class="toc-number">2.</span> <span class="toc-text">top</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#us"><span class="toc-number">3.</span> <span class="toc-text">us</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于_CPU_消耗严重的情况"><span class="toc-number">4.</span> <span class="toc-text">对于 CPU 消耗严重的情况</span></a></li></ol>
+		
+		</div>
+		
+		<p>随着系统数据量的不断增长， 访问量的不断提升， 系统的响应通常会越来越慢， 又或是编写的新的应用在性能上无法满足需求， 这个时候需要对系统的性能进行调优， 调优过程是构建高性能应用的必备过程， 也是一个相当复杂的过程， 而且涉及到了很多的方面， 硬件、操作系统、 运行环境软件以及应用本身， 要实现调优， 首先需要做的是找到性能低的根本原因， 然后才是针对性的进行调优， 本章节就来介绍下寻找性能瓶颈以及调优的一些技术上的方法。<br><a id="more"></a></p>
+<h1 id="CPU_消耗分析">CPU 消耗分析</h1><p>当 CPU 消耗过高时， 对于多线程的 Java 应用而言， 最明显的性能影响是线程执行业务处理的速度大幅度下降。<br>在分析 Java 应用中什么动作造成了 CPU 的消耗时， 首先需要找到的为消耗了 较多 CPU资源的线程， 然后根据所消耗的 CPU 的类型并结合线程 dump 来找到造成 CPU 资源消耗高的具体原因。<br>在 linux 中， 可通过 top 或 pidstat 方式来查看进程中线程的 CPU 的消耗状况。</p>
+<h1 id="top">top</h1><p>输入 top 命令后即可查看 CPU 的消耗情况， CPU 的信息在 TOP 视图的上面几行中， 图示如下：</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0082.png" alt=""><br></center><br>在此需要关注的为 Cpu 那行的信息， 其中 4.0% us 表示的为用户占用了 4%的 CPU 时间，主要为所运行的应用程序对 CPU 的消耗； 8.9% sy 表示的为系统占用了 8.9%的 CPU 时间， 主要为系统切换所消耗的 CPU； 0.0% ni 表示被 nice 命令改变优先级的任务所占用的 CPU 时间的百分比； 87.0% id 表示 CPU 的空闲时间所占的百分比为 87%； 0.0% wa 表示的为在执行的过程中等待 IO 所占用的 CPU 的百分比为 0%； 0.2% hi 表示的为硬件中断所占用的 CPU 时间百分比为 0.2%； 0.0% si 表示的为软件中断所占用的 CPU 时间的百分比为 0.0%。对于多个或多核的 CPU， 上面的显示则会是多个 CPU 所占用的百分比的总和， 因此会<br>出现 160% us 这样的现象， 如需查看每个核的消耗情况， 可在进入 top 视图后按 1， 就会按核来显示消耗情况， 如下图所示：</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0083.png" alt=""><br></center><br>当 CPU 消耗过多时， 体现为 us 或 sy 值变大。<br>默认情况下， TOP 视图中显示的为进程的 CPU 消耗状况， 在 TOP 视图中按 shift+h 后，可查看线程的 CPU 消耗状况， 图示如下：</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0084.png" alt=""><br></center><br>此时的 PID 即为线程 ID， 其后的%CPU 表示该线程所消耗的 CPU 百分比。</p>
+<p>#pidstat<br>pidstat 是 SYSSTAT 中的工具， 如需使用 pidstat， 请先安装 SYSSTAT。<br>输入 pidstat 1 2， 在 console 上将会每隔 1 秒输出目前活动进程的 CPU 消耗状况， 共输出 2 次， 图示如下：</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0085.png" alt=""><br></center><br>其中 CPU 表示的为当前进程所使用到的 CPU 个数， 如需查看某进程中线程的 CPU 消耗状况， 可输入 pidstat –p [PID] –t 1 5 这样的方式来查看， 执行后的图示如下：</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0086.png" alt=""><br></center><br>图中的 TID 即为线程 ID。<br>通过上面的方式可查找到 Java 进程中哪个线程消耗了 CPU， CPU 的消耗主要又分为了us 和 sy 两种， Java 应用造成这两个值高的原因不太相同， 分别来看看。</p>
+<h1 id="us">us</h1><p>当 us 值高时， 表示运行的应用程序消耗了大部分的 CPU。<br>首先通过 top 或 pidstat 的方式找到消耗 CPU 的线程 ID， 并将此线程 ID 转化为十六进制的值， 之后通过 kill -3 或 jstack 的方式 dump 出应用的 java 线程信息， 通过之前转化出的十六进制的值找到对应的 nid 的线程， 该线程即为消耗 CPU 的线程， 以上过程需要多操作几次，<br>以确保找到真实的消耗 CPU 的线程， 对于 Java 应用而言， 多数情况下是由于该线程中执行的动作不需要进入过多的 IO 等待、 锁等待或睡眠状态等现象， 以下为一个示例这种状况的代码。</p>
+<figure class="highlight ocaml"><table><tr><td class="code"><pre><span class="line">public static void main(<span class="type">String</span><span class="literal">[]</span> args) throws <span class="type">Exception</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">Demo</span> demo = <span class="keyword">new</span> <span class="type">Demo</span><span class="literal">()</span>;</span><br><span class="line">    demo.runTest<span class="literal">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span> void runTest<span class="literal">()</span> throws <span class="type">Exception</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">int</span> count = <span class="type">Runtime</span>. getRuntime<span class="literal">()</span>.availableProcessors<span class="literal">()</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; count; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">new</span> <span class="type">Thread</span>(<span class="keyword">new</span> <span class="type">ConsumeCPUTask</span><span class="literal">()</span>).start<span class="literal">()</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">200</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">new</span> <span class="type">Thread</span>(<span class="keyword">new</span> <span class="type">NotConsumeCPUTask</span><span class="literal">()</span>).start<span class="literal">()</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="type">ConsumeCPUTask</span> implements <span class="type">Runnable</span></span><br><span class="line">&#123;</span><br><span class="line">    public void run<span class="literal">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">String</span></span><br><span class="line">        str = <span class="string">"fwljfdsklvnxcewewrewrew12wre5rewf1ew2few4few2few2few3few3few5fsd</span><br><span class="line">              1sdewu3249gdfkvdvx"</span> +</span><br><span class="line">              <span class="string">"wefsdjfewvmdxlvdsfofewmvdmvfd;lvds;vds;vdsvdsxcnzgewgdfuvxmvx.;f</span><br><span class="line">              "</span> +</span><br><span class="line">              <span class="string">"fsaffsdjlvcx.vcxgdfjkf;dsfdas#vdsjlfdsmv.xc.vcxjk;fewipvdmsvzlfs</span><br><span class="line">              jlf;afdjsl;fdsp[euiprenvs"</span> +</span><br><span class="line">              <span class="string">"fsdovxc.vmxceworupg;"</span>;</span><br><span class="line">        <span class="built_in">float</span> i = <span class="number">0.002</span>f;</span><br><span class="line">        <span class="built_in">float</span> j = <span class="number">232.13243</span>f;</span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            j = i * j;</span><br><span class="line">            str.indexOf(<span class="string">"#"</span>);</span><br><span class="line">            <span class="type">ArrayList</span>&lt;<span class="type">String</span>&gt; <span class="built_in">list</span> = <span class="keyword">new</span> <span class="type">ArrayList</span>&lt;<span class="type">String</span>&gt;<span class="literal">()</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">int</span> k = <span class="number">0</span>; k &lt; <span class="number">10000</span>; k++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">list</span>.add(str + <span class="type">String</span>. valueOf(k));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">list</span>.contains(<span class="string">"iii"</span>);</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="type">Thread</span>. sleep(<span class="number">10</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            catch (<span class="type">InterruptedException</span> e)</span><br><span class="line">            &#123;</span><br><span class="line">                e.printStackTrace<span class="literal">()</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="type">NotConsumeCPUTask</span> implements <span class="type">Runnable</span></span><br><span class="line">&#123;</span><br><span class="line">    public void run<span class="literal">()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="type">Thread</span>. sleep(<span class="number">10000000</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            catch (<span class="type">InterruptedException</span> e)</span><br><span class="line">            &#123;</span><br><span class="line">                e.printStackTrace<span class="literal">()</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在linux 机器上运行上面的程序， top 并打开线程查看后看到的状况如下：</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0087.png" alt=""><br></center><br>以上面最耗 CPU 的线程 26697 为例， 将 26697 换算成十六进制的值， 结合 java threaddump（ jstack [pid] | grep ‘nid=0x6849’） 找到此线程为：</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line"><span class="string">"Thread-1"</span> prio=<span class="number">10</span> tid=<span class="number">0</span>x706cc400 nid=<span class="number">0</span>x6849 runnable [<span class="number">0</span>x6fd8d000]</span><br><span class="line"> java<span class="class">.lang</span><span class="class">.Thread</span><span class="class">.State</span>: RUNNABLE</span><br><span class="line"> at chapter6.Demo<span class="variable">$ConsumeCPUTask</span>.<span class="function"><span class="title">run</span><span class="params">(Demo.java:<span class="number">36</span>)</span></span></span><br><span class="line"> at java<span class="class">.lang</span><span class="class">.Thread</span><span class="class">.run</span>(Thread<span class="class">.java</span>:<span class="number">619</span>)</span><br></pre></td></tr></table></figure>
+<p>从上可以看到， 主要是 ConsumeCPUTask 的执行消耗了 CPU。<br>总结来说， 当 us 值高时， 主要是由于启动的 Java 线程一直在执行（ 例如循环执行），并且线程中所执行的步骤不太需要等待 IO 或进入 sleep、 wait 等状态， 又或者是启动的线程很多， 当一个线程 sleep、 wait 后， 其他的又在运行。</p>
+<p>#sy<br>当 sy 值高时， 表示系统调用耗费了较多的 CPU， 对于 Java 应用程序而言， 造成这种现象的主要原因是启动的线程比较多， 并且这些线程多数都处于不断的等待（例如锁等待状态）和执行状态的变化过程中， 这就导致了操作系统要不断的调度这些线程， 切换执行， 以下为一个示例这种状况的代码。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> threadCount = <span class="number">500</span>;</span><br><span class="line"><span class="comment">/**</span><br><span class="line">* <span class="doctag">@param</span> args</span><br><span class="line">*/</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(args. length == <span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        threadCount = Integer. parseInt(args[<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    SyHighDemo demo = <span class="keyword">new</span> SyHighDemo();</span><br><span class="line">    demo.runTest();</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">private</span> Random random = <span class="keyword">new</span> Random();</span><br><span class="line"><span class="keyword">private</span> Object[] locks;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">runTest</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span><br><span class="line"></span>&#123;</span><br><span class="line">    locks = <span class="keyword">new</span> Object[threadCount];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; threadCount; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        locks[i] = <span class="keyword">new</span> Object();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; threadCount; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> ATask(i)).start();</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> BTask(i)).start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ATask</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Object lockObject = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ATask</span><span class="params">(<span class="keyword">int</span> i)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        lockObject = locks[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">synchronized</span> (lockObject)</span><br><span class="line">                &#123;</span><br><span class="line">                    lockObject.wait(random.nextInt(<span class="number">10</span>));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (Exception e)</span><br><span class="line">            &#123;</span><br><span class="line">                ;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BTask</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Object lockObject = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">BTask</span><span class="params">(<span class="keyword">int</span> i)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        lockObject = locks[i];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (lockObject)</span><br><span class="line">            &#123;</span><br><span class="line">                lockObject.notifyAll();</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">try</span></span><br><span class="line">            &#123;</span><br><span class="line">                Thread. sleep(random.nextInt(<span class="number">5</span>));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">catch</span> (InterruptedException e)</span><br><span class="line">            &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行以上代码， 结合 sar 查看 CPU 的消耗状况， 可看到类似如下的状况：</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0088.png" alt=""><br></center><br>从上面可以看出， CPU 更多的是消耗在了系统调用上。<br>当 CPU 更多的是消耗在系统调用时， 对于 Java 应用而言， 主要是由于线程数太多以及线程状态切换过于频繁造成的。<br>根据资源的消耗情况以及分析， 对程序的实现进行一定的调优， 下面就来看看常用的一些调优方法。</p>
+<h1 id="对于_CPU_消耗严重的情况">对于 CPU 消耗严重的情况</h1><p>根据之前的分析， CPU us 高的原因主要是执行线程不需要任何挂起动作， 且一直执行，导致 CPU 没有机会去调度执行其他的线程， 对于这种情况， 常见的一种优化方法是对这种线程的动作增加 Thread.sleep， 以释放 CPU 的执行权， 降低 CPU 的消耗。<br>按照这样的思想， 对 CPU 消耗章节中的例子进行修改， 在往集合中增加元素的部分增加 sleep， 修改如下：</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> k = <span class="number">0</span>; k &lt; <span class="number">10000</span>; k++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">list</span>.add(str + String. valueOf(k));</span><br><span class="line">    <span class="keyword">if</span>(k % <span class="number">50</span> == <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (InterruptedException e)</span><br><span class="line">        &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>重新执行以上代码， 通过 top 查看效果：</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0089.png" alt=""><br></center><br>从上结果可见， CPU 的消耗大幅度下降， 当然， 这种修改方式是以损失单次执行性能为代价的， 但由于其降低了 CPU 的消耗， 对于多线程的应用而言， 反而提高了总体的平均性<br>能。<br>在实际的 Java 应用中会有很多类似的场景， 例如多线程的任务执行管理器， 其通常需要通过扫描任务集合列表来执行任务， 对于这些类似的场景， 都可通过增加一定的 sleep 时间来避免消耗过多的 CPU。<br>除了上面的场景外， 还有一种经典的场景是状态的扫描， 例如某线程需要等待其他线程改变了值后才可继续执行， 对于这种场景， 最佳的方式是改为采用 wait/notify 机制。<br>CPU sy 高的原因主要是线程的运行状态要经常切换， 对于这种情况， 常见的一种优化方法是减少线程数。<br>按照这样的思想， 将 CPU 资源消耗中的例子重新执行， 将线程数降低， 传入参数 100，执行结果如下：</p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0090.png" alt=""><br></center><br>可见减少线程数是能让 sy 值下降的， 所以不是说线程数越多吞吐量就越高的， 线程数需要设置为合理的值， 这需要根据应用情况来具体决定， 同时使用线程池避免线程需要不断的创建。<br>除了减少线程数外， 尽可能的降低线程间的锁竞争也是常见的优化方法， 锁竞争降低后，线程的状态切换的次数也就会下降， sy 值也将下降， 但值得注意的是， 如果线程数太多的话， 调优后有可能会造成 us 值过高， 因此合理的设置线程数非常关键， 在线程数以及锁不是很多的情况下， sy 值不会太高， 但锁竞争会造成系统性能的下降。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/29/深入JDK/" title="深入JDK">
+  <strong>上一篇：</strong><br/>
+  <span>
+  深入JDK</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/27/深入JVM/"  title="深入JVM">
+ <strong>下一篇：</strong><br/> 
+ <span>深入JVM
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/07/28/Java性能优化/" data-title="Java性能优化" data-url="http://pangjiuzala.github.io/2015/07/28/Java性能优化/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CPU_消耗分析"><span class="toc-number">1.</span> <span class="toc-text">CPU 消耗分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#top"><span class="toc-number">2.</span> <span class="toc-text">top</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#us"><span class="toc-number">3.</span> <span class="toc-text">us</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#对于_CPU_消耗严重的情况"><span class="toc-number">4.</span> <span class="toc-text">对于 CPU 消耗严重的情况</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2129798793&verifier=c0951e84&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动互联网/" title="移动互联网">移动互联网<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/物联网/" title="物联网">物联网<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云平台/" title="云平台">云平台<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络爬虫/" title="网络爬虫">网络爬虫<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenStack/" title="OpenStack">OpenStack<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/智慧医疗/" title="智慧医疗">智慧医疗<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">25</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="刘兴的CSDN博客">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=pangjiuzala&amp;type=Users" target="_blank" title="关注刘兴的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			The more you diligent, the more you lucky!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Liuxing All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"pangjiuzala"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Ffeafc504b70a541dd3845d467335f367' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

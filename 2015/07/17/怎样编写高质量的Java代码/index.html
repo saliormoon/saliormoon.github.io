@@ -1,0 +1,625 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>怎样编写高质量的Java代码 | 刘兴的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="刘兴">
+    
+
+    
+    <meta name="description" content="代码质量概述
+怎样辨别一个项目代码写得好还是坏？优秀的代码和腐化的代码区别在哪里？怎么让自己写的代码既漂亮又有生命力？接下来将对代码质量的问题进行一些粗略的介绍。也请有过代码质量相关经验的朋友提出宝贵的意见。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="怎样编写高质量的Java代码">
+<meta property="og:url" content="http://pangjiuzala.github.io/2015/07/17/怎样编写高质量的Java代码/index.html">
+<meta property="og:site_name" content="刘兴的博客">
+<meta property="og:description" content="代码质量概述
+怎样辨别一个项目代码写得好还是坏？优秀的代码和腐化的代码区别在哪里？怎么让自己写的代码既漂亮又有生命力？接下来将对代码质量的问题进行一些粗略的介绍。也请有过代码质量相关经验的朋友提出宝贵的意见。">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0035.jpg">
+<meta property="og:updated_time" content="2015-07-30T05:05:37.884Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="怎样编写高质量的Java代码">
+<meta name="twitter:description" content="代码质量概述
+怎样辨别一个项目代码写得好还是坏？优秀的代码和腐化的代码区别在哪里？怎么让自己写的代码既漂亮又有生命力？接下来将对代码质量的问题进行一些粗略的介绍。也请有过代码质量相关经验的朋友提出宝贵的意见。">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="刘兴的博客" title="刘兴的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/17/怎样编写高质量的Java代码/" title="怎样编写高质量的Java代码" itemprop="url">怎样编写高质量的Java代码</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-17T02:54:05.000Z" itemprop="datePublished"> 发表于 2015-07-17</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>代码质量概述</p>
+<p>怎样辨别一个项目代码写得好还是坏？优秀的代码和腐化的代码区别在哪里？怎么让自己写的代码既漂亮又有生命力？接下来将对代码质量的问题进行一些粗略的介绍。也请有过代码质量相关经验的朋友提出宝贵的意见。<br><a id="more"></a></p>
+<p><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0035.jpg" alt=""><br></center><br>代码质量所涉及的5个方面，编码标准、代码重复、代码覆盖率、依赖项分析、复杂度分析。这5方面很大程序上决定了一份代码的质量高低。我们分别来看一下这5方面：</p>
+<p>编码标准：这个想必都很清楚，每个公司几乎都有一份编码规范，类命名、包命名、代码风格之类的东西都属于其中。</p>
+<p>代码重复：顾名思义就是重复的代码，如果你的代码中有大量的重复代码，你就要考虑是否将重复的代码提取出来，封装成一个公共的方法或者组件。</p>
+<p>代码覆盖率：测试代码能运行到的代码比率，你的代码经过了单元测试了吗？是不是每个方法都进行了测试，代码覆盖率是多少？这关系到你的代码的功能性和稳定性。</p>
+<p>依赖项分析：你的代码依赖关系怎么样？耦合关系怎么样？是否有循环依赖？是否符合高内聚低耦合的原则？通过依赖项分析可以辨别一二。</p>
+<p>复杂度分析：以前有人写的程序嵌套了10层 if else你信吗？圈复杂度之高，让人难以阅读。通过复杂度分析可以揪出这些代码，要相信越优秀的代码，越容易读懂。</p>
+<p>上面解释了代码质量相关的5个方面，在实际开发环境中，已经有很多工具为我们解决以上5个方面的问题，下列5个Eclipse插件分别对这5个问题有很好的支持：</p>
+<p>编码标准：CheckStyle  插件URL：<a href="http://eclipse-cs.sourceforge.net/update/" target="_blank" rel="external">http://eclipse-cs.sourceforge.net/update/</a></p>
+<p>代码重复：PMD的CPD  插件URL：<a href="http://pmd.sourceforge.net/eclipse/" target="_blank" rel="external">http://pmd.sourceforge.net/eclipse/</a></p>
+<p>代码覆盖率：Eclemma 插件URL：<a href="http://update.eclemma.org" target="_blank" rel="external">http://update.eclemma.org</a></p>
+<p>依赖项分析：JDepend 插件URL：<a href="http://andrei.gmxhome.de/eclipse/" target="_blank" rel="external">http://andrei.gmxhome.de/eclipse/</a></p>
+<p>复杂度分析：Eclipse Metric  插件URL：<a href="http://metrics.sourceforge.net/update" target="_blank" rel="external">http://metrics.sourceforge.net/update</a></p>
+<p>注：某些插件需要科学上网才能更新</p>
+<p>#编码标准（CheckStyle的使用）</p>
+<p>在eclipse上安装好了CheckStyle插件后，我们来建一个类用它跑一下。这个类很简单，一个常见的用户实体，包含了id，用户名、密码、邮件等属性，并包含get set方法，一个标准的POJO。运行CheckStyle检查一下：</p>
+<p>一个我们平时再普通不过的一个类，被checkstyle弄出这么多问题，情何以堪，我们来看看究竟是什么情况？</p>
+<p>看一下这些警告信息：</p>
+<p>line 1、<br>，说缺少package-info.java文件。</p>
+<p>line 2、<br>，说第一句注释要以“.”结尾。</p>
+<p>line 30、<br>，缺少java doc注释。</p>
+<p>line 35、，getId不是继承的方法，必须指定abstract,final或空。另外也缺少java doc注释。</p>
+<p>这个类基本就这四类毛病，缺少package-info.java文件，这个文件是做什么的呢？他是用来描述包注释的类，有一定的特殊性，要想详细了解请百度。如果对你的项目没有太大的影响，可以忽略它。配置CheckStyle的方法我们等会再说。第一句注释要以“.”结尾，这看你的习惯，你确定需要这个，你就保留，不需要就忽略。缺少java doc，对于java类的属性来说，注释是必要的，所以这个要保留。不是继承的方法，需要加上final关键字，如果你有这个习惯，就保留，反之忽略。</p>
+<p>我们这里只是建立了一个最简单的类用CheckStyle来检查，随着你的类代码越来越多，逻辑越来越复杂，CheckStyle能检查出来的毛病也越来越多。常见的CheckStyle错误有这些：</p>
+<p>1.Type is missing a javadoc commentClass<br>缺少类型说明<br>2.“{” should be on the previous line<br>“{” 应该位于前一行<br>3.Methods is missing a javadoc comment<br>方法前面缺少javadoc注释<br>4.Expected @throws tag for “Exception”<br>在注释中希望有@throws的说明<br>5.“.” Is preceeded with whitespace “.”<br>前面不能有空格<br>6.“.” Is followed by whitespace“.”<br>后面不能有空格<br>7.“=” is not preceeded with whitespace<br>“=” 前面缺少空格<br>8.“=” is not followed with whitespace<br>“=” 后面缺少空格<br>9.“}” should be on the same line<br>“}” 应该与下条语句位于同一行<br>10.Unused @param tag for “unused”<br>没有参数“unused”，不需注释<br>11.Variable “CA” missing javadoc<br>变量“CA”缺少javadoc注释<br>12.Line longer than 80characters<br>行长度超过80<br>13.Line contains a tab character<br>行含有”tab” 字符<br>14.Redundant “Public” modifier<br>冗余的“public” modifier<br>15.Final modifier out of order with the JSL<br>suggestionFinal modifier的顺序错误<br>16.Avoid using the “.<em>” form of import<br>Import格式避免使用“.</em>”<br>17.Redundant import from the same package<br>从同一个包中Import内容<br>18.Unused import-java.util.list<br>Import进来的java.util.list没有被使用<br>19.Duplicate import to line 13<br>重复Import同一个内容<br>20.Import from illegal package<br>从非法包中 Import内容<br>21.“while” construct must use “{}”<br>“while” 语句缺少“{}”<br>22.Variable “sTest1” must be private and have accessor method<br>变量“sTest1”应该是private的，并且有调用它的方法<br>23.Variable “ABC” must match pattern “^[a-z][a-zA-Z0-9]<em>$”<br>变量“ABC”不符合命名规则“^[a-z][a-zA-Z0-9]</em>$”<br>24.“(” is followed by whitespace<br>“(” 后面不能有空格<br>25.“)” is proceeded by whitespace<br>“)” 前面不能有空格</p>
+<p>可以看出CheckStyle检查出来的问题，大多是编码规则以及风格上的问题，这是编写高质量代码最基本的。值得注意的是，我们将一些优秀的开源代码用CheckStyle来检查也会检查出不少问题，这不能不说这些开源不优秀，而是每个公司组织有自己的编写规范度，这个度既可以减少程序员的工作量又可以让代码的可读性合格，但这个度不一样符合CheckStyle的完整标准。所以我们一般使用CheckStyle都不会用他的默认标准，而是通过配置，制定适合自己的编码规则。</p>
+<p>#自定义CheckStyle规则：</p>
+<p>打开CheckStyle配置，新建一个配置，选择外部配置文件。在这之前最好导出一个eclipse自带的checkstyle配置文件（sun_checks.xml），然后重命名作为一个外部的配置导进去，这么做的目的是导入之后可以修改相应的配置，达到自定义配置的目的（因为eclipse自带的配置是加锁的，不能修改）。导入之后，点击右边的“Configure”进行编辑。</p>
+<p>先去掉缺少package-info.java文件的提示</p>
+<p>再将第一句注释要以“.”结尾这个规则去掉，双击“Style javadoc”，将窗口内“checkFirstSentence”勾选去掉。</p>
+<p>对于实体类，属性有了注释，get set方法也不需要注释了，双击“Method javadoc”将allowMissingPropertyJavadoc勾选中。</p>
+<p>“getId不是继承的方法，必须指定abstract,final或空”，如果你懒得在方法上加“final”，这条规则也可以去掉。</p>
+<p>如果你不想每一个参数都加“final”，还需要把参数的final规则去掉：</p>
+<p>另外还有一个错误“’id’ hides a field.”，原因是方法的参数和类里面定义的域重名了，但使用eclipse生成的get set方法都会这样，所以可以忽略此项。</p>
+<p>至此我们再使用checkstyle检查一篇，发现仅剩下属性缺少注释这个警告。</p>
+<p>对每个属性加上java doc注释，所有问题都清除了。以此类推，解决checkstyle问题的方法就是：1、按规则解决代码问题；2、如果觉得这个问题对你的项目质量影响不大，则可以忽略它。</p>
+<p>#代码重复（PMD的CPD的使用）</p>
+<p>对于多人开发的项目，难以避免出现重复代码的问题，尽管我们尽量对共用的代码进行了封装，但随着需求的增加、人员技术水平差异、沟通不足等原因，重复代码会越来越多。这不仅严重影响代码质量，也无形中增加了代码量。</p>
+<p>注：精简的程序和高复用度的代码是我们一直追求的目标。</p>
+<p>PMD的CPD工具就是为检查重复代码而生的。右键项目—&gt;PMD—-&gt;Find Suspect Cut and Paste,执行重复代码检查：</p>
+<p>检查出来的重复代码，可以双击查看。然后根据业务逻辑以及代码特征，决定要不要做封装、怎么封装。</p>
+<p>#代码覆盖率（Eclemma的使用）</p>
+<p>一份质量合格的代码，不仅包含功能程序本身也包含了对应的测试代码，Eclemma插件可以用来统计测试代码覆盖整体代码中的比率，以此来评估代码的功能性和稳定性。</p>
+<p>使用Junit编写好测试用例之后，右键Coverage As—&gt;Junit Test，运行测试用例，Eclemma会统计出相关的代码覆盖率：</p>
+<p>根据这个结果，你可以看出自己编写的测试用例覆盖到了那些代码，而没有覆盖到的代码，则有可能成为代码质量的盲区。</p>
+<p>#依赖项分析（JDepend的使用）</p>
+<p>随着程序业务逻辑的增加，代码的依赖关系也变的越来越复杂，JDepend插件可以统计包和类的依赖关系，分析出程序的稳定性、抽象性和是否存在循环依赖的问题。右键包—&gt;Run JDepend Analysis：</p>
+<p>看一下这几项指标：</p>
+<p>CC（Number of Classes)</p>
+<p>被分析package的具体和抽象类（和接口）的数量，用于衡量package的可扩展性。如果一个类中实现了其他类，如实现了监听类，则监听类的数目也记录在此。</p>
+<p>AC（Abstract classes）</p>
+<p>抽象类和接口的数量。</p>
+<p>Ca（Afferent Couplings)</p>
+<p>依赖于被分析package的其他package的数量，用于衡量pacakge的职责。即有多少包调用了它。</p>
+<p>Ce（Efferent Couplings)</p>
+<p>被分析package的类所依赖的其他package的数量，用于衡量package的独立性。即它调用了多少其他包。</p>
+<p>A（Abstractness)</p>
+<p>被分析package中的抽象类和接口与所在package所有类数量的比例，取值范围为0－1。</p>
+<p>I（Instability)</p>
+<p>I＝Ce/（Ce＋Ca），用于衡量package的不稳定性，取值范围为0－1。I＝0表示最稳定，I＝1表示最不稳定。即如果这个类不调用任何其他包，则它是最稳定的。</p>
+<p>D（Distance)</p>
+<p>被分析package和理想曲线A＋I＝1的垂直距离，用于衡量package在稳定性和抽象性之间的平衡。理想的package要么完全是抽象类和稳定（x＝0，y＝1），要么完全是具体类和不稳定（x＝1，y＝0）。取值范围为0－1，D＝0表示完全符合理想标准，D＝1表示package最大程度地偏离了理想标准。即你的包要么全是接口，不调用任何其他包（完全是抽象类和稳定），要么是具体类，不被任何其他包调用。</p>
+<p>Cycle</p>
+<p>循环依赖的数量。</p>
+<p>有个这个报告我们就可以有针对性的对代码进行设计和重构。</p>
+<p>#复杂度分析（Metrics的使用）</p>
+<p>对于阅读代码的人来说，越简单的代码越好理解和维护，如果你的代码阅读起来很费劲或者你自己过段时间后再来看都看不懂，你就得想办法解决下代码的复杂度问题了。Metrics插件可以帮你做到这点。</p>
+<p>首先在Java透视图下右键一个项目—-&gt;Properties，选择Metrics，勾选Enble Metrics。</p>
+<p>然后Window—&gt;Show View—-&gt;Other—-&gt;Metrics View</p>
+<p>打开Metrics视图，点击右上角运行图标，即可得到复杂度分析的结果：</p>
+<p>可以根据复杂度指标，对自己的程序进行优化。</p>
+<p>#小结</p>
+<p>本文介绍了和java代码质量相关的5个方面问题，并介绍对应eclipse插件的用法和作用。在我们实际开发中，尽量根据自己公司和团队的情况来制定一些检查规则，来提高代码质量。并且在大多数情况下，会有两个检查环节，即本地检查和持续集成环境的检查，我们常用的Hudson就可以集成很多插件。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/18/openHAB简介/" title="openHAB简介">
+  <strong>上一篇：</strong><br/>
+  <span>
+  openHAB简介</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/16/Java8十大新特性详解/"  title="Java8十大新特性详解">
+ <strong>下一篇：</strong><br/> 
+ <span>Java8十大新特性详解
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/07/17/怎样编写高质量的Java代码/" data-title="怎样编写高质量的Java代码" data-url="http://pangjiuzala.github.io/2015/07/17/怎样编写高质量的Java代码/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2129798793&verifier=c0951e84&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动互联网/" title="移动互联网">移动互联网<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/物联网/" title="物联网">物联网<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云平台/" title="云平台">云平台<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络爬虫/" title="网络爬虫">网络爬虫<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenStack/" title="OpenStack">OpenStack<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/智慧医疗/" title="智慧医疗">智慧医疗<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">25</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="刘兴的CSDN博客">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=pangjiuzala&amp;type=Users" target="_blank" title="关注刘兴的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			The more you diligent, the more you lucky!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Liuxing All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"pangjiuzala"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Ffeafc504b70a541dd3845d467335f367' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

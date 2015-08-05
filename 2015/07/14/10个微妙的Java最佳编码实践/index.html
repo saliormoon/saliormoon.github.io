@@ -1,0 +1,622 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>10个微妙的Java最佳编码实践 | 刘兴的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="刘兴">
+    
+
+    
+    <meta name="description" content="编写和维护jOOQ(Java中内部DSL建模的SQL)时遇到过这些。作为一个内部DSL，jOOQ最大限度的挑战了Java的编译器和泛型，把泛型，可变参数和重载结合在一起，Josh Bloch可能不会推荐的这种太宽泛的API。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10个微妙的Java最佳编码实践">
+<meta property="og:url" content="http://pangjiuzala.github.io/2015/07/14/10个微妙的Java最佳编码实践/index.html">
+<meta property="og:site_name" content="刘兴的博客">
+<meta property="og:description" content="编写和维护jOOQ(Java中内部DSL建模的SQL)时遇到过这些。作为一个内部DSL，jOOQ最大限度的挑战了Java的编译器和泛型，把泛型，可变参数和重载结合在一起，Josh Bloch可能不会推荐的这种太宽泛的API。">
+<meta property="og:updated_time" content="2015-07-31T02:28:31.382Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="10个微妙的Java最佳编码实践">
+<meta name="twitter:description" content="编写和维护jOOQ(Java中内部DSL建模的SQL)时遇到过这些。作为一个内部DSL，jOOQ最大限度的挑战了Java的编译器和泛型，把泛型，可变参数和重载结合在一起，Josh Bloch可能不会推荐的这种太宽泛的API。">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="刘兴的博客" title="刘兴的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/14/10个微妙的Java最佳编码实践/" title="10个微妙的Java最佳编码实践" itemprop="url">10个微妙的Java最佳编码实践</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-14T13:14:46.000Z" itemprop="datePublished"> 发表于 2015-07-14</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>编写和维护jOOQ(Java中内部DSL建模的SQL)时遇到过这些。作为一个内部DSL，jOOQ最大限度的挑战了Java的编译器和泛型，把泛型，可变参数和重载结合在一起，Josh Bloch可能不会推荐的这种太宽泛的API。<br><a id="more"></a><br>10个微妙的Java编码最佳实践：</p>
+<p>#牢记C++的析构函数</p>
+<p>记得C++的析构函数？不记得了？那么你真的很幸运，因为你不必去调试那些由于对象删除后分配的内存没有被释放而导致内存泄露的代码。感谢Sun / Oracle实现的垃圾回收机制吧！</p>
+<p>尽管如此，析构函数仍提供了一个有趣的特征。它理解逆分配顺序释放内存。记住在Java中也是这样的，当你操作类析构函数语法：</p>
+<p>使用JUnit的@Before和@After注释<br>分配，释放JDBC资源<br>调用super方法</p>
+<p>还有其他各种用例。这里有一个具体的例子，说明如何实现一些事件侦听器的SPI：<br><figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">beforeEvent</span><span class="params">(EventContext e)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.beforeEvent(e);</span><br><span class="line">    <span class="comment">// Super code before my code</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">afterEvent</span><span class="params">(EventContext e)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="comment">// Super code after my code</span></span><br><span class="line">    <span class="keyword">super</span>.afterEvent(e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>臭名昭著的哲学家就餐问题是另一个说明它为什么重要的好例子。 关于哲学家用餐的问题，请查看链接：<br><a href="http://adit.io/posts/2013-05-11-The-Dining-Philosophers-Problem-With-Ron-Swanson.html" target="_blank" rel="external">http://adit.io/posts/2013-05-11-The-Dining-Philosophers-Problem-With-Ron-Swanson.html</a></p>
+<p>规则：无论何时使用before / after, allocate / free, take / return语义实现逻辑时，考虑是否逆序执行after / free / return操作。</p>
+<p>#不要相信你早期的SPI演进判断</p>
+<p>向客户提供SPI可以使他们轻松的向你的库 / 代码中注入自定义行为的方法。当心你的SPI演进判断可能会迷惑你，使你认为你 (不)打算需要附加参数。 当然，不应当过早增加功能。但一旦你发布了你的SPI，一旦你决定遵循语义版本控制，当你意识到在某种情况下你可能需要另外一个参数时，你会真的后悔在SPI中增加一个愚蠢的单参数的方法:<br><figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title">EventListener</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Bad</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">message</span>(<span class="params">String message</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果你也需要消息ID和消息源，怎么办？API演进将会阻止你向上面的类型添加参数。当然，有了Java8，你可以添加一个defender方法，“防御”你早期糟糕的设计决策：<br><figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title">EventListener</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Bad</span></span><br><span class="line"><span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">message</span>(<span class="params">String message</span>)</span><br><span class="line">    </span>&#123;</span><br><span class="line">        message(message, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Better?</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">message</span>(<span class="params"></span><br><span class="line">        String message,</span><br><span class="line">        Integer id,</span><br><span class="line">        MessageSource source</span><br><span class="line">    </span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意，不幸的是，defender方法不能使用final修饰符。</p>
+<p>但是比起使用许多方法污染你的SPI，使用上下文对象(或者参数对象)会好很多。<br><figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">interface</span> <span class="title">MessageContext</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">String <span class="title">message</span>(<span class="params"></span>)</span>;</span><br><span class="line">    <span class="function">Integer <span class="title">id</span>(<span class="params"></span>)</span>;</span><br><span class="line">    <span class="function">MessageSource <span class="title">source</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">interface</span> <span class="title">EventListener</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// Awesome!</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">message</span>(<span class="params">MessageContext context</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>比起EventListner SPI你可以更容易演进MessageContext API，因为很少用户会实现它。</p>
+<p>规则: 无论何时指定SPI时，考虑使用上下文 / 参数对象，而不是写带有固定参数的方法。</p>
+<p>备注: 通过专用的MessageResult类型交换结果也是一个好主意，该类型可以使用建设者API构造它。这样将大大增加SPI进化的灵活性。</p>
+<p>#避免返回匿名，本地或者内部类</p>
+<p>Swing程序员通常只要按几下快捷键即可生成成百上千的匿名类。在多数情况下，只要遵循接口、不违反SPI子类型的生命周期(SPI subtype lifecycle)，这样做也无妨。 但是不要因为一个简单的原因——它们会保存对外部类的引用，就频繁的使用匿名、局部或者内部类。因为无论它们走到哪，外部类就得跟到哪。例如，在局部类的域外操作不当的话，那么整个对象图就会发生微妙的变化从而可能引起内存泄露。</p>
+<p>规则：在编写匿名、局部或内部类前请三思能否将它转化为静态的或普通的顶级类，从而避免方法将它们的对象返回到更外层的域中。</p>
+<p>注意：使用双层花括号来初始化简单对象：<br><figure class="highlight processing"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="keyword">HashMap</span>&lt;<span class="keyword">String</span>, <span class="keyword">String</span>&gt;()</span><br><span class="line">&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        put(<span class="string">"1"</span>, <span class="string">"a"</span>);</span><br><span class="line">        put(<span class="string">"2"</span>, <span class="string">"b"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个方法利用了 JLS §8.6规范里描述的实例初始化方法(initializer)。表面上看起来不错，但实际上不提倡这种做法。因为要是使用完全独立的HashMap对象，那么实例就不会一直保存着外部对象的引用。此外，这也会让类加载器管理更多的类。</p>
+<p>#现在就开始编写SAM！</p>
+<p>Java8的脚步近了。伴随着Java8带来了lambda表达式，无论你是否喜欢。尽管你的API用户可能会喜欢，但是你最好确保他们可以尽可能经常的使用。因此除非你的API接收简单的“标量”类型，比如int、long、String 、Date，否则让你的API尽可能经常的接收SAM。</p>
+<p>什么是SAM？SAM是单一抽象方法[类型]。也称为函数接口，不久会被注释为@FunctionalInterface。这与规则2很配，EventListener实际上就是一个SAM。最好的SAM只有一个参数，因为这将会进一步简化lambda表达式的编写。设想编写</p>
+<p>listeners.add(c -&gt; System.out.println(c.message()));</p>
+<p>来替代<br><figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">listeners.add(<span class="keyword">new</span> EventListener()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">void</span> <span class="title">message</span><span class="params">(MessageContext c)</span></span><br><span class="line">    </span>&#123;</span><br><span class="line">        System.out.println(c.message()));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>设想以JOOX的方式来处理XML。JOOX就包含很多的SAM：<br><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">$(document)</span><br><span class="line"><span class="comment">// Find elements with an ID</span></span><br><span class="line">.<span class="function"><span class="title">find</span><span class="params">(c -&gt; $(c)</span></span>.<span class="function"><span class="title">id</span><span class="params">()</span></span> != null)</span><br><span class="line"><span class="comment">// Find their child elements</span></span><br><span class="line">.<span class="function"><span class="title">children</span><span class="params">(c -&gt; $(c)</span></span>.<span class="function"><span class="title">tag</span><span class="params">()</span></span>.<span class="function"><span class="title">equals</span><span class="params">(<span class="string">"order"</span>)</span></span>)</span><br><span class="line"><span class="comment">// Print all matches</span></span><br><span class="line">.<span class="function"><span class="title">each</span><span class="params">(c -&gt; System.out.println($(c)</span></span>))</span><br></pre></td></tr></table></figure></p>
+<p>规则：对你的API用户好一点儿，从现在开始编写SAM / 函数接口。</p>
+<p>备注：有许多关于Java8 lambda表达式和改善的Collections API的有趣的博客：</p>
+<p><a href="http://blog.informatech.cr/2013/04/10/java-optional-objects/" target="_blank" rel="external">http://blog.informatech.cr/2013/04/10/java-optional-objects/</a><br><a href="http://blog.informatech.cr/2013/03/25/java-streams-api-preview/" target="_blank" rel="external">http://blog.informatech.cr/2013/03/25/java-streams-api-preview/</a><br><a href="http://blog.informatech.cr/2013/03/24/java-streams-preview-vs-net-linq/" target="_blank" rel="external">http://blog.informatech.cr/2013/03/24/java-streams-preview-vs-net-linq/</a><br><a href="http://blog.informatech.cr/2013/03/11/java-infinite-streams/" target="_blank" rel="external">http://blog.informatech.cr/2013/03/11/java-infinite-streams/</a></p>
+<p>#避免让方法返回null</p>
+<p>我曾写过1、2篇关于java NULLs的文章，也讲解过Java8中引入新的Optional类。从学术或实用的角度来看，这些话题还是比较有趣的。</p>
+<p>尽管现阶段Null和NullPointerException依然是Java的硬伤，但是你仍可以设计出不会出现任何问题的API。在设计API时，应当尽可能的避免让方法返回null，因为你的用户可能会链式调用方法：</p>
+<p>initialise(someArgument).calculate(data).dispatch();</p>
+<p>从上面代码中可看出，任何一个方法都不应返回null。实际上，在通常情况下使用null会被认为相当的异类。像 jQuery或 jOOX这样的库在可迭代的对象上已完全的摒弃了null。</p>
+<p>Null通常用在延迟初始化中。在许多情况下，在不严重影响性能的条件下，延迟初始化也应该被避免。实际上，如果涉及的数据结构过于庞大，那么就要慎用延迟初始化。</p>
+<p>规则：无论何时方法都应避免返回null。null仅用来表示“未初始化”或“不存在”的语义。</p>
+<p>#设计API时永远不要返回空(null)数组或List</p>
+<p>尽管在一些情况下方法返回值为null是可以的，但是绝不要返回空数组或空集合！请看 java.io.File.list()方法，它是这样设计的：</p>
+<p>此方法会返回一个指定目录下所有文件或目录的字符串数组。如果目录为空(empty)那么返回的数组也为空(empty)。如果指定的路径不存在或发生I / O错误，则返回null。</p>
+<p>因此，这个方法通常要这样使用：<br><figure class="highlight stata"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">File</span> directory = <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">if</span> (directory.isDirectory())</span><br><span class="line">&#123;</span><br><span class="line">    String[] <span class="keyword">list</span> = directory.<span class="keyword">list</span>();</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">list</span> != null)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span> (String <span class="keyword">file</span> : <span class="keyword">list</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>大家觉得null检查有必要吗？大多数I / O操作会产生IOExceptions，但这个方法却只返回了null。Null是无法存放I / O错误信息的。因此这样的设计，有以下3方面的不足：</p>
+<p>Null无助于发现错误<br>Null无法表明I / O错误是由File实例所对应的路径不正确引起的<br>每个人都可能会忘记判断null情况</p>
+<p>以集合的思维来看待问题的话，那么空的(empty)的数组或集合就是对“不存在”的最佳实现。返回空(null)数组或集合几乎是无任何实际意义的，除非用于延迟初始化。</p>
+<p>规则：返回的数组或集合不应为null。</p>
+<p>#避免状态，使用函数</p>
+<p>HTTP的好处是无状态。所有相关的状态在每次请求和响应中转移。这是REST命名的本质：含状态传输(Representational state transfer)。在Java中这样做也很赞。当方法接收状态参数对象的时候从规则2的角度想想这件事。如果状态通过这种对象传输，而不是从外边操作状态，那么事情将会更简单。以JDBC为例。下述例子从一个存储的程序中读取一个光标。<br><figure class="highlight nimrod"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">CallableStatement</span> s =</span><br><span class="line">    connection.prepareCall(<span class="string">"&#123; ? = ... &#125;"</span>);</span><br><span class="line">    // <span class="type">Verbose</span> manipulation <span class="keyword">of</span> statement state:</span><br><span class="line">    s.registerOutParameter(<span class="number">1</span>, cursor);</span><br><span class="line">    s.setString(<span class="number">2</span>, <span class="string">"abc"</span>);</span><br><span class="line">    s.execute();</span><br><span class="line">    <span class="type">ResultSet</span> rs = s.getObject(<span class="number">1</span>);</span><br><span class="line">// <span class="type">Verbose</span> manipulation <span class="keyword">of</span> <span class="literal">result</span> <span class="type">set</span> state:</span><br><span class="line">rs.next();</span><br><span class="line"> rs.next();</span><br></pre></td></tr></table></figure></p>
+<p>这使得JDBC API如此的古怪。每个对象都是有状态的，难以操作。具体的说，有两个主要的问题：</p>
+<p>在多线程环境很难正确的处理有状态的API<br>很难让有状态的资源全局可用，因为状态没有被描述<br> 规则：更多的以函数风格实现。通过方法参数转移状态。极少操作对象状态。</p>
+<p>#短路式 equals()</p>
+<p>这是一个比较容易操作的方法。在比较复杂的对象系统中，你可以获得显著的性能提升，只要你在所有对象的equals()方法中首先进行相等判断:<br><figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object other)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> == other) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    <span class="comment">// 其它相等判断逻辑...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意，其它短路式检查可能涉及到null值检查，所以也应当加进去:<br><figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="annotation">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object other)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span> == other) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (other == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    <span class="comment">// Rest of equality logic...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>规则: 在你所有的equals()方法中使用短路来提升性能。</p>
+<p>#尽量使方法默认为final</p>
+<p>有些人可能不同意这一条，因为使方法默认为final与Java开发者的习惯相违背。但是如果你对代码有完全的掌控，那么使方法默认为final是肯定没错的：</p>
+<p>如果你确实需要覆盖（override）一个方法（你真的需要？），你仍然可以移除final关键字<br>你将永远不会意外地覆盖（override）任何方法</p>
+<p>这特别适用于静态方法，在这种情况下“覆盖”（实际上是遮蔽）几乎不起作用。我最近在Apache Tika中遇到了一个很糟糕的遮蔽静态方法的例子。看一下：</p>
+<p>TaggedInputStream.get(InputStream)<br>TikaInputStream.get(InputStream)</p>
+<p>TikaInputStream扩展了TaggedInputStream，以一种相对不同的实现遮蔽了它的静态get()方法。</p>
+<p>与常规方法不同，静态方法不能互相覆盖，因为调用的地方在编译时就绑定了静态方法调用。如果你不走运，你可能会意外获得错误的方法。</p>
+<p>规则：如果你完全掌控你的API，那么使尽可能多的方法默认为final。</p>
+<p>#避免方法(T…)签名</p>
+<p>在特殊场合下使用“accept - all”变量参数方法接收一个Object…参数就没有错的：</p>
+<p>void acceptAll(Object… all);</p>
+<p>编写这样的方法为Java生态系统带来一点儿JavaScript的感觉。当然你可能想要根据真实的情形限制实际的类型，比如String…。因为你不想要限制太多，你可能会认为用泛型T取代Object是一个好想法：</p>
+<p>void acceptAll(T… all);</p>
+<p>但是不是。T总是会被推断为Object。实际上你可能仅仅认为上述方法中不能使用泛型。更重要的是你可能认为你可以重载上述方法，但是你不能：</p>
+<p>void acceptAll(T… all);<br>void acceptAll(String message, T… all);</p>
+<p>这看起来好像你可以可选地传递一个String消息到方法。但是这个调用会发生什么呢？</p>
+<p>acceptAll(“Message”, 123, “abc”);</p>
+<p>编译器将T推断为 &lt;? extends Serializable &amp; Comparable&lt;? &gt;&gt; ，这将会使调用不明确！</p>
+<p>所以无论何时你有一个“accept - all”签名（即使是泛型），你将永远不能类型安全地重载它。API使用者可能仅仅在走运的时候才会让编译器“偶然地”选择“正确的”方法。但是也可能使用accept - all方法或者无法调用任何方法。</p>
+<p>规则: 如果可能，避免“accept - all”签名。如果不能，不要重载这样的方法。</p>
+<p>结论</p>
+<p>Java是一个野兽。不像其它更理想主义的语言，它慢慢地演进为今天的样子。这可能是一件好事，因为以Java的开发速度就已经有成百上千个警告，而且这些警告只能通过多年的经验去把握。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/15/Java习惯用法总结/" title="Java习惯用法总结">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Java习惯用法总结</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/13/减少GC的5个编程技巧/"  title="减少GC的5个编程技巧">
+ <strong>下一篇：</strong><br/> 
+ <span>减少GC的5个编程技巧
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/07/14/10个微妙的Java最佳编码实践/" data-title="10个微妙的Java最佳编码实践" data-url="http://pangjiuzala.github.io/2015/07/14/10个微妙的Java最佳编码实践/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2129798793&verifier=c0951e84&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动互联网/" title="移动互联网">移动互联网<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/物联网/" title="物联网">物联网<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云平台/" title="云平台">云平台<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络爬虫/" title="网络爬虫">网络爬虫<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenStack/" title="OpenStack">OpenStack<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/智慧医疗/" title="智慧医疗">智慧医疗<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">25</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="刘兴的CSDN博客">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=pangjiuzala&amp;type=Users" target="_blank" title="关注刘兴的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			The more you diligent, the more you lucky!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Liuxing All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"pangjiuzala"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Ffeafc504b70a541dd3845d467335f367' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

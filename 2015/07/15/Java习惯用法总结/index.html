@@ -1,0 +1,667 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Java习惯用法总结 | 刘兴的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="刘兴">
+    
+
+    
+    <meta name="description" content="在Java编程中，有一些些最常用的习惯用法，总结如下：
+#使用equals()
+class Person &amp;#123;String name;int birthYear;byte[] raw;public boolean equals(Object obj) &amp;#123;if (!obj instanceof Person)return false;Person other = (Person)o">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java习惯用法总结">
+<meta property="og:url" content="http://pangjiuzala.github.io/2015/07/15/Java习惯用法总结/index.html">
+<meta property="og:site_name" content="刘兴的博客">
+<meta property="og:description" content="在Java编程中，有一些些最常用的习惯用法，总结如下：
+#使用equals()
+class Person &amp;#123;String name;int birthYear;byte[] raw;public boolean equals(Object obj) &amp;#123;if (!obj instanceof Person)return false;Person other = (Person)o">
+<meta property="og:updated_time" content="2015-07-23T07:40:37.400Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java习惯用法总结">
+<meta name="twitter:description" content="在Java编程中，有一些些最常用的习惯用法，总结如下：
+#使用equals()
+class Person &amp;#123;String name;int birthYear;byte[] raw;public boolean equals(Object obj) &amp;#123;if (!obj instanceof Person)return false;Person other = (Person)o">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="刘兴的博客" title="刘兴的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="刘兴的博客">刘兴的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/07/15/Java习惯用法总结/" title="Java习惯用法总结" itemprop="url">Java习惯用法总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-07-15T11:55:44.000Z" itemprop="datePublished"> 发表于 2015-07-15</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>在Java编程中，有一些些最常用的习惯用法，总结如下：</p>
+<p>#使用equals()</p>
+<figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">class <span class="keyword">Person</span> &#123;</span><br><span class="line"></span><br><span class="line">String name;</span><br><span class="line"></span><br><span class="line">int birthYear;</span><br><span class="line"></span><br><span class="line">byte<span class="comment">[]</span> raw;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public boolean equals(Object obj) &#123;</span><br><span class="line"></span><br><span class="line">if (!obj instanceof <span class="keyword">Person</span>)</span><br><span class="line"></span><br><span class="line">return false;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">Person</span> other = (<span class="keyword">Person</span>)obj;</span><br><span class="line"></span><br><span class="line">return name.equals(other.name)</span><br><span class="line"></span><br><span class="line">&amp;&amp; birthYear == other.birthYear</span><br><span class="line"></span><br><span class="line">&amp;&amp; Arrays.equals(raw, other.raw);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public int hashCode() &#123; ... &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>参数必须是Object类型，不能是外围类。</p>
+<p>foo.equals(null) 必须返回false，不能抛NullPointerException。（注意，null instanceof 任意类 总是返回false，因此上面的代码可以运行。）</p>
+<p>基本类型域（比如，int）的比较使用 == ，基本类型数组域的比较使用Arrays.equals()。</p>
+<p>覆盖equals()时，记得要相应地覆盖 hashCode()，与 equals() 保持一致。</p>
+<p>参考： java.lang.Object.equals(Object)。</p>
+<p>#使用hashCode()</p>
+<figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">class <span class="keyword">Person</span> &#123;</span><br><span class="line"></span><br><span class="line">String a;</span><br><span class="line"></span><br><span class="line">Object b;</span><br><span class="line"></span><br><span class="line">byte c;</span><br><span class="line"></span><br><span class="line">int<span class="comment">[]</span> d;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public int hashCode() &#123;</span><br><span class="line"></span><br><span class="line">return a.hashCode() + b.hashCode() + c + Arrays.hashCode(d);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public boolean equals(Object o) &#123; ... &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当x和y两个对象具有x.equals(y) == true ，你必须要确保x.hashCode() == y.hashCode()。</p>
+<p>根据逆反命题，如果x.hashCode() != y.hashCode()，那么x.equals(y) == false 必定成立。</p>
+<p>你不需要保证，当x.equals(y) == false时，x.hashCode() != y.hashCode()。但是，如果你可以尽可能地使它成立的话，这会提高哈希表的性能。</p>
+<p>hashCode()最简单的合法实现就是简单地return 0；虽然这个实现是正确的，但是这会导致HashMap这些数据结构运行得很慢。</p>
+<p>参考：java.lang.Object.hashCode()。</p>
+<p>#使用compareTo()</p>
+<figure class="highlight inform7"><table><tr><td class="code"><pre><span class="line">class <span class="keyword">Person</span> implements Comparable&lt;<span class="keyword">Person</span>&gt; &#123;</span><br><span class="line"></span><br><span class="line">String firstName;</span><br><span class="line"></span><br><span class="line">String lastName;</span><br><span class="line"></span><br><span class="line">int birthdate;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// Compare by firstName, break ties by lastName, finally break ties by birthdate</span><br><span class="line"></span><br><span class="line">public int compareTo(<span class="keyword">Person</span> other) &#123;</span><br><span class="line"></span><br><span class="line">if (firstName.compareTo(other.firstName) != 0)</span><br><span class="line"></span><br><span class="line">return firstName.compareTo(other.firstName);</span><br><span class="line"></span><br><span class="line">else if (lastName.compareTo(other.lastName) != 0)</span><br><span class="line"></span><br><span class="line">return lastName.compareTo(other.lastName);</span><br><span class="line"></span><br><span class="line">else if (birthdate &lt; other.birthdate)</span><br><span class="line"></span><br><span class="line">return -1;</span><br><span class="line"></span><br><span class="line">else if (birthdate &gt; other.birthdate)</span><br><span class="line"></span><br><span class="line">return 1;</span><br><span class="line"></span><br><span class="line">else</span><br><span class="line"></span><br><span class="line">return 0;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总是实现泛型版本 Comparable 而不是实现原始类型 Comparable 。因为这样可以节省代码量和减少不必要的麻烦。</p>
+<p>只关心返回结果的正负号（负/零/正），它们的大小不重要。</p>
+<p>Comparator.compare()的实现与这个类似。</p>
+<p>参考：java.lang.Comparable。</p>
+<p>#使用clone()</p>
+<figure class="highlight nimrod"><table><tr><td class="code"><pre><span class="line">class <span class="type">Values</span> implements <span class="type">Cloneable</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="type">String</span> abc;</span><br><span class="line"></span><br><span class="line">double foo;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span>[] bars;</span><br><span class="line"></span><br><span class="line"><span class="type">Date</span> hired;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public <span class="type">Values</span> clone() &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="type">Values</span> <span class="literal">result</span> = (<span class="type">Values</span>)super.clone();</span><br><span class="line"></span><br><span class="line"><span class="literal">result</span>.bars = <span class="literal">result</span>.bars.clone();</span><br><span class="line"></span><br><span class="line"><span class="literal">result</span>.hired = <span class="literal">result</span>.hired.clone();</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line"></span><br><span class="line">&#125; catch (<span class="type">CloneNotSupportedException</span> e) &#123; // <span class="type">Impossible</span></span><br><span class="line"></span><br><span class="line">throw new <span class="type">AssertionError</span>(e);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用 super.clone() 让Object类负责创建新的对象。</p>
+<p>基本类型域都已经被正确地复制了。同样，我们不需要去克隆String和BigInteger等不可变类型。</p>
+<p>手动对所有的非基本类型域（对象和数组）进行深度复制（deep copy）。</p>
+<p>实现了Cloneable的类，clone()方法永远不要抛CloneNotSupportedException。因此，需要捕获这个异常并忽略它，或者使用不受检异常（unchecked exception）包装它。</p>
+<p>不使用Object.clone()方法而是手动地实现clone()方法是可以的也是合法的。</p>
+<p>参考：java.lang.Object.clone()、java.lang.Cloneable()。</p>
+<p>#使用StringBuilder或StringBuffer<br><figure class="highlight processing"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// join(["a", "b", "c"]) -&gt; "a and b and c"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">String</span> <span class="built_in">join</span>(List&lt;<span class="keyword">String</span>&gt; strs) &#123;</span><br><span class="line"></span><br><span class="line">StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"></span><br><span class="line"><span class="built_in">boolean</span> first = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">String</span> s : strs) &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (first) first = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">else</span> sb.<span class="built_in">append</span>(<span class="string">" and "</span>);</span><br><span class="line"></span><br><span class="line">sb.<span class="built_in">append</span>(s);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> sb.toString();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不要像这样使用重复的字符串连接：s += item ，因为它的时间效率是O(n^2)。</p>
+<p>使用StringBuilder或者StringBuffer时，可以使用append()方法添加文本和使用toString()方法去获取连接起来的整个文本。</p>
+<p>优先使用StringBuilder，因为它更快。StringBuffer的所有方法都是同步的，而你通常不需要同步的方法。</p>
+<p>参考java.lang.StringBuilder、java.lang.StringBuffer。</p>
+<p>#生成一个范围内的随机整数</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">Random rand = <span class="keyword">new</span> Random();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// Between 1 and 6, inclusive</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">diceRoll</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> rand.nextInt(<span class="number">6</span>) + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总是使用Java API方法去生成一个整数范围内的随机数。</p>
+<p>不要试图去使用 Math.abs(rand.nextInt()) % n 这些不确定的用法，因为它的结果是有偏差的。此外，它的结果值有可能是负数，比如当rand.nextInt() == Integer.MIN_VALUE时就会如此。</p>
+<p>参考：java.util.Random.nextInt(int)。</p>
+<p>#使用Iterator.remove()</p>
+<figure class="highlight nimrod"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> filter(<span class="type">List</span>&lt;<span class="type">String</span>&gt; list) &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="type">Iterator</span>&lt;<span class="type">String</span>&gt; iter = list.<span class="keyword">iterator</span>(); iter.hasNext(); ) &#123;</span><br><span class="line"></span><br><span class="line"><span class="type">String</span> item = iter.next();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (...)</span><br><span class="line"></span><br><span class="line">iter.remove();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>remove()方法作用在next()方法最近返回的条目上。每个条目只能使用一次remove()方法。</p>
+<p>参考：java.util.Iterator.remove()。</p>
+<p>#返转字符串</p>
+<figure class="highlight processing"><table><tr><td class="code"><pre><span class="line"><span class="keyword">String</span> <span class="built_in">reverse</span>(<span class="keyword">String</span> s) &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">new</span> StringBuilder(s).<span class="built_in">reverse</span>().toString();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法可能应该加入Java标准库。</p>
+<p>参考：java.lang.StringBuilder.reverse()。</p>
+<p>#启动一条线程</p>
+<p>下面的三个例子使用了不同的方式完成了同样的事情。</p>
+<p>实现Runnnable的方式：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">startAThread0</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Thread(<span class="keyword">new</span> MyRunnable()).start();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>#继承Thread的方式：<br><figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">void startAThread1() &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="type">MyThread</span>().start();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword"><span class="keyword">extends</span></span> <span class="title">Thread</span> &#123;</span></span><br><span class="line"></span><br><span class="line">public void run() &#123;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>#匿名继承Thread的方式：</p>
+<figure class="highlight less"><table><tr><td class="code"><pre><span class="line"><span class="tag">void</span> <span class="tag">startAThread2</span>() &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">new</span> <span class="tag">Thread</span>() &#123;</span><br><span class="line"></span><br><span class="line"><span class="tag">public</span> <span class="tag">void</span> <span class="tag">run</span>() &#123;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;<span class="class">.start</span>();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不要直接调用run()方法。总是调用Thread.start()方法，这个方法会创建一条新的线程并使新建的线程调用run()。</p>
+<p>参考：java.lang.Thread, java.lang.Runnable。</p>
+<p>#使用try-finally</p>
+<p>I/O流例子：</p>
+<figure class="highlight ceylon"><table><tr><td class="code"><pre><span class="line"><span class="keyword">void</span> writeStuff() <span class="annotation">throws</span> IOException &#123;</span><br><span class="line"></span><br><span class="line">OutputStream <span class="keyword">out</span> = <span class="keyword">new</span> FileOutputStream(...);</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">out</span>.write(...);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">out</span>.close();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>锁例子：</p>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">doWithLock</span>(<span class="params">Lock <span class="keyword">lock</span></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">lock</span>.acquire();</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">lock</span>.release();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果try之前的语句运行失败并且抛出异常，那么finally语句块就不会执行。但无论怎样，在这个例子里不用担心资源的释放。</p>
+<p>如果try语句块里面的语句抛出异常，那么程序的运行就会跳到finally语句块里执行尽可能多的语句，然后跳出这个方法（除非这个方法还有另一个外围的finally语句块）。</p>
+<p>#从输入流里读取字节数据</p>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line">InputStream <span class="keyword">in</span> = (...);</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> b = <span class="keyword">in</span>.read();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (b == -<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">(... process b ...)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">in</span>.close();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>read()方法要么返回下一次从流里读取的字节数（0到255，包括0和255），要么在达到流的末端时返回-1。</p>
+<p>参考：java.io.InputStream.read()。</p>
+<p>#从输入流里读取块数据<br><figure class="highlight d"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">InputStream <span class="keyword">in</span> = (...);</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">100</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> n = <span class="keyword">in</span>.read(buf);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (n == -<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">(... process buf <span class="keyword">with</span> offset=<span class="number">0</span> and length=n ...)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">in</span>.close();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>要记住的是，read()方法不一定会填满整个buf，所以你必须在处理逻辑中考虑返回的长度。</p>
+<p>参考： java.io.InputStream.read(byte[])、java.io.InputStream.read(byte[], int, int)。</p>
+<p>#从文件里读取文本</p>
+<figure class="highlight processing"><table><tr><td class="code"><pre><span class="line"><span class="keyword">BufferedReader</span> in = <span class="keyword">new</span> <span class="keyword">BufferedReader</span>(</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> InputStreamReader(<span class="keyword">new</span> FileInputStream(...), <span class="string">"UTF-8"</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">String</span> <span class="built_in">line</span> = in.readLine();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">line</span> == <span class="keyword">null</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">(... process <span class="built_in">line</span> ...)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"></span><br><span class="line">in.close();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>BufferedReader对象的创建显得很冗长。这是因为Java把字节和字符当成两个不同的概念来看待（这与C语言不同）。</p>
+<p>你可以使用任何类型的InputStream来代替FileInputStream，比如socket。</p>
+<p>当达到流的末端时，BufferedReader.readLine()会返回null。</p>
+<p>要一次读取一个字符，使用Reader.read()方法。</p>
+<p>你可以使用其他的字符编码而不使用UTF-8，但最好不要这样做。</p>
+<p>参考：java.io.BufferedReader、java.io.InputStreamReader。</p>
+<p>#向文件里写文本</p>
+<figure class="highlight ceylon"><table><tr><td class="code"><pre><span class="line">PrintWriter <span class="keyword">out</span> = <span class="keyword">new</span> PrintWriter(</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> OutputStreamWriter(<span class="keyword">new</span> FileOutputStream(...), <span class="string">"UTF-8"</span>));</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">out</span>.print(<span class="string">"Hello "</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">out</span>.print(<span class="number">42</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">out</span>.println(<span class="string">" world!"</span>);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">out</span>.close();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Printwriter对象的创建显得很冗长。这是因为Java把字节和字符当成两个不同的概念来看待（这与C语言不同）。</p>
+<p>就像System.out，你可以使用print()和println()打印多种类型的值。</p>
+<p>你可以使用其他的字符编码而不使用UTF-8，但最好不要这样做。</p>
+<p>参考：java.io.PrintWriter、java.io.OutputStreamWriter。</p>
+<p>预防性检测（Defensive checking）数值</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">factorial</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (n &lt; <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Undefined"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (n &gt;= <span class="number">13</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> ArithmeticException(<span class="string">"Result overflow"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> (n == <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="function">n * <span class="title">factorial</span><span class="params">(n - <span class="number">1</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不要认为输入的数值都是正数、足够小的数等等。要显式地检测这些条件。</p>
+<p>一个设计良好的函数应该对所有可能性的输入值都能够正确地执行。要确保所有的情况都考虑到了并且不会产生错误的输出（比如溢出）。</p>
+<p>#预防性检测对象</p>
+<figure class="highlight lasso"><table><tr><td class="code"><pre><span class="line">int findIndex(<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; <span class="built_in">list</span>, <span class="built_in">String</span> target) &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="built_in">list</span> == <span class="built_in">null</span> <span class="subst">||</span> target == <span class="built_in">null</span>)</span><br><span class="line"></span><br><span class="line">throw <span class="literal">new</span> NullPointerException();</span><br><span class="line"></span><br><span class="line"><span class="attribute">...</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不要认为对象参数不会为空（null）。要显式地检测这个条件。</p>
+<p>#预防性检测数组索引<br><figure class="highlight axapta"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">void</span> frob(<span class="keyword">byte</span>[] b, <span class="keyword">int</span> <span class="keyword">index</span>) &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (b == <span class="keyword">null</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">index</span> &lt; <span class="number">0</span> || <span class="keyword">index</span> &gt;= b.length)</span><br><span class="line"></span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException();</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不要认为所以给的数组索引不会越界。要显式地检测它。</p>
+<p>#预防性检测数组区间<br><figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">frob</span><span class="params">(<span class="keyword">byte</span>[] b, <span class="keyword">int</span> off, <span class="keyword">int</span> len)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (b == <span class="keyword">null</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (off &lt; <span class="number">0</span> || off &gt; b.length</span><br><span class="line"></span><br><span class="line">|| len &lt; <span class="number">0</span> || b.length - off &lt; len)</span><br><span class="line"></span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException();</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不要认为所给的数组区间（比如，从off开始，读取len个元素）是不会越界。要显式地检测它。</p>
+<p>#填充数组元素</p>
+<p>使用循环：</p>
+<figure class="highlight gcode"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Fill each element of array 'a' with 123</span></span><br><span class="line"></span><br><span class="line">byte[] a = <span class="comment">(...)</span>;</span><br><span class="line"></span><br><span class="line">for <span class="comment">(int i = 0; i &lt; a.length; i++)</span></span><br><span class="line"></span><br><span class="line">a[i] = <span class="number">123</span>;</span><br><span class="line"></span><br><span class="line">（优先）使用标准库的方法：</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Arrays.fill<span class="comment">(a, (byte)</span><span class="number">123</span>);</span><br></pre></td></tr></table></figure>
+<p>参考：java.util.Arrays.fill(T[], T)。</p>
+<p>参考：java.util.Arrays.fill(T[], int, int, T)。</p>
+<p>#复制一个范围内的数组元素</p>
+<p>使用循环：</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">// Copy 8 elements from<span class="instruction"> array </span>'a' starting at offset 3</span><br><span class="line"></span><br><span class="line">// to<span class="instruction"> array </span>'b' starting at offset 6,</span><br><span class="line"></span><br><span class="line">// assuming 'a'<span class="instruction"> and </span>'b' are distinct arrays</span><br><span class="line"></span><br><span class="line">byte<span class="keyword">[</span>] a =<span class="function"> (</span>...<span class="function">)</span>;</span><br><span class="line"></span><br><span class="line">byte<span class="keyword">[</span>] b =<span class="function"> (</span>...<span class="function">)</span>;</span><br><span class="line"></span><br><span class="line">for<span class="function"> (</span>int i = 0; i &lt; 8; i++<span class="function">)</span></span><br><span class="line"></span><br><span class="line">b<span class="keyword">[</span>6 + i] = a<span class="keyword">[</span>3 + i];</span><br><span class="line"></span><br><span class="line">（优先）使用标准库的方法：</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">System.arraycopy(a, 3, b, 6, 8<span class="function">)</span>;</span><br></pre></td></tr></table></figure>
+<p>参考：java.lang.System.arraycopy(Object, int, Object, int, int)。</p>
+<p>#调整数组大小</p>
+<p>使用循环（扩大规模）：</p>
+<figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">// Make<span class="instruction"> array </span>'a' larger to newLen</span><br><span class="line"></span><br><span class="line">byte<span class="keyword">[</span>] a =<span class="function"> (</span>...<span class="function">)</span>;</span><br><span class="line"></span><br><span class="line">byte<span class="keyword">[</span>] b =<span class="instruction"> new </span>byte<span class="keyword">[</span>new<span class="class">Len];</span></span><br><span class="line"></span><br><span class="line">for<span class="function"> (</span>int i = 0; i &lt; a.length; i++<span class="function">)</span> // Goes up to length of A</span><br><span class="line"></span><br><span class="line">b<span class="keyword">[</span>i] = a<span class="keyword">[</span>i];</span><br><span class="line"></span><br><span class="line">a = b;</span><br><span class="line"></span><br><span class="line">使用循环（减小规模）：</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// Make<span class="instruction"> array </span>'a' smaller to newLen</span><br><span class="line"></span><br><span class="line">byte<span class="keyword">[</span>] a =<span class="function"> (</span>...<span class="function">)</span>;</span><br><span class="line"></span><br><span class="line">byte<span class="keyword">[</span>] b =<span class="instruction"> new </span>byte<span class="keyword">[</span>new<span class="class">Len];</span></span><br><span class="line"></span><br><span class="line">for<span class="function"> (</span>int i = 0; i &lt; b.length; i++<span class="function">)</span> // Goes up to length of B</span><br><span class="line"></span><br><span class="line">b<span class="keyword">[</span>i] = a<span class="keyword">[</span>i];</span><br><span class="line"></span><br><span class="line">a = b;</span><br><span class="line"></span><br><span class="line">（优先）使用标准库的方法：</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">a =<span class="function"> Arrays.copyOf(</span>a, new<span class="class">Len);</span></span><br></pre></td></tr></table></figure>
+<p>参考：java.util.Arrays.copyOf(T[], int)。</p>
+<p>参考：java.util.Arrays.copyOfRange(T[], int, int)。</p>
+<p>#把4个字节包装（packing）成一个int</p>
+<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">packBigEndian</span><span class="params">(byte[] b)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> (b[<span class="number">0</span>] &amp; <span class="number">0xFF</span>) &lt;&lt; <span class="number">24</span></span><br><span class="line"></span><br><span class="line">| (b[<span class="number">1</span>] &amp; <span class="number">0xFF</span>) &lt;&lt; <span class="number">16</span></span><br><span class="line"></span><br><span class="line">| (b[<span class="number">2</span>] &amp; <span class="number">0xFF</span>) &lt;&lt; <span class="number">8</span></span><br><span class="line"></span><br><span class="line">| (b[<span class="number">3</span>] &amp; <span class="number">0xFF</span>) &lt;&lt; <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">packLittleEndian</span><span class="params">(byte[] b)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> (b[<span class="number">0</span>] &amp; <span class="number">0xFF</span>) &lt;&lt; <span class="number">0</span></span><br><span class="line"></span><br><span class="line">| (b[<span class="number">1</span>] &amp; <span class="number">0xFF</span>) &lt;&lt; <span class="number">8</span></span><br><span class="line"></span><br><span class="line">| (b[<span class="number">2</span>] &amp; <span class="number">0xFF</span>) &lt;&lt; <span class="number">16</span></span><br><span class="line"></span><br><span class="line">| (b[<span class="number">3</span>] &amp; <span class="number">0xFF</span>) &lt;&lt; <span class="number">24</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>#把int分解（Unpacking）成4个字节</p>
+<figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"><span class="keyword">byte</span>[] unpackBigEndian(<span class="keyword">int</span> x) &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">byte</span>[] &#123;</span><br><span class="line"></span><br><span class="line">(<span class="keyword">byte</span>)(x &gt;&gt;&gt; <span class="number">24</span>),</span><br><span class="line"></span><br><span class="line">(<span class="keyword">byte</span>)(x &gt;&gt;&gt; <span class="number">16</span>),</span><br><span class="line"></span><br><span class="line">(<span class="keyword">byte</span>)(x &gt;&gt;&gt; <span class="number">8</span>),</span><br><span class="line"></span><br><span class="line">(<span class="keyword">byte</span>)(x &gt;&gt;&gt; <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">byte</span>[] unpackLittleEndian(<span class="keyword">int</span> x) &#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">byte</span>[] &#123;</span><br><span class="line"></span><br><span class="line">(<span class="keyword">byte</span>)(x &gt;&gt;&gt; <span class="number">0</span>),</span><br><span class="line"></span><br><span class="line">(<span class="keyword">byte</span>)(x &gt;&gt;&gt; <span class="number">8</span>),</span><br><span class="line"></span><br><span class="line">(<span class="keyword">byte</span>)(x &gt;&gt;&gt; <span class="number">16</span>),</span><br><span class="line"></span><br><span class="line">(<span class="keyword">byte</span>)(x &gt;&gt;&gt; <span class="number">24</span>)</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总是使用无符号右移操作符（&gt;&gt;&gt;）对位进行包装（packing），不要使用算术右移操作符（&gt;&gt;）。<br>版权声明：本文为博主原创文章，未经博主允许不得转载。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/07/16/Java8十大新特性详解/" title="Java8十大新特性详解">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Java8十大新特性详解</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/07/14/10个微妙的Java最佳编码实践/"  title="10个微妙的Java最佳编码实践">
+ <strong>下一篇：</strong><br/> 
+ <span>10个微妙的Java最佳编码实践
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2015/07/15/Java习惯用法总结/" data-title="Java习惯用法总结" data-url="http://pangjiuzala.github.io/2015/07/15/Java习惯用法总结/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=2129798793&verifier=c0951e84&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/大数据/" title="大数据">大数据<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据挖掘/" title="数据挖掘">数据挖掘<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/移动互联网/" title="移动互联网">移动互联网<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/物联网/" title="物联网">物联网<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Android/" title="Android">Android<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云平台/" title="云平台">云平台<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/云计算/" title="云计算">云计算<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络爬虫/" title="网络爬虫">网络爬虫<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/OpenStack/" title="OpenStack">OpenStack<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/智慧医疗/" title="智慧医疗">智慧医疗<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">25</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net/pangjiuzala" target="_blank" title="刘兴的CSDN博客">CSDN</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=pangjiuzala&amp;type=Users" target="_blank" title="关注刘兴的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			The more you diligent, the more you lucky!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Liuxing All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"pangjiuzala"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Ffeafc504b70a541dd3845d467335f367' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
