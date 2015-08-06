@@ -11,24 +11,21 @@
     
 
     
-    <meta name="description" content="CPU，一般认为写C/C++的才需要了解，写高级语言的(Java/C#/pathon…)并不需要了解那么底层的东西。我一开始也是这么想的，但直到碰到LMAX的Disruptor，以及马丁的博文，才发现写Java的，更加不能忽视CPU。经过一段时间的阅读，希望总结一下自己的阅读后的感悟。本文主要谈谈CPU缓存对Java编程的影响，不涉及具体CPU缓存的机制和实现。
-现代CPU的缓存结构一般分三层，L">
+    <meta name="description" content="CPU，一般认为写C/C++的才需要了解，写高级语言的(Java/C#/pathon…)并不需要了解那么底层的东西。我一开始也是这么想的，但直到碰到LMAX的Disruptor，以及马丁的博文，才发现写Java的，更加不能忽视CPU。经过一段时间的阅读，希望总结一下自己的阅读后的感悟。本文主要谈谈CPU缓存对Java编程的影响，不涉及具体CPU缓存的机制和实现。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="写Java需知CPU缓存">
 <meta property="og:url" content="http://pangjiuzala.github.io/2015/08/06/写Java需知CPU缓存/index.html">
 <meta property="og:site_name" content="刘兴的博客">
-<meta property="og:description" content="CPU，一般认为写C/C++的才需要了解，写高级语言的(Java/C#/pathon…)并不需要了解那么底层的东西。我一开始也是这么想的，但直到碰到LMAX的Disruptor，以及马丁的博文，才发现写Java的，更加不能忽视CPU。经过一段时间的阅读，希望总结一下自己的阅读后的感悟。本文主要谈谈CPU缓存对Java编程的影响，不涉及具体CPU缓存的机制和实现。
-现代CPU的缓存结构一般分三层，L">
+<meta property="og:description" content="CPU，一般认为写C/C++的才需要了解，写高级语言的(Java/C#/pathon…)并不需要了解那么底层的东西。我一开始也是这么想的，但直到碰到LMAX的Disruptor，以及马丁的博文，才发现写Java的，更加不能忽视CPU。经过一段时间的阅读，希望总结一下自己的阅读后的感悟。本文主要谈谈CPU缓存对Java编程的影响，不涉及具体CPU缓存的机制和实现。">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0130.png">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0131.png">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0132.png">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0133.png">
 <meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0134.png">
-<meta property="og:updated_time" content="2015-08-04T12:32:02.354Z">
+<meta property="og:updated_time" content="2015-08-06T00:47:19.652Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="写Java需知CPU缓存">
-<meta name="twitter:description" content="CPU，一般认为写C/C++的才需要了解，写高级语言的(Java/C#/pathon…)并不需要了解那么底层的东西。我一开始也是这么想的，但直到碰到LMAX的Disruptor，以及马丁的博文，才发现写Java的，更加不能忽视CPU。经过一段时间的阅读，希望总结一下自己的阅读后的感悟。本文主要谈谈CPU缓存对Java编程的影响，不涉及具体CPU缓存的机制和实现。
-现代CPU的缓存结构一般分三层，L">
+<meta name="twitter:description" content="CPU，一般认为写C/C++的才需要了解，写高级语言的(Java/C#/pathon…)并不需要了解那么底层的东西。我一开始也是这么想的，但直到碰到LMAX的Disruptor，以及马丁的博文，才发现写Java的，更加不能忽视CPU。经过一段时间的阅读，希望总结一下自己的阅读后的感悟。本文主要谈谈CPU缓存对Java编程的影响，不涉及具体CPU缓存的机制和实现。">
 
     
     <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
@@ -105,8 +102,7 @@
 		
 		</div>
 		
-		<p>CPU，一般认为写C/C++的才需要了解，写高级语言的(Java/C#/pathon…)并不需要了解那么底层的东西。我一开始也是这么想的，但直到碰到LMAX的Disruptor，以及马丁的博文，才发现写Java的，更加不能忽视CPU。经过一段时间的阅读，希望总结一下自己的阅读后的感悟。本文主要谈谈CPU缓存对Java编程的影响，不涉及具体CPU缓存的机制和实现。</p>
-<p>现代CPU的缓存结构一般分三层，L1，L2和L3。如下图所示：</p>
+		<p>CPU，一般认为写C/C++的才需要了解，写高级语言的(Java/C#/pathon…)并不需要了解那么底层的东西。我一开始也是这么想的，但直到碰到LMAX的Disruptor，以及马丁的博文，才发现写Java的，更加不能忽视CPU。经过一段时间的阅读，希望总结一下自己的阅读后的感悟。本文主要谈谈CPU缓存对Java编程的影响，不涉及具体CPU缓存的机制和实现。<br><a id="more"></a><br>现代CPU的缓存结构一般分三层，L1，L2和L3。如下图所示：</p>
 <center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0130.png" alt=""><br></center><br>级别越小的缓存，越接近CPU， 意味着速度越快且容量越少。<br><br>L1是最接近CPU的，它容量最小，速度最快，每个核上都有一个L1 Cache(准确地说每个核上有两个L1 Cache， 一个存数据 L1d Cache， 一个存指令 L1i Cache)；<br><br>L2 Cache 更大一些，例如256K，速度要慢一些，一般情况下每个核上都有一个独立的L2 Cache；<br><br>L3 Cache是三级缓存中最大的一级，例如12MB，同时也是最慢的一级，在同一个CPU插槽之间的核共享一个L3 Cache。<br><br>当CPU运作时，它首先去L1寻找它所需要的数据，然后去L2，然后去L3。如果三级缓存都没找到它需要的数据，则从内存里获取数据。寻找的路径越长，耗时越长。所以如果要非常频繁的获取某些数据，保证这些数据在L1缓存里。这样速度将非常快。下表表示了CPU到各缓存和内存之间的大概速度：<br><br>从CPU到     　　大约需要的CPU周期         大约需要的时间(单位ns)<br>寄存器        　1 cycle<br>L1 Cache   　　 ~3-4 cycles                ~0.5-1 ns<br>L2 Cache 　　   ~10-20 cycles 　　         ~3-7 ns<br>L3 Cache 　　   ~40-45 cycles 　　         ~15 ns<br>跨槽传输　　　　　　　　　　　　　         ~20 ns<br>内存 　　　　　 ~120-240 cycles            ~60-120ns<br><br>利用CPU-Z可以查看CPU缓存的信息：<br><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0131.png" alt=""><br></center>
 
 
