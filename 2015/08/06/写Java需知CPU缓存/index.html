@@ -4,23 +4,31 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Debug命令大全 | 刘兴的博客</title>
+    <title>写Java需知CPU缓存 | 刘兴的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="刘兴">
     
 
     
-    <meta name="description" content="DEBUG在每个人的机器里都会有，只是很多人对它都很陌生，不要小看它,对你的破解会很有帮助的。如你掌握了它的用法，对你的日常使用及维护工作会带来很大的方便，下面介绍一些它的基本指令用法：">
+    <meta name="description" content="CPU，一般认为写C/C++的才需要了解，写高级语言的(Java/C#/pathon…)并不需要了解那么底层的东西。我一开始也是这么想的，但直到碰到LMAX的Disruptor，以及马丁的博文，才发现写Java的，更加不能忽视CPU。经过一段时间的阅读，希望总结一下自己的阅读后的感悟。本文主要谈谈CPU缓存对Java编程的影响，不涉及具体CPU缓存的机制和实现。
+现代CPU的缓存结构一般分三层，L">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Debug命令大全">
-<meta property="og:url" content="http://pangjiuzala.github.io/2015/07/07/Debug命令大全/index.html">
+<meta property="og:title" content="写Java需知CPU缓存">
+<meta property="og:url" content="http://pangjiuzala.github.io/2015/08/06/写Java需知CPU缓存/index.html">
 <meta property="og:site_name" content="刘兴的博客">
-<meta property="og:description" content="DEBUG在每个人的机器里都会有，只是很多人对它都很陌生，不要小看它,对你的破解会很有帮助的。如你掌握了它的用法，对你的日常使用及维护工作会带来很大的方便，下面介绍一些它的基本指令用法：">
-<meta property="og:updated_time" content="2015-07-24T07:32:00.633Z">
+<meta property="og:description" content="CPU，一般认为写C/C++的才需要了解，写高级语言的(Java/C#/pathon…)并不需要了解那么底层的东西。我一开始也是这么想的，但直到碰到LMAX的Disruptor，以及马丁的博文，才发现写Java的，更加不能忽视CPU。经过一段时间的阅读，希望总结一下自己的阅读后的感悟。本文主要谈谈CPU缓存对Java编程的影响，不涉及具体CPU缓存的机制和实现。
+现代CPU的缓存结构一般分三层，L">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0130.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0131.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0132.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0133.png">
+<meta property="og:image" content="http://7xiur2.com1.z0.glb.clouddn.com/0134.png">
+<meta property="og:updated_time" content="2015-08-04T12:32:02.354Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Debug命令大全">
-<meta name="twitter:description" content="DEBUG在每个人的机器里都会有，只是很多人对它都很陌生，不要小看它,对你的破解会很有帮助的。如你掌握了它的用法，对你的日常使用及维护工作会带来很大的方便，下面介绍一些它的基本指令用法：">
+<meta name="twitter:title" content="写Java需知CPU缓存">
+<meta name="twitter:description" content="CPU，一般认为写C/C++的才需要了解，写高级语言的(Java/C#/pathon…)并不需要了解那么底层的东西。我一开始也是这么想的，但直到碰到LMAX的Disruptor，以及马丁的博文，才发现写Java的，更加不能忽视CPU。经过一段时间的阅读，希望总结一下自己的阅读后的感悟。本文主要谈谈CPU缓存对Java编程的影响，不涉及具体CPU缓存的机制和实现。
+现代CPU的缓存结构一般分三层，L">
 
     
     <link rel="alternative" href="https://github.com/search?q=pangjiuzala&type=Users" title="刘兴的博客" type="application/atom+xml">
@@ -77,14 +85,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/07/07/Debug命令大全/" title="Debug命令大全" itemprop="url">Debug命令大全</a>
+      <a href="/2015/08/06/写Java需知CPU缓存/" title="写Java需知CPU缓存" itemprop="url">写Java需知CPU缓存</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
 		
   <p class="article-time">
-    <time datetime="2015-07-07T01:54:45.000Z" itemprop="datePublished"> 发表于 2015-07-07</time>
+    <time datetime="2015-08-05T22:30:55.000Z" itemprop="datePublished"> 发表于 2015-08-06</time>
     
   </p>
 </header>
@@ -97,26 +105,36 @@
 		
 		</div>
 		
-		<p>DEBUG在每个人的机器里都会有，只是很多人对它都很陌生，不要小看它,对你的破解会很有帮助的。如你掌握了它的用法，对你的日常使用及维护工作会带来很大的方便，下面介绍一些它的基本指令用法：<br><a id="more"></a><br>　指令　格式 功能 　　　　　　　　　　　　备注<br>　　A　　A 　[记忆体位址] 　　　　　　　　组译汇编语言指令 A 100<br>　　C　　C 　[区段1] [区段范围] [区段2] 　将两块内存作比较 C 100 L20 200<br>　　D　　D 　[记忆体拉址] 　　　　　　　　显示记忆体的内容 D 100<br>　　E　　E 　[记忆体位址] 　　　　　　　　编辑记忆体资料 E 100<br>　　F　　F 　[指定区段范围] 　　　　　　　填充指定内存区块内容 F 100 L10 90<br>　　G　　G 　[区段:区址]　　　　　　　　　带有任选断点执行 G 100<br>　　H　　H 　[运算子] [运算子]　　　　　　十六进制加减运算 H 44 33<br>　　I　　I 　[端口]　　　　　　　　　　 　读/显示输入字节<br>　　L　　L 　[记忆位址]或[磁碟,磁轨,磁区] 装入文件或磁区 L 100 2 1 2<br>　　M　　M 　[区段范围] [记忆体位址]　　　传送内存区块 M 100 L10 110<br>　　N　　N 　[档案名称] 　　　　　　　　　定义文件及参量 N bb.com<br>　　O　　O 　[端口位址] 　　　　　　　　　输出字节到端口<br>　　P　　P 　[区段:区址]　　　　　　　　　在下一指令上停止 P 2<br>　　Q　　Q 　退出 DEBUG 界面　　　　　　　Q<br>　　R　　R 　[寄存器] 　　　　　　　　　　显示修改寄存器/标志 R AX<br>　　S　　S 　[记忆区段范围] 　　　　　　　对字符进行检索 S 100 L70 ‘j’<br>　　T　　T 　[=记忆区段]或[数值范围]　　　单步追踪 T<br>　　U　　U 　[记忆位址] 　　　　　　　　　对指令进行反汇编 U 100<br>　　W　　W 　[记忆区段]或[指定范围] 　　　写入文件或磁盘扇区 W 100 0 1 1 </p>
-<p>下面对一些常用指令进行详细剖析：</p>
-<p>　A （Assemble）汇编指令<br>　1、输入汇编语句被汇编到内存的指定区段，此区段在开始时用 A address 指定。<br>　2、所有语句输入完成后，按 ENTER 键返回。<br>　3、完成输入后，可以用 U 命令观看它的机械码。</p>
-<p>　D （Dump）显示命令<br>　1、从指定的地址开始显示内容，如果没有指定地址，则从前一个D命令继续显示。<br>　2、如果没指定地址并是第一次，则从 DS:100 处开始显示。</p>
-<p>　G （Go）转移命令<br>　1、执行正在调试的程序，当执行到指定的地址时停止，并显示寄存器樗和下一条要<br>　　 执行的命令。<br>　2、G [=address]用于执行正在调试没有断点的程式。<br>　3、程序运行结束，DEBUG 显示“Porgram terminated normally”。</p>
-<p>　R （Register）寄存器命令<br>　1、显示一个寄存器的十六进制内容,并可根据需要改变它们。<br>　2、显示8个字母的状态标志,并可根据需要更改它们之中的任一个或全部。</p>
-<p>　U （Unassemble）反汇编命令<br>　1、对指令进行反汇编，它们的地址和十六进制以类似于汇编语言的语句一起显示出<br>　　 来。<br>　2、单独用 U 命令从 CS:100 处开始反汇编。<br>　3、U命令默认段地址包含 CS 寄存器中。</p>
-<p>　</p>
-<p>　DEBUG 技巧应用</p>
-<p>　1、用 DEBUG 对子目录加密<br>　DOS在管理文件目录时，用 32 个字节来保存根目录和子目录的信息。对子目录而言<br>　0-10 字节为子目录域，第 11 字节为属性。我们只要将子目录属性字节的值从 10H<br>　改为 13H 时，子目录即具有拒绝 DIR、TREE 等命令的性能。<br>　<br>　例如：</p>
-<p>　对 A 盘的 SUBDIK 子目录进行加密：</p>
-<p>　　　　C:>DEBUG<br>　　　　-L 100 0 5 7 （将 A 盘中目录读入内存）<br>　　　　-S 100 FFF “SUBDIK” （搜索子目录）<br>　　　　-38EB:07c0 （搜索到的子目录地址）<br>　　　　-E 07CB (07C)+0B=07CB（为属性字节位址）<br>　　　　38EB:07CB 10.13 （修改完成）<br>　　　　-W 100 0 5 7 （目录写回A盘中）<br>　　　　-Q （退出）</p>
-<p>　2、解除 BIOS 密码</p>
-<p>　　　　C:>DEBUG<br>　　　　-O 70 10<br>　　　　-O 71 11<br>　　　　重新启动,BIOS 密码已被攻破。</p>
-<p>　3、冷启动实现</p>
-<p>　　　　C:>DEBUG RESET.COM<br>　　　　-A 100<br>　　　　JMP FFFF:0000<br>　　　　INT 20<br>　　　　-RCX<br>　　　　00007<br>　　　　-W<br>　　　　-Q </p>
-<p>　4、热启动实现</p>
-<p>　　　　C:\DEBUG BOOT.COM<br>　　　　-A 0100<br>　　　　MOV AX,0040<br>　　　　MOV DS,AX<br>　　　　MOV AX,1234<br>　　　　MOV SI,0072<br>　　　　MOV [SI],AX<br>　　　　JMP FFFF:0<br>　　　　INT 20<br>　　　　-RCX<br>　　　　0014<br>　　　　-W<br>　　　　-Q </p>
-<p>下面一些东东自己下载后，在自己的机器上调试一下吧，顺便熟悉一下 DEBUG 的操作环境。</p>
-<p>　DOS 下改变边框颜色的东东<br>　DOS 下改变显示字符的东东<br>　DOS 下密码输入的东东：输入不正确,就会当掉键盘，它的密码是：68885 </p>
+		<p>CPU，一般认为写C/C++的才需要了解，写高级语言的(Java/C#/pathon…)并不需要了解那么底层的东西。我一开始也是这么想的，但直到碰到LMAX的Disruptor，以及马丁的博文，才发现写Java的，更加不能忽视CPU。经过一段时间的阅读，希望总结一下自己的阅读后的感悟。本文主要谈谈CPU缓存对Java编程的影响，不涉及具体CPU缓存的机制和实现。</p>
+<p>现代CPU的缓存结构一般分三层，L1，L2和L3。如下图所示：</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0130.png" alt=""><br></center><br>级别越小的缓存，越接近CPU， 意味着速度越快且容量越少。<br><br>L1是最接近CPU的，它容量最小，速度最快，每个核上都有一个L1 Cache(准确地说每个核上有两个L1 Cache， 一个存数据 L1d Cache， 一个存指令 L1i Cache)；<br><br>L2 Cache 更大一些，例如256K，速度要慢一些，一般情况下每个核上都有一个独立的L2 Cache；<br><br>L3 Cache是三级缓存中最大的一级，例如12MB，同时也是最慢的一级，在同一个CPU插槽之间的核共享一个L3 Cache。<br><br>当CPU运作时，它首先去L1寻找它所需要的数据，然后去L2，然后去L3。如果三级缓存都没找到它需要的数据，则从内存里获取数据。寻找的路径越长，耗时越长。所以如果要非常频繁的获取某些数据，保证这些数据在L1缓存里。这样速度将非常快。下表表示了CPU到各缓存和内存之间的大概速度：<br><br>从CPU到     　　大约需要的CPU周期         大约需要的时间(单位ns)<br>寄存器        　1 cycle<br>L1 Cache   　　 ~3-4 cycles                ~0.5-1 ns<br>L2 Cache 　　   ~10-20 cycles 　　         ~3-7 ns<br>L3 Cache 　　   ~40-45 cycles 　　         ~15 ns<br>跨槽传输　　　　　　　　　　　　　         ~20 ns<br>内存 　　　　　 ~120-240 cycles            ~60-120ns<br><br>利用CPU-Z可以查看CPU缓存的信息：<br><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0131.png" alt=""><br></center>
+
+
+<p>在linux下可以使用下列命令查看：</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0132.png" alt=""><br></center>
+
+<p>有了上面对CPU的大概了解，我们来看看缓存行(Cache line)。缓存，是由缓存行组成的。一般一行缓存行有64字节(由上图”64-byte line size”可知)。所以使用缓存时，并不是一个一个字节使用，而是一行缓存行、一行缓存行这样使用；换句话说，CPU存取缓存都是按照一行，为最小单位操作的。</p>
+<p>这意味着，如果没有好好利用缓存行的话，程序可能会遇到性能的问题。可看下面的程序：</p>
+<figure class="highlight axapta"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">L1CacheMiss</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> RUNS = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DIMENSION_1 = <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DIMENSION_2 = <span class="number">6</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">long</span>[][] longs;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) throws Exception</span><br><span class="line">    &#123;</span><br><span class="line">        Thread.sleep(<span class="number">10000</span>);</span><br><span class="line">        longs = <span class="keyword">new</span> <span class="keyword">long</span>[DIMENSION_1][];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; DIMENSION_1; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            longs[i] = <span class="keyword">new</span> <span class="keyword">long</span>[DIMENSION_2];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; DIMENSION_2; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                longs[i][j] = <span class="number">0</span>L;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"starting...."</span>);</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">sum</span> = <span class="number">0</span>L;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> r = <span class="number">0</span>; r &lt; RUNS; r++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">long</span> start = System.nanoTime();</span><br><span class="line">            <span class="comment">//slow</span></span><br><span class="line">            <span class="comment">//            for (int j = 0; j &lt; DIMENSION_2; j++) &#123;</span></span><br><span class="line">            <span class="comment">//                for (int i = 0; i &lt; DIMENSION_1; i++) &#123;</span></span><br><span class="line">            <span class="comment">//                    sum += longs[i][j];</span></span><br><span class="line">            <span class="comment">//                &#125;</span></span><br><span class="line">            <span class="comment">//            &#125;</span></span><br><span class="line">            <span class="comment">//fast</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; DIMENSION_1; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; DIMENSION_2; j++)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">sum</span> += longs[i][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println((System.nanoTime() - start));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以我所使用的Xeon E3 CPU和64位操作系统和64位JVM为例，如这里所说，假设编译器采用行主序存储数组。</p>
+<p>64位系统，Java数组对象头固定占16字节（未证实），而long类型占8个字节。所以16+8*6=64字节，刚好等于一条缓存行的长度：</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0133.png" alt=""><br></center>
+
+
+<p>如32-36行代码所示，每次开始内循环时，从内存抓取的数据块实际上覆盖了longs[i][0]到longs[i][5]的全部数据（刚好64字节）。因此，内循环时所有的数据都在L1缓存可以命中，遍历将非常快。</p>
+<p>假如，将32-36行代码注释而用25-29行代码代替，那么将会造成大量的缓存失效。因为每次从内存抓取的都是同行不同列的数据块（如longs[i][0]到longs[i][5]的全部数据），但循环下一个的目标，却是同列不同行（如longs[0][0]下一个是longs[1][0]，造成了longs[0][1]-longs[0][5]无法重复利用）。运行时间的差距如下图，单位是微秒(us)：</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0134.png" alt=""><br></center>
+
+<p>最后，我们都希望需要的数据都在L1缓存里，但事实上经常事与愿违，所以缓存失效 (Cache Miss)是常有的事，也是我们需要避免的事。</p>
+<p>一般来说，缓存失效有三种情况：</p>
+<ol>
+<li><p>第一次访问数据, 在cache中根本不存在这条数据, 所以cache miss, 可以通过prefetch解决。</p>
+</li>
+<li><p>cache冲突, 需要通过补齐来解决（伪共享的产生）。</p>
+</li>
+<li><p>cache满, 一般情况下我们需要减少操作的数据大小, 尽量按数据的物理顺序访问数据。</p>
+</li>
+</ol>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -125,7 +143,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/操作系统/">操作系统</a>
+  <span></span> <a href="/tags/Java/">Java</a>
   </div>
 
 </div>
@@ -169,20 +187,20 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/07/08/国内外智慧医疗云平台调研/" title="国内外智慧医疗云平台调研">
-  <strong>上一篇：</strong><br/>
-  <span>
-  国内外智慧医疗云平台调研</span>
+
+<div class="next">
+<a href="/2015/08/05/MapReduce实现计数/"  title="MapReduce实现计数">
+ <strong>下一篇：</strong><br/> 
+ <span>MapReduce实现计数
+</span>
 </a>
 </div>
-
 
 </nav>
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2015/07/07/Debug命令大全/" data-title="Debug命令大全" data-url="http://pangjiuzala.github.io/2015/07/07/Debug命令大全/"></div>
+	<div class="ds-thread" data-thread-key="2015/08/06/写Java需知CPU缓存/" data-title="写Java需知CPU缓存" data-url="http://pangjiuzala.github.io/2015/08/06/写Java需知CPU缓存/"></div>
 </section>
 
 

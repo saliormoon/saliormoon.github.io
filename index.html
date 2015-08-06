@@ -78,6 +78,93 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/08/06/写Java需知CPU缓存/" title="写Java需知CPU缓存" itemprop="url">写Java需知CPU缓存</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
+		
+  <p class="article-time">
+    <time datetime="2015-08-05T22:30:55.000Z" itemprop="datePublished"> 发表于 2015-08-06</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>CPU，一般认为写C/C++的才需要了解，写高级语言的(Java/C#/pathon…)并不需要了解那么底层的东西。我一开始也是这么想的，但直到碰到LMAX的Disruptor，以及马丁的博文，才发现写Java的，更加不能忽视CPU。经过一段时间的阅读，希望总结一下自己的阅读后的感悟。本文主要谈谈CPU缓存对Java编程的影响，不涉及具体CPU缓存的机制和实现。</p>
+<p>现代CPU的缓存结构一般分三层，L1，L2和L3。如下图所示：</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0130.png" alt=""><br></center><br>级别越小的缓存，越接近CPU， 意味着速度越快且容量越少。<br><br>L1是最接近CPU的，它容量最小，速度最快，每个核上都有一个L1 Cache(准确地说每个核上有两个L1 Cache， 一个存数据 L1d Cache， 一个存指令 L1i Cache)；<br><br>L2 Cache 更大一些，例如256K，速度要慢一些，一般情况下每个核上都有一个独立的L2 Cache；<br><br>L3 Cache是三级缓存中最大的一级，例如12MB，同时也是最慢的一级，在同一个CPU插槽之间的核共享一个L3 Cache。<br><br>当CPU运作时，它首先去L1寻找它所需要的数据，然后去L2，然后去L3。如果三级缓存都没找到它需要的数据，则从内存里获取数据。寻找的路径越长，耗时越长。所以如果要非常频繁的获取某些数据，保证这些数据在L1缓存里。这样速度将非常快。下表表示了CPU到各缓存和内存之间的大概速度：<br><br>从CPU到     　　大约需要的CPU周期         大约需要的时间(单位ns)<br>寄存器        　1 cycle<br>L1 Cache   　　 ~3-4 cycles                ~0.5-1 ns<br>L2 Cache 　　   ~10-20 cycles 　　         ~3-7 ns<br>L3 Cache 　　   ~40-45 cycles 　　         ~15 ns<br>跨槽传输　　　　　　　　　　　　　         ~20 ns<br>内存 　　　　　 ~120-240 cycles            ~60-120ns<br><br>利用CPU-Z可以查看CPU缓存的信息：<br><center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0131.png" alt=""><br></center>
+
+
+<p>在linux下可以使用下列命令查看：</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0132.png" alt=""><br></center>
+
+<p>有了上面对CPU的大概了解，我们来看看缓存行(Cache line)。缓存，是由缓存行组成的。一般一行缓存行有64字节(由上图”64-byte line size”可知)。所以使用缓存时，并不是一个一个字节使用，而是一行缓存行、一行缓存行这样使用；换句话说，CPU存取缓存都是按照一行，为最小单位操作的。</p>
+<p>这意味着，如果没有好好利用缓存行的话，程序可能会遇到性能的问题。可看下面的程序：</p>
+<figure class="highlight axapta"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">L1CacheMiss</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> RUNS = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DIMENSION_1 = <span class="number">1024</span> * <span class="number">1024</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DIMENSION_2 = <span class="number">6</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">long</span>[][] longs;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) throws Exception</span><br><span class="line">    &#123;</span><br><span class="line">        Thread.sleep(<span class="number">10000</span>);</span><br><span class="line">        longs = <span class="keyword">new</span> <span class="keyword">long</span>[DIMENSION_1][];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; DIMENSION_1; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            longs[i] = <span class="keyword">new</span> <span class="keyword">long</span>[DIMENSION_2];</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; DIMENSION_2; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                longs[i][j] = <span class="number">0</span>L;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"starting...."</span>);</span><br><span class="line">        <span class="keyword">long</span> <span class="keyword">sum</span> = <span class="number">0</span>L;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> r = <span class="number">0</span>; r &lt; RUNS; r++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">long</span> start = System.nanoTime();</span><br><span class="line">            <span class="comment">//slow</span></span><br><span class="line">            <span class="comment">//            for (int j = 0; j &lt; DIMENSION_2; j++) &#123;</span></span><br><span class="line">            <span class="comment">//                for (int i = 0; i &lt; DIMENSION_1; i++) &#123;</span></span><br><span class="line">            <span class="comment">//                    sum += longs[i][j];</span></span><br><span class="line">            <span class="comment">//                &#125;</span></span><br><span class="line">            <span class="comment">//            &#125;</span></span><br><span class="line">            <span class="comment">//fast</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; DIMENSION_1; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; DIMENSION_2; j++)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">sum</span> += longs[i][j];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println((System.nanoTime() - start));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以我所使用的Xeon E3 CPU和64位操作系统和64位JVM为例，如这里所说，假设编译器采用行主序存储数组。</p>
+<p>64位系统，Java数组对象头固定占16字节（未证实），而long类型占8个字节。所以16+8*6=64字节，刚好等于一条缓存行的长度：</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0133.png" alt=""><br></center>
+
+
+<p>如32-36行代码所示，每次开始内循环时，从内存抓取的数据块实际上覆盖了longs[i][0]到longs[i][5]的全部数据（刚好64字节）。因此，内循环时所有的数据都在L1缓存可以命中，遍历将非常快。</p>
+<p>假如，将32-36行代码注释而用25-29行代码代替，那么将会造成大量的缓存失效。因为每次从内存抓取的都是同行不同列的数据块（如longs[i][0]到longs[i][5]的全部数据），但循环下一个的目标，却是同列不同行（如longs[0][0]下一个是longs[1][0]，造成了longs[0][1]-longs[0][5]无法重复利用）。运行时间的差距如下图，单位是微秒(us)：</p>
+<center><br><img src="http://7xiur2.com1.z0.glb.clouddn.com/0134.png" alt=""><br></center>
+
+<p>最后，我们都希望需要的数据都在L1缓存里，但事实上经常事与愿违，所以缓存失效 (Cache Miss)是常有的事，也是我们需要避免的事。</p>
+<p>一般来说，缓存失效有三种情况：</p>
+<ol>
+<li><p>第一次访问数据, 在cache中根本不存在这条数据, 所以cache miss, 可以通过prefetch解决。</p>
+</li>
+<li><p>cache冲突, 需要通过补齐来解决（伪共享的产生）。</p>
+</li>
+<li><p>cache满, 一般情况下我们需要减少操作的数据大小, 尽量按数据的物理顺序访问数据。</p>
+</li>
+</ol>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/08/06/写Java需知CPU缓存/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/08/06/写Java需知CPU缓存/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/08/05/MapReduce实现计数/" title="MapReduce实现计数" itemprop="url">MapReduce实现计数</a>
   </h1>
   <p class="article-author">By
@@ -603,68 +690,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/07/27/深入JVM/" title="深入JVM" itemprop="url">深入JVM</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="刘兴" target="_blank" itemprop="author">刘兴</a>
-		
-  <p class="article-time">
-    <time datetime="2015-07-27T06:08:19.000Z" itemprop="datePublished"> 发表于 2015-07-27</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>Java 程序运行在 JVM 之上， JVM 的运行状况对于 Java 程序而言会产生很大的影响， 因此掌握 JVM 中的关键机制对于编写稳定、 高性能的 JAVA 程序至关重要。<br>JVM 制定了 Java 类的加载、 编译、 执行、 对象内存的分配和回收、 线程以及锁机制，这些机制对 Java 程序的运行效果起到了重要的影响， 当然， JVM 涉及的不仅仅是上面这些机制， 但在本章节中并不打算介绍所有 JVM 的机制， 而是仅仅深入介绍其中的一些关键机制。<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2015/07/27/深入JVM/#more">阅读更多</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Java/">Java</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/07/27/深入JVM/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/07/27/深入JVM/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">下一页<span></span></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">下一页<span></span></a>
   </nav>
 
 </div>
@@ -686,7 +714,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>10</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>11</sup></a></li>
 			
 		
 			
@@ -756,7 +784,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">25</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">July 2015</a><span class="archive-list-count">25</span></li></ul>
   </div>
 
 
