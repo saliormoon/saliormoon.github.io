@@ -85,13 +85,14 @@
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2015-10-03T13:21:14.351Z" itemprop="datePublished"> 发表于 2015-10-03</time>
+    <time datetime="2015-10-03T13:22:59.148Z" itemprop="datePublished"> 发表于 2015-10-03</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <p>本博客重点总结第三章基本原理中的维度表特性。<br>
+        <p>本博客重点总结第三章基本原理中的维度表特性。</p>
+<h1 id="维度表特性">维度表特性</h1><h2 id="代理键">代理键</h2><p><strong>星型模式中，每个维度表都分配有一个代理键。</strong>代理键仅仅是为数据仓库和数据集市创建的。代理键通常表现为整数，在星型模式加载时的获取、转换、加载（ETL）过程中产生并被管理。<strong>键值不包含内在的含义，因此对数据仓库使用者来说并无特殊的意义。</strong>维度表的每一行都包含一个唯一的代理键与之对应。将代理键作为唯一标识符的使用方法允许数据仓库对源系统发生的变化做出响应，这种方式适应了分析型系统的需求。由于维度表不依赖于自然键来区分行的唯一性，因此<strong>维度表能够维护历史信息</strong>，即使源系统不能也无所谓。<strong>为每个维度表分配一个代理键，用于唯一地区分表中的每行记录。</strong><br>
         
         
         <p class="article-more-link">
