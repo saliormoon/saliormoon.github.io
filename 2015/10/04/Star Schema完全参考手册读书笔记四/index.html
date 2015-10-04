@@ -4,28 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Star Schema完全参考手册读书笔记二 | 王宇峰的博客</title>
+    <title>Star Schema完全参考手册读书笔记四 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="本博客继续就书中第二章的一些术语和概念进行总结。
-数据仓库体系结构数据仓库描述任何包含分析型数据库的解决方案，包括独立型数据集市。该术语并不表示一个中心或集成仓库。企业数据仓库指的是企业信息化工厂的中央存储仓库。使用该术语并不表示其他数据仓库缺乏对企业级应用的关注。数据集市是指任何体系结构中的一个主题区域。使用该术语并不意味着仅仅关注部门或者缺少企业环境。">
+    <meta name="description" content="本博客主要内容为对书中第三章事实表特性的知识的总结。事实表特性主要包括粒度、可加性、稀疏性和退化维。
+事实表特性事实分为可加事实，半可加事实和非可加事实。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Star Schema完全参考手册读书笔记二">
-<meta property="og:url" content="http://saliormoon.github.io/2015/10/03/Star Schema完全参考手册读书笔记二/index.html">
+<meta property="og:title" content="Star Schema完全参考手册读书笔记四">
+<meta property="og:url" content="http://saliormoon.github.io/2015/10/04/Star Schema完全参考手册读书笔记四/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="本博客继续就书中第二章的一些术语和概念进行总结。
-数据仓库体系结构数据仓库描述任何包含分析型数据库的解决方案，包括独立型数据集市。该术语并不表示一个中心或集成仓库。企业数据仓库指的是企业信息化工厂的中央存储仓库。使用该术语并不表示其他数据仓库缺乏对企业级应用的关注。数据集市是指任何体系结构中的一个主题区域。使用该术语并不意味着仅仅关注部门或者缺少企业环境。">
-<meta property="og:image" content="http://img.blog.csdn.net/20151003160133860">
-<meta property="og:image" content="http://img.blog.csdn.net/20151003161817543">
-<meta property="og:updated_time" content="2015-10-03T09:16:48.286Z">
+<meta property="og:description" content="本博客主要内容为对书中第三章事实表特性的知识的总结。事实表特性主要包括粒度、可加性、稀疏性和退化维。
+事实表特性事实分为可加事实，半可加事实和非可加事实。">
+<meta property="og:updated_time" content="2015-10-04T03:32:41.866Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Star Schema完全参考手册读书笔记二">
-<meta name="twitter:description" content="本博客继续就书中第二章的一些术语和概念进行总结。
-数据仓库体系结构数据仓库描述任何包含分析型数据库的解决方案，包括独立型数据集市。该术语并不表示一个中心或集成仓库。企业数据仓库指的是企业信息化工厂的中央存储仓库。使用该术语并不表示其他数据仓库缺乏对企业级应用的关注。数据集市是指任何体系结构中的一个主题区域。使用该术语并不意味着仅仅关注部门或者缺少企业环境。">
+<meta name="twitter:title" content="Star Schema完全参考手册读书笔记四">
+<meta name="twitter:description" content="本博客主要内容为对书中第三章事实表特性的知识的总结。事实表特性主要包括粒度、可加性、稀疏性和退化维。
+事实表特性事实分为可加事实，半可加事实和非可加事实。">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -82,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/03/Star Schema完全参考手册读书笔记二/" title="Star Schema完全参考手册读书笔记二" itemprop="url">Star Schema完全参考手册读书笔记二</a>
+      <a href="/2015/10/04/Star Schema完全参考手册读书笔记四/" title="Star Schema完全参考手册读书笔记四" itemprop="url">Star Schema完全参考手册读书笔记四</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2015-10-03T09:16:48.286Z" itemprop="datePublished"> 发表于 2015-10-03</time>
+    <time datetime="2015-10-04T03:32:41.866Z" itemprop="datePublished"> 发表于 2015-10-04</time>
     
   </p>
 </header>
@@ -98,15 +96,12 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据仓库体系结构"><span class="toc-number">1.</span> <span class="toc-text">数据仓库体系结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小结"><span class="toc-number">2.</span> <span class="toc-text">小结</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#事实表特性"><span class="toc-number">1.</span> <span class="toc-text">事实表特性</span></a></li></ol>
 		
 		</div>
 		
-		<p>本博客继续就书中第二章的一些术语和概念进行总结。</p>
-<h1 id="数据仓库体系结构">数据仓库体系结构</h1><p>数据仓库描述任何包含分析型数据库的解决方案，包括独立型数据集市。该术语并不表示一个中心或集成仓库。<br>企业数据仓库指的是企业信息化工厂的中央存储仓库。使用该术语并不表示其他数据仓库缺乏对企业级应用的关注。<br>数据集市是指任何体系结构中的一个主题区域。使用该术语并不意味着仅仅关注部门或者缺少企业环境。<br><a id="more"></a></p>
-<p><center><br><img src="http://img.blog.csdn.net/20151003160133860" alt="图1"><br></center></p>
-<p><center><br><img src="http://img.blog.csdn.net/20151003161817543" alt="图二"><br></center></p>
-<h1 id="小结">小结</h1><p>在数据仓库体系结构中可以使用多种方式进行维度设计。Inmon的企业信息化工厂将整个企业的信息整合到一个称为企业数据仓库的中央存储仓库内。它以第三范式设计为特征，不能被数据仓库应用软件直接查询。数据集市由中心向外辐射，每一个合适的需求和视图都有一个特殊的业务分组。数据集市突出维度设计并可由数据仓库应用程序查询。<br>Kimball维度数据仓库也关注企业级应用，它将整个企业的数据整合到一个称为维度数据仓库的中央存储仓库中。该仓库的特点是维度设计，并且可以被直接查询。数据集市是一种逻辑结构，或是报表的子集。可以构建不同的维度结构以支持部门级需求。<br>独立型数据集市处理主题区域内的需求，不需要考虑整个企业环境。它可以使用维度设计，也可以采用其他技术。如果一个组织需要快速获得处理结果或是降低成本，可以使用这种方法，但这不应该被视为数据集市或维度设计的缺陷。<br>以上每一种体系结构都与星型模式有关。</p>
+		<p>本博客主要内容为对书中第三章事实表特性的知识的总结。<br>事实表特性主要包括粒度、可加性、稀疏性和退化维。</p>
+<h1 id="事实表特性">事实表特性</h1><p>事实分为可加事实，半可加事实和非可加事实。<br><a id="more"></a><br>每个事实表通过获取描述业务过程的度量来表达业务过程。然而，一些事实不能被聚集。这些不可求和的事实通常可以分解到其他可求和的事实表中。<br>事实表记录信息的细节程度被称为<strong>粒度</strong>。<br>尽可能将事实表的粒度设置为最详细的数据粒度级别。<br>将事实相加以获得对单个事实汇总的能力被称为<strong>可加性</strong>。<br>事实表是度量业务过程的引擎。事实表存储用来描述过程的详细粒度。事实采用外键为每个度量提供维度环境。在某些情况下，事实表可以包含维度。作为过程度量的核心，事实表应包含与其描述的过程有关的所有事实，当然也可以包含从其他方面获得的一些事实。事实以特定的细节层次存储，但可以通过上卷产生各种级别的维度。由于事实具有可加性，因此这样的聚集是可能的。某些度量不具备可加性，但通常可以分解成具有可加性的组件。<br>常见的错误是在事实表中存储数量单位而不是存储延伸量。数量单位通常用作维度。它也可以用于计算延伸量，延伸量通常作为事实存在。只有事实才具备可加性，提供灵活的分析能力。如果没有合适的维度表用于存储数量单位，可以将它们放置于退化维中。<br><strong>存在非可加事实，如利润率。</strong>汇总行中的利润率需要根据分类汇总的利润额度和订单额度的比值得到，而非通过将各个销售人员的利润率相加获得。<strong>非可加事实以可加事实的比率方式计算。</strong> 由于非可加事实并未存储在事实表中，需要注意不要丢失这些事实，应该被文档化。<br>出现在事实表中的组合数量远远小于可能存在的组合数量，该项特性被称为<strong>稀疏性</strong>。<br>有时，不可能将所有与业务相关的维度分类到一个紧凑的表集合中。类似这样的情况，将一个或多个维度存储到事实表中是合适的选择。若采用了这种方法，存储到事实表中的维度列被称为退化维度，简称<strong>退化维</strong>。<br>虽然被存储在事实表中，但该列仍应被视为维度。与其他表中的维度列一样，其值仍然可以用于过滤查询、控制聚合层次、排序数据、定义主从关系等。应该谨慎使用退化维度，因为事实表累计记录的速度很快，包含退化维度可能会造成存储空间的过度消耗。多数情况下，适合选作退化维度的维度最好放置到杂项维度中，事务标识除外。事务标识通常作为退化维度存储。它也可以作为事实表中行的唯一标识，并用于定义事实表的粒度。虽然事务标识通常作为退化维度存储，但这并不是必须遵循的规则。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -115,7 +110,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/数据仓库/">数据仓库</a><a href="/tags/数据集市/">数据集市</a>
+  <span></span> <a href="/tags/事实表/">事实表</a><a href="/tags/可加性/">可加性</a><a href="/tags/稀疏性/">稀疏性</a><a href="/tags/粒度/">粒度</a><a href="/tags/退化维/">退化维</a>
   </div>
 
 </div>
@@ -159,19 +154,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/10/03/Star Schema完全参考手册读书笔记三/" title="Star Schema完全参考手册读书笔记三">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Star Schema完全参考手册读书笔记三</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/10/02/Star Schema完全参考手册读书笔记一/"  title="Star Schema完全参考手册读书笔记一">
+<a href="/2015/10/03/Star Schema完全参考手册读书笔记三/"  title="Star Schema完全参考手册读书笔记三">
  <strong>下一篇：</strong><br/> 
- <span>Star Schema完全参考手册读书笔记一
+ <span>Star Schema完全参考手册读书笔记三
 </span>
 </a>
 </div>
@@ -186,7 +173,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据仓库体系结构"><span class="toc-number">1.</span> <span class="toc-text">数据仓库体系结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小结"><span class="toc-number">2.</span> <span class="toc-text">小结</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#事实表特性"><span class="toc-number">1.</span> <span class="toc-text">事实表特性</span></a></li></ol>
  
   </div>
 
