@@ -4,26 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Star Schema完全参考手册读书笔记三 | 王宇峰的博客</title>
+    <title>Java学习（1） | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="本博客重点总结第三章基本原理中的维度表特性。
-维度表特性代理键星型模式中，每个维度表都分配有一个代理键。代理键仅仅是为数据仓库和数据集市创建的。代理键通常表现为整数，在星型模式加载时的获取、转换、加载（ETL）过程中产生并被管理。键值不包含内在的含义，因此对数据仓库使用者来说并无特殊的意义。维度表的每一行都包含一个唯一的代理键与之对应。将代理键作为唯一标识符的使用方法允许数据仓库对源系统发生的变化">
+    <meta name="description" content="对象Java中（几乎）一切都是对象。尽管一切都是对象，但操纵的标识符实际上是对象的一个“引用”。 此外，即使没有引用，对象也可独立存在。也就是说，你拥有一个引用，并不一定需要有一个对象与它关联。因此，若想操纵一个词或句子，则可以创建一个String引用：String s；但 这里创建的只是引用，并不是对象。如果此时向s发送一个消息，就会返回一个运行时错误。这是因为此时s实际上没有与任何事物相关联（">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Star Schema完全参考手册读书笔记三">
-<meta property="og:url" content="http://saliormoon.github.io/2015/10/03/Star Schema完全参考手册读书笔记三/index.html">
+<meta property="og:title" content="Java学习（1）">
+<meta property="og:url" content="http://saliormoon.github.io/2015/10/05/Java学习（1）/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="本博客重点总结第三章基本原理中的维度表特性。
-维度表特性代理键星型模式中，每个维度表都分配有一个代理键。代理键仅仅是为数据仓库和数据集市创建的。代理键通常表现为整数，在星型模式加载时的获取、转换、加载（ETL）过程中产生并被管理。键值不包含内在的含义，因此对数据仓库使用者来说并无特殊的意义。维度表的每一行都包含一个唯一的代理键与之对应。将代理键作为唯一标识符的使用方法允许数据仓库对源系统发生的变化">
-<meta property="og:updated_time" content="2015-10-03T13:22:59.148Z">
+<meta property="og:description" content="对象Java中（几乎）一切都是对象。尽管一切都是对象，但操纵的标识符实际上是对象的一个“引用”。 此外，即使没有引用，对象也可独立存在。也就是说，你拥有一个引用，并不一定需要有一个对象与它关联。因此，若想操纵一个词或句子，则可以创建一个String引用：String s；但 这里创建的只是引用，并不是对象。如果此时向s发送一个消息，就会返回一个运行时错误。这是因为此时s实际上没有与任何事物相关联（">
+<meta property="og:image" content="http://img.blog.csdn.net/20151005140046811">
+<meta property="og:updated_time" content="2015-10-05T06:21:59.838Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Star Schema完全参考手册读书笔记三">
-<meta name="twitter:description" content="本博客重点总结第三章基本原理中的维度表特性。
-维度表特性代理键星型模式中，每个维度表都分配有一个代理键。代理键仅仅是为数据仓库和数据集市创建的。代理键通常表现为整数，在星型模式加载时的获取、转换、加载（ETL）过程中产生并被管理。键值不包含内在的含义，因此对数据仓库使用者来说并无特殊的意义。维度表的每一行都包含一个唯一的代理键与之对应。将代理键作为唯一标识符的使用方法允许数据仓库对源系统发生的变化">
+<meta name="twitter:title" content="Java学习（1）">
+<meta name="twitter:description" content="对象Java中（几乎）一切都是对象。尽管一切都是对象，但操纵的标识符实际上是对象的一个“引用”。 此外，即使没有引用，对象也可独立存在。也就是说，你拥有一个引用，并不一定需要有一个对象与它关联。因此，若想操纵一个词或句子，则可以创建一个String引用：String s；但 这里创建的只是引用，并不是对象。如果此时向s发送一个消息，就会返回一个运行时错误。这是因为此时s实际上没有与任何事物相关联（">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -80,14 +78,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/03/Star Schema完全参考手册读书笔记三/" title="Star Schema完全参考手册读书笔记三" itemprop="url">Star Schema完全参考手册读书笔记三</a>
+      <a href="/2015/10/05/Java学习（1）/" title="Java学习（1）" itemprop="url">Java学习（1）</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2015-10-03T13:22:59.148Z" itemprop="datePublished"> 发表于 2015-10-03</time>
+    <time datetime="2015-10-05T06:21:59.838Z" itemprop="datePublished"> 发表于 2015-10-05</time>
     
   </p>
 </header>
@@ -96,21 +94,15 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#维度表特性"><span class="toc-number">1.</span> <span class="toc-text">维度表特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#代理键"><span class="toc-number">1.1.</span> <span class="toc-text">代理键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自然键"><span class="toc-number">1.2.</span> <span class="toc-text">自然键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#丰富的维度集合"><span class="toc-number">1.3.</span> <span class="toc-text">丰富的维度集合</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#对象"><span class="toc-number">1.</span> <span class="toc-text">对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#存储数据区域"><span class="toc-number">2.</span> <span class="toc-text">存储数据区域</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基本类型"><span class="toc-number">3.</span> <span class="toc-text">基本类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#高精度数字"><span class="toc-number">4.</span> <span class="toc-text">高精度数字</span></a></li></ol>
 		
 		</div>
 		
-		<p>本博客重点总结第三章基本原理中的维度表特性。</p>
-<h1 id="维度表特性">维度表特性</h1><h2 id="代理键">代理键</h2><p><strong>星型模式中，每个维度表都分配有一个代理键。</strong>代理键仅仅是为数据仓库和数据集市创建的。代理键通常表现为整数，在星型模式加载时的获取、转换、加载（ETL）过程中产生并被管理。<strong>键值不包含内在的含义，因此对数据仓库使用者来说并无特殊的意义。</strong>维度表的每一行都包含一个唯一的代理键与之对应。将代理键作为唯一标识符的使用方法允许数据仓库对源系统发生的变化做出响应，这种方式适应了分析型系统的需求。由于维度表不依赖于自然键来区分行的唯一性，因此<strong>维度表能够维护历史信息</strong>，即使源系统不能也无所谓。<strong>为每个维度表分配一个代理键，用于唯一地区分表中的每行记录。</strong><br><a id="more"></a></p>
-<h2 id="自然键">自然键</h2><p>与代理键不同，<strong>多数维度表中都包含一个或多个自然键</strong>。自然键通常来源于源系统。<strong>它们不能唯一地区分数据仓库中的行，但能够区分来自源系统中对应的实体。</strong>与代理键键值不同，<strong>自然键键值对数据仓库使用者来说可能包含一定的意义。</strong>即使自然键不具有明确的含义，用于加载事实表的ETL例程也仍然需要它们。有时维度表的自然键包含多个列。这种情况通常发生在源系统采用多键方式区分实体时。<br>替换代理键的方法之一是为自然键附加一个序列号。<br>另外一种理论上可以替换代理键的方法是为自然键增加一个时间戳。</p>
-<h2 id="丰富的维度集合">丰富的维度集合</h2><p>维度为事实提供了环境，没有环境，事实就无法理解。维度以及维度值在多个方面增强了事实的含义：</p>
-<ol>
-<li>用于过滤查询或报表。</li>
-<li>用于控制聚集事实的范围。</li>
-<li>用于确定信息的顺序或排序。</li>
-<li>与事实一起构成提供报表的环境。</li>
-<li>用于定义主从结构、分组、分类汇总、汇总等。<br>在查询中可以使用维度的不同组合方式回答各种问题。维度涉及的属性越广，对事实表开展分析工作的方式就越多。<br>提供丰富和全面的维度属性集合，每个新增的属性都将会显著地提高分析的可能性。<br>若一个属性通常用于聚集或汇总，那它就是事实。有时作为维度的数字型属性不易识别，如价格单位，它可以用于对订单进行分组：如“以12美元或10美元分别卖了多少？”因此，此时价格单位将被划分为维度。<br>数字型数据是维度还是事实通常并不容易区分。在出现疑问时，一定要注意应根据应用情况分析。如果一个元素值用于过滤查询、排序数据、控制聚集、区分主从关系等，该元素通常是维度。数量单位一般是维度，数量汇总一般是事实。数量单位乘以事务数量产生的结果可以被聚集和汇总，是事实。<strong>数量单位是有用的维度，数量汇总是有用的事实。</strong>它们在维度设计中具有不同的作用。<br>基于事实计算得到的维度成为行为维度。</li>
-</ol>
+		<h1 id="对象">对象</h1><p>Java中（几乎）一切都是对象。尽管一切都是对象，但操纵的标识符实际上是对象的一个“引用”。 此外，即使没有引用，对象也可独立存在。也就是说，你拥有一个引用，并不一定需要有一个对象与它关联。因此，若想操纵一个词或句子，则可以创建一个String引用：String s；但 这里创建的只是引用，并不是对象。如果此时向s发送一个消息，就会返回一个运行时错误。这是因为此时s实际上没有与任何事物相关联（即没有引用）。因此，一种安全的做法是：创建一个引用的同时便进行初始化。String s=“asdf”；这里用到了Java语言的一个特性：字符串可以用带引号的文本初始化。 一旦创建了一个引用，就希望它能与一个新的对象相关联。通常用new操作符来实现这一目的。new关键字的意思是”给我一个新对象”。所以前面的例子可以写成：String s=new String（”asdf”）;它不仅表示”给我一个新的字符串。”而且通过提供一个初始字符串，给出了怎样产生这个String的信息。<br><a id="more"></a></p>
+<h1 id="存储数据区域">存储数据区域</h1><p>1）寄存器。这是最快的存储区，它位于处理器内部，其数量极其有限，所以会根据需求进行分配，不能直接控制。<br>2）堆栈。位于通用RAM(随机访问存储器)中，但通过堆栈指针可以从处理器那里获得直接支持。堆栈指针若向下移动，则分配新的内存；若向上移动，则释放那些内存。这是一种快速有效的分配存储的方法，仅次于寄存器。创建程序时，Java系统必须知道存储在堆栈内所有项的确切生命周期，以便上下移动堆栈指针。这一约束限制了程序的灵活性。对象引用存储于堆栈中，Java对象存储于堆中。<br>3）堆。一种通用的内存池，用于存放所有的Java对象。堆不同于堆栈的好处是：编译器不需要知道存储的数据在堆里存活多长时间。因此，在堆里分配存储有很大的灵活性。但是用堆进行存储分配和清理可能比用堆栈进行存储分配需要更多的时间。当需要一个对象时，只需new一行代码，执行这行代码时会自动在堆里进行存储分配。<br>4）常量存储。常量值通常直接存放在程序代码内部，这样做是安全的，因为它们永远不会被改变。<br>5）非RAM存储。若数据完全存活于程序之外，那么它可以不受程序的任何控制，在程序没有运行时也可以存在。如流对象和持久化对象。在流对象中，对象转化成字节流，通常被发送给另一台机器。在持久化对象中，对象被存放于磁盘上，因此，即使程序终止，它们仍可以保持自己的状态。这种存储方式的技巧在于：把对象转化成可以存放在其他媒介上的事物，在需要时，可恢复成常规的、基于RAM的对象。</p>
+<h1 id="基本类型">基本类型</h1><p>基本类型特殊对待，是因为new将对象存储在”堆”里，故用new创建一个对象–特别是小的、简单的变量，往往不是很有效。Java中不用new来创建变量，而是创建一个并非是引用的”自动”变量。这个变量直接存储”值”并置于堆栈中，因此更加高效。<br>Java的基本类型所占存储空间的大小具有不变性。boolean类型所占存储空间的大小没有明确指定，仅定义为能够取字面值true或false。基本类型具有的包装器类，使得可以在堆中创建一个非基本对象，用来表示对应的基本类型。</p>
+<p><center><br><img src="http://img.blog.csdn.net/20151005140046811" alt="图1"><br></center></p>
+<h1 id="高精度数字">高精度数字</h1><p>Java提供了两个用于高精度计算的类：BigInteger和BigDecimal。    BigInteger支持任意精度的整数。BigDecimal支持任何精度的定点数。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -119,7 +111,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/代理键/">代理键</a><a href="/tags/数据仓库/">数据仓库</a><a href="/tags/自然键/">自然键</a>
+  <span></span> <a href="/tags/Java/">Java</a>
   </div>
 
 </div>
@@ -163,19 +155,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/10/04/Star Schema完全参考手册读书笔记四/" title="Star Schema完全参考手册读书笔记四">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Star Schema完全参考手册读书笔记四</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/10/03/Star Schema完全参考手册读书笔记二/"  title="Star Schema完全参考手册读书笔记二">
+<a href="/2015/10/04/Star Schema完全参考手册读书笔记四/"  title="Star Schema完全参考手册读书笔记四">
  <strong>下一篇：</strong><br/> 
- <span>Star Schema完全参考手册读书笔记二
+ <span>Star Schema完全参考手册读书笔记四
 </span>
 </a>
 </div>
@@ -190,7 +174,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#维度表特性"><span class="toc-number">1.</span> <span class="toc-text">维度表特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#代理键"><span class="toc-number">1.1.</span> <span class="toc-text">代理键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自然键"><span class="toc-number">1.2.</span> <span class="toc-text">自然键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#丰富的维度集合"><span class="toc-number">1.3.</span> <span class="toc-text">丰富的维度集合</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#对象"><span class="toc-number">1.</span> <span class="toc-text">对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#存储数据区域"><span class="toc-number">2.</span> <span class="toc-text">存储数据区域</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基本类型"><span class="toc-number">3.</span> <span class="toc-text">基本类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#高精度数字"><span class="toc-number">4.</span> <span class="toc-text">高精度数字</span></a></li></ol>
  
   </div>
 
