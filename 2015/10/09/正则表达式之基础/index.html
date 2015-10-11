@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Hello World | 王宇峰的博客</title>
+    <title>正则表达式之基础 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.">
+    <meta name="description" content="正则表达式是一种强大而灵活的文本处理工具。使用正则表达式，我们能够以编程的方式，构造复杂的文本模式，并对输入的字符串进行搜索。一旦找到了匹配这些模式的部分，你就能够随心所欲地对他们进行处理。正则表达式提供了一种完全通用的方式，能够解决各种字符串处理的相关的问题：匹配、选择、编辑以及验证。在java中，\的意思是“我要插入一个正则表达式的反斜线，所以其后的字符具有特殊的意义。”例如，如果你想表示一位">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://saliormoon.github.io/2015/08/07/hello-world/index.html">
+<meta property="og:title" content="正则表达式之基础">
+<meta property="og:url" content="http://saliormoon.github.io/2015/10/09/正则表达式之基础/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.">
-<meta property="og:updated_time" content="2015-08-06T07:27:02.658Z">
+<meta property="og:description" content="正则表达式是一种强大而灵活的文本处理工具。使用正则表达式，我们能够以编程的方式，构造复杂的文本模式，并对输入的字符串进行搜索。一旦找到了匹配这些模式的部分，你就能够随心所欲地对他们进行处理。正则表达式提供了一种完全通用的方式，能够解决各种字符串处理的相关的问题：匹配、选择、编辑以及验证。在java中，\的意思是“我要插入一个正则表达式的反斜线，所以其后的字符具有特殊的意义。”例如，如果你想表示一位">
+<meta property="og:updated_time" content="2015-10-11T14:14:49.695Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.">
+<meta name="twitter:title" content="正则表达式之基础">
+<meta name="twitter:description" content="正则表达式是一种强大而灵活的文本处理工具。使用正则表达式，我们能够以编程的方式，构造复杂的文本模式，并对输入的字符串进行搜索。一旦找到了匹配这些模式的部分，你就能够随心所欲地对他们进行处理。正则表达式提供了一种完全通用的方式，能够解决各种字符串处理的相关的问题：匹配、选择、编辑以及验证。在java中，\的意思是“我要插入一个正则表达式的反斜线，所以其后的字符具有特殊的意义。”例如，如果你想表示一位">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -77,14 +77,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/08/07/hello-world/" title="Hello World" itemprop="url">Hello World</a>
+      <a href="/2015/10/09/正则表达式之基础/" title="正则表达式之基础" itemprop="url">正则表达式之基础</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2015-08-07T00:54:00.115Z" itemprop="datePublished"> 发表于 2015-08-07</time>
+    <time datetime="2015-10-09T14:23:47.000Z" itemprop="datePublished"> 发表于 2015-10-09</time>
     
   </p>
 </header>
@@ -93,24 +93,21 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick_Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create_a_new_post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run_server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate_static_files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy_to_remote_sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+			
 		
 		</div>
 		
-		<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.<br><a id="more"></a></p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+		<p>正则表达式是一种强大而灵活的文本处理工具。使用正则表达式，我们能够以编程的方式，构造复杂的文本模式，并对输入的字符串进行搜索。一旦找到了匹配这些模式的部分，你就能够随心所欲地对他们进行处理。正则表达式提供了一种完全通用的方式，能够解决各种字符串处理的相关的问题：匹配、选择、编辑以及验证。<br>在java中，\的意思是“我要插入一个正则表达式的反斜线，所以其后的字符具有特殊的意义。”例如，如果你想表示一位数字，那么正则表达式应该是\d。如果你想插入一个普通的反斜线，则应该这样\\。不过换行和制表符之类的东西只需使用单反斜线：\n\t。<br>例如，要找一个数字，它可能有一个负号在最前面，那你就写一个负号加上一个问号：-?，要表示“一个或多个之前的表达式”，应该使用+。所以，如果要表示“可能有一个负号，后面跟着一位或多位数字”，可以这样：-?\d+。如果要表示“可能以一个加号或减号开头或二者都没有，后面跟着一位或多位数字”，可以这样表示：（-|\+）?\d+。字符+在正则表达式中有特殊的意义，所以必须使用\将其转义，使之成为表达式中的一个普通字符。<br>String类还自带了一个非常有用的正则表达式工具–split()方法，其功能是”将字符串从正则表达式匹配的地方切开。“例如：<br>1、split()，这里用的是普通的字符作为正则表达式，其中并不包含任何特殊的字符。因此该split()只是按空格来划分字符串。<br>2、split(“\W+”)，用到了\W，它的意思是非单词字符（如果W小写，\w，则表示一个单词字符）。它表示”一个或多个非单词字符“，将标点字符删除了。<br>3、split(“n\W+”)，表示”字母n后面跟着一个或多个非单词字符“，可以发现，在原始字符串中，与正则表达式匹配的部分，在最终结果中都不存在了。<br>String.split()还有一个重载的版本，它允许你限制字符串分割的次数。<br>String类自带的最后一个正则表达式工具是”替换“。你可以只替换正则表达式第一个匹配的子串（replaceFirst()），或是替换所有匹配的地方(replaceAll())。例如：<br>s.replaceFirst(“f\w+”,”located”);该表达式要匹配的是，以字母f开头，后面跟一个或多个字母（注意这里的w是小写的）。并且只替换掉第一个匹配的部分，所以”found“会被替换成”located“。<br>s.replaceAll(“shrubbery|tree|herring”,”banana”);该表达式要匹配的是三个单词中的任意一个，因为它们以竖直线分割表示”或“，并且替换所有匹配的部分。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/java/">java</a><a href="/tags/正则表达式/">正则表达式</a>
+  </div>
 
 </div>
 
@@ -153,14 +150,14 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/10/02/Star Schema完全参考手册读书笔记一/" title="Star Schema完全参考手册读书笔记一">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Star Schema完全参考手册读书笔记一</span>
+
+<div class="next">
+<a href="/2015/10/08/maven中pom.xml显示不正常的问题/"  title="maven中pom.xml显示不正常的问题">
+ <strong>下一篇：</strong><br/> 
+ <span>maven中pom.xml显示不正常的问题
+</span>
 </a>
 </div>
-
 
 </nav>
 
@@ -172,7 +169,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick_Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create_a_new_post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run_server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate_static_files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy_to_remote_sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+ 
  
   </div>
 
