@@ -11,19 +11,19 @@
     
 
     
-    <meta name="description" content="本博客重点总结第三章基本原理中的维度表特性。
-维度表特性代理键星型模式中，每个维度表都分配有一个代理键。代理键仅仅是为数据仓库和数据集市创建的。代理键通常表现为整数，在星型模式加载时的获取、转换、加载（ETL）过程中产生并被管理。键值不包含内在的含义，因此对数据仓库使用者来说并无特殊的意义。维度表的每一行都包含一个唯一的代理键与之对应。将代理键作为唯一标识符的使用方法允许数据仓库对源系统发生的变化">
+    <meta name="description" content="tags:  [数据仓库,代理键,自然键]本博客重点总结第三章基本原理中的维度表特性。
+维度表特性代理键星型模式中，每个维度表都分配有一个代理键。代理键仅仅是为数据仓库和数据集市创建的。代理键通常表现为整数，在星型模式加载时的获取、转换、加载（ETL）过程中产生并被管理。键值不包含内在的含义，因此对数据仓库使用者来说并无特殊的意义。维度表的每一行都包含一个唯一的代理键与之对应。将代理键作为唯一标识">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Star Schema完全参考手册读书笔记三">
 <meta property="og:url" content="http://saliormoon.github.io/2015/10/03/Star Schema完全参考手册读书笔记三/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="本博客重点总结第三章基本原理中的维度表特性。
-维度表特性代理键星型模式中，每个维度表都分配有一个代理键。代理键仅仅是为数据仓库和数据集市创建的。代理键通常表现为整数，在星型模式加载时的获取、转换、加载（ETL）过程中产生并被管理。键值不包含内在的含义，因此对数据仓库使用者来说并无特殊的意义。维度表的每一行都包含一个唯一的代理键与之对应。将代理键作为唯一标识符的使用方法允许数据仓库对源系统发生的变化">
-<meta property="og:updated_time" content="2015-10-03T13:22:59.148Z">
+<meta property="og:description" content="tags:  [数据仓库,代理键,自然键]本博客重点总结第三章基本原理中的维度表特性。
+维度表特性代理键星型模式中，每个维度表都分配有一个代理键。代理键仅仅是为数据仓库和数据集市创建的。代理键通常表现为整数，在星型模式加载时的获取、转换、加载（ETL）过程中产生并被管理。键值不包含内在的含义，因此对数据仓库使用者来说并无特殊的意义。维度表的每一行都包含一个唯一的代理键与之对应。将代理键作为唯一标识">
+<meta property="og:updated_time" content="2015-10-24T13:51:21.316Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Star Schema完全参考手册读书笔记三">
-<meta name="twitter:description" content="本博客重点总结第三章基本原理中的维度表特性。
-维度表特性代理键星型模式中，每个维度表都分配有一个代理键。代理键仅仅是为数据仓库和数据集市创建的。代理键通常表现为整数，在星型模式加载时的获取、转换、加载（ETL）过程中产生并被管理。键值不包含内在的含义，因此对数据仓库使用者来说并无特殊的意义。维度表的每一行都包含一个唯一的代理键与之对应。将代理键作为唯一标识符的使用方法允许数据仓库对源系统发生的变化">
+<meta name="twitter:description" content="tags:  [数据仓库,代理键,自然键]本博客重点总结第三章基本原理中的维度表特性。
+维度表特性代理键星型模式中，每个维度表都分配有一个代理键。代理键仅仅是为数据仓库和数据集市创建的。代理键通常表现为整数，在星型模式加载时的获取、转换、加载（ETL）过程中产生并被管理。键值不包含内在的含义，因此对数据仓库使用者来说并无特殊的意义。维度表的每一行都包含一个唯一的代理键与之对应。将代理键作为唯一标识">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -87,7 +87,7 @@
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2015-10-03T13:22:59.148Z" itemprop="datePublished"> 发表于 2015-10-03</time>
+    <time datetime="2015-10-03T14:18:47.000Z" itemprop="datePublished"> 发表于 2015-10-03</time>
     
   </p>
 </header>
@@ -96,11 +96,11 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#维度表特性"><span class="toc-number">1.</span> <span class="toc-text">维度表特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#代理键"><span class="toc-number">1.1.</span> <span class="toc-text">代理键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自然键"><span class="toc-number">1.2.</span> <span class="toc-text">自然键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#丰富的维度集合"><span class="toc-number">1.3.</span> <span class="toc-text">丰富的维度集合</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tags:_[数据仓库,代理键,自然键]"><span class="toc-number">1.</span> <span class="toc-text">tags:  [数据仓库,代理键,自然键]</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#维度表特性"><span class="toc-number"></span> <span class="toc-text">维度表特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#代理键"><span class="toc-number">1.</span> <span class="toc-text">代理键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自然键"><span class="toc-number">2.</span> <span class="toc-text">自然键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#丰富的维度集合"><span class="toc-number">3.</span> <span class="toc-text">丰富的维度集合</span></a></li></ol>
 		
 		</div>
 		
-		<p>本博客重点总结第三章基本原理中的维度表特性。</p>
+		<h2 id="tags:_[数据仓库,代理键,自然键]">tags:  [数据仓库,代理键,自然键]</h2><p>本博客重点总结第三章基本原理中的维度表特性。</p>
 <h1 id="维度表特性">维度表特性</h1><h2 id="代理键">代理键</h2><p><strong>星型模式中，每个维度表都分配有一个代理键。</strong>代理键仅仅是为数据仓库和数据集市创建的。代理键通常表现为整数，在星型模式加载时的获取、转换、加载（ETL）过程中产生并被管理。<strong>键值不包含内在的含义，因此对数据仓库使用者来说并无特殊的意义。</strong>维度表的每一行都包含一个唯一的代理键与之对应。将代理键作为唯一标识符的使用方法允许数据仓库对源系统发生的变化做出响应，这种方式适应了分析型系统的需求。由于维度表不依赖于自然键来区分行的唯一性，因此<strong>维度表能够维护历史信息</strong>，即使源系统不能也无所谓。<strong>为每个维度表分配一个代理键，用于唯一地区分表中的每行记录。</strong><br><a id="more"></a></p>
 <h2 id="自然键">自然键</h2><p>与代理键不同，<strong>多数维度表中都包含一个或多个自然键</strong>。自然键通常来源于源系统。<strong>它们不能唯一地区分数据仓库中的行，但能够区分来自源系统中对应的实体。</strong>与代理键键值不同，<strong>自然键键值对数据仓库使用者来说可能包含一定的意义。</strong>即使自然键不具有明确的含义，用于加载事实表的ETL例程也仍然需要它们。有时维度表的自然键包含多个列。这种情况通常发生在源系统采用多键方式区分实体时。<br>替换代理键的方法之一是为自然键附加一个序列号。<br>另外一种理论上可以替换代理键的方法是为自然键增加一个时间戳。</p>
 <h2 id="丰富的维度集合">丰富的维度集合</h2><p>维度为事实提供了环境，没有环境，事实就无法理解。维度以及维度值在多个方面增强了事实的含义：</p>
@@ -119,7 +119,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/代理键/">代理键</a><a href="/tags/数据仓库/">数据仓库</a><a href="/tags/自然键/">自然键</a>
+  <span></span> <a href="/tags/星型模式/">星型模式</a>
   </div>
 
 </div>
@@ -173,7 +173,7 @@
 
 
 <div class="next">
-<a href="/2015/10/03/Star Schema完全参考手册读书笔记二/"  title="Star Schema完全参考手册读书笔记二">
+<a href="/2015/10/02/Star Schema完全参考手册读书笔记二/"  title="Star Schema完全参考手册读书笔记二">
  <strong>下一篇：</strong><br/> 
  <span>Star Schema完全参考手册读书笔记二
 </span>
@@ -190,7 +190,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#维度表特性"><span class="toc-number">1.</span> <span class="toc-text">维度表特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#代理键"><span class="toc-number">1.1.</span> <span class="toc-text">代理键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自然键"><span class="toc-number">1.2.</span> <span class="toc-text">自然键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#丰富的维度集合"><span class="toc-number">1.3.</span> <span class="toc-text">丰富的维度集合</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#tags:_[数据仓库,代理键,自然键]"><span class="toc-number">1.</span> <span class="toc-text">tags:  [数据仓库,代理键,自然键]</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#维度表特性"><span class="toc-number"></span> <span class="toc-text">维度表特性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#代理键"><span class="toc-number">1.</span> <span class="toc-text">代理键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自然键"><span class="toc-number">2.</span> <span class="toc-text">自然键</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#丰富的维度集合"><span class="toc-number">3.</span> <span class="toc-text">丰富的维度集合</span></a></li></ol>
  
   </div>
 
@@ -220,7 +220,7 @@
 			
 		
 			
-				<li><a href="/tags/数据仓库/" title="数据仓库">数据仓库<sup>2</sup></a></li>
+				<li><a href="/tags/星型模式/" title="星型模式">星型模式<sup>2</sup></a></li>
 			
 		
 			
@@ -240,11 +240,11 @@
 			
 		
 			
-				<li><a href="/tags/稀疏性/" title="稀疏性">稀疏性<sup>1</sup></a></li>
+				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
+				<li><a href="/tags/退化维/" title="退化维">退化维<sup>1</sup></a></li>
 			
 		
 			
@@ -256,7 +256,7 @@
 			
 		
 			
-				<li><a href="/tags/maven/" title="maven">maven<sup>1</sup></a></li>
+				<li><a href="/tags/数据仓库/" title="数据仓库">数据仓库<sup>1</sup></a></li>
 			
 		
 			
@@ -264,15 +264,7 @@
 			
 		
 			
-				<li><a href="/tags/代理键/" title="代理键">代理键<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/自然键/" title="自然键">自然键<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/星型模式/" title="星型模式">星型模式<sup>1</sup></a></li>
+				<li><a href="/tags/maven/" title="maven">maven<sup>1</sup></a></li>
 			
 		
 			
@@ -281,6 +273,10 @@
 		
 			
 				<li><a href="/tags/维度设计/" title="维度设计">维度设计<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/稀疏性/" title="稀疏性">稀疏性<sup>1</sup></a></li>
 			
 		
 		</ul>
