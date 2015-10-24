@@ -4,23 +4,25 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>正则表达式之基础 | 王宇峰的博客</title>
+    <title>Star Schema完全参考手册读书笔记八 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="正则表达式是一种强大而灵活的文本处理工具。使用正则表达式，我们能够以编程的方式，构造复杂的文本模式，并对输入的字符串进行搜索。一旦找到了匹配这些模式的部分，你就能够随心所欲地对他们进行处理。正则表达式提供了一种完全通用的方式，能够解决各种字符串处理的相关的问题：匹配、选择、编辑以及验证。">
+    <meta name="description" content="本博客主要对书中横向钻取进行归纳总结。横向钻取： 与对数据的上钻或下钻操作无关，它描述的是跨越一个星型模式到另外一个星型模式的步骤。该术语意在描述跨多个过程。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="正则表达式之基础">
-<meta property="og:url" content="http://saliormoon.github.io/2015/10/09/正则表达式之基础/index.html">
+<meta property="og:title" content="Star Schema完全参考手册读书笔记八">
+<meta property="og:url" content="http://saliormoon.github.io/2015/10/12/Star Schema完全参考手册读书笔记八/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="正则表达式是一种强大而灵活的文本处理工具。使用正则表达式，我们能够以编程的方式，构造复杂的文本模式，并对输入的字符串进行搜索。一旦找到了匹配这些模式的部分，你就能够随心所欲地对他们进行处理。正则表达式提供了一种完全通用的方式，能够解决各种字符串处理的相关的问题：匹配、选择、编辑以及验证。">
-<meta property="og:updated_time" content="2015-10-11T14:18:16.834Z">
+<meta property="og:description" content="本博客主要对书中横向钻取进行归纳总结。横向钻取： 与对数据的上钻或下钻操作无关，它描述的是跨越一个星型模式到另外一个星型模式的步骤。该术语意在描述跨多个过程。">
+<meta property="og:image" content="http://img.blog.csdn.net/20151024221457035">
+<meta property="og:image" content="http://img.blog.csdn.net/20151024223919887">
+<meta property="og:updated_time" content="2015-10-24T14:43:44.526Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="正则表达式之基础">
-<meta name="twitter:description" content="正则表达式是一种强大而灵活的文本处理工具。使用正则表达式，我们能够以编程的方式，构造复杂的文本模式，并对输入的字符串进行搜索。一旦找到了匹配这些模式的部分，你就能够随心所欲地对他们进行处理。正则表达式提供了一种完全通用的方式，能够解决各种字符串处理的相关的问题：匹配、选择、编辑以及验证。">
+<meta name="twitter:title" content="Star Schema完全参考手册读书笔记八">
+<meta name="twitter:description" content="本博客主要对书中横向钻取进行归纳总结。横向钻取： 与对数据的上钻或下钻操作无关，它描述的是跨越一个星型模式到另外一个星型模式的步骤。该术语意在描述跨多个过程。">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -77,14 +79,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/09/正则表达式之基础/" title="正则表达式之基础" itemprop="url">正则表达式之基础</a>
+      <a href="/2015/10/12/Star Schema完全参考手册读书笔记八/" title="Star Schema完全参考手册读书笔记八" itemprop="url">Star Schema完全参考手册读书笔记八</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2015-10-09T14:23:47.000Z" itemprop="datePublished"> 发表于 2015-10-09</time>
+    <time datetime="2015-10-11T16:00:00.000Z" itemprop="datePublished"> 发表于 2015-10-12</time>
     
   </p>
 </header>
@@ -97,7 +99,8 @@
 		
 		</div>
 		
-		<p>正则表达式是一种强大而灵活的文本处理工具。使用正则表达式，我们能够以编程的方式，构造复杂的文本模式，并对输入的字符串进行搜索。一旦找到了匹配这些模式的部分，你就能够随心所欲地对他们进行处理。正则表达式提供了一种完全通用的方式，能够解决各种字符串处理的相关的问题：匹配、选择、编辑以及验证。<br><a id="more"></a><br>在java中，\的意思是“我要插入一个正则表达式的反斜线，所以其后的字符具有特殊的意义。”例如，如果你想表示一位数字，那么正则表达式应该是\d。如果你想插入一个普通的反斜线，则应该这样\\。不过换行和制表符之类的东西只需使用单反斜线：\n\t。<br>例如，要找一个数字，它可能有一个负号在最前面，那你就写一个负号加上一个问号：-?，要表示“一个或多个之前的表达式”，应该使用+。所以，如果要表示“可能有一个负号，后面跟着一位或多位数字”，可以这样：-?\d+。如果要表示“可能以一个加号或减号开头或二者都没有，后面跟着一位或多位数字”，可以这样表示：（-|\+）?\d+。字符+在正则表达式中有特殊的意义，所以必须使用\将其转义，使之成为表达式中的一个普通字符。<br>String类还自带了一个非常有用的正则表达式工具–split()方法，其功能是”将字符串从正则表达式匹配的地方切开。“例如：<br>1、split()，这里用的是普通的字符作为正则表达式，其中并不包含任何特殊的字符。因此该split()只是按空格来划分字符串。<br>2、split(“\W+”)，用到了\W，它的意思是非单词字符（如果W小写，\w，则表示一个单词字符）。它表示”一个或多个非单词字符“，将标点字符删除了。<br>3、split(“n\W+”)，表示”字母n后面跟着一个或多个非单词字符“，可以发现，在原始字符串中，与正则表达式匹配的部分，在最终结果中都不存在了。<br>String.split()还有一个重载的版本，它允许你限制字符串分割的次数。<br>String类自带的最后一个正则表达式工具是”替换“。你可以只替换正则表达式第一个匹配的子串（replaceFirst()），或是替换所有匹配的地方(replaceAll())。例如：<br>s.replaceFirst(“f\w+”,”located”);该表达式要匹配的是，以字母f开头，后面跟一个或多个字母（注意这里的w是小写的）。并且只替换掉第一个匹配的部分，所以”found“会被替换成”located“。<br>s.replaceAll(“shrubbery|tree|herring”,”banana”);该表达式要匹配的是三个单词中的任意一个，因为它们以竖直线分割表示”或“，并且替换所有匹配的部分。</p>
+		<p>本博客主要对书中横向钻取进行归纳总结。<br><strong>横向钻取：</strong> 与对数据的上钻或下钻操作无关，它描述的是跨越一个星型模式到另外一个星型模式的步骤。该术语意在描述跨多个过程。<br><a id="more"></a><br>尽管横向钻取操作通常被称为横向钻取查询，但横向钻取操作通常通过多个查询来实现。<br>横向钻取通过将数据集分解为多个步骤来实现。第一步是按照相同的细节层次从每个星型模式中汇总事实。第二步是合并汇总的事实。这一技术可应用于两个或两个以上的星型模式，跨越多个数据库，甚至跨越存储在不同厂商关系数据库管理系统中的数据。也可以采用对星型模式在查询多次的方法将横向钻取技术应用于星型模式上，以便建立可用的对比报表。<br>对事实表进行查询并在同一维度层次上执行汇总操作后，中间结果集就可以合并到一起。用sql的术语来说，需要执行全外连接操作。也即，需要包含每一个结果集中的所有数据，即使一个集合中的行在另一个集合中没有对应的行。在执行合并操作时，可以采用不同的度量方式来进行对比。<br><strong>横向钻取解决方案避免了两张事实表中对产品订单的双重计算问题，并且不会丢失只有一张表中有的产品的相关信息。</strong><br>横向钻取操作包括两个阶段。第一个阶段应用适当的过滤器从每个事实表中检索事实，并按照维度细节需要的层次输出结果。第二个阶段将中间结果集合并。在合并阶段，可以增加对来自不同过程的事实进行比较的操作。具体见图1。</p>
+<center><br><img src="http://img.blog.csdn.net/20151024221457035" alt="图1"><br></center><br>上述过程并不仅限于两个事实表，可以扩展到3个、4个甚至n个事实表。在第一阶段，查询n个事实表，建立n个中间结果集，所有的中间结果集都处于同样级别的维度细节。然后将n个集合按照一次一对的方式两两合并。所有结果集具有共同的维度细节层次，最后用于构建需要的比率。<br>原则上，参与横向钻取报表的事实表没有必要驻留在同一个数据库中。第一个阶段的查询可以放置在不同的数据库实例中，甚至可以放在不同类型的数据库系统中。中间结果集被合并以产生最终报表。无论是从结构还是从内容上考虑，在每个数据库中存在同样的公共维度非常关键。最后，需要注意横向钻取也可以应用到单一星型模式中，产生有用的比较结果。<br>横向钻取的三种实现方式：1、过程划分。2、使用临时表。3、平衡sql。如图2。<br><center><br><img src="http://img.blog.csdn.net/20151024223919887" alt="图2"><br></center>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -106,7 +109,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/java/">java</a><a href="/tags/正则表达式/">正则表达式</a>
+  <span></span> <a href="/tags/数据仓库/">数据仓库</a><a href="/tags/横向钻取/">横向钻取</a>
   </div>
 
 </div>
@@ -151,18 +154,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/10/10/win7中jar包不能安装的问题/" title="win7中jar包不能安装的问题">
+ <a href="/2015/10/18/搜索引擎算法/" title="搜索引擎算法">
   <strong>上一篇：</strong><br/>
   <span>
-  win7中jar包不能安装的问题</span>
+  搜索引擎算法</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/10/08/maven中pom.xml显示不正常的问题/"  title="maven中pom.xml显示不正常的问题">
+<a href="/2015/10/11/Star Schema完全参考手册学习笔记七/"  title="Star Schema完全参考手册读书笔记七">
  <strong>下一篇：</strong><br/> 
- <span>maven中pom.xml显示不正常的问题
+ <span>Star Schema完全参考手册读书笔记七
 </span>
 </a>
 </div>
