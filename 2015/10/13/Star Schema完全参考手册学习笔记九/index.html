@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>maven中pom.xml显示不正常的问题 | 王宇峰的博客</title>
+    <title>Star Schema完全参考手册读书笔记八 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="对于初学maven的人来说，配置环境是一件十分烦恼的事，本人也表示十分痛心，就自己遇到的问题做一下整理，方便后续学者有帮助可寻。我遇到的问题是，在自认为maven配置无误之后，发现pom.xml显示不正常，没有dependency的显示界面，因此郁闷了10多天。直到现在才发现这些界面属于Maven Pom Editor, 而问题的根源也在eclipse中缺少这一插件，在网上看了很多博客，耗费了一天">
+    <meta name="description" content="本博客主要就维度一致性进行总结。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="maven中pom.xml显示不正常的问题">
-<meta property="og:url" content="http://saliormoon.github.io/2015/10/08/maven中pom.xml显示不正常的问题/index.html">
+<meta property="og:title" content="Star Schema完全参考手册读书笔记八">
+<meta property="og:url" content="http://saliormoon.github.io/2015/10/13/Star Schema完全参考手册学习笔记九/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="对于初学maven的人来说，配置环境是一件十分烦恼的事，本人也表示十分痛心，就自己遇到的问题做一下整理，方便后续学者有帮助可寻。我遇到的问题是，在自认为maven配置无误之后，发现pom.xml显示不正常，没有dependency的显示界面，因此郁闷了10多天。直到现在才发现这些界面属于Maven Pom Editor, 而问题的根源也在eclipse中缺少这一插件，在网上看了很多博客，耗费了一天">
-<meta property="og:updated_time" content="2015-10-08T12:12:35.801Z">
+<meta property="og:description" content="本博客主要就维度一致性进行总结。">
+<meta property="og:updated_time" content="2015-10-25T03:58:51.721Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="maven中pom.xml显示不正常的问题">
-<meta name="twitter:description" content="对于初学maven的人来说，配置环境是一件十分烦恼的事，本人也表示十分痛心，就自己遇到的问题做一下整理，方便后续学者有帮助可寻。我遇到的问题是，在自认为maven配置无误之后，发现pom.xml显示不正常，没有dependency的显示界面，因此郁闷了10多天。直到现在才发现这些界面属于Maven Pom Editor, 而问题的根源也在eclipse中缺少这一插件，在网上看了很多博客，耗费了一天">
+<meta name="twitter:title" content="Star Schema完全参考手册读书笔记八">
+<meta name="twitter:description" content="本博客主要就维度一致性进行总结。">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -77,14 +77,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/08/maven中pom.xml显示不正常的问题/" title="maven中pom.xml显示不正常的问题" itemprop="url">maven中pom.xml显示不正常的问题</a>
+      <a href="/2015/10/13/Star Schema完全参考手册学习笔记九/" title="Star Schema完全参考手册读书笔记八" itemprop="url">Star Schema完全参考手册读书笔记八</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2015-10-08T14:23:47.000Z" itemprop="datePublished"> 发表于 2015-10-08</time>
+    <time datetime="2015-10-12T16:00:00.000Z" itemprop="datePublished"> 发表于 2015-10-13</time>
     
   </p>
 </header>
@@ -93,12 +93,19 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#维度一致性的基本需求"><span class="toc-number">1.</span> <span class="toc-text">维度一致性的基本需求</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#结构相同"><span class="toc-number">1.1.</span> <span class="toc-text">结构相同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内容相同"><span class="toc-number">1.2.</span> <span class="toc-text">内容相同</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#维度一致性的类型"><span class="toc-number">2.</span> <span class="toc-text">维度一致性的类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、共享维度表"><span class="toc-number">2.1.</span> <span class="toc-text">1、共享维度表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、一致性上卷"><span class="toc-number">2.2.</span> <span class="toc-text">2、一致性上卷</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、一致的退化维度"><span class="toc-number">2.3.</span> <span class="toc-text">3、一致的退化维度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、重叠维度"><span class="toc-number">2.4.</span> <span class="toc-text">4、重叠维度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#生成第三个表来避免重叠"><span class="toc-number">2.4.1.</span> <span class="toc-text">生成第三个表来避免重叠</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成第三个表并且跟踪关系"><span class="toc-number">2.4.2.</span> <span class="toc-text">生成第三个表并且跟踪关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成第三个表作为支架表"><span class="toc-number">2.4.3.</span> <span class="toc-text">生成第三个表作为支架表</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
-		<p>对于初学maven的人来说，配置环境是一件十分烦恼的事，本人也表示十分痛心，就自己遇到的问题做一下整理，方便后续学者有帮助可寻。<br>我遇到的问题是，在自认为maven配置无误之后，发现pom.xml显示不正常，没有dependency的显示界面，因此郁闷了10多天。直到现在才发现这些界面属于Maven Pom Editor, 而问题的根源也在eclipse中缺少这一插件，在网上看了很多博客，耗费了一天时间，最终发现是由于自己装的maven是没有Maven Pom Editor 插件的，于是下载了一个有该插件的maven，把相关架包重新拷贝到eclipse的plugins和features中，重启eclipse，再对项目打开Maven Pom Editor，发现它出现了，于是问题就这样解决了。<br>希望能够帮到和我犯同样错误的maven初学者。  </p>
-  
+		<p>本博客主要就维度一致性进行总结。<br><a id="more"></a></p>
+<h1 id="维度一致性的基本需求">维度一致性的基本需求</h1><p>为支持成功的横向钻取对比，必须保证维度表的一致性，可以通过保证两个表相同的方法来解决。对于相同性涉及两个关键的部分：两个表必须结构相同且内容相同。</p>
+<h2 id="结构相同">结构相同</h2><p>在结构方面，表必须有相同的维度列集合。对应的维度列应该具有相同的列名，这样就不会发生对等价性判断的困惑。这些对应的列应该具有相同的数据类型定义，以保证内容的同一性。</p>
+<h2 id="内容相同">内容相同</h2><p> 在内容方面，维度列中存在的值必须具有相同的表示形式。由于列值被用于在横向钻取第二阶段中连接每个星型模式的中间结果集，因此使用一致的列值不需要进行清洗、转换以实现对应列值的匹配，从而保证合并操作需要的列值的同一性。<br>不具有可共享公共维度表，但存在可共享的公共维度属性的两个星型模式，它们的公共维度属性中的任何一个都能作为横向钻取的基础。实现横向钻取分为两个阶段，在第一阶段，分别从每个星型模式中查询并获取事实，将它们聚集到同一维度细节层次上。在第二阶段，合并获取的中间结果集，构建两种事实的比率。尽管两种星型模式不存在可共享的维度表，但这个过程仍然可以完成。</p>
+<h1 id="维度一致性的类型">维度一致性的类型</h1><h2 id="1、共享维度表">1、共享维度表</h2><p>最常见的维度一致性形式发生在两个星型模式共享相同的逻辑维度表时。这个共享的维度可能是同一个物理表，也有可能由两个或更多个等价表组成。如果按照两个或更多个等价表实施，共享维度就必须具有以下两个特性：1、表共享相同的结构。2、表共享相同的内容。当两个或更多个维度表满足这些要求时，这些表格被称为一致的。<br>共享的维度表支持使用其中任意的维度属性横向钻取相关的事实表。结构和内容相同的不同维度表也支持对事实表的横向钻取，完全相同的副本也是一致的。<br>当一个共享维度存在多个副本时，需要一个单独的ETL过程负责处理新的和发生改变的数据。使用某个事实表的不正确的副本将会产生不正确的结果。<br>共享维度的另一个版本允许副本包含基础维度中行的子集，通常与表示实体的子类对应。这一子类可以被额外的特殊子类属性所修饰。</p>
+<h2 id="2、一致性上卷">2、一致性上卷</h2><p>当来自某个表的维度属性是其他表的维度属性的子集，并且公共属性具有相同的结构和内容时，这个表包含的子集称为一致性上卷。相关的事实表能在任何公共维度属性上通过横向钻取进行比较。<br>保持一致性并不需要维度表完全相同。如果能够满足以下条件，不相同的维度表也能够支持横向钻取过程：表的维度属性是其他表的维度属性的子集；公共维度属性具有相同的结构和内容。当满足这些要求时，维度表就是一致的。可以基于任何一个公共维度属性，通过横向钻取比较相关事实表。两个维度中较小的那个叫做一致性上卷，较大的那个称为基本维度。注意每个一致性上卷都包含基表中没有的一列：代理键。<br>当来自某个表的维度属性是其他表的维度属性的子集，并且公共属性具有相同的结构和内容时，这个表包含的子集称为一致性上卷。相关的事实表能在任何公共维度属性上通过横向钻取进行比较。<br>确保一致性上卷的实例值与基本维度的实例值匹配的最好方式是指定基本维度作为它的来源。采用此方法可以确保对基于源数据构建的实例值计算的一致性。开发者可能会首先选择处理基本维度，然后检查新的和变化的行来处理上卷。另一种方式是，选择建立单独的例程来处理源数据，并同时处理基本维度和上卷中涉及的新增的和发生变化的行。一些开发者喜欢使用数据过渡区来标准化结构，处理和发现原子层的变化，然后将它们应用到基本维度和上卷表中。<br>ETL开发者常常会发现一致性上卷存在令人困惑的副作用。应用变化类型1时，常常需要将在上卷维度中的两行合并。此处的问题是被合并行的代理键可能已经被存在的事实表行引用，对其合并时可能需要修改事实表中的某些外键。为了避免这种额外处理，有时可以允许上卷维度包含除代理键之外的相同的行。</p>
+<h2 id="3、一致的退化维度">3、一致的退化维度</h2><p>在退化维度上执行横向钻取操作是可能实现的，其成功与否取决于是否遵守本章中反复强调的同样的要求：公共维度属性必须有相同的结构和内容。遵守该要求就可以为横向钻取第一阶段涉及的每个事实表指定同样的聚集范围，并且允许在第二阶段中连接中间结果集。<br>具有等价表和一致性上卷后，还需要注意确保在每个表中出现相同值的组合。这可以保证浏览查询能够获得同样的结果。</p>
+<h2 id="4、重叠维度">4、重叠维度</h2><p>尽管很少出现，采用重叠属性集可以保证不等价的维度表保持一致性。<br>当两个表共享一组公共属性，但其中一个不是另外一个的真子集时，两个表都不能被描述成一致性上卷。当两个维度重叠时，将通过他们的公共属性保持一致性。公共属性必须共享相同的内容和结构。<br>设计者通常尽量避免采用重叠维度。目前至少存在三种可选方案用于将重叠维度移动到不同的表中。</p>
+<h3 id="生成第三个表来避免重叠">生成第三个表来避免重叠</h3><h3 id="生成第三个表并且跟踪关系">生成第三个表并且跟踪关系</h3><h3 id="生成第三个表作为支架表">生成第三个表作为支架表</h3>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -106,7 +113,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/maven/">maven</a>
+  <span></span> <a href="/tags/数据仓库/">数据仓库</a><a href="/tags/维度一致性/">维度一致性</a>
   </div>
 
 </div>
@@ -151,18 +158,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/10/09/正则表达式之基础/" title="正则表达式之基础">
+ <a href="/2015/10/18/搜索引擎算法/" title="搜索引擎算法">
   <strong>上一篇：</strong><br/>
   <span>
-  正则表达式之基础</span>
+  搜索引擎算法</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/10/07/Star Schema完全参考手册学习笔记六/"  title="Star Schema完全参考手册读书笔记六">
+<a href="/2015/10/12/Star Schema完全参考手册读书笔记八/"  title="Star Schema完全参考手册读书笔记八">
  <strong>下一篇：</strong><br/> 
- <span>Star Schema完全参考手册读书笔记六
+ <span>Star Schema完全参考手册读书笔记八
 </span>
 </a>
 </div>
@@ -177,7 +184,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#维度一致性的基本需求"><span class="toc-number">1.</span> <span class="toc-text">维度一致性的基本需求</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#结构相同"><span class="toc-number">1.1.</span> <span class="toc-text">结构相同</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内容相同"><span class="toc-number">1.2.</span> <span class="toc-text">内容相同</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#维度一致性的类型"><span class="toc-number">2.</span> <span class="toc-text">维度一致性的类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、共享维度表"><span class="toc-number">2.1.</span> <span class="toc-text">1、共享维度表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、一致性上卷"><span class="toc-number">2.2.</span> <span class="toc-text">2、一致性上卷</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3、一致的退化维度"><span class="toc-number">2.3.</span> <span class="toc-text">3、一致的退化维度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4、重叠维度"><span class="toc-number">2.4.</span> <span class="toc-text">4、重叠维度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#生成第三个表来避免重叠"><span class="toc-number">2.4.1.</span> <span class="toc-text">生成第三个表来避免重叠</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成第三个表并且跟踪关系"><span class="toc-number">2.4.2.</span> <span class="toc-text">生成第三个表并且跟踪关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成第三个表作为支架表"><span class="toc-number">2.4.3.</span> <span class="toc-text">生成第三个表作为支架表</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
