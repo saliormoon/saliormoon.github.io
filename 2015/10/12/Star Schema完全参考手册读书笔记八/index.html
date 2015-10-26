@@ -11,18 +11,18 @@
     
 
     
-    <meta name="description" content="本博客主要对书中横向钻取进行归纳总结。横向钻取： 与对数据的上钻或下钻操作无关，它描述的是跨越一个星型模式到另外一个星型模式的步骤。该术语意在描述跨多个过程。">
+    <meta name="description" content="本博客主要对书中横向钻取进行归纳总结。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Star Schema完全参考手册读书笔记八">
 <meta property="og:url" content="http://saliormoon.github.io/2015/10/12/Star Schema完全参考手册读书笔记八/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="本博客主要对书中横向钻取进行归纳总结。横向钻取： 与对数据的上钻或下钻操作无关，它描述的是跨越一个星型模式到另外一个星型模式的步骤。该术语意在描述跨多个过程。">
+<meta property="og:description" content="本博客主要对书中横向钻取进行归纳总结。">
 <meta property="og:image" content="http://img.blog.csdn.net/20151024221457035">
 <meta property="og:image" content="http://img.blog.csdn.net/20151024223919887">
-<meta property="og:updated_time" content="2015-10-24T14:43:44.526Z">
+<meta property="og:updated_time" content="2015-10-25T04:01:48.755Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Star Schema完全参考手册读书笔记八">
-<meta name="twitter:description" content="本博客主要对书中横向钻取进行归纳总结。横向钻取： 与对数据的上钻或下钻操作无关，它描述的是跨越一个星型模式到另外一个星型模式的步骤。该术语意在描述跨多个过程。">
+<meta name="twitter:description" content="本博客主要对书中横向钻取进行归纳总结。">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -99,7 +99,7 @@
 		
 		</div>
 		
-		<p>本博客主要对书中横向钻取进行归纳总结。<br><strong>横向钻取：</strong> 与对数据的上钻或下钻操作无关，它描述的是跨越一个星型模式到另外一个星型模式的步骤。该术语意在描述跨多个过程。<br><a id="more"></a><br>尽管横向钻取操作通常被称为横向钻取查询，但横向钻取操作通常通过多个查询来实现。<br>横向钻取通过将数据集分解为多个步骤来实现。第一步是按照相同的细节层次从每个星型模式中汇总事实。第二步是合并汇总的事实。这一技术可应用于两个或两个以上的星型模式，跨越多个数据库，甚至跨越存储在不同厂商关系数据库管理系统中的数据。也可以采用对星型模式在查询多次的方法将横向钻取技术应用于星型模式上，以便建立可用的对比报表。<br>对事实表进行查询并在同一维度层次上执行汇总操作后，中间结果集就可以合并到一起。用sql的术语来说，需要执行全外连接操作。也即，需要包含每一个结果集中的所有数据，即使一个集合中的行在另一个集合中没有对应的行。在执行合并操作时，可以采用不同的度量方式来进行对比。<br><strong>横向钻取解决方案避免了两张事实表中对产品订单的双重计算问题，并且不会丢失只有一张表中有的产品的相关信息。</strong><br>横向钻取操作包括两个阶段。第一个阶段应用适当的过滤器从每个事实表中检索事实，并按照维度细节需要的层次输出结果。第二个阶段将中间结果集合并。在合并阶段，可以增加对来自不同过程的事实进行比较的操作。具体见图1。</p>
+		<p>本博客主要对书中横向钻取进行归纳总结。<br><a id="more"></a><br><strong>横向钻取：</strong> 与对数据的上钻或下钻操作无关，它描述的是跨越一个星型模式到另外一个星型模式的步骤。该术语意在描述跨多个过程。<br>尽管横向钻取操作通常被称为横向钻取查询，但横向钻取操作通常通过多个查询来实现。<br>横向钻取通过将数据集分解为多个步骤来实现。第一步是按照相同的细节层次从每个星型模式中汇总事实。第二步是合并汇总的事实。这一技术可应用于两个或两个以上的星型模式，跨越多个数据库，甚至跨越存储在不同厂商关系数据库管理系统中的数据。也可以采用对星型模式在查询多次的方法将横向钻取技术应用于星型模式上，以便建立可用的对比报表。<br>对事实表进行查询并在同一维度层次上执行汇总操作后，中间结果集就可以合并到一起。用sql的术语来说，需要执行全外连接操作。也即，需要包含每一个结果集中的所有数据，即使一个集合中的行在另一个集合中没有对应的行。在执行合并操作时，可以采用不同的度量方式来进行对比。<br><strong>横向钻取解决方案避免了两张事实表中对产品订单的双重计算问题，并且不会丢失只有一张表中有的产品的相关信息。</strong><br>横向钻取操作包括两个阶段。第一个阶段应用适当的过滤器从每个事实表中检索事实，并按照维度细节需要的层次输出结果。第二个阶段将中间结果集合并。在合并阶段，可以增加对来自不同过程的事实进行比较的操作。具体见图1。</p>
 <center><br><img src="http://img.blog.csdn.net/20151024221457035" alt="图1"><br></center><br>上述过程并不仅限于两个事实表，可以扩展到3个、4个甚至n个事实表。在第一阶段，查询n个事实表，建立n个中间结果集，所有的中间结果集都处于同样级别的维度细节。然后将n个集合按照一次一对的方式两两合并。所有结果集具有共同的维度细节层次，最后用于构建需要的比率。<br>原则上，参与横向钻取报表的事实表没有必要驻留在同一个数据库中。第一个阶段的查询可以放置在不同的数据库实例中，甚至可以放在不同类型的数据库系统中。中间结果集被合并以产生最终报表。无论是从结构还是从内容上考虑，在每个数据库中存在同样的公共维度非常关键。最后，需要注意横向钻取也可以应用到单一星型模式中，产生有用的比较结果。<br>横向钻取的三种实现方式：1、过程划分。2、使用临时表。3、平衡sql。如图2。<br><center><br><img src="http://img.blog.csdn.net/20151024223919887" alt="图2"><br></center>
   
 	</div>
@@ -154,10 +154,10 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/10/13/Star Schema完全参考手册学习笔记九/" title="Star Schema完全参考手册读书笔记八">
+ <a href="/2015/10/13/Star Schema完全参考手册学习笔记九/" title="Star Schema完全参考手册读书笔记九">
   <strong>上一篇：</strong><br/>
   <span>
-  Star Schema完全参考手册读书笔记八</span>
+  Star Schema完全参考手册读书笔记九</span>
 </a>
 </div>
 
@@ -202,7 +202,7 @@
 			
 		
 			
-				<li><a href="/tags/多维数据集/" title="多维数据集">多维数据集<sup>2</sup></a></li>
+				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
 			
 		
 			
@@ -210,15 +210,15 @@
 			
 		
 			
-				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>1</sup></a></li>
+				<li><a href="/tags/多维数据集/" title="多维数据集">多维数据集<sup>2</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/linux-shell/" title="linux shell">linux shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hbase/" title="hbase">hbase<sup>1</sup></a></li>
 			
 		
 			
@@ -238,11 +238,11 @@
 			
 		
 			
-				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
+				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/横向钻取/" title="横向钻取">横向钻取<sup>1</sup></a></li>
+				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
 			
 		
 			
@@ -280,7 +280,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">15</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/08/">August 2015</a><span class="archive-list-count">1</span></li></ul>
   </div>
 
 
