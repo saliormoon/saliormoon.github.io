@@ -4,26 +4,34 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Hello World | 王宇峰的博客</title>
+    <title>mysql事务操作详细实例介绍 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+    <meta name="description" content="本博客主要对mysql的事务操作进行举例介绍。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://saliormoon.github.io/2015/11/28/hello-world/index.html">
+<meta property="og:title" content="mysql事务操作详细实例介绍">
+<meta property="og:url" content="http://saliormoon.github.io/2015/12/08/mysql 事务操作详细实例介绍/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2015-11-28T09:52:05.882Z">
+<meta property="og:description" content="本博客主要对mysql的事务操作进行举例介绍。">
+<meta property="og:image" content="http://img.blog.csdn.net/20151208095227941">
+<meta property="og:image" content="http://img.blog.csdn.net/20151208095853687">
+<meta property="og:image" content="http://img.blog.csdn.net/20151208100635707">
+<meta property="og:image" content="http://img.blog.csdn.net/20151208100946846">
+<meta property="og:image" content="http://img.blog.csdn.net/20151208101157498">
+<meta property="og:image" content="http://img.blog.csdn.net/20151208101515056">
+<meta property="og:image" content="http://img.blog.csdn.net/20151208101733977">
+<meta property="og:image" content="http://img.blog.csdn.net/20151208101901770">
+<meta property="og:image" content="http://img.blog.csdn.net/20151208102324255">
+<meta property="og:image" content="http://img.blog.csdn.net/20151208102731686">
+<meta property="og:image" content="http://img.blog.csdn.net/20151208103126247">
+<meta property="og:updated_time" content="2015-12-08T02:55:59.025Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="mysql事务操作详细实例介绍">
+<meta name="twitter:description" content="本博客主要对mysql的事务操作进行举例介绍。">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -80,14 +88,14 @@ Quick">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/11/28/hello-world/" title="Hello World" itemprop="url">Hello World</a>
+      <a href="/2015/12/08/mysql 事务操作详细实例介绍/" title="mysql事务操作详细实例介绍" itemprop="url">mysql事务操作详细实例介绍</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2015-11-28T09:52:05.882Z" itemprop="datePublished"> 发表于 2015-11-28</time>
+    <time datetime="2015-12-07T16:00:00.000Z" itemprop="datePublished"> 发表于 2015-12-08</time>
     
   </p>
 </header>
@@ -96,24 +104,40 @@ Quick">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick_Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create_a_new_post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run_server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate_static_files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy_to_remote_sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1、打开mysql"><span class="toc-number">1.</span> <span class="toc-text">1、打开mysql</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2、创建数据库"><span class="toc-number">2.</span> <span class="toc-text">2、创建数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3、创建表"><span class="toc-number">3.</span> <span class="toc-text">3、创建表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4、插入数据"><span class="toc-number">4.</span> <span class="toc-text">4、插入数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5、事务操作–删除"><span class="toc-number">5.</span> <span class="toc-text">5、事务操作–删除</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1、开启事务"><span class="toc-number">5.1.</span> <span class="toc-text">5.1、开启事务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2、执行事务"><span class="toc-number">5.2.</span> <span class="toc-text">5.2、执行事务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3、回滚事务"><span class="toc-number">5.3.</span> <span class="toc-text">5.3、回滚事务</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7、事务提交"><span class="toc-number">6.</span> <span class="toc-text">7、事务提交</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#事务提交"><span class="toc-number">6.1.</span> <span class="toc-text">事务提交</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务回滚"><span class="toc-number">6.2.</span> <span class="toc-text">事务回滚</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+		<p>本博客主要对mysql的事务操作进行举例介绍。<br><a id="more"></a></p>
+<h1 id="1、打开mysql">1、打开mysql</h1><p>本人由于重装了系统之后，不能快速正确找到mysql客户端，所以需要使用cmd窗口来运行命令行程序。<br>如果在打开cmd窗口时就使用mysql命令，会出现如下错误：</p>
+<p><center><br><img src="http://img.blog.csdn.net/20151208095227941" alt="图1"><br></center><br>这是由于没有目前还未进入mysql数据库，所以不能执行mysq命令，故需要进入mysql的bin目录来启动mysql，如下图：</p>
+<p><center><br><img src="http://img.blog.csdn.net/20151208095853687" alt="图2"><br></center><br>然后就可以顺利执行mysql的命令行了。</p>
+<h1 id="2、创建数据库">2、创建数据库</h1><p>创建一个数据库，名字为world，如下图：</p>
+<p><center><br><img src="http://img.blog.csdn.net/20151208100635707" alt="图3"><br></center></p>
+<h1 id="3、创建表">3、创建表</h1><p>在创建数据库world成功后，再在其中创建一张表，名为test1，如下图：</p>
+<p><center><br><img src="http://img.blog.csdn.net/20151208100946846" alt="图4"><br></center></p>
+<h1 id="4、插入数据">4、插入数据</h1><p>在test1表中插入4条学生信息的数据，包括名字、学校，如下图：</p>
+<p><center><br><img src="http://img.blog.csdn.net/20151208101157498" alt="图5"><br></center></p>
+<h1 id="5、事务操作–删除">5、事务操作–删除</h1><h2 id="5-1、开启事务">5.1、开启事务</h2><p><center><br><img src="http://img.blog.csdn.net/20151208101515056" alt="图6"><br></center></p>
+<h2 id="5-2、执行事务">5.2、执行事务</h2><p>下面执行的事务是删除一条学生信息数据：</p>
+<p><center><br><img src="http://img.blog.csdn.net/20151208101733977" alt="图7"><br></center></p>
+<h2 id="5-3、回滚事务">5.3、回滚事务</h2><p><center><br><img src="http://img.blog.csdn.net/20151208101901770" alt="图8"><br></center></p>
+<p>#6、事务操作–更新<br>具体步骤同上。</p>
+<p><center><br><img src="http://img.blog.csdn.net/20151208102324255" alt="图9"><br></center></p>
+<h1 id="7、事务提交">7、事务提交</h1><p>如果在执行事务完毕后，用commit提交，那么再回滚rollback就不能回到之前的状态了。如下例：</p>
+<h2 id="事务提交">事务提交</h2><p><center><br><img src="http://img.blog.csdn.net/20151208102731686" alt="图10"><br></center></p>
+<h2 id="事务回滚">事务回滚</h2><p><center><br><img src="http://img.blog.csdn.net/20151208103126247" alt="图11"><br></center><br>一开始数据库有4条数据，执行删除事务删除了一条数据，所以为3条数据，提交事务后表中的状态为3条数据，再执行回滚事务操作，此时会发现事务回滚之后表的数据和事务提交之后表的数据一样，为3条，所以说明回滚不到提交之前的状态了。</p>
+<p>- </p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mysql/">mysql</a><a href="/tags/事务/">事务</a>
+  </div>
 
 </div>
 
@@ -175,7 +199,7 @@ Quick">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick_Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create_a_new_post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run_server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate_static_files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy_to_remote_sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1、打开mysql"><span class="toc-number">1.</span> <span class="toc-text">1、打开mysql</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2、创建数据库"><span class="toc-number">2.</span> <span class="toc-text">2、创建数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3、创建表"><span class="toc-number">3.</span> <span class="toc-text">3、创建表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4、插入数据"><span class="toc-number">4.</span> <span class="toc-text">4、插入数据</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5、事务操作–删除"><span class="toc-number">5.</span> <span class="toc-text">5、事务操作–删除</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1、开启事务"><span class="toc-number">5.1.</span> <span class="toc-text">5.1、开启事务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2、执行事务"><span class="toc-number">5.2.</span> <span class="toc-text">5.2、执行事务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3、回滚事务"><span class="toc-number">5.3.</span> <span class="toc-text">5.3、回滚事务</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7、事务提交"><span class="toc-number">6.</span> <span class="toc-text">7、事务提交</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#事务提交"><span class="toc-number">6.1.</span> <span class="toc-text">事务提交</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事务回滚"><span class="toc-number">6.2.</span> <span class="toc-text">事务回滚</span></a></li></ol></li></ol>
  
   </div>
 
@@ -203,7 +227,7 @@ Quick">
 			
 		
 			
-				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
+				<li><a href="/tags/多维数据集/" title="多维数据集">多维数据集<sup>2</sup></a></li>
 			
 		
 			
@@ -211,7 +235,15 @@ Quick">
 			
 		
 			
-				<li><a href="/tags/多维数据集/" title="多维数据集">多维数据集<sup>2</sup></a></li>
+				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jar/" title="jar">jar<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
 			
 		
 			
@@ -219,7 +251,7 @@ Quick">
 			
 		
 			
-				<li><a href="/tags/hbase/" title="hbase">hbase<sup>1</sup></a></li>
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
 			
 		
 			
@@ -239,19 +271,19 @@ Quick">
 			
 		
 			
-				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/jar/" title="jar">jar<sup>1</sup></a></li>
+				<li><a href="/tags/横向钻取/" title="横向钻取">横向钻取<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/maven/" title="maven">maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>1</sup></a></li>
 			
 		
 			
@@ -266,14 +298,6 @@ Quick">
 				<li><a href="/tags/自然键/" title="自然键">自然键<sup>1</sup></a></li>
 			
 		
-			
-				<li><a href="/tags/星型模式/" title="星型模式">星型模式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/维度表/" title="维度表">维度表<sup>1</sup></a></li>
-			
-		
 		</ul>
 </div>
 
@@ -281,7 +305,7 @@ Quick">
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
   </div>
 
 

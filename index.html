@@ -78,38 +78,36 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/11/28/hello-world/" title="Hello World" itemprop="url">Hello World</a>
+      <a href="/2015/12/08/mysql 事务操作详细实例介绍/" title="mysql事务操作详细实例介绍" itemprop="url">mysql事务操作详细实例介绍</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2015-11-28T09:52:05.882Z" itemprop="datePublished"> 发表于 2015-11-28</time>
+    <time datetime="2015-12-07T16:00:00.000Z" itemprop="datePublished"> 发表于 2015-12-08</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
+        <p>本博客主要对mysql的事务操作进行举例介绍。<br>
         
         
         <p class="article-more-link">
+          
+            <a href="/2015/12/08/mysql 事务操作详细实例介绍/#more">阅读更多</a>
           
        </p>
     </div>
     <footer class="article-footer clearfix">
 <div class="article-catetags">
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/mysql/">mysql</a><a href="/tags/事务/">事务</a>
+  </div>
 
 </div>
 
@@ -666,7 +664,7 @@
 			
 		
 			
-				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
+				<li><a href="/tags/多维数据集/" title="多维数据集">多维数据集<sup>2</sup></a></li>
 			
 		
 			
@@ -674,7 +672,15 @@
 			
 		
 			
-				<li><a href="/tags/多维数据集/" title="多维数据集">多维数据集<sup>2</sup></a></li>
+				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jar/" title="jar">jar<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
 			
 		
 			
@@ -682,7 +688,7 @@
 			
 		
 			
-				<li><a href="/tags/hbase/" title="hbase">hbase<sup>1</sup></a></li>
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
 			
 		
 			
@@ -702,19 +708,19 @@
 			
 		
 			
-				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/jar/" title="jar">jar<sup>1</sup></a></li>
+				<li><a href="/tags/横向钻取/" title="横向钻取">横向钻取<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/maven/" title="maven">maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>1</sup></a></li>
 			
 		
 			
@@ -729,14 +735,6 @@
 				<li><a href="/tags/自然键/" title="自然键">自然键<sup>1</sup></a></li>
 			
 		
-			
-				<li><a href="/tags/星型模式/" title="星型模式">星型模式<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/维度表/" title="维度表">维度表<sup>1</sup></a></li>
-			
-		
 		</ul>
 </div>
 
@@ -744,7 +742,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
   </div>
 
 
