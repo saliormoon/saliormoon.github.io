@@ -4,23 +4,29 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>hbase建表 | 王宇峰的博客</title>
+    <title>感知机 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="在centos系统下安装了hbase，以下为具体操作：">
+    <meta name="description" content="感知机学习的目标是求得一个能够将训练集正实例点和负实例点完全分开的分离超平面。为了找出这样的超平面，即确定感知机模型参数w、b，需要确定一个学习策略，即定义（经验）损失函数并将损失函数极小化。感知机sign（w*x+b）学习的损失函数定义为：因为当时，；当时， ，因此损失函数是非负的。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hbase建表">
-<meta property="og:url" content="http://saliormoon.github.io/2015/10/14/Hbase建表/index.html">
+<meta property="og:title" content="感知机">
+<meta property="og:url" content="http://saliormoon.github.io/2015/10/14/感知机/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="在centos系统下安装了hbase，以下为具体操作：">
-<meta property="og:updated_time" content="2015-10-26T10:34:02.518Z">
+<meta property="og:description" content="感知机学习的目标是求得一个能够将训练集正实例点和负实例点完全分开的分离超平面。为了找出这样的超平面，即确定感知机模型参数w、b，需要确定一个学习策略，即定义（经验）损失函数并将损失函数极小化。感知机sign（w*x+b）学习的损失函数定义为：因为当时，；当时， ，因此损失函数是非负的。">
+<meta property="og:image" content="http://img.blog.csdn.net/20151209171922770">
+<meta property="og:image" content="http://img.blog.csdn.net/20151209171958165">
+<meta property="og:image" content="http://img.blog.csdn.net/20151209172257200">
+<meta property="og:image" content="http://img.blog.csdn.net/20151209172242387">
+<meta property="og:image" content="http://img.blog.csdn.net/20151209172227629">
+<meta property="og:image" content="http://img.blog.csdn.net/20151209172422777">
+<meta property="og:updated_time" content="2015-12-09T11:24:08.753Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hbase建表">
-<meta name="twitter:description" content="在centos系统下安装了hbase，以下为具体操作：">
+<meta name="twitter:title" content="感知机">
+<meta name="twitter:description" content="感知机学习的目标是求得一个能够将训练集正实例点和负实例点完全分开的分离超平面。为了找出这样的超平面，即确定感知机模型参数w、b，需要确定一个学习策略，即定义（经验）损失函数并将损失函数极小化。感知机sign（w*x+b）学习的损失函数定义为：因为当时，；当时， ，因此损失函数是非负的。">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -77,7 +83,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/14/Hbase建表/" title="hbase建表" itemprop="url">hbase建表</a>
+      <a href="/2015/10/14/感知机/" title="感知机" itemprop="url">感知机</a>
   </h1>
   <p class="article-author">By
        
@@ -97,7 +103,7 @@
 		
 		</div>
 		
-		<p>在centos系统下安装了hbase，以下为具体操作：<br><a id="more"></a><br>1、进入hbase安装目录：<br>cd/ideas/hbase/hbase-0.96.2-hadoop2/bin/<br>2、启动hbase：<br>./hbase shell<br>3、查看hbase中的所有表：<br>list<br>4、查看hbase中某一个表的表描述：<br>describe ‘tablename’<br>5、hbase利用scan查询表中内容：<br>scan ‘tablename’<br>6、在Xshell5中输入有误的修改方法：<br>“&lt;-“键 +”Delete”键<br>7、hbase建表：<br>create ‘tablename’,’列簇1name’,’列簇2name’……<br>8、向表中插入数据：<br>put ‘tablename’,’列簇1name:列name’,’值’<br>put ‘tablename’,’列簇2name:列name’,’值’<br><strong>例子：</strong><br>create ‘emp’,’info’,’data’<br>put ‘emp’,’rk001’,’info:name’,’kele’<br>put ‘emp’,’rk001’,’info:sex’,’female’<br>put ‘emp’,’rk001’,’data:age’,’11’<br>put ‘emp’,’rk001’,’info:size’,’30’</p>
+		<p>感知机学习的目标是求得一个能够将训练集正实例点和负实例点完全分开的分离超平面。为了找出这样的超平面，即确定感知机模型参数w、b，需要确定一个学习策略，即定义（经验）损失函数并将损失函数极小化。<br>感知机sign（w*x+b）学习的损失函数定义为：<br><img src="http://img.blog.csdn.net/20151209171922770" alt="这里写图片描述"><br>因为当<img src="http://img.blog.csdn.net/20151209171958165" alt="这里写图片描述">时，<img src="http://img.blog.csdn.net/20151209172257200" alt="这里写图片描述">；当<img src="http://img.blog.csdn.net/20151209172242387" alt="这里写图片描述">时，<img src="http://img.blog.csdn.net/20151209172227629" alt="这里写图片描述"> ，因此损失函数<img src="http://img.blog.csdn.net/20151209172422777" alt="这里写图片描述">是非负的。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -151,18 +157,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/10/18/搜索引擎算法/" title="搜索引擎算法">
+ <a href="/2015/10/14/Hbase建表/" title="hbase建表">
   <strong>上一篇：</strong><br/>
   <span>
-  搜索引擎算法</span>
+  hbase建表</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/10/14/感知机/"  title="感知机">
+<a href="/2015/10/13/Star Schema完全参考手册学习笔记九/"  title="Star Schema完全参考手册读书笔记九">
  <strong>下一篇：</strong><br/> 
- <span>感知机
+ <span>Star Schema完全参考手册读书笔记九
 </span>
 </a>
 </div>
