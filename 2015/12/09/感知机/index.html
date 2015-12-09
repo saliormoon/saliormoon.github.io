@@ -11,25 +11,37 @@
     
 
     
-    <meta name="description" content="感知机学习的目标是求得一个能够将训练集正实例点和负实例点完全分开的分离超平面。为了找出这样的超平面，即确定感知机模型参数w、b，需要确定一个学习策略，即定义（经验）损失函数并将损失函数极小化。感知机sign（w*x+b）学习的损失函数定义为：
-因为当 时，当时，因此损失函数是非负的。">
+    <meta name="description" content="感知机学习的目标是求得一个能够将训练集正实例点和负实例点完全分开的分离超平面。为了找出这样的超平面，即确定感知机模型参数w、b，需要确定一个学习策略，即定义（经验）损失函数并将损失函数极小化。&amp;lt;–more–&amp;gt;感知机sign（w*x+b）学习的损失函数定义为：
+因为当
+ 时，
+当  时，
+ 因此损失函数
+是非负的。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="感知机">
 <meta property="og:url" content="http://saliormoon.github.io/2015/12/09/感知机/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="感知机学习的目标是求得一个能够将训练集正实例点和负实例点完全分开的分离超平面。为了找出这样的超平面，即确定感知机模型参数w、b，需要确定一个学习策略，即定义（经验）损失函数并将损失函数极小化。感知机sign（w*x+b）学习的损失函数定义为：
-因为当 时，当时，因此损失函数是非负的。">
+<meta property="og:description" content="感知机学习的目标是求得一个能够将训练集正实例点和负实例点完全分开的分离超平面。为了找出这样的超平面，即确定感知机模型参数w、b，需要确定一个学习策略，即定义（经验）损失函数并将损失函数极小化。&amp;lt;–more–&amp;gt;感知机sign（w*x+b）学习的损失函数定义为：
+因为当
+ 时，
+当  时，
+ 因此损失函数
+是非负的。">
 <meta property="og:image" content="http://img.blog.csdn.net/20151209171922770">
 <meta property="og:image" content="http://img.blog.csdn.net/20151209171958165">
 <meta property="og:image" content="http://img.blog.csdn.net/20151209172257200">
 <meta property="og:image" content="http://img.blog.csdn.net/20151209172242387">
 <meta property="og:image" content="http://img.blog.csdn.net/20151209172227629">
 <meta property="og:image" content="http://img.blog.csdn.net/20151209172422777">
-<meta property="og:updated_time" content="2015-12-09T11:43:36.312Z">
+<meta property="og:updated_time" content="2015-12-09T11:45:14.096Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="感知机">
-<meta name="twitter:description" content="感知机学习的目标是求得一个能够将训练集正实例点和负实例点完全分开的分离超平面。为了找出这样的超平面，即确定感知机模型参数w、b，需要确定一个学习策略，即定义（经验）损失函数并将损失函数极小化。感知机sign（w*x+b）学习的损失函数定义为：
-因为当 时，当时，因此损失函数是非负的。">
+<meta name="twitter:description" content="感知机学习的目标是求得一个能够将训练集正实例点和负实例点完全分开的分离超平面。为了找出这样的超平面，即确定感知机模型参数w、b，需要确定一个学习策略，即定义（经验）损失函数并将损失函数极小化。&amp;lt;–more–&amp;gt;感知机sign（w*x+b）学习的损失函数定义为：
+因为当
+ 时，
+当  时，
+ 因此损失函数
+是非负的。">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -106,8 +118,12 @@
 		
 		</div>
 		
-		<p>感知机学习的目标是求得一个能够将训练集正实例点和负实例点完全分开的分离超平面。为了找出这样的超平面，即确定感知机模型参数w、b，需要确定一个学习策略，即定义（经验）损失函数并将损失函数极小化。<br>感知机sign（w*x+b）学习的损失函数定义为：</p>
-<p><center><br><img src="http://img.blog.csdn.net/20151209171922770" alt="图1"><br></center><br>因为当<img src="http://img.blog.csdn.net/20151209171958165" alt="图2"> 时，<br><img src="http://img.blog.csdn.net/20151209172257200" alt="图3"><br>当<img src="http://img.blog.csdn.net/20151209172242387" alt="图4">时，<br><img src="http://img.blog.csdn.net/20151209172227629" alt="图5">因此损失函数<br><img src="http://img.blog.csdn.net/20151209172422777" alt="图6">是非负的。</p>
+		<p>感知机学习的目标是求得一个能够将训练集正实例点和负实例点完全分开的分离超平面。为了找出这样的超平面，即确定感知机模型参数w、b，需要确定一个学习策略，即定义（经验）损失函数并将损失函数极小化。<br>&lt;–more–&gt;<br>感知机sign（w*x+b）学习的损失函数定义为：</p>
+<p><center><br><img src="http://img.blog.csdn.net/20151209171922770" alt="图1"><br></center><br>因为当</p>
+<p><center><img src="http://img.blog.csdn.net/20151209171958165" alt="图2"></center> 时，</p>
+<p><center><img src="http://img.blog.csdn.net/20151209172257200" alt="图3"><br>当 <center><img src="http://img.blog.csdn.net/20151209172242387" alt="图4"></center> 时，</center></p>
+<p><center><img src="http://img.blog.csdn.net/20151209172227629" alt="图5"> 因此损失函数</center></p>
+<p><cenetr><img src="http://img.blog.csdn.net/20151209172422777" alt="图6">是非负的。</cenetr></p>
   
 	</div>
 		<footer class="article-footer clearfix">
