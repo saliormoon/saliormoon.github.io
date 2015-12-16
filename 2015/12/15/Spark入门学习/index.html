@@ -24,7 +24,7 @@
 <meta property="og:image" content="http://img.blog.csdn.net/20151215210037227">
 <meta property="og:image" content="http://img.blog.csdn.net/20151215210339519">
 <meta property="og:image" content="http://img.blog.csdn.net/20151215213949804">
-<meta property="og:updated_time" content="2015-12-16T01:52:29.100Z">
+<meta property="og:updated_time" content="2015-12-16T01:56:01.023Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark入门学习">
 <meta name="twitter:description" content="文章旨在为初学Spark的伙伴提供导读和入门的帮助。">
@@ -176,7 +176,8 @@
 <p>粗粒度模式（Coarse-grained Mode）：每个应用程序的运行环境由一个Dirver和若干个Executor组成，其中，每个Executor占用若干资源，内部可运行多个Task（对应多少个“slot”）。应用程序的各个任务正式运行之前，需要将运行环境中的资源全部申请好，且运行过程中要一直占用这些资源，即使不用，最后程序运行结束后，回收这些资源。举个例子，比如你提交应用程序时，指定使用5个executor运行你的应用程序，每个executor占用5GB内存和5个CPU，每个executor内部设置了5个slot，则Mesos需要先为executor分配资源并启动它们，之后开始调度任务。另外，在程序运行过程中，mesos的master和slave并不知道executor内部各个task的运行情况，executor直接将任务状态通过内部的通信机制汇报给Driver，从一定程度上可以认为，每个应用程序利用mesos搭建了一个虚拟集群自己使用。</p>
 <p>细粒度模式（Fine-grained Mode）：鉴于粗粒度模式会造成大量资源浪费，Spark On Mesos还提供了另外一种调度模式：细粒度模式，这种模式类似于现在的云计算，思想是按需分配。与粗粒度模式一样，应用程序启动时，先会启动executor，但每个executor占用资源仅仅是自己运行所需的资源，不需要考虑将来要运行的任务，之后，mesos会为每个executor动态分配资源，每分配一些，便可以运行一个新任务，单个Task运行完之后可以马上释放对应的资源。每个Task会汇报状态给Mesos slave和Mesos Master，便于更加细粒度管理和容错，这种调度模式类似于MapReduce调度模式，每个Task完全独立，优点是便于资源控制和隔离，但缺点也很明显，短作业运行延迟大。</p>
 <h2 id="Spark_On_YARN模式。">Spark On YARN模式。</h2><p>这是一种最有前景的部署模式。但限于YARN自身的发展，目前仅支持粗粒度模式（Coarse-grained Mode）。这是由于YARN上的Container资源是不可以动态伸缩的，一旦Container启动之后，可使用的资源不能再发生变化，不过这个已经在YARN计划。</p>
-<h1 id="Spark应用实例">Spark应用实例</h1><p>任何Spark程序的编写都是从SparkContext（或用java编写时的JavaSparkContext）开始的。SparkContext的初始化需要一个SparkConf对象，后者包含了Spark集群配置的各种参数。<br>初始化后，我们可用SparkContext对象包含的各种方法来创建和操作分布式数据集和共享变量。Spark shell（在Scala和Python下可以，但不支持Java）能自动完成上述初始化。若要用Scala代码来实现的话，可参照以下代码：<br>     val conf=new SparkConf()<br>        .setAppName(“Test Spark App”)<br>        .setMaster(“local[4]”)<br>        val sc=new SparkContext(conf)<br>这段代码会创建一个4个线程的SparkContext对象，并将其相应的任务命名为Test Spark APP。我们也可通过如下方式调用SparkContext的简单构造函数，以默认的参数值来创建相应的对象。其效果和上述的完全相同：<br>        val sc=new SparkContext(“local[4]”,”Test Spark App”)</p>
+<h1 id="Spark应用实例">Spark应用实例</h1><p>任何Spark程序的编写都是从SparkContext（或用java编写时的JavaSparkContext）开始的。SparkContext的初始化需要一个SparkConf对象，后者包含了Spark集群配置的各种参数。<br>初始化后，我们可用SparkContext对象包含的各种方法来创建和操作分布式数据集和共享变量。Spark shell（在Scala和Python下可以，但不支持Java）能自动完成上述初始化。若要用Scala代码来实现的话，可参照以下代码：<br>     val conf=new SparkConf()<br>        .setAppName(“Test Spark App”)<br>        .setMaster(“local[4]”)<br>        val sc=new SparkContext(conf)</p>
+<p>这段代码会创建一个4个线程的SparkContext对象，并将其相应的任务命名为Test Spark APP。我们也可通过如下方式调用SparkContext的简单构造函数，以默认的参数值来创建相应的对象。其效果和上述的完全相同：<br>        val sc=new SparkContext(“local[4]”,”Test Spark App”)</p>
 <h2 id="WordCount">WordCount</h2><h3 id="读取本地文件：">读取本地文件：</h3><p>val file=sc.textFile(“file:/opt/file/file2.txt”)<br>val count=file.flatMap(line =&gt; line.split(“ “)).map(word =&gt; (word,1)).reduceByKey(<em>+</em>)//&lt;=&gt;(x,y)=&gt;x+y (x相同则y相加)<br>count.count()//返回记录的数目<br>count.collect()//将RDD以Scala集合的形式返回</p>
 <h3 id="读取hdfs中的文件：">读取hdfs中的文件：</h3><p>val tfile=sc.textFile(“hdfs://master:9000/tmp/file1.txt”)<br>val counts = tfile.flatMap(line =&gt; line.split(“ “)).map(word =&gt; (word,1)).reduceByKey(<em>+</em>)<br>counts.count()<br>counts.collect()</p>
 <h4 id="程序解读：">程序解读：</h4><p>=&gt;是Scala下表示匿名函数的语法。匿名函数指那些没有指定函数名的函数（比如Scala或Python中用def关键字定义的函数）。<br>语法line=&gt;line.size表示以=&gt;操作符左边的部分作为输入，对其执行一个函数，并以=&gt;操作符右边代码的执行结果为输出。在这个例子中，输入为line，输出则是line.size函数的执行结果。</p>
