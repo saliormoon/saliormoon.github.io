@@ -4,23 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Star Schema完全参考手册读书笔记七 | 王宇峰的博客</title>
+    <title>结合二叉树求解算术表达式的后缀表达式 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="维度模型描述了人们对所处世界的度量。正如前面章节所强调的那样，每个星型模式都包含一个事实表，作为描述特定过程的度量。度量又称事实，通过相关的维度获得存在的环境。事实表的粒度描述了所记录的事实的细节层次。">
+    <meta name="description" content="在数据结构的试题中有很多求解算术表达式的后缀表达式的问题，今天借助一个例题来对这类问题的做法做一下总结。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Star Schema完全参考手册读书笔记七">
-<meta property="og:url" content="http://saliormoon.github.io/2015/10/11/Star Schema完全参考手册学习笔记七/index.html">
+<meta property="og:title" content="结合二叉树求解算术表达式的后缀表达式">
+<meta property="og:url" content="http://saliormoon.github.io/2016/03/23/结合二叉树求解算术表达式的后缀表达式/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="维度模型描述了人们对所处世界的度量。正如前面章节所强调的那样，每个星型模式都包含一个事实表，作为描述特定过程的度量。度量又称事实，通过相关的维度获得存在的环境。事实表的粒度描述了所记录的事实的细节层次。">
-<meta property="og:updated_time" content="2015-10-24T13:44:00.542Z">
+<meta property="og:description" content="在数据结构的试题中有很多求解算术表达式的后缀表达式的问题，今天借助一个例题来对这类问题的做法做一下总结。">
+<meta property="og:image" content="http://img.blog.csdn.net/20160323223624433">
+<meta property="og:updated_time" content="2016-03-23T14:45:21.256Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Star Schema完全参考手册读书笔记七">
-<meta name="twitter:description" content="维度模型描述了人们对所处世界的度量。正如前面章节所强调的那样，每个星型模式都包含一个事实表，作为描述特定过程的度量。度量又称事实，通过相关的维度获得存在的环境。事实表的粒度描述了所记录的事实的细节层次。">
+<meta name="twitter:title" content="结合二叉树求解算术表达式的后缀表达式">
+<meta name="twitter:description" content="在数据结构的试题中有很多求解算术表达式的后缀表达式的问题，今天借助一个例题来对这类问题的做法做一下总结。">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -77,14 +78,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/11/Star Schema完全参考手册学习笔记七/" title="Star Schema完全参考手册读书笔记七" itemprop="url">Star Schema完全参考手册读书笔记七</a>
+      <a href="/2016/03/23/结合二叉树求解算术表达式的后缀表达式/" title="结合二叉树求解算术表达式的后缀表达式" itemprop="url">结合二叉树求解算术表达式的后缀表达式</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2015-10-10T16:00:00.000Z" itemprop="datePublished"> 发表于 2015-10-11</time>
+    <time datetime="2016-03-22T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-03-23</time>
     
   </p>
 </header>
@@ -93,11 +94,14 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#算术表达式a+b*(c+d/e)转为后缀表达式后为？"><span class="toc-number">1.</span> <span class="toc-text">算术表达式a+b*(c+d/e)转为后缀表达式后为？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、画一个运算树"><span class="toc-number">1.1.</span> <span class="toc-text">1、画一个运算树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、对该树后序遍历"><span class="toc-number">1.2.</span> <span class="toc-text">2、对该树后序遍历</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p>维度模型描述了人们对所处世界的度量。正如前面章节所强调的那样，每个星型模式都包含一个事实表，作为描述特定过程的度量。度量又称事实，通过相关的维度获得存在的环境。事实表的粒度描述了所记录的事实的细节层次。<br><a id="more"></a><br>为便于独立地分析研究，应为每个过程建立一个事实表，但并不是每个事实表都只对应一个过程。过程模型用于描述业务活动，指导对功能组件的设计。过程建模涉及功能分解，即一个过程可以被分解成多个子过程。当两个事实对事件的描述不在同一个时间点上，或者描述的粒度不同时，它们描述的就是不同的过程。如果希望对不同的过程进行分析，就需要多个事实表。<br>代理键通常都没有实际意义。当采用单一事实表表示多个过程时，在报表中出现包含0值的事实是常见的现象。单一事实表方案可以是记录一个常用的事实，通过建立一个新的维度来判定它是表示一个订单还是表示一次发货。使用该技术可以解决出现0值行的问题，因为每行要么是订单，要么是发货。<strong>采用具有共享维度的不同事实表表示两个过程，可以使每个事实表仅存储适当的事实，不需要记录无用的0行。</strong><br>当描述事件的两个或多个事实具有不同的粒度时，它们描述的是不同的过程。将它们放入同一个事实表中不利于对单一过程的分析工作。当存在多个业务过程且需要对每个过程单独分析时，为每个过程建立一个事实表非常重要。否则，对独立过程的分析将存在严重的问题。<br>可以认为维度表和事实表具有父子关系，其中维度表可视为父子关系中的父节点。如果某个维度与多个事实表关联，事实表中的行可视为具有兄弟关系。它们具有相同的父节点。当某条SQL语句试图对兄弟行执行连接操作时，要么直接执行操作，要么通过它们共同的父节点执行操作，关系数据库管理系统会把一张表的子节点与其他表中相应的兄弟节点进行匹配。获得的结果是笛卡尔乘积。当直接对两个事实表或者通过两个事实表的公共维度执行连接操作时，就会得到这样的结果。<br>不要试图对事实表进行连接操作，无论是直接操作还是通过维度表操作。对事实表的连接操作将会产生不正确的结果。</p>
+		<p>在数据结构的试题中有很多求解算术表达式的后缀表达式的问题，今天借助一个例题来对这类问题的做法做一下总结。<br><a id="more"></a></p>
+<h1 id="算术表达式a+b*(c+d/e)转为后缀表达式后为？">算术表达式a+b*(c+d/e)转为后缀表达式后为？</h1><h2 id="1、画一个运算树">1、画一个运算树</h2><p>先算d/e，根为”/“,左右子结点分别为d,e；<br>然后算c+d/e，根为“+”,左右子树分别为c和上面的子树；<br>再算b<em>(c+d/e)，根为 </em>，左子树为b,右子树为(c+d/e)的树；<br>最后算a+b*(c+d/e)，”+”为根，a为左子树，右子树为刚才得到的树.</p>
+<p><center><br><img src="http://img.blog.csdn.net/20160323223624433" alt="运算树图"><br></center></p>
+<h2 id="2、对该树后序遍历">2、对该树后序遍历</h2><p>对该树后序遍历即得结果：abcde/+*+。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -106,7 +110,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/维度设计/">维度设计</a>
+  <span></span> <a href="/tags/数据结构/">数据结构</a>
   </div>
 
 </div>
@@ -150,19 +154,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/10/12/Star Schema完全参考手册读书笔记八/" title="Star Schema完全参考手册读书笔记八">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Star Schema完全参考手册读书笔记八</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/10/10/win7中jar包不能安装的问题/"  title="win7中jar包不能安装的问题">
+<a href="/2016/03/15/Python程序的执行过程/"  title="Python程序的执行过程">
  <strong>下一篇：</strong><br/> 
- <span>win7中jar包不能安装的问题
+ <span>Python程序的执行过程
 </span>
 </a>
 </div>
@@ -177,7 +173,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#算术表达式a+b*(c+d/e)转为后缀表达式后为？"><span class="toc-number">1.</span> <span class="toc-text">算术表达式a+b*(c+d/e)转为后缀表达式后为？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1、画一个运算树"><span class="toc-number">1.1.</span> <span class="toc-text">1、画一个运算树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2、对该树后序遍历"><span class="toc-number">1.2.</span> <span class="toc-text">2、对该树后序遍历</span></a></li></ol></li></ol>
  
   </div>
 
