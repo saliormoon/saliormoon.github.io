@@ -1,0 +1,567 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Spark入门学习 | 王宇峰的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="王宇峰">
+    
+
+    
+    <meta name="description" content="为了充分应对阿里面试，特总结如下试题，希望能够有助于理解记忆。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark入门学习">
+<meta property="og:url" content="http://saliormoon.github.io/2016/03/21/阿里JAVA开发面试常问问题总结1/index.html">
+<meta property="og:site_name" content="王宇峰的博客">
+<meta property="og:description" content="为了充分应对阿里面试，特总结如下试题，希望能够有助于理解记忆。">
+<meta property="og:image" content="http://img.blog.csdn.net/20160326132333673">
+<meta property="og:image" content="http://img.blog.csdn.net/20160326132924899">
+<meta property="og:updated_time" content="2016-03-26T06:35:51.997Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spark入门学习">
+<meta name="twitter:description" content="为了充分应对阿里面试，特总结如下试题，希望能够有助于理解记忆。">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="王宇峰的博客" title="王宇峰的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="王宇峰的博客">王宇峰的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/21/阿里JAVA开发面试常问问题总结1/" title="Spark入门学习" itemprop="url">Spark入门学习</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-20T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-03-21</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1、Java中所有类的父类是什么？它都有什么方法，请列举。"><span class="toc-number">1.</span> <span class="toc-text">1、Java中所有类的父类是什么？它都有什么方法，请列举。</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2、Java中IO包下面的inputstream运用了什么设计模式？请简述你知道的设计者模式？"><span class="toc-number">2.</span> <span class="toc-text">2、Java中IO包下面的inputstream运用了什么设计模式？请简述你知道的设计者模式？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3、如何在hibernate中查看原始的sql语句？"><span class="toc-number">3.</span> <span class="toc-text">3、如何在hibernate中查看原始的sql语句？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4、简述AOP和IOC的作用"><span class="toc-number">4.</span> <span class="toc-text">4、简述AOP和IOC的作用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5、struts2的流程是怎样的？"><span class="toc-number">5.</span> <span class="toc-text">5、struts2的流程是怎样的？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6、线程安全你是怎么做的？"><span class="toc-number">6.</span> <span class="toc-text">6、线程安全你是怎么做的？</span></a></li></ol>
+		
+		</div>
+		
+		<p>为了充分应对阿里面试，特总结如下试题，希望能够有助于理解记忆。</p>
+<a id="more"></a>
+<h1 id="1、Java中所有类的父类是什么？它都有什么方法，请列举。">1、Java中所有类的父类是什么？它都有什么方法，请列举。</h1><p>Object类是所有类、数组、枚举类的父类。它提供了如下几个常用方法：<br>1）equals()：判断指定对象与该对象是否相等。<br>2）finalize()：当系统中没有引用变量引用到该对象时，垃圾回收器调用此方法来清理该对象的资源。<br>3）getClass()：返回该对象的运行时类。<br>4）Hashcode()：返回该对象的hashcode值。<br>5）toString()：返回该对象的字符串表示，当程序使用System.out.println()方法输出一个对象，或者把某个对象和字符串进行连接运算时，系统会自动调用该对象的toString()方法返回该对象的字符串表示。<br>6）Wait()、notify()、notifyAll()：控制线程的停止和运行。</p>
+<h1 id="2、Java中IO包下面的inputstream运用了什么设计模式？请简述你知道的设计者模式？">2、Java中IO包下面的inputstream运用了什么设计模式？请简述你知道的设计者模式？</h1><p>主要用到了两个模式：适配器模式和装饰者模式。<br>适配器模式：<br>在由InputStream，OutputStream，Reader和Writer代表的等级结构内部，有一些流处理器是对其它类型的流源的适配。这就是适配器模式的应用。如InputStreamReader和OutputStreamWriter做了InputStream/OutputStream字节流类到Reader/Writer之间的转换。</p>
+<p>装饰者模式：<br>在由 InputStream，OutputStream，Reader和Writer代表的等级结构内部，有一些流处理器可以对另一些流处理器起到装饰作用，形成新的，具有改善了的功能的流处理器。装饰者模式是Java I/O库的整体设计模式。这样的一个原则是符合装饰者模式的。<br>如 BufferedInputStream bis = new BufferedInputStream（new FileInputStream()）;</p>
+<p>下面讲一下我熟悉的适配器模式：<br>这里涉及三个类：目标接口、适配器类、需要适配的类。<br>1、类适配器：用适配器类继承需要适配的类同时实现目标接口，在适配器类中重写目标接口的方法并在该方法中用super调用需要适配的类的方法。<br>以代码助理解：<br>// 已存在的、具有特殊功能、但不符合我们既有的标准接口的类<br>class Adaptee {<br>    public void specificRequest() {<br>        System.out.println(“被适配类具有 特殊功能…”);<br>    }<br>}<br>// 目标接口，或称为标准接口<br>interface Target {<br>    public void request();<br>}<br>// 适配器类，继承了被适配类，同时实现标准接口<br>class Adapter extends Adaptee implements Target{<br>    public void request() {<br>        super.specificRequest();<br>    }<br>}<br>// 测试类<br>public class Client {<br>    public static void main(String[] args) {<br>        // 使用特殊功能类，即适配类<br>        Target adapter = new Adapter();<br>        adapter.request();<br>    }<br>}<br>2、对象适配器：适配器类实现目标接口，在适配器类中包含一个被适配类的对象，在适配器类的构造函数中初始化该对象，同时在其中调用被适配器类对象的具体方法（委托方式）。<br>// 适配器类，直接关联被适配类，同时实现标准接口<br>class Adapter implements Target{<br>    // 直接关联被适配类<br>    private Adaptee adaptee;<br>    // 可以通过构造函数传入具体需要适配的被适配类对象<br>    public Adapter (Adaptee adaptee) {<br>        this.adaptee = adaptee;<br>    }<br>    public void request() {<br>        // 这里是使用委托的方式完成特殊功能<br>        this.adaptee.specificRequest();<br>    }<br>}<br>// 测试类<br>public class Client {<br>    public static void main(String[] args) {<br>        // 使用特殊功能类，即适配类，<br>        // 需要先创建一个被适配类的对象作为参数<br>        Target adapter = new Adapter(new Adaptee());<br>        adapter.request();<br>    }<br>}</p>
+<h1 id="3、如何在hibernate中查看原始的sql语句？">3、如何在hibernate中查看原始的sql语句？</h1><p>对原生SQL查询执行的控制是通过SQLQuery接口进行的，通过执行Session.createSQLQuery()获取这个接口。该接口是Query接口的子接口。<br>执行SQL查询步骤如下：<br> 1）获取Hibernate Session对象<br> 2）编写SQL语句<br> 3）通过Session的createSQLQuery方法创建查询对象<br> 4）调用SQLQuery对象的addScalar()或addEntity()方法将选出的结果与标量值或实体进行关联，分别用于进行标量查询或实体查询<br> 5）如果SQL语句包含参数，调用Query的setXxxx方法为参数赋值<br> 6）调用Query的list方法返回查询的结果集</p>
+<h1 id="4、简述AOP和IOC的作用">4、简述AOP和IOC的作用</h1><p>AOP ：面向切面编程 ，它主要关注的是程序的执行过程。AOP主要实现的目的是针对业务处理过程中的切面进行提取，它所面对的是处理过程中的某个步骤或阶段，以获得逻辑过程中各部分之间低耦合性的隔离效果。</p>
+<p>具体解析：在java方法调用时，AOP机制能自动进行方法拦截，允许在方法调用之前，调用后，以及执行异常时添加特定的代码来完成需要的功能。<br>作用：1）消除编码模块之间的耦合性。 2）可以在任意阶段，向已有功能模块中填加新功能，且不侵入原有功能，是低侵入式设计。3）各步骤之间的良好隔离性 , 源代码的无关性。</p>
+<p>IOC：控制反转，是一种设计模式。一层含义是控制权的转移：由传统的在程序中控制依赖转移到由容器来控制；第二层是依赖注入：将相互依赖的对象分离，在spring配置文件中描述他们的依赖关系。他们的依赖关系只在使用的时候才建立。简单来说就是不需要NEW一个对象了。</p>
+<p>Spring 的AOP和IOC都是为了解决系统代码耦合度过高的问题。使代码重用度高、易于维护。</p>
+<h1 id="5、struts2的流程是怎样的？">5、struts2的流程是怎样的？</h1><p>一个请求在Struts2框架中的处理大概分为以下几个步骤：</p>
+<p><center><br><img src="http://img.blog.csdn.net/20160326132333673" alt="structs2流程图"><br></center></p>
+<p><center><br><img src="http://img.blog.csdn.net/20160326132924899" alt="流程描述"><br></center><br>1、客户端初始化一个指向Servlet容器（例如Tomcat）的请求；<br>2、这个请求经过一系列的过滤器（Filter）（这些过滤器中有一个叫做ActionContextCleanUp的可选过滤器，这个过滤器对于Struts2和其他框架的集成很有帮助，例如：SiteMesh Plugin）；<br>3、接着FilterDispatcher被调用，FilterDispatcher询问ActionMapper来决定这个请求是否需要调用某个Action；<br>4、如果ActionMapper决定需要调用某个Action，FilterDispatcher把请求的处理交给ActionProxy；<br>5、ActionProxy通过Configuration Manager询问框架的配置文件，找到需要调用的Action类；<br>6、ActionProxy创建一个ActionInvocation的实例。<br>7、ActionInvocation实例使用命名模式来调用，在调用Action的过程前后，涉及到相关拦截器（Intercepter）的调用。<br>8、一旦Action执行完毕，ActionInvocation负责根据struts.xml中的配置找到对应的返回结果。返回结果通常是（但不总是，也可能是另外的一个Action链）一个需要被表示的JSP或者FreeMarker的模版。在表示的过程中可以使用Struts2框架中继承的标签。在这个过程中需要涉及到ActionMapper。</p>
+<h1 id="6、线程安全你是怎么做的？">6、线程安全你是怎么做的？</h1><p>如果你的代码所在的进程中有多个线程在同时运行，而这些线程可能会同时运行这段代码。如果每次运行结果和单线程运行的结果是一样的，而且其他的变量的值也和预期的是一样的，就是线程安全的。所谓线程安全无非是要控制多个线程对某个资源的有序访问或修改。<br><a href="http://blog.csdn.net/haolongabc/article/details/7249098" target="_blank" rel="external">http://blog.csdn.net/haolongabc/article/details/7249098</a></p>
+<p>1）同步代码块<br>synchronized(obj){<br>….<br>//此处的代码块就是同步代码块<br>}<br>2）同步方法<br>用synchronized修饰的实例方法（非static方法）。<br>3）同步锁（Lock）<br>通过显式定义同步锁对象来实现同步，同步锁由Lock充当。<br>锁提供了对共享资源的独占访问，每次只能有一个线程对Lock加锁，线程开始访问共享资源之前应先获得Lock对象。<br>在实现线程安全的控制中，比较常用是ReentrantLock（可重入锁）。使用该Lock对象可以显示地加锁、释放锁，通常使用ReentrantLock的代码格式如下:<br>class X{<br>//定义锁对象<br>private final ReentrantL1ock lock=new ReentrantLock();<br>//定义需要保证线程安全的方法<br>public void m(){<br>//lock.lock();</p>
+<p>try{<br>//需要保证线程安全的代码<br>//…method body<br>}<br>//使用finally块来保证释放锁<br>finally{<br>lock.unlock();<br>}<br>}</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/03/23/结合二叉树求解算术表达式的后缀表达式/" title="结合二叉树求解算术表达式的后缀表达式">
+  <strong>上一篇：</strong><br/>
+  <span>
+  结合二叉树求解算术表达式的后缀表达式</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/03/15/Python程序的执行过程/"  title="Python程序的执行过程">
+ <strong>下一篇：</strong><br/> 
+ <span>Python程序的执行过程
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1、Java中所有类的父类是什么？它都有什么方法，请列举。"><span class="toc-number">1.</span> <span class="toc-text">1、Java中所有类的父类是什么？它都有什么方法，请列举。</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2、Java中IO包下面的inputstream运用了什么设计模式？请简述你知道的设计者模式？"><span class="toc-number">2.</span> <span class="toc-text">2、Java中IO包下面的inputstream运用了什么设计模式？请简述你知道的设计者模式？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3、如何在hibernate中查看原始的sql语句？"><span class="toc-number">3.</span> <span class="toc-text">3、如何在hibernate中查看原始的sql语句？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4、简述AOP和IOC的作用"><span class="toc-number">4.</span> <span class="toc-text">4、简述AOP和IOC的作用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5、struts2的流程是怎样的？"><span class="toc-number">5.</span> <span class="toc-text">5、struts2的流程是怎样的？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6、线程安全你是怎么做的？"><span class="toc-number">6.</span> <span class="toc-text">6、线程安全你是怎么做的？</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3121392487&verifier=cf84718a&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/数据仓库/" title="数据仓库">数据仓库<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/缓慢变化维/" title="缓慢变化维">缓慢变化维<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多维数据集/" title="多维数据集">多维数据集<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jar/" title="jar">jar<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/maven/" title="maven">maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-shell/" title="linux shell">linux shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hbase/" title="hbase">hbase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/粒度/" title="粒度">粒度<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可加性/" title="可加性">可加性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/稀疏性/" title="稀疏性">稀疏性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/横向钻取/" title="横向钻取">横向钻取<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/机器学习/" title="机器学习">机器学习<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net" target="_blank" title="CSDNCSDN博客">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pangjiuzala.github.io/" target="_blank" title="刘兴的博客">刘兴的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=saliormoon&amp;type=Users" target="_blank" title="关注王宇峰的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			欢迎关注</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Saliormoon All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

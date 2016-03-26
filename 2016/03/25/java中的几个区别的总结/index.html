@@ -17,7 +17,7 @@
 <meta property="og:url" content="http://saliormoon.github.io/2016/03/25/java中的几个区别的总结/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
 <meta property="og:description" content="在有关Java的问题中，有这样几个“区别”问题，在此总结，希望能够更好更深入地去学习、了解Java。">
-<meta property="og:updated_time" content="2016-03-26T04:25:41.329Z">
+<meta property="og:updated_time" content="2016-03-26T05:07:41.773Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java中的几个“区别”总结">
 <meta name="twitter:description" content="在有关Java的问题中，有这样几个“区别”问题，在此总结，希望能够更好更深入地去学习、了解Java。">
@@ -93,35 +93,30 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1、Java中wait()和sleep()的区别"><span class="toc-number">1.</span> <span class="toc-text">1、Java中wait()和sleep()的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2、_Java中HashMap和HashTable的区别"><span class="toc-number">2.</span> <span class="toc-text">2、 Java中HashMap和HashTable的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3、请简述在异常当中，throw和throws有什么区别？"><span class="toc-number">3.</span> <span class="toc-text">3、请简述在异常当中，throw和throws有什么区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4、_内存溢出和内存泄露的区别"><span class="toc-number">4.</span> <span class="toc-text">4、 内存溢出和内存泄露的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5、String，StringBuffer_和_StringBuilder的区别"><span class="toc-number">5.</span> <span class="toc-text">5、String，StringBuffer 和 StringBuilder的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6、数组和链表的区别"><span class="toc-number">6.</span> <span class="toc-text">6、数组和链表的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7、ArrayList和LinkedList的区别"><span class="toc-number">7.</span> <span class="toc-text">7、ArrayList和LinkedList的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8、session和cookie的区别"><span class="toc-number">8.</span> <span class="toc-text">8、session和cookie的区别</span></a></li></ol>
 		
 		</div>
 		
-		<p>在有关Java的问题中，有这样几个“区别”问题，在此总结，希望能够更好更深入地去学习、了解Java。<br><a id="more"></a><br>1、Java中wait()和sleep()的区别</p>
-<p>1）、方法来源：sleep()方法属于Thread类，wait()方法属于Object类。<br>2）、占用资源：sleep=“占着CPU睡觉”；wait=“等待使用CPU”。<br>sleep(100L)意思为：占用CPU，线程休眠100毫秒。<br>wait(100L)意思为：不占用CPU，线程等待100毫秒。<br>3）、释放锁：sleep方法没有释放锁，而wait方法释放了锁，使得其他线程可以使用同步控制块或者方法。<br>4）、使用范围：wait，notify和notifyAll只能在同步控制方法或者同步控制块里面使用，而sleep可以在任何地方使用。</p>
-<p>2、 Java中HashMap和HashTable的区别</p>
-<p>1） 历史原因: Hashtable继承Dictonary类,  HashMap是Java1.2引进的Map接口的一个实现。<br>2） HashMap允许空的键值对, 而HashTable不允许。<br>3） HashTable同步，而HashMap非同步，效率上比HashTable要高</p>
-<p>3、请简述在异常当中，throw和throws有什么区别？</p>
-<p>1) throw代表动作，表示抛出一个异常的动作；throws代表一种状态，代表方法可能有异常抛出<br>2) throw用在方法实现中，而throws用在方法声明中<br>3) throw只能用于抛出一种异常，而throws可以抛出多个异常</p>
-<p>4、 内存溢出和内存泄露的区别</p>
-<p>内存溢出（out of memory）：是指程序在申请内存时，没有足够的内存空间供其使用，出现out of memory；比如申请了一个integer,但给它存了long才能存下的数，那就是内存溢出。</p>
+		<p>在有关Java的问题中，有这样几个“区别”问题，在此总结，希望能够更好更深入地去学习、了解Java。<br><a id="more"></a></p>
+<h1 id="1、Java中wait()和sleep()的区别">1、Java中wait()和sleep()的区别</h1><p>1）、方法来源：sleep()方法属于Thread类，wait()方法属于Object类。<br>2）、占用资源：sleep=“占着CPU睡觉”；wait=“等待使用CPU”。<br>sleep(100L)意思为：占用CPU，线程休眠100毫秒。<br>wait(100L)意思为：不占用CPU，线程等待100毫秒。<br>3）、释放锁：sleep方法没有释放锁，而wait方法释放了锁，使得其他线程可以使用同步控制块或者方法。<br>4）、使用范围：wait，notify和notifyAll只能在同步控制方法或者同步控制块里面使用，而sleep可以在任何地方使用。</p>
+<h1 id="2、_Java中HashMap和HashTable的区别">2、 Java中HashMap和HashTable的区别</h1><p>1） 历史原因: Hashtable继承Dictonary类,  HashMap是Java1.2引进的Map接口的一个实现。<br>2） HashMap允许空的键值对, 而HashTable不允许。<br>3） HashTable同步，而HashMap非同步，效率上比HashTable要高</p>
+<h1 id="3、请简述在异常当中，throw和throws有什么区别？">3、请简述在异常当中，throw和throws有什么区别？</h1><p>1) throw代表动作，表示抛出一个异常的动作；throws代表一种状态，代表方法可能有异常抛出<br>2) throw用在方法实现中，而throws用在方法声明中<br>3) throw只能用于抛出一种异常，而throws可以抛出多个异常</p>
+<h1 id="4、_内存溢出和内存泄露的区别">4、 内存溢出和内存泄露的区别</h1><p>内存溢出（out of memory）：是指程序在申请内存时，没有足够的内存空间供其使用，出现out of memory；比如申请了一个integer,但给它存了long才能存下的数，那就是内存溢出。</p>
 <p>内存泄露 （memory leak）：是指程序在申请内存后，无法释放已申请的内存空间，一次内存泄露危害可以忽略，但内存泄露堆积后果很严重，无论多少内存,迟早会被占光。<br>memory leak会最终会导致out of memory。</p>
 <p> 内存溢出就是你要求分配的内存超出了系统能给你的，系统不能满足需求，于是产生溢出。分配的内存不足以放下数据项序列,称为内存溢出。</p>
 <p> 内存泄漏是指你向系统申请分配内存进行使用(new)，可是使用完了以后却不归还(delete)，结果你申请到的那块内存你自己也不能再访问（也许你把它的地址给弄丢了），而系统也不能再次将它分配给需要的程序。</p>
 <p> 以发生的方式来分类，内存泄漏可以分为4类：<br>1) 常发性内存泄漏。发生内存泄漏的代码会被多次执行到，每次被执行的时候都会导致一块内存泄漏。<br>2) 偶发性内存泄漏。发生内存泄漏的代码只有在某些特定环境或操作过程下才会发生。常发性和偶发性是相对的。对于特定的环境，偶发性的也许就变成了常发性的。所以测试环境和测试方法对检测内存泄漏至关重要。<br>3) 一次性内存泄漏。发生内存泄漏的代码只会被执行一次，或者由于算法上的缺陷，导致总会有一块仅且一块内存发生泄漏。比如，在类的构造函数中分配内存，在析构函数中却没有释放该内存，所以内存泄漏只会发生一次。<br>4) 隐式内存泄漏。程序在运行过程中不停的分配内存，但是直到结束的时候才释放内存。严格的说这里并没有发生内存泄漏，因为最终程序释放了所有申请的内存。但是对于一个服务器程序，需要运行几天，几周甚至几个月，不及时释放内存也可能导致最终耗尽系统的所有内存。所以，我们称这类内存泄漏为隐式内存泄漏。 </p>
 <p>从用户使用程序的角度来看，内存泄漏本身不会产生什么危害，作为一般的用户，根本感觉不到内存泄漏的存在。真正有危害的是内存泄漏的堆积，这会最终消耗尽系统所有的内存。从这个角度来说，一次性内存泄漏并没有什么危害，因为它不会堆积，而隐式内存泄漏危害性则非常大，因为较之于常发性和偶发性内存泄漏它更难被检测到。</p>
-<p>5、String，StringBuffer 和 StringBuilder的区别</p>
-<p>1）可变与不可变<br>　　String类中使用字符数组保存字符串，如下就是，因为有“final”修饰符，所以可以知道string对象是不可变的。<br>　　　　private final char value[];<br>　　StringBuilder与StringBuffer都继承自AbstractStringBuilder类，在AbstractStringBuilder中也是使用字符数组保存字符串，如下就是，可知这两种对象都是可变的。<br>　　　　char[] value;</p>
+<h1 id="5、String，StringBuffer_和_StringBuilder的区别">5、String，StringBuffer 和 StringBuilder的区别</h1><p>1）可变与不可变<br>　　String类中使用字符数组保存字符串，如下就是，因为有“final”修饰符，所以可以知道string对象是不可变的。<br>　　　　private final char value[];<br>　　StringBuilder与StringBuffer都继承自AbstractStringBuilder类，在AbstractStringBuilder中也是使用字符数组保存字符串，如下就是，可知这两种对象都是可变的。<br>　　　　char[] value;</p>
 <p>2）是否多线程安全<br>　　String中的对象是不可变的，也就可以理解为常量，显然线程安全。<br>　　AbstractStringBuilder是StringBuilder与StringBuffer的公共父类，定义了一些字符串的基本操作，如expandCapacity、append、insert、indexOf等公共方法。<br>　　StringBuffer对方法加了同步锁或者对调用的方法加了同步锁，所以是线程安全的。看如下源码：</p>
 <p>[java] view plaincopy<br> public synchronized StringBuffer reverse() {<br>     super.reverse();<br>    return this;<br> }  </p>
 <p> public int indexOf(String str) {<br>     return indexOf(str, 0);        //存在 public synchronized int indexOf(String str, int fromIndex) 方法<br> }  </p>
 <p>StringBuilder并没有对方法进行加同步锁，所以是非线程安全的。<br>3）StringBuilder与StringBuffer共同点</p>
 <p>　　StringBuilder与StringBuffer有公共父类AbstractStringBuilder(抽象类)。<br>　　抽象类与接口的其中一个区别是：抽象类中可以定义一些子类的公共方法，子类只需要增加新的功能，不需要重复写已经存在的方法；而接口中只是对方法的申明和常量的定义。<br>　　StringBuilder、StringBuffer的方法都会调用AbstractStringBuilder中的公共方法，如super.append(…)。只是StringBuffer会在方法上加synchronized关键字，进行同步。<br>　　最后，如果程序不是多线程的，那么使用StringBuilder效率高于StringBuffer。</p>
-<p>6、数组和链表的区别</p>
-<p>二者都属于一种数据结构<br>从逻辑结构来看：<br>1)数组必须事先定义固定的长度（元素个数），不能适应数据动态地增减的情况。当数据增加时，可能超出原先定义的元素个数；当数据减少时，造成内存浪费；数组可以根据下标直接存取。<br>2) 链表动态地进行存储分配，可以适应数据动态地增减的情况，且可以方便地插入、删除数据项。（数组中插入、删除数据项时，需要移动其它数据项，非常繁琐）链表必须根据next指针找到下一个元素。<br>从内存存储来看：<br>1)(静态)数组从栈中分配空间，对于程序员方便快速,但是自由度小。<br>2)链表从堆中分配空间，自由度大但是申请管理比较麻烦。<br>从上面的比较可以看出，如果需要快速访问数据，很少或不插入和删除元素，就应该用数组；相反，如果需要经常插入和删除元素就需要用链表数据结构了。</p>
-<p>7、ArrayList和LinkedList的区别</p>
-<p>1）ArrayList是实现了基于动态数组的数据结构，LinkedList是基于链表的数据结构。<br>2）对于随机访问get和set，ArrayList优于LinkedList，因为LinkedList要移动指针。<br>3）对于新增和删除操作add和remove，LinedList比较占优势，因为ArrayList要移动数据。</p>
+<h1 id="6、数组和链表的区别">6、数组和链表的区别</h1><p>二者都属于一种数据结构<br>从逻辑结构来看：<br>1)数组必须事先定义固定的长度（元素个数），不能适应数据动态地增减的情况。当数据增加时，可能超出原先定义的元素个数；当数据减少时，造成内存浪费；数组可以根据下标直接存取。<br>2)链表动态地进行存储分配，可以适应数据动态地增减的情况，且可以方便地插入、删除数据项。（数组中插入、删除数据项时，需要移动其它数据项，非常繁琐）链表必须根据next指针找到下一个元素。<br>从内存存储来看：<br>1)(静态)数组从栈中分配空间，对于程序员方便快速,但是自由度小。<br>2)链表从堆中分配空间，自由度大但是申请管理比较麻烦。<br>从上面的比较可以看出，如果需要快速访问数据，很少或不插入和删除元素，就应该用数组；相反，如果需要经常插入和删除元素就需要用链表数据结构了。</p>
+<h1 id="7、ArrayList和LinkedList的区别">7、ArrayList和LinkedList的区别</h1><p>1）ArrayList是实现了基于动态数组的数据结构，LinkedList是基于链表的数据结构。<br>2）对于随机访问get和set，ArrayList优于LinkedList，因为LinkedList要移动指针。<br>3）对于新增和删除操作add和remove，LinedList比较占优势，因为ArrayList要移动数据。</p>
 <p>Vector类实现了基于动态数组的数据结构。和ArrayList和相似，但是两者是不同的：<br>1)Vector是同步访问的。<br>2)Vector包含了许多传统的方法，这些方法不属于集合框架。<br>Vector主要用在事先不知道数组的大小，或者只是需要一个可以改变大小的数组的情况。</p>
+<h1 id="8、session和cookie的区别">8、session和cookie的区别</h1><p>1)session保存在服务器，客户端不知道其中的信息；cookie保存在客户端，服务器能够知道其中的信息。<br>2)session中保存的是对象，cookie中保存的是字符串。<br>3)session不能区分路径，同一个用户在访问一个网站期间，所有的session在任何一个地方都可以访问到。而cookie中如果设置了路径参数，那么同一个网站中不同路径下的cookie互相是访问不到的。<br>4)session需要借助cookie才能正常工作。如果客户端完全禁止cookie，session将失效。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -193,7 +188,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1、Java中wait()和sleep()的区别"><span class="toc-number">1.</span> <span class="toc-text">1、Java中wait()和sleep()的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2、_Java中HashMap和HashTable的区别"><span class="toc-number">2.</span> <span class="toc-text">2、 Java中HashMap和HashTable的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3、请简述在异常当中，throw和throws有什么区别？"><span class="toc-number">3.</span> <span class="toc-text">3、请简述在异常当中，throw和throws有什么区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4、_内存溢出和内存泄露的区别"><span class="toc-number">4.</span> <span class="toc-text">4、 内存溢出和内存泄露的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5、String，StringBuffer_和_StringBuilder的区别"><span class="toc-number">5.</span> <span class="toc-text">5、String，StringBuffer 和 StringBuilder的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6、数组和链表的区别"><span class="toc-number">6.</span> <span class="toc-text">6、数组和链表的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7、ArrayList和LinkedList的区别"><span class="toc-number">7.</span> <span class="toc-text">7、ArrayList和LinkedList的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8、session和cookie的区别"><span class="toc-number">8.</span> <span class="toc-text">8、session和cookie的区别</span></a></li></ol>
  
   </div>
 
@@ -217,15 +212,15 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/java/" title="java">java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
 			
 		
 			
@@ -237,7 +232,11 @@
 			
 		
 			
-				<li><a href="/tags/退化维/" title="退化维">退化维<sup>1</sup></a></li>
+				<li><a href="/tags/jar/" title="jar">jar<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
 			
 		
 			
@@ -253,11 +252,7 @@
 			
 		
 			
-				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
+				<li><a href="/tags/hbase/" title="hbase">hbase<sup>1</sup></a></li>
 			
 		
 			
@@ -273,11 +268,11 @@
 			
 		
 			
-				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>1</sup></a></li>
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/机器学习/" title="机器学习">机器学习<sup>1</sup></a></li>
+				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
 			
 		
 			
@@ -285,11 +280,11 @@
 			
 		
 			
-				<li><a href="/tags/jar/" title="jar">jar<sup>1</sup></a></li>
+				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+				<li><a href="/tags/机器学习/" title="机器学习">机器学习<sup>1</sup></a></li>
 			
 		
 		</ul>
@@ -299,7 +294,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
   </div>
 
 
