@@ -4,24 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>linux shell解析1 | 王宇峰的博客</title>
+    <title>Java中的几个“区别”总结 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="简介我们常常提到的Shell其实是比较狭隘的定义，一般来说，在linux里，所谓的shell，就是指BASH这个文字模式的shell。但是广义的Shell也可以是KDE之类的图形界面控制软件，因为它可以帮我们与核心进行沟通。不过，在此，我们提到的shell指的是比较狭义的，也就是文字模式的shell。我们要通过“Shell”将输入的命令与核心沟通，让核心可以控制硬件来正确无误地工作。">
+    <meta name="description" content="在有关Java的问题中，有这样几个“区别”问题，在此总结，希望能够更好更深入地去学习、了解Java。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux shell解析1">
-<meta property="og:url" content="http://saliormoon.github.io/2015/10/19/linux shell解析1/index.html">
+<meta property="og:title" content="Java中的几个“区别”总结">
+<meta property="og:url" content="http://saliormoon.github.io/2016/03/25/java中的几个区别的总结/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="简介我们常常提到的Shell其实是比较狭隘的定义，一般来说，在linux里，所谓的shell，就是指BASH这个文字模式的shell。但是广义的Shell也可以是KDE之类的图形界面控制软件，因为它可以帮我们与核心进行沟通。不过，在此，我们提到的shell指的是比较狭义的，也就是文字模式的shell。我们要通过“Shell”将输入的命令与核心沟通，让核心可以控制硬件来正确无误地工作。">
-<meta property="og:image" content="http://img.blog.csdn.net/20151019102717283">
-<meta property="og:updated_time" content="2015-10-19T13:46:40.371Z">
+<meta property="og:description" content="在有关Java的问题中，有这样几个“区别”问题，在此总结，希望能够更好更深入地去学习、了解Java。">
+<meta property="og:updated_time" content="2016-03-26T04:25:41.329Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux shell解析1">
-<meta name="twitter:description" content="简介我们常常提到的Shell其实是比较狭隘的定义，一般来说，在linux里，所谓的shell，就是指BASH这个文字模式的shell。但是广义的Shell也可以是KDE之类的图形界面控制软件，因为它可以帮我们与核心进行沟通。不过，在此，我们提到的shell指的是比较狭义的，也就是文字模式的shell。我们要通过“Shell”将输入的命令与核心沟通，让核心可以控制硬件来正确无误地工作。">
+<meta name="twitter:title" content="Java中的几个“区别”总结">
+<meta name="twitter:description" content="在有关Java的问题中，有这样几个“区别”问题，在此总结，希望能够更好更深入地去学习、了解Java。">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -78,14 +77,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/19/linux shell解析1/" title="linux shell解析1" itemprop="url">linux shell解析1</a>
+      <a href="/2016/03/25/java中的几个区别的总结/" title="Java中的几个“区别”总结" itemprop="url">Java中的几个“区别”总结</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2015-10-18T16:00:00.000Z" itemprop="datePublished"> 发表于 2015-10-19</time>
+    <time datetime="2016-03-24T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-03-25</time>
     
   </p>
 </header>
@@ -94,13 +93,35 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#变量"><span class="toc-number">2.</span> <span class="toc-text">变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#环境变量"><span class="toc-number">2.1.</span> <span class="toc-text">环境变量</span></a></li></ol></li></ol>
+			
 		
 		</div>
 		
-		<h1 id="简介">简介</h1><p>我们常常提到的Shell其实是比较狭隘的定义，一般来说，在linux里，所谓的shell，就是指BASH这个文字模式的shell。但是广义的Shell也可以是KDE之类的图形界面控制软件，因为它可以帮我们与核心进行沟通。不过，在此，我们提到的shell指的是比较狭义的，也就是文字模式的shell。<br>我们要通过“Shell”将输入的命令与核心沟通，让核心可以控制硬件来正确无误地工作。<br><a id="more"></a></p>
-<p><center><br><img src="http://img.blog.csdn.net/20151019102717283" alt="硬件、核心与用户的关联性"><br></center><br>在/etc/passwd文件内记录着登录取得的默认shell，它是每一行的最后一个数据。<br>当我们顺利地在终端（tty）上登录后，linux就会根据/etc/passwd文件的设置，给我们一个shell，默认就是bash，然后我们就可以根据上面的命令执行方式来操作shell，之后，就可以通过man在线查询来查询命令的使用方式与参数说明。<br>PATH变量是我们在执行命令时所需要具备的命令搜索目录数据，没有它，就要使用绝对路径来执行命令。能不能执行某个命令，与PATH变量有很大的关系。我们在任何地方执行ls，系统就是通过PATH变量里的内容所记录的路径顺序来搜索命令的。如果搜索完PATH变量内的路径还找不到ls命令，就会在屏幕上显示“command not found ”错误消息。</p>
-<h1 id="变量">变量</h1><h2 id="环境变量">环境变量</h2><p>1、env（environment环境）的简写，列出所有的环境变量。<br>2、set，该命令除了会将环境变量列出来之外，其他的自定义变量，以及所有的变量，都会列出来。在linux默认情况下，使用{大写字母}来设置的变量一般为系统内定需要的变量。<br>3、export，自定义变量转成环境变量。（export 变量）只要在头一个文件使用export，那么，后续的文件引用时，将会把该变量内容读进来。如果仅下达export而没有变量，此时将会把所有的”环境变量“显示出来。</p>
+		<p>在有关Java的问题中，有这样几个“区别”问题，在此总结，希望能够更好更深入地去学习、了解Java。<br><a id="more"></a><br>1、Java中wait()和sleep()的区别</p>
+<p>1）、方法来源：sleep()方法属于Thread类，wait()方法属于Object类。<br>2）、占用资源：sleep=“占着CPU睡觉”；wait=“等待使用CPU”。<br>sleep(100L)意思为：占用CPU，线程休眠100毫秒。<br>wait(100L)意思为：不占用CPU，线程等待100毫秒。<br>3）、释放锁：sleep方法没有释放锁，而wait方法释放了锁，使得其他线程可以使用同步控制块或者方法。<br>4）、使用范围：wait，notify和notifyAll只能在同步控制方法或者同步控制块里面使用，而sleep可以在任何地方使用。</p>
+<p>2、 Java中HashMap和HashTable的区别</p>
+<p>1） 历史原因: Hashtable继承Dictonary类,  HashMap是Java1.2引进的Map接口的一个实现。<br>2） HashMap允许空的键值对, 而HashTable不允许。<br>3） HashTable同步，而HashMap非同步，效率上比HashTable要高</p>
+<p>3、请简述在异常当中，throw和throws有什么区别？</p>
+<p>1) throw代表动作，表示抛出一个异常的动作；throws代表一种状态，代表方法可能有异常抛出<br>2) throw用在方法实现中，而throws用在方法声明中<br>3) throw只能用于抛出一种异常，而throws可以抛出多个异常</p>
+<p>4、 内存溢出和内存泄露的区别</p>
+<p>内存溢出（out of memory）：是指程序在申请内存时，没有足够的内存空间供其使用，出现out of memory；比如申请了一个integer,但给它存了long才能存下的数，那就是内存溢出。</p>
+<p>内存泄露 （memory leak）：是指程序在申请内存后，无法释放已申请的内存空间，一次内存泄露危害可以忽略，但内存泄露堆积后果很严重，无论多少内存,迟早会被占光。<br>memory leak会最终会导致out of memory。</p>
+<p> 内存溢出就是你要求分配的内存超出了系统能给你的，系统不能满足需求，于是产生溢出。分配的内存不足以放下数据项序列,称为内存溢出。</p>
+<p> 内存泄漏是指你向系统申请分配内存进行使用(new)，可是使用完了以后却不归还(delete)，结果你申请到的那块内存你自己也不能再访问（也许你把它的地址给弄丢了），而系统也不能再次将它分配给需要的程序。</p>
+<p> 以发生的方式来分类，内存泄漏可以分为4类：<br>1) 常发性内存泄漏。发生内存泄漏的代码会被多次执行到，每次被执行的时候都会导致一块内存泄漏。<br>2) 偶发性内存泄漏。发生内存泄漏的代码只有在某些特定环境或操作过程下才会发生。常发性和偶发性是相对的。对于特定的环境，偶发性的也许就变成了常发性的。所以测试环境和测试方法对检测内存泄漏至关重要。<br>3) 一次性内存泄漏。发生内存泄漏的代码只会被执行一次，或者由于算法上的缺陷，导致总会有一块仅且一块内存发生泄漏。比如，在类的构造函数中分配内存，在析构函数中却没有释放该内存，所以内存泄漏只会发生一次。<br>4) 隐式内存泄漏。程序在运行过程中不停的分配内存，但是直到结束的时候才释放内存。严格的说这里并没有发生内存泄漏，因为最终程序释放了所有申请的内存。但是对于一个服务器程序，需要运行几天，几周甚至几个月，不及时释放内存也可能导致最终耗尽系统的所有内存。所以，我们称这类内存泄漏为隐式内存泄漏。 </p>
+<p>从用户使用程序的角度来看，内存泄漏本身不会产生什么危害，作为一般的用户，根本感觉不到内存泄漏的存在。真正有危害的是内存泄漏的堆积，这会最终消耗尽系统所有的内存。从这个角度来说，一次性内存泄漏并没有什么危害，因为它不会堆积，而隐式内存泄漏危害性则非常大，因为较之于常发性和偶发性内存泄漏它更难被检测到。</p>
+<p>5、String，StringBuffer 和 StringBuilder的区别</p>
+<p>1）可变与不可变<br>　　String类中使用字符数组保存字符串，如下就是，因为有“final”修饰符，所以可以知道string对象是不可变的。<br>　　　　private final char value[];<br>　　StringBuilder与StringBuffer都继承自AbstractStringBuilder类，在AbstractStringBuilder中也是使用字符数组保存字符串，如下就是，可知这两种对象都是可变的。<br>　　　　char[] value;</p>
+<p>2）是否多线程安全<br>　　String中的对象是不可变的，也就可以理解为常量，显然线程安全。<br>　　AbstractStringBuilder是StringBuilder与StringBuffer的公共父类，定义了一些字符串的基本操作，如expandCapacity、append、insert、indexOf等公共方法。<br>　　StringBuffer对方法加了同步锁或者对调用的方法加了同步锁，所以是线程安全的。看如下源码：</p>
+<p>[java] view plaincopy<br> public synchronized StringBuffer reverse() {<br>     super.reverse();<br>    return this;<br> }  </p>
+<p> public int indexOf(String str) {<br>     return indexOf(str, 0);        //存在 public synchronized int indexOf(String str, int fromIndex) 方法<br> }  </p>
+<p>StringBuilder并没有对方法进行加同步锁，所以是非线程安全的。<br>3）StringBuilder与StringBuffer共同点</p>
+<p>　　StringBuilder与StringBuffer有公共父类AbstractStringBuilder(抽象类)。<br>　　抽象类与接口的其中一个区别是：抽象类中可以定义一些子类的公共方法，子类只需要增加新的功能，不需要重复写已经存在的方法；而接口中只是对方法的申明和常量的定义。<br>　　StringBuilder、StringBuffer的方法都会调用AbstractStringBuilder中的公共方法，如super.append(…)。只是StringBuffer会在方法上加synchronized关键字，进行同步。<br>　　最后，如果程序不是多线程的，那么使用StringBuilder效率高于StringBuffer。</p>
+<p>6、数组和链表的区别</p>
+<p>二者都属于一种数据结构<br>从逻辑结构来看：<br>1)数组必须事先定义固定的长度（元素个数），不能适应数据动态地增减的情况。当数据增加时，可能超出原先定义的元素个数；当数据减少时，造成内存浪费；数组可以根据下标直接存取。<br>2) 链表动态地进行存储分配，可以适应数据动态地增减的情况，且可以方便地插入、删除数据项。（数组中插入、删除数据项时，需要移动其它数据项，非常繁琐）链表必须根据next指针找到下一个元素。<br>从内存存储来看：<br>1)(静态)数组从栈中分配空间，对于程序员方便快速,但是自由度小。<br>2)链表从堆中分配空间，自由度大但是申请管理比较麻烦。<br>从上面的比较可以看出，如果需要快速访问数据，很少或不插入和删除元素，就应该用数组；相反，如果需要经常插入和删除元素就需要用链表数据结构了。</p>
+<p>7、ArrayList和LinkedList的区别</p>
+<p>1）ArrayList是实现了基于动态数组的数据结构，LinkedList是基于链表的数据结构。<br>2）对于随机访问get和set，ArrayList优于LinkedList，因为LinkedList要移动指针。<br>3）对于新增和删除操作add和remove，LinedList比较占优势，因为ArrayList要移动数据。</p>
+<p>Vector类实现了基于动态数组的数据结构。和ArrayList和相似，但是两者是不同的：<br>1)Vector是同步访问的。<br>2)Vector包含了许多传统的方法，这些方法不属于集合框架。<br>Vector主要用在事先不知道数组的大小，或者只是需要一个可以改变大小的数组的情况。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -109,7 +130,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/linux-shell/">linux shell</a>
+  <span></span> <a href="/tags/Java/">Java</a>
   </div>
 
 </div>
@@ -153,19 +174,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/12/08/mysql 事务操作详细实例介绍/" title="mysql事务操作详细实例介绍">
-  <strong>上一篇：</strong><br/>
-  <span>
-  mysql事务操作详细实例介绍</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/10/18/搜索引擎算法/"  title="搜索引擎算法">
+<a href="/2016/03/23/结合二叉树求解算术表达式的后缀表达式/"  title="结合二叉树求解算术表达式的后缀表达式">
  <strong>下一篇：</strong><br/> 
- <span>搜索引擎算法
+ <span>结合二叉树求解算术表达式的后缀表达式
 </span>
 </a>
 </div>
@@ -180,7 +193,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#变量"><span class="toc-number">2.</span> <span class="toc-text">变量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#环境变量"><span class="toc-number">2.1.</span> <span class="toc-text">环境变量</span></a></li></ol></li></ol>
+ 
  
   </div>
 
