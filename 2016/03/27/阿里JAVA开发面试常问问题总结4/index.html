@@ -1,0 +1,589 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>阿里JAVA开发面试常问问题总结4 | 王宇峰的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="王宇峰">
+    
+
+    
+    <meta name="description" content="紧接前面三篇博客，继续对这部分的内容进行总结。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里JAVA开发面试常问问题总结4">
+<meta property="og:url" content="http://saliormoon.github.io/2016/03/27/阿里JAVA开发面试常问问题总结4/index.html">
+<meta property="og:site_name" content="王宇峰的博客">
+<meta property="og:description" content="紧接前面三篇博客，继续对这部分的内容进行总结。">
+<meta property="og:updated_time" content="2016-03-27T09:20:24.918Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="阿里JAVA开发面试常问问题总结4">
+<meta name="twitter:description" content="紧接前面三篇博客，继续对这部分的内容进行总结。">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="王宇峰的博客" title="王宇峰的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="王宇峰的博客">王宇峰的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/27/阿里JAVA开发面试常问问题总结4/" title="阿里JAVA开发面试常问问题总结4" itemprop="url">阿里JAVA开发面试常问问题总结4</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-26T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-03-27</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#java的三大特性"><span class="toc-number">1.</span> <span class="toc-text">java的三大特性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#抽象类和接口的区别"><span class="toc-number">2.</span> <span class="toc-text">抽象类和接口的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#共同点"><span class="toc-number">2.1.</span> <span class="toc-text">共同点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不同点"><span class="toc-number">2.2.</span> <span class="toc-text">不同点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#栈内存和堆内存，引用和值传递"><span class="toc-number">3.</span> <span class="toc-text">栈内存和堆内存，引用和值传递</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#栈内存、堆内存"><span class="toc-number">3.1.</span> <span class="toc-text">栈内存、堆内存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用、值传递"><span class="toc-number">3.2.</span> <span class="toc-text">引用、值传递</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#单例模式及好处"><span class="toc-number">4.</span> <span class="toc-text">单例模式及好处</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重载和重写"><span class="toc-number">5.</span> <span class="toc-text">重载和重写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#子类、父类间的转换和构造顺序"><span class="toc-number">6.</span> <span class="toc-text">子类、父类间的转换和构造顺序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Final、finally、finalize"><span class="toc-number">7.</span> <span class="toc-text">Final、finally、finalize</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Synchronized和volatile的区别"><span class="toc-number">8.</span> <span class="toc-text">Synchronized和volatile的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#集合"><span class="toc-number">9.</span> <span class="toc-text">集合</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#集合类没有实现Cloneable和Serializable接口的原因"><span class="toc-number">10.</span> <span class="toc-text">集合类没有实现Cloneable和Serializable接口的原因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hashCode()和equals()方法的重要性体现在什么地方？"><span class="toc-number">11.</span> <span class="toc-text">hashCode()和equals()方法的重要性体现在什么地方？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HashMap和HashTabel的区别"><span class="toc-number">12.</span> <span class="toc-text">HashMap和HashTabel的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Comparable和Comparator接口"><span class="toc-number">13.</span> <span class="toc-text">Comparable和Comparator接口</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java中HashMap的工作原理是？"><span class="toc-number">14.</span> <span class="toc-text">Java中HashMap的工作原理是？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hashcode的实现"><span class="toc-number">15.</span> <span class="toc-text">Hashcode的实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#String、StringBffer、StringBuilder的区别"><span class="toc-number">16.</span> <span class="toc-text">String、StringBffer、StringBuilder的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HashMap、HashSet、HashTable的区别"><span class="toc-number">17.</span> <span class="toc-text">HashMap、HashSet、HashTable的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ArrayList和LingkedList的区别"><span class="toc-number">18.</span> <span class="toc-text">ArrayList和LingkedList的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#垃圾回收机制"><span class="toc-number">19.</span> <span class="toc-text">垃圾回收机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#序列化和反序列化"><span class="toc-number">20.</span> <span class="toc-text">序列化和反序列化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java的灵活性体现在什么机制上？"><span class="toc-number">21.</span> <span class="toc-text">Java的灵活性体现在什么机制上？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sleep和wait的区别"><span class="toc-number">22.</span> <span class="toc-text">Sleep和wait的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IO和NIO"><span class="toc-number">23.</span> <span class="toc-text">IO和NIO</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Scoket"><span class="toc-number">24.</span> <span class="toc-text">Scoket</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#深克隆、浅克隆"><span class="toc-number">25.</span> <span class="toc-text">深克隆、浅克隆</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#UDP和TCP"><span class="toc-number">26.</span> <span class="toc-text">UDP和TCP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#红黑树"><span class="toc-number">27.</span> <span class="toc-text">红黑树</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#反射"><span class="toc-number">28.</span> <span class="toc-text">反射</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三次握手和四次挥手"><span class="toc-number">29.</span> <span class="toc-text">三次握手和四次挥手</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Equals()和=="><span class="toc-number">30.</span> <span class="toc-text">Equals()和==　</span></a></li></ol>
+		
+		</div>
+		
+		<p>紧接前面三篇博客，继续对这部分的内容进行总结。</p>
+<a id="more"></a>
+<h1 id="java的三大特性">java的三大特性</h1><p>封装、继承、多态</p>
+<h1 id="抽象类和接口的区别">抽象类和接口的区别</h1><p>Java抽象类：<br>使用关键字abstract修饰的类叫做抽象类。<br>用abstract来修饰的方法叫做抽象方法。<br>特点：<br>1含有抽象方法的类必须被声明为抽象类（不管是否还包含其他一般方法）（否则编译通不过）；<br>2抽象类可以没有抽象方法，可以有普通方法。<br>3抽象类必须被继承，抽象方法必须被重写：<br>若子类还是一个抽象类，不需要重写；否则必须要重写（override）。<br>抽象类不能被实例化（不能直接构造一个该类的对象）；</p>
+<p>抽象方法：<br>在类中没有方法体（抽象方法只需声明，而不需实现某些功能）；<br>抽象类中的抽象方法必须被实现；<br>如果一个子类没有实现父类中的抽象方法，则子类也变成了一个抽象类；</p>
+<p>虚方法：<br>虚函数的存在是为了多态。<br>Java中没有虚函数的概念。它的普通函数就相当于c++的虚函数，动态绑定是java的默认行为。如果java中不希望某个函数具有虚函数特性，可以加上final关键字变为非虚函数。</p>
+<p>Java接口：<br>是一系列方法的声明。<br>1只有声明没有实现；<br>2在不同的类中有不同的方法实现；</p>
+<h2 id="共同点">共同点</h2><p>1、接口和抽象类都不能被实例化，他们都位于继承树的顶端，用于被其他类实现和继承。<br>2、接口和抽象类都可以包含抽象方法，实现接口或继承抽象类的普通子类都必须实现这些方法。</p>
+<h2 id="不同点">不同点</h2><p>1、接口里只能包含抽象方法和默认方法，不能为普通方法提供方法实现；抽象类则完全可以包含普通方法。<br>2、接口里不能定义静态方法，抽象类里可以定义静态方法。<br>3、接口里只能定义静态常量，不能定义普通成员变量；抽象类里则既可以定义普通成员变量，也可以定义静态常量。<br>4、接口里不包含构造器，抽象类里可以包含构造器，抽象类里的构造器并不是用于创建对象，而是让其子类调用这些构造器来完成属于抽象类的初始化操作。<br>5、接口里不能包含初始化块，但抽象类则完全可以包含初始化块。<br>6、一个类最多只能有一个直接父类，包括抽象类；但一个类可以直接实现多个接口，通过实现多个接口可以弥补Java单继承的不足。</p>
+<h1 id="栈内存和堆内存，引用和值传递">栈内存和堆内存，引用和值传递</h1><h2 id="栈内存、堆内存">栈内存、堆内存</h2><p><strong>在函数中定义的一些基本类型的变量和对象的引用变量都是在函数的栈内存中分配。</strong>当在一段代码块中定义一个变量时，java就在栈中为这个变量分配内存空间，当超过变量的作用域后，java会自动释放掉为该变量分配的内存空间，该内存空间可以立刻被另作他用。<br><strong>堆内存用于存放由new创建的对象和数组。</strong>在堆中分配的内存，由java虚拟机自动垃圾回收器来管理。在数组和对象在没有引用变量指向它的时候，才变成垃圾，不能再被使用，但是仍然占着内存，在随后的一个不确定的时间被垃圾回收器释放掉。这个也是java比较占内存的主要原因。</p>
+<h2 id="引用、值传递">引用、值传递</h2><p>值传递：方法调用时，实际参数把它的值传递给对应的形式参数，方法执行中形式参数值的改变不影响实际参数的值。</p>
+<p>引用传递：也称为传地址。方法调用时，实际参数的引用(地址，而不是参数的值)被传递给方法中相对应的形式参数，在方法执行中，对形式参数的操作实际上就是对实际参数的操作，方法执行中形式参数值的改变将会影响实际参数的值。</p>
+<h1 id="单例模式及好处">单例模式及好处</h1><p>构造函数私有化，用一个静态方法来获取对象实例。</p>
+<p>特点：<br>1）单例类只能有一个实例。<br>2）单例类必须自己创建自己的唯一实例。<br>3）单例类必须给所有其他对象提供这一实例。<br>主要优点：<br>1）提供了对唯一实例的受控访问。<br>2）由于在系统内存中只存在一个对象，因此可以节约系统资源，对于一些需要频繁创建和销毁的对象单例模式无疑可以提高系统的性能。<br>3）允许可变数目的实例。</p>
+<p>主要缺点：<br>1）由于单利模式中没有抽象层，因此单例类的扩展有很大的困难。<br>2）单例类的职责过重，在一定程度上违背了“单一职责原则”。<br>3）滥用单例将带来一些负面问题，如为了节省资源将数据库连接池对象设计为的单例类，可能会导致共享连接池对象的程序过多而出现连接池溢出；如果实例化的对象长时间不被利用，系统会认为是垃圾而被回收，这将导致对象状态的丢失。</p>
+<h1 id="重载和重写">重载和重写</h1><p>重载：Overloading<br>（1） Java的方法重载，就是在类中可以创建多个方法，它们具有相同的名字，但具有不同的参数和不同的定义。调用方法时通过传递给它们的不同参数个数和参数类型来决定具体使用哪个方法, 这就是多态性。<br>（2） 重载的时候，方法名要一样，但是参数类型和个数不一样，返回值类型可以相同也可以不相同。无法以返回类型作为重载函数的区分标准。</p>
+<p>重写：Overriding<br>注意：当要重写父类方法时，要使用@Override标签提醒编译器检查代码是否是重写，而不是重载了原来的方法。<br>（1） 父类与子类之间的多态性，对父类的函数进行重新定义。如果在子类中定义某方法与其父类有相同的名称和参数，我们说该方法被重写 (Overriding)。在Java中，子类可继承父类中的方法，而不需要重新编写相同的方法。但有时子类并不想原封不动地继承父类的方法，而是想作一定的修改，这就需要采用方法的重写。方法重写又称方法覆盖。<br>   （2）若子类中的方法与父类中的某一方法具有相同的方法名、返回类型和参数表，则新方法将覆盖原有的方法。如需父类中原有的方法，可使用super关键字，该关键字引用了当前类的父类。<br>   （3）子类函数的访问修饰权限不能少于父类的。</p>
+<h1 id="子类、父类间的转换和构造顺序">子类、父类间的转换和构造顺序</h1><p>子类、父类间的转换：<br>子类能够自动转换成父类类型。<br>当创建子类对象的时候：<br>①先调用了子类的构造函数<br>②调用了父类的构造函数<br>③执行了父类的构造函数<br>④执行了子类的构造函数</p>
+<h1 id="Final、finally、finalize">Final、finally、finalize</h1><p>final 用于声明属性，方法和类，分别表示属性不可变，方法不可覆盖，类不可继承。<br>finally是异常处理语句结构的一部分，表示总是执行。<br>finalize是Object类的一个方法，在垃圾收集器执行的时候会调用被回收对象的此方法，可以覆盖此方法提供垃圾收集时的其他资源回收，例如关闭文件等</p>
+<h1 id="Synchronized和volatile的区别">Synchronized和volatile的区别</h1><p>volatile只作用于在多个线程之间能够被共享的变量。如果一个字段被声明成volatile，java线程内存模型确保所有线程看到这个变量的值是一致的。Volatile变量修饰符如果使用恰当的话，它比synchronized的使用和执行成本会更低，因为它不会引起线程上下文的切换和调度。<br>synchronized获得并释放监视器——如果两个线程使用了同一个对象锁，监视器能强制保证代码块同时只被一个线程所执行——这是众所周知的事实。但是，synchronized也同步内存：事实上，synchronized在“ 主”内存区域同步整个线程的内存。<br><strong>因此volatile只是在线程内存和“主”内存间同步某个变量的值，而synchronized通过锁定和解锁某个监视器同步所有变量的值。显然synchronized要比volatile消耗更多资源。</strong> </p>
+<p>1）volatile本质是在告诉jvm当前变量在寄存器（工作内存）中的值是不确定的，需要从主存中读取，没有互斥锁；synchronized则是锁定当前变量，只有当前线程可以访问该变量，其他线程被阻塞住。<br>2）volatile仅能使用在变量级别；synchronized则可以使用在变量、方法、和类级别的<br>3）volatile只是在线程内存和“主”内存间同步某个变量的值，而synchronized通过锁定和解锁某个监视器同步所有变量的值；显然synchronized要比volatile消耗更多资源。<br>4）volatile不会造成线程的阻塞；synchronized可能会造成线程的阻塞。<br>5）volatile标记的变量不会被编译器优化；synchronized标记的变量可以被编译器优化 。</p>
+<h1 id="集合">集合</h1><p>Collection：代表一组对象，每一个对象都是它的子元素。<br>Set：不包含重复元素的Collection。<br>List：有顺序的Collection，并且可以包含重复元素。<br>Map：可以把键（key）映射到值（value）的对象，键不能重复。</p>
+<h1 id="集合类没有实现Cloneable和Serializable接口的原因">集合类没有实现Cloneable和Serializable接口的原因</h1><p>Collection接口指定一组对象，对象即为它的元素。如何维护这些元素由Collection的具体实现决定。例如，一些如List的Collection实现允许重复的元素，而其它的如Set就不允许。很多Collection实现有一个公有的clone方法。然而，把它放到集合的所有实现中也是没有意义的。这是因为Collection是一个抽象表现。重要的是实现。<br>当与具体实现打交道的时候，克隆或序列化的语义和含义才发挥作用。所以，具体实现应该决定如何对它进行克隆或序列化，或它是否可以被克隆或序列化。<br>在所有的实现中授权克隆和序列化，最终导致更少的灵活性和更多的限制。特定的实现应该决定它是否可以被克隆和序列化。</p>
+<h1 id="hashCode()和equals()方法的重要性体现在什么地方？">hashCode()和equals()方法的重要性体现在什么地方？</h1><p>HashMap使用Key对象的hashCode()和equals()方法去决定key-value对的索引。当我们试着从HashMap中获取值的时候，这些方法也会被用到。如果这些方法没有被正确地实现，在这种情况下，两个不同Key也许会产生相同的hashCode()和equals()输出，HashMap将会认为它们是相同的，然后覆盖它们，而非把它们存储到不同的地方。同样的，所有不允许存储重复数据的集合类都使用hashCode()和equals()去查找重复，所以正确实现它们非常重要。<br>equals()和hashCode()的实现应该遵循以下规则：<br>（1）如果o1.equals(o2)，那么o1.hashCode() == o2.hashCode()总是为true的。<br>（2）如果o1.hashCode() == o2.hashCode()，并不意味着o1.equals(o2)会为true。<br>Java中的HashMap使用hashCode()和equals()方法来确定键值对的索引，当根据键获取值的时候也会用到这两个方法。如果没有正确的实现这两个方法，两个不同的键可能会有相同的hash值，因此，可能会被集合认为是相等的。而且，这两个方法也用来发现重复元素。所以这两个方法的实现对HashMap的精确性和正确性是至关重要的。</p>
+<h1 id="HashMap和HashTabel的区别">HashMap和HashTabel的区别</h1><p>HashMap和Hashtable都实现了Map接口，因此很多特性非常相似。但是，他们有以下不同点：<br>1）HashMap允许键和值是null，而Hashtable不允许键或者值是null。<br>2）Hashtable是同步的，而HashMap不是。因此，HashMap更适合于单线程环境，而Hashtable适合于多线程环境。<br>3）HashMap提供了可供应用迭代的键的集合，因此，HashMap是快速失败的。另一方面，Hashtable提供了对键的列举(Enumeration)。<br>一般认为Hashtable是一个遗留的类。</p>
+<h1 id="Comparable和Comparator接口">Comparable和Comparator接口</h1><p>Comparable和Comparator都是用来实现集合中的排序的，只是Comparable是在集合内部定义的方法实现的排序，Comparator是在集合外部实现的排序，所以，如想实现排序，就需要在集合外定义Comparator接口的方法compare()或在集合内实现Comparable接口的方法compareTo()。<br>comparable是支持自比较，而后者是支持外部比较；<br>Comparable是一个对象本身就已经支持自比较所需要实现的接口（如String、Integer自己就可以完成比较大小操作）<br>而Comparator是一个专用的比较器，当这个对象不支持自比较或者自比较函数不能满足你的要求时，你可以写一个比较器来完成两个对象之间大小的比较。<br>也就是说当你需要对一个自定义的类的一个数组或者集合进行比较的时候可以实现Comparable接口，当你需要对一个已有的类的数组或者集合进行比较的时候就一定要实现Comparator接口。另外，这两个接口是支持泛型的，所以我们应该在实现接口的同时定义比较类型。</p>
+<h1 id="Java中HashMap的工作原理是？">Java中HashMap的工作原理是？</h1><p>Java中的HashMap是以键值对(key-value)的形式存储元素的。HashMap需要一个hash函数，它使用hashCode()和equals()方法来向集合/从集合添加和检索元素。当调用put()方法的时候，HashMap会计算key的hash值，然后把键值对存储在集合中合适的索引上。如果key已经存在了，value会被更新成新值。HashMap的一些重要的特性是它的容量(capacity)，负载因子(load factor)和扩容极限(threshold resizing)。<br>     1)HashMap有一个叫做Entry的内部类，它用来存储key-value对。<br>    2)上面的Entry对象是存储在一个叫做table的Entry数组中。<br>    3)table的索引在逻辑上叫做“桶”(bucket)，它存储了链表的第一个元素。<br>    4)key的hashcode()方法用来找到Entry对象所在的桶。<br>    5)如果两个key有相同的hash值，他们会被放在table数组的同一个桶里面。<br>    6)key的equals()方法用来确保key的唯一性。<br>    7)value对象的equals()和hashcode()方法根本一点用也没有。<br>    <strong>重点内容</strong><br>Put：根据key的hashcode()方法计算出来的hash值来决定key在Entry数组的索引。<br>Get：通过hashcode找到数组中的某一个元素Entry<key,value>，然后通过key的equals()方法在链表中找到key对应的value。</key,value></p>
+<h1 id="Hashcode的实现">Hashcode的实现</h1><p>hashCode 的常规协定是：<br>在 Java 应用程序执行期间，在同一对象上多次调用 hashCode 方法时，必须一致地返回相同的整数，前提是对象上 equals 比较中所用的信息没有被修改。从某一应用程序的一次执行到同一应用程序的另一次执行，该整数无需保持一致。<br>如果根据 equals(Object) 方法，两个对象是相等的，那么在两个对象中的每个对象上调用 hashCode 方法都必须生成相同的整数结果。<br>当equals方法被重写时，通常有必要重写 hashCode 方法，以维护 hashCode 方法的常规协定，该协定声明相等对象必须具有相等的哈希码。</p>
+<h1 id="String、StringBffer、StringBuilder的区别">String、StringBffer、StringBuilder的区别</h1><p>1）可变与不可变<br>String类中使用字符数组保存字符串，如下就是，因为有“final”修饰符，所以可以知道string对象是不可变的。<br>　　　　private final char value[];<br>StringBuilder与StringBuffer都继承自AbstractStringBuilder类，在AbstractStringBuilder中也是使用字符数组保存字符串，如下就是，可知这两种对象都是可变的。<br>　　　　char[] value;<br>2）是否多线程安全<br>String中的对象是不可变的，也就可以理解为常量，显然线程安全。<br>AbstractStringBuilder是StringBuilder与StringBuffer的公共父类，定义了一些字符串的基本操作，如expandCapacity、append、insert、indexOf等公共方法。<br>　　StringBuffer对方法加了同步锁或者对调用的方法加了同步锁，所以是线程安全的</p>
+<h1 id="HashMap、HashSet、HashTable的区别">HashMap、HashSet、HashTable的区别</h1><p>HashSet和HashMap的区别<br>1)HashSet是set的一个实现类,hashMap是Map的一个实现类,同时hashMap是hashTable的替代品.<br>2)HashSet以对象作为元素,而HashMap以(key-value)的一组对象作为元素,且HashSet拒绝接受重复的对象.HashMap可以看作三个视图：key的Set，value的Collection，Entry的Set。HashSet其实就是HashMap的一个视图。</p>
+<p>HashSet内部就是使用Hashmap实现的，和Hashmap不同的是它不需要Key和Value两个值。<br>往hashset中插入对象其实只不过是内部做了<br>            public boolean add(Object o) {<br>                      return map.put(o, PRESENT)==null;<br>            }</p>
+<p>hastTable和hashMap的区别:<br>1)Hashtable是基于陈旧的Dictionary类的，HashMap是Java 1.2引进的Map接口的一个实现。<br>2)这个不同即是最重要的一点:Hashtable中的方法是同步的，而HashMap方法(在缺省情况下)是非同步的。即是说，在多线程应用程序中，不用专门的操作就安全地可以使用Hashtable了；而对于HashMap，则需要额外的同步机制。<br>3)只有HashMap可以让你将空值作为一个表的条目的key或value。HashMap中只有一条记录可以是一个空的key，但任意数量的条目可以是空的value。这就是说，如果在表中没有发现搜索键，或者如果发现了搜索键，但它是一个空的值，那么get()将返回null。如果有必要，用containKey()方法来区别这两种情况。</p>
+<p>线程安全的HashMap —— java.util.concurrent.ConcurrentHashMap<br>ConcurrentHashMap 增加了Segment 层，每个Segment 原理上等同于一个 Hashtable， ConcurrentHashMap 为 Segment 的数组。<br>向 ConcurrentHashMap 中插入数据或者读取数据，首先都要讲相应的 Key 映射到对应的 Segment，因此不用锁定整个类， 只要对单个的 Segment 操作进行上锁操作就可以了。理论上如果有 n 个 Segment，那么最多可以同时支持 n 个线程的并发访问，从而大大提高了并发访问的效率。另外 rehash() 操作也是对单个的 Segment 进行的，所以由 Map 中的数据量增加导致的 rehash 的成本也是比较低的。</p>
+<p>附一篇博客：线程安全的 HashMap 实现方法及原理<br><a href="http://liqianglv2005.iteye.com/blog/2025016" target="_blank" rel="external">http://liqianglv2005.iteye.com/blog/2025016</a></p>
+<h1 id="ArrayList和LingkedList的区别">ArrayList和LingkedList的区别</h1><p>1）ArrayList：底层用数组实现的List<br>特点：查询效率高，增删效率低 轻量级 线程不安全<br>2）LinkedList：底层用双向循环链表 实现的List<br>特点：查询效率低，增删效率高</p>
+<h1 id="垃圾回收机制">垃圾回收机制</h1><p>Java的垃圾回收机制是Java虚拟机提供的能力，用于在空闲时间以不定时的方式动态回收无任何引用的对象占据的内存空间。<br>需要注意的是：垃圾回收回收的是无任何引用的对象占据的内存空间而不是对象本身。<br>两种常用的方法是引用计数和对象引用遍历。<br><strong>引用计数：</strong>在这种方法中，堆中每个对象（不是引用）都有一个引用计数。当一个对象被创建时，且将该对象分配给一个变量，该变量计数设置为1。当任何其它变量被赋值为这个对象的引用时，计数加1（a = b,则b引用的对象+1），但当一个对象的某个引用超过了生命周期或者被设置为一个新值时，对象的引用计数减1。任何引用计数为0的对象可以被当作垃圾收集。当一个对象被垃圾收集时，它引用的任何对象计数减1。<br><strong>对象引用遍历：</strong>从一组对象开始，沿着整个对象图上的每条链接，递归确定可到达（reachable）的对象。如果某对象不能从这些根对象的一个（至少一个）到达，则将它作为垃圾收集。</p>
+<h1 id="序列化和反序列化">序列化和反序列化</h1><p>序列化是将对象状态转换为可保持或传输的格式的过程。与序列化相对的是反序列化，它将流转换为对象。这两个过程结合起来，可以轻松地存储和传输数据。<br>序列化的目的　　<br>1、以某种存储形式使自定义对象持久化；　　<br>2、将对象从一个地方传递到另一个地方。　　<br>3、使程序更具维护性<br>当两个进程在进行远程通信时，彼此可以发送各种类型的数据。无论是何种类型的数据，都会以二进制序列的形式在网络上传送。发送方需要把这个对象转换为字节序列，才能在网络上传送；接收方则需要把字节序列再恢复为对象。<br><strong>把对象转换为字节序列的过程称为对象的序列化。</strong><br><strong>把字节序列恢复为对象的过程称为对象的反序列化。</strong><br><strong>说的再直接点，序列化的目的就是为了跨进程传递格式化数据</strong></p>
+<h1 id="Java的灵活性体现在什么机制上？">Java的灵活性体现在什么机制上？</h1><p>反射机制</p>
+<h1 id="Sleep和wait的区别">Sleep和wait的区别</h1><p>1、sleep()方法，是属于Thread类中的。而wait()方法，则是属于Object类中的。<br>2、在调用sleep()方法的过程中，线程不会释放对象锁。而当调用wait()方法的时候，线程会放弃对象锁。<br>sleep()方法导致了程序暂停执行指定的时间，让出cpu给其他线程，但是他的监控状态依然保持着，当指定的时间到了又会自动恢复运行状态。而当调用wait()方法的时候，线程会放弃对象锁，进入等待此对象的等待锁定池，只有针对此对象调用notify()方法后本线程才进入对象锁定池准备。</p>
+<h1 id="IO和NIO">IO和NIO</h1><p>1、IO是面向流的，NIO是面向缓冲区的。<br>Java IO面向流意味着每次从流中读一个或多个字节，直至读取所有字节，它们没有被缓存在任何地方。此外，它不能前后移动流中的数据。如果需要前后移动从流中读取的数据，需要先将它缓存到一个缓冲区。 Java NIO的缓冲导向方法略有不同。数据读取到一个它稍后处理的缓冲区，需要时可在缓冲区中前后移动。这就增加了处理过程中的灵活性。但是，还需要检查是否该缓冲区中包含所有您需要处理的数据。而且，需确保当更多的数据读入缓冲区时，不要覆盖缓冲区里尚未处理的数据。<br>2、Java IO的各种流是阻塞的，Java NIO的非阻塞模式。<br>Java IO的各种流是阻塞的。这意味着，当一个线程调用read() 或 write()时，该线程被阻塞，直到有一些数据被读取，或数据完全写入。该线程在此期间不能再干任何事情了。 Java NIO的非阻塞模式，使一个线程从某通道发送请求读取数据，但是它仅能得到目前可用的数据，如果目前没有数据可用时，就什么都不会获取。而不是保持线程阻塞，所以直至数据变的可以读取之前，该线程可以继续做其他的事情。 非阻塞写也是如此。一个线程请求写入一些数据到某通道，但不需要等待它完全写入，这个线程同时可以去做别的事情。 线程通常将非阻塞IO的空闲时间用于在其它通道上执行IO操作，所以一个单独的线程现在可以管理多个输入和输出通道（channel）。<br>3、Java NIO的选择器允许一个单独的线程来监视多个输入通道，你可以注册多个通道使用一个选择器，然后使用一个单独的线程来“选择”通道：这些通道里已经有可以处理的输入，或者选择已准备写入的通道。这种选择机制，使得一个单独的线程很容易来管理多个通道。而Java IO无选择器。</p>
+<h1 id="Scoket">Scoket</h1><p>对于一个功能齐全的Socket，都要包含以下基本结构，其工作过程包含以下四个基本的步骤：<br>　　（1） 创建Socket；<br>　　（2） 打开连接到Socket的输入/出流；<br>　　（3） 按照一定的协议对Socket进行读/写操作；<br>　　（4） 关闭Socket.<br>　　<br>　　可参考博客：<br><a href="http://www.cnblogs.com/linzheng/archive/2011/01/23/1942328.html" target="_blank" rel="external">http://www.cnblogs.com/linzheng/archive/2011/01/23/1942328.html</a></p>
+<h1 id="深克隆、浅克隆">深克隆、浅克隆</h1><p>浅复制仅仅复制所考虑的对象，而不复制它所引用的对象。<br>深复制把要复制的对象所引用的对象都复制了一遍。 </p>
+<p>在java中只有单继承，如果要让一个类赋予新的特性，通常是使用接口来实现。<br>在c++中支持多继承，允许一个子类同时具有多个父类的接口和功能。</p>
+<h1 id="UDP和TCP">UDP和TCP</h1><p>UDP和TCP都属于传输层协议。<br>TCP协议：面向连接的、可靠的、基于字节流<br>UDP协议：无连接、不可靠、基于报文<br>1、TCP协议中包含了专门的传递保证机制，当数据接收方收到发送方传来的信息时，会自动向发送方发出确认消息；发送方只有在接收到该确认消息之后才继续传送其它信息，否则将一直等待直到收到确认信息为止。<br>与TCP不同，UDP协议并不提供数据传送的保证机制。如果在从发送方到接收方的传递过程中出现数据报的丢失，协议本身并不能做出任何检测或提示。因此，通常人们把UDP协议称为不可靠的传输协议。<br>2、相对于TCP协议，UDP协议的另外一个不同之处在于如何接收突发性的多个数据报。不同于TCP，UDP并不能确保数据的发送和接收顺序。</p>
+<h1 id="红黑树">红黑树</h1><p>是一种自平衡二叉查找树，红黑树是一种很有意思的平衡检索树；每次插入的时候都要进行计算，保证二叉树的平衡；如果有2的N次方数据量级，查询的时候只需要查询N次即可。<br>我们对任何有效的红黑树加以如下增补要求:<br>        1.节点是红色或黑色。<br>        2.根是黑色。<br>        3.所有叶子（外部节点）都是黑色。<br>        4.每个红色节点的两个子节点都是黑色。(从每个叶子到根的所有路径上不能有两个连续的红色节点)<br>        5.从每个叶子到根的所有路径都包含相同数目的黑色节点。<br> 这些约束强制了红黑树的关键属性: 从根到叶子的最长的可能路径不多于最短的可能路径的两倍长。结果是这个树大致上是平衡的。</p>
+<h1 id="反射">反射</h1><p>反射机制指的是程序在运行时能够获取自身的信息。<br>用反射机制实现对数据库数据的增、查例子 。<br>    基本原理：保存数据时，把需要保存的对象的属性值全部取出来再拼凑sql语句；查询时，将查询到的数据全部包装成一个java对象。<br>    1）数据库的每一个表对应一个pojo类，表中的每一个字段对应pojo类的中的一个属性。 并且pojo类的名字和表的名字相同，属性名和字段名相同，大小写没有关系，因为数据库一般不区分大小写<br>    2）为pojo类中的每一个属性添加标准的set和get方法。 </p>
+<h1 id="三次握手和四次挥手">三次握手和四次挥手</h1><p>三次握手：首先Client端发送连接请求报文，Server段接受连接后回复ACK报文，并为这次连接分配资源。Client端接收到ACK报文后也向Server段发送ACK报文，并分配资源，这样TCP连接就建立了。</p>
+<p>四次握手：<br>由于TCP连接是全双工的，因此每个方向都必须单独进行关闭。这原则是当一方完成它的数据发送任务后就能发送一个FIN来终止这个方向的连接。收到一个 FIN只意味着这一方向上没有数据流动，一个TCP连接在收到一个FIN后仍能发送数据。首先进行关闭的一方将执行主动关闭，而另一方执行被动关闭。<br>（1） TCP客户端发送一个FIN，用来关闭客户到服务器的数据传送。<br>（2） 服务器收到这个FIN，它发回一个ACK，确认序号为收到的序号加1。和SYN一样，一个FIN将占用一个序号。<br>（3） 服务器关闭客户端的连接，发送一个FIN给客户端。<br>（4） 客户端发回ACK报文确认，并将确认序号设置为收到序号加1。</p>
+<h1 id="Equals()和==">Equals()和==　</h1><p>　   1、java中equals和==的区别 值类型是存储在内存中的堆栈（简称栈），而引用类型的变量在栈中仅仅是存储引用类型变量的地址，而其本身则存储在堆中。<br>　　2、==操作比较的是两个变量的值是否相等，对于引用型变量表示的是两个变量在堆中存储的地址是否相同，即栈中的内容是否相同。<br>　　3、equals操作表示的两个变量是否是对同一个对象的引用，即堆中的内容是否相同。<br>　　4、==比较的是2个对象的地址，而equals比较的是2个对象的内容，显然，当equals为true时，==不一定为true。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/03/26/阿里JAVA开发面试常问问题总结3/"  title="阿里JAVA开发面试常问问题总结3">
+ <strong>下一篇：</strong><br/> 
+ <span>阿里JAVA开发面试常问问题总结3
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#java的三大特性"><span class="toc-number">1.</span> <span class="toc-text">java的三大特性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#抽象类和接口的区别"><span class="toc-number">2.</span> <span class="toc-text">抽象类和接口的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#共同点"><span class="toc-number">2.1.</span> <span class="toc-text">共同点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不同点"><span class="toc-number">2.2.</span> <span class="toc-text">不同点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#栈内存和堆内存，引用和值传递"><span class="toc-number">3.</span> <span class="toc-text">栈内存和堆内存，引用和值传递</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#栈内存、堆内存"><span class="toc-number">3.1.</span> <span class="toc-text">栈内存、堆内存</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用、值传递"><span class="toc-number">3.2.</span> <span class="toc-text">引用、值传递</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#单例模式及好处"><span class="toc-number">4.</span> <span class="toc-text">单例模式及好处</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#重载和重写"><span class="toc-number">5.</span> <span class="toc-text">重载和重写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#子类、父类间的转换和构造顺序"><span class="toc-number">6.</span> <span class="toc-text">子类、父类间的转换和构造顺序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Final、finally、finalize"><span class="toc-number">7.</span> <span class="toc-text">Final、finally、finalize</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Synchronized和volatile的区别"><span class="toc-number">8.</span> <span class="toc-text">Synchronized和volatile的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#集合"><span class="toc-number">9.</span> <span class="toc-text">集合</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#集合类没有实现Cloneable和Serializable接口的原因"><span class="toc-number">10.</span> <span class="toc-text">集合类没有实现Cloneable和Serializable接口的原因</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hashCode()和equals()方法的重要性体现在什么地方？"><span class="toc-number">11.</span> <span class="toc-text">hashCode()和equals()方法的重要性体现在什么地方？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HashMap和HashTabel的区别"><span class="toc-number">12.</span> <span class="toc-text">HashMap和HashTabel的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Comparable和Comparator接口"><span class="toc-number">13.</span> <span class="toc-text">Comparable和Comparator接口</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java中HashMap的工作原理是？"><span class="toc-number">14.</span> <span class="toc-text">Java中HashMap的工作原理是？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hashcode的实现"><span class="toc-number">15.</span> <span class="toc-text">Hashcode的实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#String、StringBffer、StringBuilder的区别"><span class="toc-number">16.</span> <span class="toc-text">String、StringBffer、StringBuilder的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HashMap、HashSet、HashTable的区别"><span class="toc-number">17.</span> <span class="toc-text">HashMap、HashSet、HashTable的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#ArrayList和LingkedList的区别"><span class="toc-number">18.</span> <span class="toc-text">ArrayList和LingkedList的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#垃圾回收机制"><span class="toc-number">19.</span> <span class="toc-text">垃圾回收机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#序列化和反序列化"><span class="toc-number">20.</span> <span class="toc-text">序列化和反序列化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java的灵活性体现在什么机制上？"><span class="toc-number">21.</span> <span class="toc-text">Java的灵活性体现在什么机制上？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sleep和wait的区别"><span class="toc-number">22.</span> <span class="toc-text">Sleep和wait的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#IO和NIO"><span class="toc-number">23.</span> <span class="toc-text">IO和NIO</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Scoket"><span class="toc-number">24.</span> <span class="toc-text">Scoket</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#深克隆、浅克隆"><span class="toc-number">25.</span> <span class="toc-text">深克隆、浅克隆</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#UDP和TCP"><span class="toc-number">26.</span> <span class="toc-text">UDP和TCP</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#红黑树"><span class="toc-number">27.</span> <span class="toc-text">红黑树</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#反射"><span class="toc-number">28.</span> <span class="toc-text">反射</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三次握手和四次挥手"><span class="toc-number">29.</span> <span class="toc-text">三次握手和四次挥手</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Equals()和=="><span class="toc-number">30.</span> <span class="toc-text">Equals()和==　</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3121392487&verifier=cf84718a&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据仓库/" title="数据仓库">数据仓库<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/缓慢变化维/" title="缓慢变化维">缓慢变化维<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多维数据集/" title="多维数据集">多维数据集<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jar/" title="jar">jar<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/maven/" title="maven">maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-shell/" title="linux shell">linux shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hbase/" title="hbase">hbase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/粒度/" title="粒度">粒度<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可加性/" title="可加性">可加性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/稀疏性/" title="稀疏性">稀疏性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/横向钻取/" title="横向钻取">横向钻取<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/机器学习/" title="机器学习">机器学习<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net" target="_blank" title="CSDNCSDN博客">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pangjiuzala.github.io/" target="_blank" title="刘兴的博客">刘兴的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=saliormoon&amp;type=Users" target="_blank" title="关注王宇峰的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			欢迎关注</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Saliormoon All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
