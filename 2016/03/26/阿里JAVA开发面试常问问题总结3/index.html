@@ -1,0 +1,568 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>阿里JAVA开发面试常问问题总结3 | 王宇峰的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="王宇峰">
+    
+
+    
+    <meta name="description" content="紧接前面两篇博客，继续对这部分的内容进行总结。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里JAVA开发面试常问问题总结3">
+<meta property="og:url" content="http://saliormoon.github.io/2016/03/26/阿里JAVA开发面试常问问题总结3/index.html">
+<meta property="og:site_name" content="王宇峰的博客">
+<meta property="og:description" content="紧接前面两篇博客，继续对这部分的内容进行总结。">
+<meta property="og:image" content="http://img.blog.csdn.net/20160327112219305">
+<meta property="og:updated_time" content="2016-03-27T08:00:33.397Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="阿里JAVA开发面试常问问题总结3">
+<meta name="twitter:description" content="紧接前面两篇博客，继续对这部分的内容进行总结。">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="王宇峰的博客" title="王宇峰的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="王宇峰的博客">王宇峰的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/26/阿里JAVA开发面试常问问题总结3/" title="阿里JAVA开发面试常问问题总结3" itemprop="url">阿里JAVA开发面试常问问题总结3</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-25T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-03-26</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java集合类"><span class="toc-number">1.</span> <span class="toc-text">Java集合类</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#set和list的区别"><span class="toc-number">2.</span> <span class="toc-text">set和list的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hibernate中java的对象状态"><span class="toc-number">3.</span> <span class="toc-text">Hibernate中java的对象状态</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据库事务的特性"><span class="toc-number">4.</span> <span class="toc-text">数据库事务的特性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据库事务隔离级别及锁机制"><span class="toc-number">5.</span> <span class="toc-text">数据库事务隔离级别及锁机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTP报文包含内容"><span class="toc-number">6.</span> <span class="toc-text">HTTP报文包含内容</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP/IP三次握手和四次挥手"><span class="toc-number">7.</span> <span class="toc-text">TCP/IP三次握手和四次挥手</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#三次握手"><span class="toc-number">7.1.</span> <span class="toc-text">三次握手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四次挥手"><span class="toc-number">7.2.</span> <span class="toc-text">四次挥手</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM内存"><span class="toc-number">8.</span> <span class="toc-text">JVM内存</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM垃圾回收"><span class="toc-number">9.</span> <span class="toc-text">JVM垃圾回收</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM调优"><span class="toc-number">10.</span> <span class="toc-text">JVM调优</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MVC的各个部分都由那些技术来实现?"><span class="toc-number">11.</span> <span class="toc-text">MVC的各个部分都由那些技术来实现?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#arrayList底层如何扩展的？"><span class="toc-number">12.</span> <span class="toc-text">arrayList底层如何扩展的？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hashmap的实现"><span class="toc-number">13.</span> <span class="toc-text">hashmap的实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Servlet生命周期及工作原理"><span class="toc-number">14.</span> <span class="toc-text">Servlet生命周期及工作原理</span></a></li></ol>
+		
+		</div>
+		
+		<p>紧接前面两篇博客，继续对这部分的内容进行总结。<br><a id="more"></a></p>
+<h1 id="Java集合类">Java集合类</h1><p>Java的集合类都位于java.util包中，Java集合中存放的是对象的引用，而非对象本身。</p>
+<p>Java集合主要分为三种类型：<br>1.Set（集）：集合中的对象不按特定方式排序，并且没有重复对象。它的有些实现类能对集合中的对象按特定方式排序。<br>2.List（列表）：集合中的对象按索引位置排序，可以有重复对象，允许按照对象在集合中的索引位置检索对象。<br>3.Map（映射）：集合中的每一个元素包含一对键对象和值对象，集合中没有重复的键对象，值对象可以重复。它的有些实现类能对集合中的键对象进行排序。<br>Set、List和Map统称为Java集合。<br>List和Set都继承Collection接口，而Map没有继承Collection接口。<br>List的主要实现类有：ArrayList类, LinkedList类, Vector类。<br>Set的主要实现类有：HashSet类，TreeSet类，LinkedHashSet类。<br>Map的主要实现类有：HashMap类，HashTable类，TreeMap类，WeekHashMap类和IdentityHahMap类等。</p>
+<h1 id="set和list的区别">set和list的区别</h1><p>1、List,Set都是继承自Collection接口，均为接口<br>2、List特点：元素有放入顺序，元素可重复<br>     Set特点：元素无放入顺序，元素不可重复（注意：元素虽然无放入顺序，但是元素在set中的位置是有该元素的HashCode决定的，其位置其实是固定的）<br>3、List接口有三个实现类：LinkedList，ArrayList，Vector ；<br>     Set接口有两个实现类：HashSet(底层由HashMap实现)，  LinkedHashSet。</p>
+<h1 id="Hibernate中java的对象状态">Hibernate中java的对象状态</h1><p>在Hibernate中，对象有三种状态：临时状态、持久状态和游离状态。</p>
+<p>临时状态：当new一个实体对象后，这个对象处于临时状态，即这个对象只是一个保存临时数据的内存区域，如果没有变量引用这个对象，则会被jre垃圾回收机制回收。这个对象所保存的数据与数据库没有任何关系，除非通过Session的save或者SaveOrUpdate把临时对象与数据库关联，并把数据插入或者更新到数据库，这个对象才转换为持久对象。</p>
+<p>持久状态：持久化对象的实例在数据库中有对应的记录，并拥有一个持久化表示（ID）。对持久化对象进行delete操作后，数据库中对应的记录将被删除，那么持久化对象与数据库记录不再存在对应关系，持久化对象变成临时状态。持久化对象被修改变更后，不会马上同步到数据库，直到数据库事务提交。在同步之前，持久化对象是脏的（Dirty）。</p>
+<p>游离状态：当Session进行了Close、Clear或者evict后，持久化对象虽然拥有持久化标识符和与数据库对应记录一致的值，但是因为会话已经消失，对象不在持久化管理之内，所以处于游离状态（也叫：脱管状态）。游离状态的对象与临时状态对象是十分相似的，只是它还含有持久化标识。</p>
+<h1 id="数据库事务的特性">数据库事务的特性</h1><p>数据库事务（Transaction）是指作为单个逻辑工作单元执行的一系列操作，要么完全地执行，要么完全地不执行。一方面，当多个应用程序并发访问数据库时，事务可以在应用程序间提供一个隔离方法，防止互相干扰。另一方面，事务为数据库操作序列提供了一个从失败恢复正常的方法。<br>事务具有四个特性：原子性（Atomicity）、一致性（Consistency）、隔离型（Isolation）、持久性（Durability），简称ACID。<br>1 原子性（Atomicity）<br>事务的原子性是指事务中的操作不可拆分，只允许全部执行或者全部不执行。<br>2 一致性（Consistency）<br>事务的一致性是指事务的执行不能破坏数据库的一致性，一致性也称为完整性。一个事务在执行后，数据库必须从一个一致性状态转变为另一个一致性状态。<br>3 隔离性（Isolation）<br>事务的隔离性是指并发的事务相互隔离，不能互相干扰。<br>4 持久性（Durability）<br>事务的持久性是指事务一旦提交，对数据的状态变更应该被永久保存。</p>
+<h1 id="数据库事务隔离级别及锁机制">数据库事务隔离级别及锁机制</h1><p>为了平衡隔离性能，SQL92规范定义了四个事务隔离级别：读未提交（Read Uncommitted）、读已提交（Read Committed）、可重复读（Repeatable Read）、串行化（Serializable）。四个级别逐渐增强，每个级别解决上个级别的一个问题。<br>1 读未提交（Read Uncommitted）<br>另一个事务修改了数据，但尚未提交，而本事务中的select会读到这些未被提交的数据（也称脏读）。<br>2 读已提交（Read Committed）<br>本事务读取到的是最新的数据（其他事务提交后的）。问题是，在同一个事务里，前后两次相同的select会读到不同的结果（不可重复读）。<br>不可重复读是指同一个事务执行过程中，另外一个事务提交了新数据，因此本事务先后两次读到的数据结果会不一致。<br>3 可重复读（Repeatable Read）<br>在同一个事务里，select的结果是事务开始时间点的状态，同样的select操作读到的结果会是一致的。但是，会有幻读现象。<br>不可重复读保证了同一个事务里，查询的结果都是事务开始时的状态（一致性）。但是，如果另一个事务同时提交了新数据，本事务再更新时，就会发现了这些新数据，貌似之前读到的数据是幻觉，这就是幻读。<br>4 串行化（Serializable）<br>所有事务只能一个接一个串行执行，不能并发。</p>
+<p>隔离级别的选择<br>事务隔离级别越高，越能保证数据的一致性，但对并发性能影响越大，一致性和高性能必须有所取舍或折中。<br>一般情况下，多数应用程序可以选择将数据库的隔离级别设置为读已提交，这样可以避免脏读，也可以得到不错的并发性能。尽管这个隔离级别会导致不可重复度、幻读，但这种个别场合应用程序可以通过主动加锁进行并发控制。</p>
+<p><a href="http://www.songjie.info/%E3%80%90%E8%BD%AC%E8%BD%BD%E3%80%91%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E5%92%8C%E9%94%81%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6/" target="_blank" rel="external">http://www.songjie.info/%E3%80%90%E8%BD%AC%E8%BD%BD%E3%80%91%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB%E5%92%8C%E9%94%81%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6/</a></p>
+<h1 id="HTTP报文包含内容">HTTP报文包含内容</h1><p><center><br><img src="http://img.blog.csdn.net/20160327112219305" alt="http报文内容"><br></center></p>
+<h1 id="TCP/IP三次握手和四次挥手">TCP/IP三次握手和四次挥手</h1><p>TCP是主机对主机层的传输控制协议，提供可靠的连接服务，采用三次握手确认建立一个连接:<br>位码即tcp标志位,有6种标示:SYN(synchronous建立联机) ACK(acknowledgement 确认) PSH(push传送) FIN(finish结束) RST(reset重置) URG(urgent紧急)<br>Sequence number(顺序号码) Acknowledge number(确认号码)</p>
+<h2 id="三次握手">三次握手</h2><p>第一次握手：主机A发送位码为syn＝1,随机产生seq number=1234567的数据包到服务器，主机B由SYN=1知道，A要求建立联机；<br>第二次握手：主机B收到请求后要确认联机信息，向A发送ack number=(主机A的seq+1),syn=1,ack=1,随机产生seq=7654321的包<br>第三次握手：主机A收到后检查ack number是否正确，即第一次发送的seq number+1,以及位码ack是否为1，若正确，主机A会再发送ack number=(主机B的seq+1),ack=1，主机B收到后确认seq值与ack=1则连接建立成功。<br>完成三次握手，主机A与主机B开始传送数据。</p>
+<h2 id="四次挥手">四次挥手</h2><p>所谓四次挥手（Four-Way Wavehand）即终止TCP连接，就是指断开一个TCP连接时，需要客户端和服务端总共发送4个包以确认连接的断开。在socket编程中，这一过程由客户端或服务端任一方执行close来触发，<br>（1）第一次挥手：Client发送一个FIN，用来关闭Client到Server的数据传送，Client进入FIN_WAIT_1状态。<br>（2）第二次挥手：Server收到FIN后，发送一个ACK给Client，确认序号为收到序号+1（与SYN相同，一个FIN占用一个序号），Server进入CLOSE_WAIT状态。<br>（3）第三次挥手：Server发送一个FIN，用来关闭Server到Client的数据传送，Server进入LAST_ACK状态。<br>（4）第四次挥手：Client收到FIN后，Client进入TIME_WAIT状态，接着发送一个ACK给Server，确认序号为收到序号+1，Server进入CLOSED状态，完成四次挥手。</p>
+<h1 id="JVM内存">JVM内存</h1><p>JVM  分配内存进入以下区域<br>1： Heap<br>2：Stack<br>3：Code<br>4：Static<br>jvm有效的管理分配到这几个内存区域。<br>Code  section  代码区 包含这个 字节码文件 (byte code)<br>Stack  section  (栈区域)  包含  方法（methods） ，局部变量 （Local variables） 和 引用变量（ reference variables）<br>Heap  section （堆区域）包含 对象    （也许会包含引用变量（下面的例子中有提到））<br>Static  section  (静态区域)  包含  静态数据/  方法   （Static  数据 和 方法  为 类的方法，隶属于类）<br>1：当一个方法被调用时， a  frame 是被创建在 栈顶。<br>2：一旦方法完成执行，控制流返回正在调用的方法，stack 中 frame 被 清空（flushed）<br>3：局部变量是在栈中创建。<br>4：实例变量在堆中创建， 是对象的一部分，实例变量 依附于对象。<br>5：引用变量是在栈中创建。<br><strong>重点内容</strong>关于jvm特推荐一篇博客如下：<br><a href="http://blog.csdn.net/tonytfjing/article/details/44278233" target="_blank" rel="external">http://blog.csdn.net/tonytfjing/article/details/44278233</a><br>再附一篇：<br><a href="http://blog.csdn.net/u012152619/article/details/46968883" target="_blank" rel="external">http://blog.csdn.net/u012152619/article/details/46968883</a></p>
+<h1 id="JVM垃圾回收">JVM垃圾回收</h1><p>1.JVM的gc概述<br>　　gc即垃圾收集机制是指jvm用于释放那些不再使用的对象所占用的内存。<br>　　垃圾收集的目的在于清除不再使用的对象。gc通过确定对象是否被活动对象引用来确定是否收集该对象。gc首先要判断该对象是否是时候可以收集。两种常用的方法是引用计数和对象引用遍历。<br>　　1）引用计数<br>　　引用计数存储对特定对象的所有引用数，也就是说，当应用程序创建引用以及引用超出范围时，jvm必须适当增减引用数。当某对象的引用数为0时，便可以进行垃圾收集。<br>　  2）对象引用遍历<br>　　早期的jvm使用引用计数，现在大多数jvm采用对象引用遍历。对象引用遍历从一组对象开始，沿着整个对象图上的每条链接，递归确定可到达（reachable）的对象。如果某对象不能从这些根对象的一个（至少一个）到达，则将它作为垃圾收集。在对象遍历阶段，gc必须记住哪些对象可以到达，以便删除不可到达的对象，这称为标记（marking）对象。<br>　　下一步，gc要删除不可到达的对象。删除时，有些gc只是简单的扫描堆栈，删除未标记的对象，并释放它们的内存以生成新的对象，这叫做清除（sweeping）。这种方法的问题在于内存会分成好多小段，而它们不足以用于新的对象，但是组合起来却很大。因此，许多gc可以重新组织内存中的对象，并进行压缩（compact），形成可利用的空间。<br>　　为此，gc需要停止其他的活动活动。这种方法意味着所有与应用程序相关的工作停止，只有gc运行。结果，在响应期间增减了许多混杂请求。另外，更复杂的 gc不断增加或同时运行以减少或者清除应用程序的中断。有的gc使用单线程完成这项工作，有的则采用多线程以增加效率。<br>2.几种垃圾回收机制<br>　　1）标记－清除收集器<br>　　这种收集器首先遍历对象图并标记可到达的对象，然后扫描堆栈以寻找未标记对象并释放它们的内存。这种收集器一般使用单线程工作并停止其他操作。<br>　　2）标记－压缩收集器<br>　　有时也叫标记－清除－压缩收集器，与标记－清除收集器有相同的标记阶段。在第二阶段，则把标记对象复制到堆栈的新域中以便压缩堆栈。这种收集器也停止其他操作。<br>　　3）复制收集器<br>　　这种收集器将堆栈分为两个域，常称为半空间。每次仅使用一半的空间，jvm生成的新对象则放在另一半空间中。gc运行时，它把可到达对象复制到另一半空间，从而压缩了堆栈。这种方法适用于短生存期的对象，持续复制长生存期的对象则导致效率降低。<br>　　4）增量收集器<br>　　增量收集器把堆栈分为多个域，每次仅从一个域收集垃圾。这会造成较小的应用程序中断。<br>　　5）分代收集器<br>　　这种收集器把堆栈分为两个或多个域，用以存放不同寿命的对象。jvm生成的新对象一般放在其中的某个域中。过一段时间，继续存在的对象将获得使用期并转入更长寿命的域中。分代收集器对不同的域使用不同的算法以优化性能。<br>　　6）并发收集器<br>　　并发收集器与应用程序同时运行。这些收集器在某点上（比如压缩时）一般都不得不停止其他操作以完成特定的任务，但是因为其他应用程序可进行其他的后台操作，所以中断其他处理的实际时间大大降低。<br>　　7）并行收集器<br>　　并行收集器使用某种传统的算法并使用多线程并行的执行它们的工作。在多cpu机器上使用多线程技术可以显著的提高java应用程序的可扩展性。<br>　　<br>　　JVM垃圾回收器的工作原理<br><a href="https://www.ibm.com/developerworks/cn/java/j-lo-JVMGarbageCollection/" target="_blank" rel="external">https://www.ibm.com/developerworks/cn/java/j-lo-JVMGarbageCollection/</a></p>
+<h1 id="JVM调优">JVM调优</h1><p><a href="http://blog.csdn.net/gzh0222/article/details/8363032?cm_mc_uid=52295834175414590497670&amp;cm_mc_sid_50200000=1459049767" target="_blank" rel="external">http://blog.csdn.net/gzh0222/article/details/8363032?cm_mc_uid=52295834175414590497670&amp;cm_mc_sid_50200000=1459049767</a></p>
+<h1 id="MVC的各个部分都由那些技术来实现?">MVC的各个部分都由那些技术来实现?</h1><p>MVC是Model－View－Controller的简写。<br>Model 代表的是应用的业务逻辑（通过JavaBean，EJB组件实现）；View 是应用的表示面（由JSP页面产生）；<br>Controller 是提供应用的处理过程控制（一般是一个Servlet）。<br>通过这种设计模型把应用逻辑、处理过程和显示逻辑分成不同的组件实现。这些组件可以进行交互和重用。</p>
+<p>AOP：设计模式<br>IOC：反射机制</p>
+<h1 id="arrayList底层如何扩展的？">arrayList底层如何扩展的？</h1><p>arraylist的java底层实现：</p>
+<p>public boolean add(E e) {<br>ensureCapacityInternal(size + 1); // Increments modCount!!<br>elementData[size++] = e;<br>return true;<br>}<br>arraylist的add方法底层实际就是一个数组，如果这个数组满了就将创建比旧数组大的新数组，然后复制旧数组到新数组中去 。</p>
+<h1 id="hashmap的实现">hashmap的实现</h1><p>推荐几篇博客，它们具体阐释了hashmap：<br><a href="http://yikun.github.io/2015/04/01/Java-HashMap%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/" target="_blank" rel="external">http://yikun.github.io/2015/04/01/Java-HashMap%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/</a></p>
+<p><a href="http://my.oschina.net/hosee/blog/618953" target="_blank" rel="external">http://my.oschina.net/hosee/blog/618953</a></p>
+<h1 id="Servlet生命周期及工作原理">Servlet生命周期及工作原理</h1><p>Servlet生命周期分为三个阶段：<br>　　1，初始化阶段 ：调用init()方法<br>　　2，响应客户请求阶段：调用service()方法<br>　　3，终止阶段：调用destroy()方法<br>Servlet工作原理：<br>　 　Servlet接收和响应客户请求的过程：首先客户发送一个请求，Servlet是调用service()方法对请求进行响应的，通过 源代码可见，service()方法中对请求的方式进行了匹配，选择调用doGet,doPost等这些方法，然后再进入对应的方法中调用逻辑层的方法， 实现对客户的响应。</p>
+<p>在Servlet接口和GenericServlet中是没有doGet、doPost等这些方法的，HttpServlet中定义 了这些方法，但是都是返回error信息，所以，我们每次定义一个Servlet的时候，都必须实现doGet或doPost等这些方法。<br>每一个自定义的Servlet都必须实现Servlet的接口，Servlet接口中定义了五个方法，其中比较重要的三个方法涉及到Servlet的生命周期，分别是上文提到的init()、service()、destroy()方法。GenericServlet是一个通用的，不特定于任何协议的 Servlet,它实现了Servlet接口。而HttpServlet继承于GenericServlet，因此HttpServlet也实现了 Servlet接口。所以我们定义Servlet的时候只需要继承HttpServlet即可。<br>Servlet接口和 GenericServlet是不特定于任何协议的，而HttpServlet是特定于HTTP协议的类，所以HttpServlet中实现了 service()方法，并将请求ServletRequest,ServletResponse强转为HttpRequest和 HttpResponse。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/03/25/java中的几个区别的总结/"  title="Java中的几个“区别”总结">
+ <strong>下一篇：</strong><br/> 
+ <span>Java中的几个“区别”总结
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java集合类"><span class="toc-number">1.</span> <span class="toc-text">Java集合类</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#set和list的区别"><span class="toc-number">2.</span> <span class="toc-text">set和list的区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hibernate中java的对象状态"><span class="toc-number">3.</span> <span class="toc-text">Hibernate中java的对象状态</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据库事务的特性"><span class="toc-number">4.</span> <span class="toc-text">数据库事务的特性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#数据库事务隔离级别及锁机制"><span class="toc-number">5.</span> <span class="toc-text">数据库事务隔离级别及锁机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTP报文包含内容"><span class="toc-number">6.</span> <span class="toc-text">HTTP报文包含内容</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#TCP/IP三次握手和四次挥手"><span class="toc-number">7.</span> <span class="toc-text">TCP/IP三次握手和四次挥手</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#三次握手"><span class="toc-number">7.1.</span> <span class="toc-text">三次握手</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四次挥手"><span class="toc-number">7.2.</span> <span class="toc-text">四次挥手</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM内存"><span class="toc-number">8.</span> <span class="toc-text">JVM内存</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM垃圾回收"><span class="toc-number">9.</span> <span class="toc-text">JVM垃圾回收</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JVM调优"><span class="toc-number">10.</span> <span class="toc-text">JVM调优</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MVC的各个部分都由那些技术来实现?"><span class="toc-number">11.</span> <span class="toc-text">MVC的各个部分都由那些技术来实现?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#arrayList底层如何扩展的？"><span class="toc-number">12.</span> <span class="toc-text">arrayList底层如何扩展的？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hashmap的实现"><span class="toc-number">13.</span> <span class="toc-text">hashmap的实现</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Servlet生命周期及工作原理"><span class="toc-number">14.</span> <span class="toc-text">Servlet生命周期及工作原理</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3121392487&verifier=cf84718a&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据仓库/" title="数据仓库">数据仓库<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/缓慢变化维/" title="缓慢变化维">缓慢变化维<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多维数据集/" title="多维数据集">多维数据集<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jar/" title="jar">jar<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/maven/" title="maven">maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-shell/" title="linux shell">linux shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hbase/" title="hbase">hbase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/粒度/" title="粒度">粒度<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可加性/" title="可加性">可加性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/稀疏性/" title="稀疏性">稀疏性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/横向钻取/" title="横向钻取">横向钻取<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/机器学习/" title="机器学习">机器学习<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net" target="_blank" title="CSDNCSDN博客">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pangjiuzala.github.io/" target="_blank" title="刘兴的博客">刘兴的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=saliormoon&amp;type=Users" target="_blank" title="关注王宇峰的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			欢迎关注</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Saliormoon All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
