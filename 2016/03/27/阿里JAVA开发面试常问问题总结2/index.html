@@ -1,0 +1,558 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>王宇峰的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="王宇峰">
+    
+
+    
+    <meta name="description" content="title:  阿里JAVA开发面试常问问题总结2date:   2016-3-24tags:  [Java]
+接着上一次的继续总结，希望有助于理解记忆。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="王宇峰的博客">
+<meta property="og:url" content="http://saliormoon.github.io/2016/03/27/阿里JAVA开发面试常问问题总结2/index.html">
+<meta property="og:site_name" content="王宇峰的博客">
+<meta property="og:description" content="title:  阿里JAVA开发面试常问问题总结2date:   2016-3-24tags:  [Java]
+接着上一次的继续总结，希望有助于理解记忆。">
+<meta property="og:image" content="http://img.blog.csdn.net/20160326170707714">
+<meta property="og:image" content="http://img.blog.csdn.net/20160326213146112">
+<meta property="og:updated_time" content="2016-03-27T02:35:22.141Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="王宇峰的博客">
+<meta name="twitter:description" content="title:  阿里JAVA开发面试常问问题总结2date:   2016-3-24tags:  [Java]
+接着上一次的继续总结，希望有助于理解记忆。">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="王宇峰的博客" title="王宇峰的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="王宇峰的博客">王宇峰的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/27/阿里JAVA开发面试常问问题总结2/" title="" itemprop="url"></a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-27T02:35:22.141Z" itemprop="datePublished"> 发表于 2016-03-27</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#线程与进程"><span class="toc-number">1.</span> <span class="toc-text">线程与进程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#线程切换"><span class="toc-number">2.</span> <span class="toc-text">线程切换</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#单线程与多线程"><span class="toc-number">3.</span> <span class="toc-text">单线程与多线程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#java某些类为什么要实现Serializable接口？"><span class="toc-number">4.</span> <span class="toc-text">java某些类为什么要实现Serializable接口？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hashmap与hashtable的区别？以及如何使用，以及他的一些方法？"><span class="toc-number">5.</span> <span class="toc-text">hashmap与hashtable的区别？以及如何使用，以及他的一些方法？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#利用hashmap对苹果的重量进行排序"><span class="toc-number">6.</span> <span class="toc-text">利用hashmap对苹果的重量进行排序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#struts2拦截器"><span class="toc-number">7.</span> <span class="toc-text">struts2拦截器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#struts2接受参数的方式"><span class="toc-number">8.</span> <span class="toc-text">struts2接受参数的方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java异常，error和exception"><span class="toc-number">9.</span> <span class="toc-text">Java异常，error和exception</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MYSQL查看运行状态"><span class="toc-number">10.</span> <span class="toc-text">MYSQL查看运行状态</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于Collection的方法"><span class="toc-number">11.</span> <span class="toc-text">关于Collection的方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Servlet的doPost、doGet方法以及一些内置对象"><span class="toc-number">12.</span> <span class="toc-text">Servlet的doPost、doGet方法以及一些内置对象</span></a></li></ol>
+		
+		</div>
+		
+		<p>title:  阿里JAVA开发面试常问问题总结2<br>date:   2016-3-24<br>tags:  [Java]</p>
+<p>接着上一次的继续总结，希望有助于理解记忆。</p>
+<a id="more"></a>
+<h1 id="线程与进程">线程与进程</h1><p>进程是可并发执行的程序在某个数据集合上的一次计算活动，也是操作系统进行资源分配和调度的基本单位。</p>
+<p>线程是操作系统进程中能够并发执行的实体，是处理器调度和分派的基本单位。</p>
+<p>每个进程内可包含多个可并发执行的线程。<br>线程自己基本不拥有系统资源，只拥有少量必不可少的资源：程序计数器、一组寄存器、栈。<br>同属一个进程的线程共享进程所拥有的主存空间和资源。<br>在传统OS中，拥有资源、独立调度和分派的基本单位都是进程，在引入线程的系统中，线程是调度和分派的基本单位，而进程是拥有资源的基本单位。<br>在同一个进程内线程切换不会产生进程切换，由一个进程内的线程切换到另一个进程内的线程时，将会引起进程切换。</p>
+<h1 id="线程切换">线程切换</h1><p>上下文切换的开销<br>当CPU从执行一个线程切换到执行另外一个线程的时候，它需要先存储当前线程的本地的数据，程序指针等，然后载入另一个线程的本地数据，程序指针等，最后才开始执行。这种切换称为“上下文切换”(“context switch”)。CPU会在一个上下文中执行一个线程，然后切换到另外一个上下文中执行另外一个线程。</p>
+<h1 id="单线程与多线程">单线程与多线程</h1><p>多线程可以提高程序的并行性，可以把任务分开有序执行，有效利用cpu资源，提高响应速度。但是并不代表它比单线程处理的速度快，在进行密集计算时，单线程的速度要比多线程快些。<br>多线程的缺点：<br>1）增加资源消耗<br>线程在运行的时候需要从计算机里面得到一些资源。除了CPU，线程还需要一些内存来维持它本地的堆栈。它也需要占用操作系统中一些资源来管理线程。<br>多个线程在创建和切换时，消耗的时间和资源更多<br>2）多个线程共享1个cpu，需要cpu不停地切换执行线程。</p>
+<h1 id="java某些类为什么要实现Serializable接口？">java某些类为什么要实现Serializable接口？</h1><p>当一个类实现了Serializable接口(该接口仅为标记接口,不包含任何方法定义),表示该类可以序列化.序列化的目的是将一个实现了Serializable接口的对象转换成一个字节序列,可以把该字节序列保存起来(例如:保存在一个文件里),以后可以随时将该字节序列恢复为原来的对象。<br>序列化可以将内存中的类写入文件或数据库中。比如将某个类序列化后存为文件，下次读取时只需将文件中的数据反序列化就可以将原先的类还原到内存中。也可以将类序列化为流数据进行传输。总的来说就是将一个已经实例化的类转成文件存储，下次需要实例化的时候只要反序列化即可将类实例化到内存中并保留序列化时类中的所有变量和状态。 甚至可以将该字节序列放到其他计算机上或者通过网络传输到其他计算机上恢复，只要该计 算机平台存在相应的类就可以正常恢复为原来的对象。<br>序列化的实现：将需要被序列化的类实现Serializable接口，该接口没有需要实现的方法，implements Serializable只是为了标注该对象是可被序列化的，然后使用一个输出流(如：FileOutputStream)来构造一个ObjectOutputStream(对象流)对象，接着，使用ObjectOutputStream对象的writeObject(Object obj)方法就可以将参数为obj的对象写出(即保存其状态)，要恢复的话则用输入流。</p>
+<h1 id="hashmap与hashtable的区别？以及如何使用，以及他的一些方法？">hashmap与hashtable的区别？以及如何使用，以及他的一些方法？</h1><p>1、HashMap不是线程安全的<br>hashmap是一个接口，是map接口的子接口，是将键映射到值的对象，其中键和值都是对象，并且不能包含重复键，但可以包含重复值。HashMap允许null key和null value，而hashtable不允许。<br>2、HashTable是线程安全的一个Collection。<br>HashMap是Hashtable的轻量级实现（非线程安全的实现），他们都完成了Map接口，主要区别在于HashMap允许空（null）键值（key）,由于非线程安全，效率上可能高于Hashtable。HashMap允许将null作为一个entry的key或者value，而Hashtable不允许。 HashMap把Hashtable的contains方法去掉了，改成containsValue和containsKey。因为contains方法容易让人引起误解。 Hashtable继承自Dictionary类，而HashMap是Java1.2引进的Map接口的一个实现。 最大的不同是，Hashtable的方法是Synchronize的，而HashMap不是，在多个线程访问Hashtable时，不需要自己为它的方法实现同步，而HashMap 就必须为之提供外同步。 Hashtable和HashMap采用的hash/rehash算法都大概一样，所以性能不会有很大的差别。<br>总结：<br>hashmap线程不安全      允许有null的键和值       效率高一点、    方法不是Synchronize的，要提供外同步     有containsValue和containsKey方法<br>hashtable    线程安全    不允许有null的键和值    效率稍低、    方法是Synchronize的    有contains方法方法<br>Hashtable 继承于Dictionary 类    Hashtable 比HashMap 要旧<br>HashMap 是Java1.2 引进的Map interface 的一个实现，HashMap是Hashtable的轻量级实现。</p>
+<h1 id="利用hashmap对苹果的重量进行排序">利用hashmap对苹果的重量进行排序</h1><p>一、按key值排序<br>假设HashMap存储的键-值对为（String，Integer），按key排序可以调用JDK函数sort（默认的按字典升序）：<br>Set<string> keySet = map.keySet();<br>Collections.sort(keySet);<br>for(Iterator<string> ite = keySet.iterator(); ite.hasNext();) {<br>    String temp = ite.next();<br>    System.out.println(“key-value: “+temp+”,”+map.getValue(temp);<br>}<br>如果想要按字典的降序排列，则需改写sort方法里面的比较器Comparator：<br>Collections.sort(keySet, new Comparator() {<br>    public int compare(Object o1, Object o2) {<br>       if(Integer.parseInt(o1.toString())&gt;Integer.parseInt(o2.toString())<br>            return 1;<br>       if(Integer.parseInt(o1.toString())==Integer.parseInt(o2.toString())<br>           return 0;<br>        else<br>            return -1;<br>    }<br>});<br>二、按value值排序<br>1)方法一：用两个list链表实现<br>List<string> keyList = new LinkedList<string>();<br>keyList.addAll(map.keySet());<br>List<integer> valueList = new LinkedList<integer>();<br>valueList.addAll(map.values());<br>for(int i=0; i<valuelist.size(); i++)="" for(int="" j="i+1;" j<valuelist.size();="" j++)="" {="" if(valuelist.get(j)="">valueList.get(i)) {<br>          valueList.set(j, valueList.get(i));<br>          valueList.set(i, valueList.get(j));<br>          //同样调整对应的key值<br>          keyList.set(j, keyList.get(i));<br>          keyList.set(i, kyeList.get(j));<br>      }<br>然后依次把key值和对应value值重新装入HashMap即可。</valuelist.size();></integer></integer></string></string></string></string></p>
+<p>2)方法二：改写JDK提供的Comparator接口方法compare<br>List<map.entry<string, integer="">&gt; list = new LinkedList<map.entry<string, integer="">&gt;();<br>list.addAll(map.entrySet());<br>Collections.sort(list, new Comparator<map.entry<string, integer="">&gt;() {<br>   public int compare(Map.Entry obj1, Map.Entry obj2) {//从高往低排序<br>if(Integer.parseInt(obj1.getValue().toString())<integer.parseint(obj2.getvalue().tostring())) return="" 1;="" if(integer.parseint(obj1.getvalue().tostring())="=Integer.parseInt(obj2.getValue().toString()))" 0;="" else="" -1;="" }="" });="" for(iterator<map.entry<string,="" integer="">&gt; ite = list.iterator(); ite.hasNext();) {<br>     Map.Entry<string, integer=""> map = ite.next();<br>    System.out.println(“key-value: “ + map.getKey() + “,” + map.getValue());<br>}</string,></integer.parseint(obj2.getvalue().tostring()))></map.entry<string,></map.entry<string,></map.entry<string,></p>
+<h1 id="struts2拦截器">struts2拦截器</h1><p>大部分时候，拦截器方法都是通过代理的方式来调用的。Struts 2的拦截器实现相对简单。当请求到达Struts 2的ServletDispatcher时，Struts 2会查找配置文件，并根据其配置实例化相对的拦截器对象，然后串成一个列表（list），最后一个一个地调用列表中的拦截器。事实上，我们之所以能够如此灵活地使用拦截器，完全归功于“动态代理”的使用。动态代理是代理对象根据客户的需求做出不同的处理。对于客户来说，只要知道一个代理对象就行了。那Struts2中，拦截器是如何通过动态代理被调用的呢？当Action请求到来的时候，会由系统的代理生成一个Action的代理对象，由这个代理对象调用Action的execute()或指定的方法，并在struts.xml中查找与该Action对应的拦截器。如果有对应的拦截器，就在Action的方法执行前（后）调用这些拦截器；如果没有对应的拦截器则执行Action的方法。其中系统对于拦截器的调用，是通过ActionInvocation来实现的。</p>
+<h1 id="struts2接受参数的方式">struts2接受参数的方式</h1><p>1.用Action的属性：<br>在action 里面定义要接收的参数，并提供相应的setter,getter,和提交参数的名称一致，并不用做数据类型的转换。<br>相应提交方式可以用get 和post，如：testAction? name=admin<br>2.使用DomainModel：<br>在Action 里面不用很多的属性，而是用Model 层用到的模型，保存它的一个对象。相应提交方式可以用get 和post，<br>如：testAction? resBananRc.name=admin<br>3.使用DTO–数据传输对象<br>它的作用是接收参数，传递参数，并不是项目中的实体类。如用户注册时，会用到确认密码，所以要先把参数接收过<br>来，做处理后，再传递给相应方法去创建User 对象。提交参数的方式的Domain Model 方式的相同。<br>4.使用ModelDriven：<br>在创建Action 的时候，Action 实现了ModelDriven 接口，去调用接口的getModel()方法，取到了相关对象。<br>相应提交方式可以用get 和post，如：testAction? name=admin<br>5.使用request对象：<br>此方法与与传统的JSP 等传接参数一样，即使用request. getParameter(“”)方法</p>
+<h1 id="Java异常，error和exception">Java异常，error和exception</h1><p><center><br><img src="http://img.blog.csdn.net/20160326170707714" alt="异常分类图"><br></center><br>1.Error:所有都继承自Error，表示致命的错误，比如内存不够，字节码不合法等。<br>Error是程序无法处理的错误，比如OutOfMemoryError、ThreadDeath等。这些异常发生时，Java虚拟机（JVM）一般会选择线程终止。<br>2.Exception:这个属于应用程序级别的异常，这类异常必须捕捉。<br> Exception是程序本身可以处理的异常，这种异常分两大类运行时异常和非运时异常。</p>
+<h1 id="MYSQL查看运行状态">MYSQL查看运行状态</h1><p>1、用命令行的show语句<br>直接在命令行下登录Mysql，运行show status。<br>2、用Mysql自带的mysqladmin工具查看status，使用以下命令：mysqladmin -uroot -p密码 status</p>
+<h1 id="关于Collection的方法">关于Collection的方法</h1><p><img src="http://img.blog.csdn.net/20160326213146112" alt="collection接口方法图"></p>
+<h1 id="Servlet的doPost、doGet方法以及一些内置对象">Servlet的doPost、doGet方法以及一些内置对象</h1><p>Serlvet接口只定义了一个服务方法就是service，而HttpServlet类实现了该方法并且要求调用下列的方法之一：<br>doGet：处理GET请求<br>doPost：处理POST请求<br>当发出客户端请求的时候，调用service 方法并传递一个请求和响应对象。Servlet首先判断该请求是GET 操作还是POST 操作。然后它调用下面的一个方法：doGet 或 doPost。如果请求是GET就调用doGet方法，如果请求是POST就调用doPost方法。doGet和doPost都接受请求(HttpServletRequest)和响应(HttpServletResponse)。<br>doGet 是接收网页用get方法时调用的<br>doPost 是用来接收post方法的<br>get方法就像你在网页的地址栏里看到的一堆乱码,也就是url后面有参数<br>post就是用表单传过去的,就好象把数据都打成包发过去一样<br>1.request对象:<br>客户端的请求信息被封装在request对象中，通过它才能了解到客户的需求，然后做出响应。它是HttpServletRequest类的实例。<br>2.response对象:<br>response对象包含了响应客户请求的有关信息，但在JSP中很少直接用到它。它是HttpServletResponse类的实例。<br>3.session对象:<br>session对象指的是客户端与服务器的一次会话，从客户端连到服务器的一个WebApplication开始，直到客户端与服务器断开连接为止。它是HttpSession类的实例.<br>4.out对象:<br>out对象是JspWriter类的实例,是向客户端输出内容常用的对象<br>5.page对象:<br>page对象就是指向当前JSP页面本身，有点像类中的this指针，它是java.lang.Object类的实例<br>6.application对象:<br>application对象实现了用户间数据的共享，可存放全局变量。它开始于服务器的启动，直到服务器的关闭，在此期间，此对象将一直存在；这样在用户的前后连接或不同用户之间的连接中，可以对此对象的同一属性进行操作；在任何地方对此对象属性的操作，都将影响到其他用户对此的访问。服务器的启动和关闭决定了application对象的生命。它是ServletContext类的实例。<br>7.exception对象:<br>exception对象是一个例外对象，当一个页面在运行过程中发生了例外，就产生这个对象。如果一个JSP页面要应用此对象，就必须把isErrorPage设为true，否则无法编译。他实际上是java.lang.Throwable的对象<br>8.pageContext对象:<br>    pageContext对象提供了对JSP页面内所有的对象及名字空间的访问，也就是说他可以访问到本页所在的session，也可以取本页面所在的application的某一属性值，他相当于页面中所有功能的集大成者，它的本类名也叫pageContext。<br>9.config对象:<br>   config对象是在一个Servlet初始化时，JSP引擎向它传递信息用的，此信息包括Servlet初始化时所要用到的参数（通过属性名和属性值构成）以及服务器的有关信息（通过传递一个ServletContext对象）</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/03/25/java中的几个区别的总结/"  title="Java中的几个“区别”总结">
+ <strong>下一篇：</strong><br/> 
+ <span>Java中的几个“区别”总结
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#线程与进程"><span class="toc-number">1.</span> <span class="toc-text">线程与进程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#线程切换"><span class="toc-number">2.</span> <span class="toc-text">线程切换</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#单线程与多线程"><span class="toc-number">3.</span> <span class="toc-text">单线程与多线程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#java某些类为什么要实现Serializable接口？"><span class="toc-number">4.</span> <span class="toc-text">java某些类为什么要实现Serializable接口？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#hashmap与hashtable的区别？以及如何使用，以及他的一些方法？"><span class="toc-number">5.</span> <span class="toc-text">hashmap与hashtable的区别？以及如何使用，以及他的一些方法？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#利用hashmap对苹果的重量进行排序"><span class="toc-number">6.</span> <span class="toc-text">利用hashmap对苹果的重量进行排序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#struts2拦截器"><span class="toc-number">7.</span> <span class="toc-text">struts2拦截器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#struts2接受参数的方式"><span class="toc-number">8.</span> <span class="toc-text">struts2接受参数的方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Java异常，error和exception"><span class="toc-number">9.</span> <span class="toc-text">Java异常，error和exception</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MYSQL查看运行状态"><span class="toc-number">10.</span> <span class="toc-text">MYSQL查看运行状态</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#关于Collection的方法"><span class="toc-number">11.</span> <span class="toc-text">关于Collection的方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Servlet的doPost、doGet方法以及一些内置对象"><span class="toc-number">12.</span> <span class="toc-text">Servlet的doPost、doGet方法以及一些内置对象</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3121392487&verifier=cf84718a&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/数据仓库/" title="数据仓库">数据仓库<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/缓慢变化维/" title="缓慢变化维">缓慢变化维<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多维数据集/" title="多维数据集">多维数据集<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jar/" title="jar">jar<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/maven/" title="maven">maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-shell/" title="linux shell">linux shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hbase/" title="hbase">hbase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/粒度/" title="粒度">粒度<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可加性/" title="可加性">可加性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/稀疏性/" title="稀疏性">稀疏性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/横向钻取/" title="横向钻取">横向钻取<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/机器学习/" title="机器学习">机器学习<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net" target="_blank" title="CSDNCSDN博客">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pangjiuzala.github.io/" target="_blank" title="刘兴的博客">刘兴的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=saliormoon&amp;type=Users" target="_blank" title="关注王宇峰的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			欢迎关注</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Saliormoon All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
