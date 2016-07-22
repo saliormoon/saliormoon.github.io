@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Python程序的执行过程 | 王宇峰的博客</title>
+    <title>用递归函数和栈操作逆序一个栈 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="在正式学习Python之前，先来了解一下它的执行过程。">
+    <meta name="description" content="以下代码实现的是用递归函数和栈操作逆序一个栈。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python程序的执行过程">
-<meta property="og:url" content="http://saliormoon.github.io/2016/03/15/Python程序的执行过程/index.html">
+<meta property="og:title" content="用递归函数和栈操作逆序一个栈">
+<meta property="og:url" content="http://saliormoon.github.io/2016/07/19/用递归函数和栈操作逆序一个栈/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="在正式学习Python之前，先来了解一下它的执行过程。">
-<meta property="og:updated_time" content="2016-03-15T02:55:44.216Z">
+<meta property="og:description" content="以下代码实现的是用递归函数和栈操作逆序一个栈。">
+<meta property="og:updated_time" content="2016-07-22T12:40:36.495Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python程序的执行过程">
-<meta name="twitter:description" content="在正式学习Python之前，先来了解一下它的执行过程。">
+<meta name="twitter:title" content="用递归函数和栈操作逆序一个栈">
+<meta name="twitter:description" content="以下代码实现的是用递归函数和栈操作逆序一个栈。">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -77,14 +77,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/03/15/Python程序的执行过程/" title="Python程序的执行过程" itemprop="url">Python程序的执行过程</a>
+      <a href="/2016/07/19/用递归函数和栈操作逆序一个栈/" title="用递归函数和栈操作逆序一个栈" itemprop="url">用递归函数和栈操作逆序一个栈</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2016-03-14T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-03-15</time>
+    <time datetime="2016-07-18T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-19</time>
     
   </p>
 </header>
@@ -93,16 +93,12 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#解释器"><span class="toc-number">1.</span> <span class="toc-text">解释器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#字节码编译"><span class="toc-number">2.</span> <span class="toc-text">字节码编译</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Python虚拟机（PVM）"><span class="toc-number">3.</span> <span class="toc-text">Python虚拟机（PVM）</span></a></li></ol>
+			
 		
 		</div>
 		
-		<p>在正式学习Python之前，先来了解一下它的执行过程。<br><a id="more"></a></p>
-<h1 id="解释器">解释器</h1><p>解释器是代码与机器的计算机硬件之间的软件逻辑层，是一种让其他程序运行起来的程序。<br>Python解释器将读取一段Python程序，并按照其中的命令执行，得出结果。编写的Python程序必须在解释器中执行。<br>当Python包安装在机器上后，它包含了一些最小化的组件：一个解释器和支持的库。<br>Python解释器可能采取可执行程序的形式，或是作为链接到另一个程序的一系列库。<br>根据选用的Python版本的不同，解释器本身可以用C程序实现，或一些Java类实现，或者其他的形式。</p>
-<h1 id="字节码编译">字节码编译</h1><p>当程序执行时，Python内部会先将源代码编译成所谓字节码的形式。.py–&gt;.pyc<br>下次运行程序时，如果你在上次保存字节码之后没有修改过源代码的话，Python将会加载.pyc文件并直接跳过编译这个步骤。<br>当Python必须重编译时，它会自动检查源文件和字节码文件的时间戳：如果你又保存了源代码，下次程序运行时，字节码将自动重新创建。</p>
-<h1 id="Python虚拟机（PVM）">Python虚拟机（PVM）</h1><p>编译好的字节码文件在PVM上运行。<br>PVM就是迭代运行字节码指令的一个大循环，一个接一个地完成操作。PVM是Python的运行引擎，它时常表现为Python系统的一部分，并且它是实际运行脚本的组件。</p>
-<p>在此总结一下，Python程序的执行过程是在解释器上完成的，具体为：自动把源程序编译成字节码文件，虚拟机执行字节码文件。</p>
-  
+		<p>以下代码实现的是用递归函数和栈操作逆序一个栈。<br><a id="more"></a></p>
+<figure class="highlight nimrod"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.<span class="type">Stack</span>;</span><br><span class="line"></span><br><span class="line">public class <span class="type">GetAndRemoveLastAndReverse</span> &#123;</span><br><span class="line">	public <span class="keyword">static</span> <span class="type">int</span> getAndRemoveLastElement(<span class="type">Stack</span>&lt;<span class="type">Integer</span>&gt;stack)&#123;</span><br><span class="line">		<span class="type">int</span> <span class="literal">result</span>=stack.pop();</span><br><span class="line">		<span class="keyword">if</span>(stack.isEmpty())&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="type">int</span> last=getAndRemoveLastElement(stack);</span><br><span class="line">			stack.push(<span class="literal">result</span>);</span><br><span class="line">			<span class="keyword">return</span> last;</span><br><span class="line">		&#125;	</span><br><span class="line">	&#125;</span><br><span class="line">public <span class="keyword">static</span> <span class="type">void</span> reverse(<span class="type">Stack</span>&lt;<span class="type">Integer</span>&gt;stack)&#123;</span><br><span class="line">	<span class="keyword">if</span>(stack.isEmpty())&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">int</span> i=getAndRemoveLastElement(stack);</span><br><span class="line">	reverse(stack);</span><br><span class="line">	stack.push(i);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -110,7 +106,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Python/">Python</a>
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/算法/">算法</a>
   </div>
 
 </div>
@@ -155,18 +151,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/03/22/阿里JAVA开发面试常问问题总结1/" title="阿里JAVA开发面试常问问题总结1">
+ <a href="/2016/07/20/由两个栈组成的队列/" title="由两个栈组成的队列">
   <strong>上一篇：</strong><br/>
   <span>
-  阿里JAVA开发面试常问问题总结1</span>
+  由两个栈组成的队列</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/12/15/Spark入门学习/"  title="Spark入门学习">
+<a href="/2016/03/27/阿里JAVA开发面试常问问题总结4/"  title="阿里JAVA开发面试常问问题总结4">
  <strong>下一篇：</strong><br/> 
- <span>Spark入门学习
+ <span>阿里JAVA开发面试常问问题总结4
 </span>
 </a>
 </div>
@@ -181,7 +177,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#解释器"><span class="toc-number">1.</span> <span class="toc-text">解释器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#字节码编译"><span class="toc-number">2.</span> <span class="toc-text">字节码编译</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Python虚拟机（PVM）"><span class="toc-number">3.</span> <span class="toc-text">Python虚拟机（PVM）</span></a></li></ol>
+ 
  
   </div>
 
