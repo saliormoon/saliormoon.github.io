@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Star Schema完全参考手册读书笔记六 | 王宇峰的博客</title>
+    <title>打印两个有序链表的公共部分 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="本博客就第三章的相关知识点做最后的总结。本章讨论了星型模式的基本特性。">
+    <meta name="description" content="给定两个有序列表的头指针head1和head2，打印两个链表的公共部分。以下为具体算法实现：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Star Schema完全参考手册读书笔记六">
-<meta property="og:url" content="http://saliormoon.github.io/2015/10/07/Star Schema完全参考手册学习笔记六/index.html">
+<meta property="og:title" content="打印两个有序链表的公共部分">
+<meta property="og:url" content="http://saliormoon.github.io/2016/07/17/打印两个有序链表的公共部分/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="本博客就第三章的相关知识点做最后的总结。本章讨论了星型模式的基本特性。">
-<meta property="og:updated_time" content="2015-10-08T05:43:24.066Z">
+<meta property="og:description" content="给定两个有序列表的头指针head1和head2，打印两个链表的公共部分。以下为具体算法实现：">
+<meta property="og:updated_time" content="2016-07-22T13:31:25.398Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Star Schema完全参考手册读书笔记六">
-<meta name="twitter:description" content="本博客就第三章的相关知识点做最后的总结。本章讨论了星型模式的基本特性。">
+<meta name="twitter:title" content="打印两个有序链表的公共部分">
+<meta name="twitter:description" content="给定两个有序列表的头指针head1和head2，打印两个链表的公共部分。以下为具体算法实现：">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -77,14 +77,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/07/Star Schema完全参考手册学习笔记六/" title="Star Schema完全参考手册读书笔记六" itemprop="url">Star Schema完全参考手册读书笔记六</a>
+      <a href="/2016/07/17/打印两个有序链表的公共部分/" title="打印两个有序链表的公共部分" itemprop="url">打印两个有序链表的公共部分</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2015-10-07T14:23:47.000Z" itemprop="datePublished"> 发表于 2015-10-07</time>
+    <time datetime="2016-07-16T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-17</time>
     
   </p>
 </header>
@@ -93,16 +93,12 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#维度表"><span class="toc-number">1.</span> <span class="toc-text">维度表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#事实表"><span class="toc-number">2.</span> <span class="toc-text">事实表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#缓慢变化"><span class="toc-number">3.</span> <span class="toc-text">缓慢变化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多维数据集"><span class="toc-number">4.</span> <span class="toc-text">多维数据集</span></a></li></ol>
+			
 		
 		</div>
 		
-		<p>本博客就第三章的相关知识点做最后的总结。<br>本章讨论了星型模式的基本特性。<br><a id="more"></a><br>这一主题可以分为4类：</p>
-<h1 id="维度表">维度表</h1><p>1、维度表包含自然键和代理键。允许分析模式独立地跟踪源系统的历史。<br>2、维度表包含众多属性。丰富的维度属性集合是具备强大分析环境的保证。应该为代码和与之相关的描述、组合字段及其各个组成部分、公共组合值、标志的描述性表示构建列。<br>3、一些维度是数字型的。它们与事实的区别主要通过使用情况来确定。<br>4、不要按照第3范式构建维度表。<br>5、杂项维度积累不相关的维度属性。<br>6、行为维度从事实中获得并将产生强大的分析能力。</p>
-<h1 id="事实表">事实表</h1><p>1、事实表由紧凑的包含引用维度和事实的外键构成。<br>2、事实表应该包含所有与过程有关的事实，即使某些事实可以由其他事实计算得来。<br>3、类似比率等非可加事实应该分解为完全可加的组成部分，其计算应该在创建报表时执行。<br>4、事实表是稀疏的，只有当某些事实发生时才产生相应的记录行。<br>5、对事实表粒度的声明非常重要，要么以维度术语声明，要么按照业务术语声明。<br>6、存储在事实表中的维度被称为退化维度。这种技术通常应用于具有较高基数的事务标识符中。</p>
-<h1 id="缓慢变化">缓慢变化</h1><p>1、数据仓库针对源数据发生的变化而进行响应，这样的过程被称为缓慢变化维。<br>2、缓慢变化类型1在响应数据源变化时，重写维度属性。维度表不能反映历史情况，已存在事实的历史环境被改变了。<br>3、当源数据值发生改变时，缓慢变化类型2创建一个新版本的维度行。尽管不能与时间关联，但维度表维护了版本历史。历史事实的环境得到保存。</p>
-<h1 id="多维数据集">多维数据集</h1><p>1、维度模型可以采用多维数据库实现，这种方式就是广为人知的多维数据集。<br>2、多维数据集能保证实现具有快速和强大的被称为OLAP的交互方式。<br>3、与多维数据集交互支持某些分析类型的语言，而采用SQL则难以表达。<br>4、当维度属性增加或者事务的数量增加时，对存储的需求会相应增加。<br>5、多维数据集可以用于存储主要的维度数据，但其扩展能力有限。<br>6、多维数据集可以作为星型模式强有力的补充，确保交互式分析的实现。</p>
-  
+		<p>给定两个有序列表的头指针head1和head2，打印两个链表的公共部分。<br>以下为具体算法实现：<br><a id="more"></a></p>
+<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PrintCommonPart</span> &#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Node</span>&#123;</span><br><span class="line">		<span class="keyword">public</span> <span class="keyword">int</span> <span class="keyword">value</span>;</span><br><span class="line">		<span class="keyword">public</span> Node next;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">Node</span> (<span class="params"><span class="keyword">int</span> data</span>)</span>&#123;</span><br><span class="line">			<span class="keyword">this</span>.<span class="keyword">value</span>=data;</span><br><span class="line">		&#125;		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printCommonPart</span>(<span class="params">Node head1,Node head2</span>)</span>&#123;</span><br><span class="line">		System.<span class="keyword">out</span>.print(<span class="string">"Common Part:"</span>);</span><br><span class="line">		<span class="keyword">while</span>(head1 !=<span class="keyword">null</span>&amp;&amp;head2!=<span class="keyword">null</span>)&#123;</span><br><span class="line">			<span class="keyword">if</span>(head1.<span class="keyword">value</span>&lt;head2.<span class="keyword">value</span>)&#123;</span><br><span class="line">				head1=head1.next;</span><br><span class="line">			&#125;<span class="function"><span class="keyword">else</span> <span class="title">if</span>(<span class="params">head1.<span class="keyword">value</span>&gt;head2.<span class="keyword">value</span></span>)</span>&#123;</span><br><span class="line">				head2=head2.next;</span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">				System.<span class="keyword">out</span>.print(head1.<span class="keyword">value</span>+<span class="string">" "</span>);</span><br><span class="line">				head1=head1.next;</span><br><span class="line">				head2=head2.next;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.<span class="keyword">out</span>.println();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -110,7 +106,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/事实表/">事实表</a><a href="/tags/多维数据集/">多维数据集</a><a href="/tags/维度表/">维度表</a><a href="/tags/缓慢变化维/">缓慢变化维</a>
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/算法/">算法</a>
   </div>
 
 </div>
@@ -155,18 +151,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/10/08/maven中pom.xml显示不正常的问题/" title="maven中pom.xml显示不正常的问题">
+ <a href="/2016/07/18/用一个栈实现另一个栈的排序/" title="用一个栈实现另一个栈的排序">
   <strong>上一篇：</strong><br/>
   <span>
-  maven中pom.xml显示不正常的问题</span>
+  用一个栈实现另一个栈的排序</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/10/06/Star Schema完全参考手册读书笔记五/"  title="Star Schema完全参考手册读书笔记五">
+<a href="/2016/03/27/阿里JAVA开发面试常问问题总结4/"  title="阿里JAVA开发面试常问问题总结4">
  <strong>下一篇：</strong><br/> 
- <span>Star Schema完全参考手册读书笔记五
+ <span>阿里JAVA开发面试常问问题总结4
 </span>
 </a>
 </div>
@@ -181,7 +177,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#维度表"><span class="toc-number">1.</span> <span class="toc-text">维度表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#事实表"><span class="toc-number">2.</span> <span class="toc-text">事实表</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#缓慢变化"><span class="toc-number">3.</span> <span class="toc-text">缓慢变化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多维数据集"><span class="toc-number">4.</span> <span class="toc-text">多维数据集</span></a></li></ol>
+ 
  
   </div>
 
