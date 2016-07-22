@@ -1,0 +1,595 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>简单的排序算法总结 | 王宇峰的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="王宇峰">
+    
+
+    
+    <meta name="description" content="腾讯在2011年发布“大社区搜索”概念，以“搜索+分享”的形式整合腾讯现有的社交产品，并在近几年逐步实现了这一构想。今天我就个人对社交搜索的研究内容做一整理。
+首先讲几个重要的算法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简单的排序算法总结">
+<meta property="og:url" content="http://saliormoon.github.io/2016/07/22/社交搜索典型算法/index.html">
+<meta property="og:site_name" content="王宇峰的博客">
+<meta property="og:description" content="腾讯在2011年发布“大社区搜索”概念，以“搜索+分享”的形式整合腾讯现有的社交产品，并在近几年逐步实现了这一构想。今天我就个人对社交搜索的研究内容做一整理。
+首先讲几个重要的算法。">
+<meta property="og:image" content="http://img.blog.csdn.net/20160722173916348">
+<meta property="og:image" content="http://img.blog.csdn.net/20160722172153677">
+<meta property="og:image" content="http://img.blog.csdn.net/20160722172336274">
+<meta property="og:image" content="http://img.blog.csdn.net/20160722172503447">
+<meta property="og:image" content="http://img.blog.csdn.net/20160722180320453">
+<meta property="og:image" content="http://img.blog.csdn.net/20160722180726255">
+<meta property="og:image" content="http://img.blog.csdn.net/20160722182612768">
+<meta property="og:image" content="http://img.blog.csdn.net/20160722181215669">
+<meta property="og:image" content="http://img.blog.csdn.net/20160722182847038">
+<meta property="og:updated_time" content="2016-07-22T10:47:07.280Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="简单的排序算法总结">
+<meta name="twitter:description" content="腾讯在2011年发布“大社区搜索”概念，以“搜索+分享”的形式整合腾讯现有的社交产品，并在近几年逐步实现了这一构想。今天我就个人对社交搜索的研究内容做一整理。
+首先讲几个重要的算法。">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="王宇峰的博客" title="王宇峰的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="王宇峰的博客">王宇峰的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/22/社交搜索典型算法/" title="简单的排序算法总结" itemprop="url">简单的排序算法总结</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-21T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-22</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-HITS算法"><span class="toc-number">1.</span> <span class="toc-text">1.HITS算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#算法的原理"><span class="toc-number">1.1.</span> <span class="toc-text">算法的原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体算法"><span class="toc-number">1.2.</span> <span class="toc-text">具体算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优点"><span class="toc-number">1.3.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缺点"><span class="toc-number">1.4.</span> <span class="toc-text">缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#改进"><span class="toc-number">1.5.</span> <span class="toc-text">改进</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-齐普夫定律"><span class="toc-number">2.</span> <span class="toc-text">2.齐普夫定律</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#算法原理"><span class="toc-number">2.1.</span> <span class="toc-text">算法原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-向量空间模型"><span class="toc-number">3.</span> <span class="toc-text">3.向量空间模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#算法原理-1"><span class="toc-number">3.1.</span> <span class="toc-text">算法原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体算法-1"><span class="toc-number">3.2.</span> <span class="toc-text">具体算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法理解"><span class="toc-number">3.3.</span> <span class="toc-text">算法理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#举例"><span class="toc-number">3.4.</span> <span class="toc-text">举例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-TF/IDF"><span class="toc-number">4.</span> <span class="toc-text">4.TF/IDF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#算法原理-2"><span class="toc-number">4.1.</span> <span class="toc-text">算法原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#简单理解"><span class="toc-number">5.</span> <span class="toc-text">简单理解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#举例理解"><span class="toc-number">5.1.</span> <span class="toc-text">举例理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#理论假设"><span class="toc-number">5.2.</span> <span class="toc-text">理论假设</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缺点-1"><span class="toc-number">5.3.</span> <span class="toc-text">缺点</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>腾讯在2011年发布“大社区搜索”概念，以“搜索+分享”的形式整合腾讯现有的社交产品，并在近几年逐步实现了这一构想。今天我就个人对社交搜索的研究内容做一整理。</p>
+<p>首先讲几个重要的算法。</p>
+<a id="more"></a>
+<h1 id="1-HITS算法">1.HITS算法</h1><p>全名为超文本敏感标题算法。</p>
+<h2 id="算法的原理">算法的原理</h2><p>用户输入关键词后，该算法对返回的匹配页面计算两种值：枢纽值（Hub Scores）和权威值（Authority Scores）。枢纽值指页面上所有导出链接指向页面的权威值之和。权威值指所有导入链接所在的页面中枢纽之和。在限定范围之后根据网页的出度和入度建立一个矩阵，通过矩阵的迭代运算和定义收敛的阈值不断对两个向量Authority和Hub值进行更新直至收敛。</p>
+<h2 id="具体算法">具体算法</h2><p>将查询q提交给基于关键字查询的检索系统，从返回结果页面的集合中取前n个网页(如n=200)，作为根集合(root set)，记为S，则S满足：<br>1.S中的网页数量较少<br>2.S中的网页是与查询q相关的网页<br>3.S中的网页包含较多的权威(Authority)网页<br>通过向S 中加入被S 引用的网页和引用S 的网页,将S 扩展成一个更大的集合T. 以T 中的Hub 网页为顶点集V1 ,以权威网页为顶点集V2 。<br>V1 中的网页到V2 中的网页的超链接为边集E ,形成一个二分有向图. 对V1 中的任一个顶点v ,用h ( v) 表示网页v 的Hub 值,且h ( v)收敛;对V2 中的顶点u ,用a ( u) 表示网页的Authority 值。<br>开始时h ( v) = a ( u) = 1 ,对u 执行I 操作,修改它的a ( u) ,对v执行O操作,修改它的h ( v) ,然后规范化a ( u),h ( v) ,如此不断的重复计算下面的I操作和O操作,直到a ( u),h(v)收敛 。<br>其中I操作:a ( u) = Σh ( v) ;O 操作: h ( v) = Σa ( u) 。每次迭代对a ( u) 、h ( v) 进行规范化处理: a ( u) = a ( u)/Σ[ a ( q) ]2 ; h ( v) = h ( v)/Σ[ h ( q) ]2 。</p>
+<h2 id="优点">优点</h2><p> HITS算法通过两个评价权值——内容权威度（Authority）和链接权威度（Hub）来对网页质量进行评估。其基本思想是利用页面之间的引用链来挖掘隐含在其中的有用信息（如权威性），具有计算简单且效率高的特点。HITS算法认为对每一个网页应该将其内容权威度和链接权威度分开来考虑，在对网页内容权威度做出评价的基础上再对页面的链接权威度进行评价，然后给出该页面的综合评价。内容权威度与网页自身直接提供内容信息的质量相关，被越多网页所引用的网页，其内容权威度越高；链接权威度与网页提供的超链接页面的质量相关，引用越多高质量页面的网页，其链接权威度越高。</p>
+<h2 id="缺点">缺点</h2><p>1.完全将网页的内容或文本排除在外，仅考虑网页之间的链接结构来分析页面的权威性，导致结果误差。<br>权威页面必须针对某一主题或关键词而言。例如某一页面对一确定主题具有较大权威性，但这并不意味在其他与其无关的主题方面同样具有权威性。<br>2.非正常目的的引用。<br>一个页面对另一页面的引用有多种情况，如一页面对另一页面的认可，但也有其他目的的链接，如为了导航或为了付费广告。在HITS算法看来，也误认为是正常引用。<br>HITS算法在实现过程中均没有考虑以上情况，故导致了结果与目标的差距。</p>
+<h2 id="改进">改进</h2><p>针对缺点一，有相关学者提出了一种利用超链文字及其周围文字与关键字相匹配而计算超链权值的方法，并引入系数对周围文字和超链文字进行权值的相对控制，很好地将页面文本信息引入到HITS算法，提高了算法的可靠性，并在现实中取得了很好的效果。<br>针对缺点二，HITS算法又引入了时间参数，即利用对一链接引用的时间长短来评价是否为正常引用。因为非正常链接其引用时间肯定不会很长（如交换链接、广告链接），相反，如果一页面对另一页面的链接时间较长，则必然反映此页面就是用户的寻找页面。即目标页面或至少是正常引用。<br>如设定访问时间少于1分钟者为非正常引用。如果设定时间阀值，则可以将非正常引用的链接在HITS算法的实现过程中筛选出来。另外可构造时间访问函数，控制权威页面的相对大小。如随访问时间的增大而其权威性也逐渐非线性增大．这样可为HITS算法的权威页面提供更合理、更科学的解释。</p>
+<h1 id="2-齐普夫定律">2.齐普夫定律</h1><p>该定律为词频分布定律。词频分布是文献自动分类、自动标引的研究对象。</p>
+<h2 id="算法原理">算法原理</h2><p>如果把一篇较长文章中每个词出现的频次统计起来，按照高频词在前、低频词在后的递减顺序排列，并用自然数给这些词编上等级序号，即频次最高的词等级为1，频次次之的等级为2，……，频次最小的词等级为Ｄ。若用f表示频次，r表示等级序号，则有fr＝C(C为常数)，即fr将近似为一个常数C。人们称该式为齐普夫定律。  </p>
+<h1 id="3-向量空间模型">3.向量空间模型</h1><p>又称为VSM（Vector Space Model）。该算法为典型的相似度计算模型。</p>
+<h2 id="算法原理-1">算法原理</h2><p>把对文本内容的处理简化为向量空间中的向量运算，并且它以空间上的相似度表达语义的相似度，直观易懂。当文档被表示为文档空间的向量，就可以通过计算向量之间的相似性来度量文档间的相似性。文本处理中最常用的相似性度量方式是余弦距离。</p>
+<h2 id="具体算法-1">具体算法</h2><p>向量空间模型将文档映射为一个特征向量V(d)=(t1,ω1(d)；…；tn, ωn(d))，其中ti(i=1,2, …,n)为一列互不雷同的词条项，ωi(d)为ti在d中的权值, 一般被定义为ti在d中出现频率tfi(d)的函数，即</p>
+<center><br><img src="http://img.blog.csdn.net/20160722173916348" alt="图1"><br></center>
+
+<h2 id="算法理解">算法理解</h2><p>把每个词看成一个维度，词的频率看成其值（有向），即向量，这样每篇文章的词及其频率就构成了一个i维空间图，两个文档的相似度就是两个空间图的接近度。假设文章只有两维的话，那么空间图就可以画在一个平面直角坐标系当中。<br>向量空间模型 （或词组向量模型) 是一个应用于信息过滤，信息撷取，索引 以及评估相关性的代数模型。SMART是首个使用这个模型的信息检索系统。<br>文件（语料）被视为索引词（关键词）形成的多次元向量空间， 索引词的集合通常为文件中至少出现过一次的词组。<br>搜寻时，输入的检索词也被转换成类似于文件的向量，这个模型假设，文件和搜寻词的相关程度，可以经由比较每个文件(向量）和检索词（向量）的夹角偏差程度而得知。<br>通过上述的向量空间模型，文本数据就转换成了计算机可以处理的结构化数据，两个文档之间的相似性问题转变成了两个向量之间的相似性问题。</p>
+<h2 id="举例">举例</h2><p>假设共有十个词：w1，w2，……，w10，而共有三篇文章，d1，d2和d3。统计所得的词频表（杜撰的，为了便于演示用法）如下：</p>
+<center><br><img src="http://img.blog.csdn.net/20160722172153677" alt="表1"><br></center><br>常用的向量空间公式见下图：<br><center><br><img src="http://img.blog.csdn.net/20160722172336274" alt="图2"><br></center><br>假设计算d1和d2的相似度，那么ai和bi分别表示d1和d2中各个词的词频，我们以Cosine为例：<br><center><br><img src="http://img.blog.csdn.net/20160722172503447" alt="图3"><br></center>
+
+<p>余弦计算的好处是，正好是一个介于0到1的数，如果向量一致就是1，如果正交就是0，符合相似度百分比的特性,余弦的计算方法为，向量内积/各个向量的模的乘积.2）内积计算，直接计算内积，计算强度低，但是误差大。<br>实际上，计算夹角向量之间的余弦比直接计算夹角容易：<br>余弦为零表示检索词向量垂直于文件向量，即没有符合，也就是说该文件不含此检索词。<br>我们看到，上面公式的计算量是很大的，尤其当文档中词的数量巨大时。为提高运算效率，我们可以采取降维的方法。所谓降维，就是降低维度。具体到文档相似度计算，就是减少词语的数量。常见的可用于降维的词以功能词和停用词为主（如：”的”，”这”等），事实上，采取降维的策略在很多情况下不仅可以提高效率，还可以提高精度。</p>
+<p>例如：<br>  1.这是我的笔。<br>  2.那是你的笔。<br>如果把”这”、”那”、”你”、”我”、”是”、”的”都当功能词处理掉，那么相似度就是100%。如果都不去掉，相似度可能只有60%。而这两句话的主题显示是一样的。</p>
+<h1 id="4-TF/IDF">4.TF/IDF</h1><p>TF-IDF（term frequency–inverse document frequency）是一种用于信息检索与数据挖掘的常用加权技术。</p>
+<p>TF-IDF是一种统计方法，用以评估一字词对于一个文件集或一个语料库中的其中一份文件的重要程度。字词的重要性随着它在文件中出现的次数成正比增加，但同时会随着它在语料库中出现的频率成反比下降。TF-IDF加权的各种形式常被搜索引擎应用，作为文件与用户查询之间相关程度的度量或评级。除了TF-IDF以外，因特网上的搜索引擎还会使用基于链接分析的评级方法，以确定文件在搜寻结果中出现的顺序。</p>
+<h2 id="算法原理-2">算法原理</h2><p>TF/IDF实际上是：TF * IDF，TF词频(Term Frequency)，IDF逆向文件频率(Inverse Document Frequency)。词频TF表示词条在文档d中出现的频率:</p>
+<center><br><img src="http://img.blog.csdn.net/20160722180320453" alt="图4"><br></center><br>以上式子中分子是该词在文件中的出现次数，而分母则是在文件中所有字词的出现次数之和。<br>逆向文件频率IDF是一个词语普遍重要性的度量。某一特定词语的IDF，可以由总文件数目除以包含该词语之文件的数目，再将得到的商取对数得到：<br><br><center><br><img src="http://img.blog.csdn.net/20160722180726255" alt="图5"><br></center>
+
+<p>|D|表示语料库中的文件总数。</p>
+<p>包含词语的文件数目（即的文件数目）如果该词语不在语料库中，就会导致分母为零，因此一般情况下使用<img src="http://img.blog.csdn.net/20160722182612768" alt="">作为分母。</p>
+<p>然后再计算TF与IDF的乘积：</p>
+<center><br><img src="http://img.blog.csdn.net/20160722181215669" alt="图6"><br></center>
+
+<p>某一特定文件内的高词语频率，以及该词语在整个文件集合中的低文件频率，可以产生出高权重的TF-IDF。因此，TF-IDF倾向于过滤掉常见的词语，保留重要的词语。</p>
+<h1 id="简单理解">简单理解</h1><p>TF = f/m，其中f表示当前词在当前文档中出现的次数，而m表示当前文档中出现次数最多的词的次数。这样TF值就在0和1之间。这样做可以减少文档中词的频率不合理分布所引起的误差。</p>
+<p>IDF = log2 (n/nj) + 1，其中n表示在整个语料中文档的总数，而nj表示含有当前词的文档数。这样做可以减少在语料范围内词频分布不均匀造成的相似度误差。</p>
+<center><br><img src="http://img.blog.csdn.net/20160722182847038" alt="图7"><br></center>
+
+<h2 id="举例理解">举例理解</h2><p>词频 (TF) 是一词语出现的次数除以该文件的总词语数。假如一篇文件的总词语数是100个，而词语“母牛”出现了3次，那么“母牛”一词在该文件中的词频就是3/100=0.03。一个计算文件频率 (IDF) 的方法是测定有多少份文件出现过“母牛”一词，然后除以文件集里包含的文件总数。所以，如果“母牛”一词在1,000份文件出现过，而文件总数是10,000,000份的话，其逆向文件频率就是 log(10,000,000 / 1,000)=4。最后的TF-IDF的分数为0.03 * 4=0.12。</p>
+<h2 id="理论假设">理论假设</h2><p>TF/IDF算法是建立在这样一个假设之上的：对区别文档最有意义的词语应该是那些在文档中出现频率高，而在整个文档集合的其他文档中出现频率少的词语，所以如果特征空间坐标系取TF词频作为测度，就可以体现同类文本的特点。另外考虑到单词区别不同类别的能力，TF/IDF法认为一个单词出现的文本频数越小，它区别不同类别文本的能力就越大。因此引入了逆文本频度IDF的概念，以TF和IDF的乘积作为特征空间坐标系的取值测度，并用它完成对权值TF的调整，调整权值的目的在于突出重要单词，抑制次要单词。</p>
+<h2 id="缺点-1">缺点</h2><p>如果某个词或短语在一篇文章中出现的频率TF高，并且在其他文章中很少出现，则认为此词或者短语具有很好的类别区分能力，适合用来分类。<br>IDF的主要思想是：如果包含词条t的文档越少，也就是n越小，IDF越大，则说明词条t具有很好的类别区分能力。如果某一类文档C中包含词条t的文档数为m，而其它类包含t的文档总数为k，显然所有包含t的文档数n=m+k，当m大的时候，n也大，按照IDF公式得到的IDF的值会小，就说明该词条t类别区分能力不强。但是实际上，如果一个词条在一个类的文档中频繁出现，则说明该词条能够很好代表这个类的文本的特征，这样的词条应该给它们赋予较高的权重，并选来作为该类文本的特征词以区别与其它类文档。这就是IDF的不足之处. 在一份给定的文件里，词频TF指的是某一个给定的词语在该文件中出现的频率。这个数字是对词数(term count)的归一化，以防止它偏向长的文件。（同一个词语在长文件里可能会比短文件有更高的词数，而不管该词语重要与否。）</p>
+<p>在本质上IDF是一种试图抑制噪音的加权 ，并且单纯地认为文本频数小的单词就越重要，文本频数大的单词就越无用，显然这并不是完全正确的。IDF的简单结构并不能有效地反映单词的重要程度和特征词的分布情况，使其无法很好地完成对权值调整的功能，所以TFIDF法的精度并不是很高。</p>
+<p>此外，在TF/IDF算法中并没有体现出单词的位置信息，对于Web文档而言，权重的计算方法应该体现出HTML的结构特征。特征词在不同的标记符中对文章内容的反映程度不同，其权重的计算方法也应不同。因此应该对于处于网页不同位置的特征词分别赋予不同的系数，然后乘以特征词的词频，以提高文本表示的效果。</p>
+<p>后续会继续补充相关算法的。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/算法/">算法</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2016/07/21/简单的排序算法总结/"  title="简单的排序算法总结">
+ <strong>下一篇：</strong><br/> 
+ <span>简单的排序算法总结
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-HITS算法"><span class="toc-number">1.</span> <span class="toc-text">1.HITS算法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#算法的原理"><span class="toc-number">1.1.</span> <span class="toc-text">算法的原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体算法"><span class="toc-number">1.2.</span> <span class="toc-text">具体算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优点"><span class="toc-number">1.3.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缺点"><span class="toc-number">1.4.</span> <span class="toc-text">缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#改进"><span class="toc-number">1.5.</span> <span class="toc-text">改进</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-齐普夫定律"><span class="toc-number">2.</span> <span class="toc-text">2.齐普夫定律</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#算法原理"><span class="toc-number">2.1.</span> <span class="toc-text">算法原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-向量空间模型"><span class="toc-number">3.</span> <span class="toc-text">3.向量空间模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#算法原理-1"><span class="toc-number">3.1.</span> <span class="toc-text">算法原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体算法-1"><span class="toc-number">3.2.</span> <span class="toc-text">具体算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法理解"><span class="toc-number">3.3.</span> <span class="toc-text">算法理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#举例"><span class="toc-number">3.4.</span> <span class="toc-text">举例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-TF/IDF"><span class="toc-number">4.</span> <span class="toc-text">4.TF/IDF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#算法原理-2"><span class="toc-number">4.1.</span> <span class="toc-text">算法原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#简单理解"><span class="toc-number">5.</span> <span class="toc-text">简单理解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#举例理解"><span class="toc-number">5.1.</span> <span class="toc-text">举例理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#理论假设"><span class="toc-number">5.2.</span> <span class="toc-text">理论假设</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缺点-1"><span class="toc-number">5.3.</span> <span class="toc-text">缺点</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3121392487&verifier=cf84718a&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>6</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据仓库/" title="数据仓库">数据仓库<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/缓慢变化维/" title="缓慢变化维">缓慢变化维<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多维数据集/" title="多维数据集">多维数据集<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jar/" title="jar">jar<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/mysql/" title="mysql">mysql<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/maven/" title="maven">maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-shell/" title="linux shell">linux shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hbase/" title="hbase">hbase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/粒度/" title="粒度">粒度<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可加性/" title="可加性">可加性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/稀疏性/" title="稀疏性">稀疏性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/横向钻取/" title="横向钻取">横向钻取<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net" target="_blank" title="CSDNCSDN博客">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pangjiuzala.github.io/" target="_blank" title="刘兴的博客">刘兴的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=saliormoon&amp;type=Users" target="_blank" title="关注王宇峰的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			欢迎关注</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Saliormoon All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
