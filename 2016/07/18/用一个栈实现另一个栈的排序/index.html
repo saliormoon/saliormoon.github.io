@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>hbase建表 | 王宇峰的博客</title>
+    <title>用递归函数和栈操作逆序一个栈 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="在centos系统下安装了hbase，以下为具体操作：">
+    <meta name="description" content="一个栈中元素的类型为整型，现在想将该栈从顶到底按从大到小的顺序排序，只许申请一个栈。除此之外，可以申请新的变量，但不能申请额外的数据结构。以下为该题目的具体算法实现：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hbase建表">
-<meta property="og:url" content="http://saliormoon.github.io/2015/10/14/Hbase建表/index.html">
+<meta property="og:title" content="用递归函数和栈操作逆序一个栈">
+<meta property="og:url" content="http://saliormoon.github.io/2016/07/18/用一个栈实现另一个栈的排序/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="在centos系统下安装了hbase，以下为具体操作：">
-<meta property="og:updated_time" content="2015-10-26T10:34:02.518Z">
+<meta property="og:description" content="一个栈中元素的类型为整型，现在想将该栈从顶到底按从大到小的顺序排序，只许申请一个栈。除此之外，可以申请新的变量，但不能申请额外的数据结构。以下为该题目的具体算法实现：">
+<meta property="og:updated_time" content="2016-07-22T13:13:48.044Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hbase建表">
-<meta name="twitter:description" content="在centos系统下安装了hbase，以下为具体操作：">
+<meta name="twitter:title" content="用递归函数和栈操作逆序一个栈">
+<meta name="twitter:description" content="一个栈中元素的类型为整型，现在想将该栈从顶到底按从大到小的顺序排序，只许申请一个栈。除此之外，可以申请新的变量，但不能申请额外的数据结构。以下为该题目的具体算法实现：">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -77,14 +77,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/14/Hbase建表/" title="hbase建表" itemprop="url">hbase建表</a>
+      <a href="/2016/07/18/用一个栈实现另一个栈的排序/" title="用递归函数和栈操作逆序一个栈" itemprop="url">用递归函数和栈操作逆序一个栈</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2015-10-13T16:00:00.000Z" itemprop="datePublished"> 发表于 2015-10-14</time>
+    <time datetime="2016-07-17T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
     
   </p>
 </header>
@@ -97,8 +97,8 @@
 		
 		</div>
 		
-		<p>在centos系统下安装了hbase，以下为具体操作：<br><a id="more"></a><br>1、进入hbase安装目录：<br>cd/ideas/hbase/hbase-0.96.2-hadoop2/bin/<br>2、启动hbase：<br>./hbase shell<br>3、查看hbase中的所有表：<br>list<br>4、查看hbase中某一个表的表描述：<br>describe ‘tablename’<br>5、hbase利用scan查询表中内容：<br>scan ‘tablename’<br>6、在Xshell5中输入有误的修改方法：<br>“&lt;-“键 +”Delete”键<br>7、hbase建表：<br>create ‘tablename’,’列簇1name’,’列簇2name’……<br>8、向表中插入数据：<br>put ‘tablename’,’列簇1name:列name’,’值’<br>put ‘tablename’,’列簇2name:列name’,’值’<br><strong>例子：</strong><br>create ‘emp’,’info’,’data’<br>put ‘emp’,’rk001’,’info:name’,’kele’<br>put ‘emp’,’rk001’,’info:sex’,’female’<br>put ‘emp’,’rk001’,’data:age’,’11’<br>put ‘emp’,’rk001’,’info:size’,’30’</p>
-  
+		<p>一个栈中元素的类型为整型，现在想将该栈从顶到底按从大到小的顺序排序，只许申请一个栈。除此之外，可以申请新的变量，但不能申请额外的数据结构。<br>以下为该题目的具体算法实现：<br><a id="more"></a></p>
+<figure class="highlight lasso"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java<span class="built_in">.</span>util<span class="built_in">.</span><span class="built_in">Stack</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> class SortStackByStack&#123;</span><br><span class="line">	<span class="keyword">public</span> static <span class="literal">void</span> sortStackByStack(<span class="built_in">Stack</span>&lt;<span class="built_in">Integer</span>&gt; <span class="built_in">stack</span>)&#123;</span><br><span class="line">	<span class="built_in">Stack</span>&lt;<span class="built_in">Integer</span>&gt;help=<span class="literal">new</span> <span class="built_in">Stack</span>&lt;<span class="built_in">Integer</span>&gt;();</span><br><span class="line">	<span class="keyword">while</span>(<span class="subst">!</span><span class="built_in">stack</span><span class="built_in">.</span>isEmpty())&#123;</span><br><span class="line">		int cur=<span class="built_in">stack</span><span class="built_in">.</span>pop();</span><br><span class="line">		<span class="keyword">while</span>(<span class="subst">!</span>help<span class="built_in">.</span>isEmpty()<span class="subst">&amp;&amp;</span>help<span class="built_in">.</span>peek()&lt;cur)&#123;</span><br><span class="line">			<span class="built_in">stack</span><span class="built_in">.</span>push(help<span class="built_in">.</span>pop());</span><br><span class="line">		&#125;</span><br><span class="line">		help<span class="built_in">.</span>push(cur);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span>(<span class="subst">!</span>help<span class="built_in">.</span>isEmpty())&#123;</span><br><span class="line">		<span class="built_in">stack</span><span class="built_in">.</span>push(help<span class="built_in">.</span>pop());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -106,7 +106,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/hbase/">hbase</a>
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/算法/">算法</a>
   </div>
 
 </div>
@@ -151,18 +151,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/10/18/搜索引擎算法/" title="搜索引擎算法">
+ <a href="/2016/07/19/用递归函数和栈操作逆序一个栈/" title="用递归函数和栈操作逆序一个栈">
   <strong>上一篇：</strong><br/>
   <span>
-  搜索引擎算法</span>
+  用递归函数和栈操作逆序一个栈</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/10/13/Star Schema完全参考手册学习笔记九/"  title="Star Schema完全参考手册读书笔记九">
+<a href="/2016/03/27/阿里JAVA开发面试常问问题总结4/"  title="阿里JAVA开发面试常问问题总结4">
  <strong>下一篇：</strong><br/> 
- <span>Star Schema完全参考手册读书笔记九
+ <span>阿里JAVA开发面试常问问题总结4
 </span>
 </a>
 </div>
