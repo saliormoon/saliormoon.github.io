@@ -4,23 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>打印两个有序链表的公共部分 | 王宇峰的博客</title>
+    <title>广告推荐算法 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="给定两个有序列表的头指针head1和head2，打印两个链表的公共部分。以下为具体算法实现：">
+    <meta name="description" content="搜索引擎广告是指显示在搜索结果页面上的网站链接广告。搜索引擎接收到搜索请求后，除了返回匹配网页外，还返回与查询关键词相关的广告。国内比较著名的广告推荐系统如百度推广。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="打印两个有序链表的公共部分">
-<meta property="og:url" content="http://saliormoon.github.io/2016/07/17/打印两个有序链表的公共部分/index.html">
+<meta property="og:title" content="广告推荐算法">
+<meta property="og:url" content="http://saliormoon.github.io/2016/07/23/广告推荐学习/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="给定两个有序列表的头指针head1和head2，打印两个链表的公共部分。以下为具体算法实现：">
-<meta property="og:updated_time" content="2016-07-22T13:31:25.398Z">
+<meta property="og:description" content="搜索引擎广告是指显示在搜索结果页面上的网站链接广告。搜索引擎接收到搜索请求后，除了返回匹配网页外，还返回与查询关键词相关的广告。国内比较著名的广告推荐系统如百度推广。">
+<meta property="og:image" content="http://img.blog.csdn.net/20160727185721559">
+<meta property="og:updated_time" content="2016-07-27T11:04:34.128Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="打印两个有序链表的公共部分">
-<meta name="twitter:description" content="给定两个有序列表的头指针head1和head2，打印两个链表的公共部分。以下为具体算法实现：">
+<meta name="twitter:title" content="广告推荐算法">
+<meta name="twitter:description" content="搜索引擎广告是指显示在搜索结果页面上的网站链接广告。搜索引擎接收到搜索请求后，除了返回匹配网页外，还返回与查询关键词相关的广告。国内比较著名的广告推荐系统如百度推广。">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -77,14 +78,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/17/打印两个有序链表的公共部分/" title="打印两个有序链表的公共部分" itemprop="url">打印两个有序链表的公共部分</a>
+      <a href="/2016/07/23/广告推荐学习/" title="广告推荐算法" itemprop="url">广告推荐算法</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-16T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-17</time>
+    <time datetime="2016-07-22T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-23</time>
     
   </p>
 </header>
@@ -97,8 +98,9 @@
 		
 		</div>
 		
-		<p>给定两个有序列表的头指针head1和head2，打印两个链表的公共部分。<br>以下为具体算法实现：<br><a id="more"></a></p>
-<figure class="highlight cs"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PrintCommonPart</span> &#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Node</span>&#123;</span><br><span class="line">		<span class="keyword">public</span> <span class="keyword">int</span> <span class="keyword">value</span>;</span><br><span class="line">		<span class="keyword">public</span> Node next;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">Node</span> (<span class="params"><span class="keyword">int</span> data</span>)</span>&#123;</span><br><span class="line">			<span class="keyword">this</span>.<span class="keyword">value</span>=data;</span><br><span class="line">		&#125;		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printCommonPart</span>(<span class="params">Node head1,Node head2</span>)</span>&#123;</span><br><span class="line">		System.<span class="keyword">out</span>.print(<span class="string">"Common Part:"</span>);</span><br><span class="line">		<span class="keyword">while</span>(head1 !=<span class="keyword">null</span>&amp;&amp;head2!=<span class="keyword">null</span>)&#123;</span><br><span class="line">			<span class="keyword">if</span>(head1.<span class="keyword">value</span>&lt;head2.<span class="keyword">value</span>)&#123;</span><br><span class="line">				head1=head1.next;</span><br><span class="line">			&#125;<span class="function"><span class="keyword">else</span> <span class="title">if</span>(<span class="params">head1.<span class="keyword">value</span>&gt;head2.<span class="keyword">value</span></span>)</span>&#123;</span><br><span class="line">				head2=head2.next;</span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">				System.<span class="keyword">out</span>.print(head1.<span class="keyword">value</span>+<span class="string">" "</span>);</span><br><span class="line">				head1=head1.next;</span><br><span class="line">				head2=head2.next;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		System.<span class="keyword">out</span>.println();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
+		<p><strong>搜索引擎广告</strong>是指显示在搜索结果页面上的网站链接广告。搜索引擎接收到搜索请求后，除了返回匹配网页外，还返回与查询关键词相关的广告。<br>国内比较著名的广告推荐系统如<strong>百度推广</strong>。<br><a id="more"></a><br>当用户利用某一关键词进行检索，在检索结果页面会出现与该关键词相关的内容。关键词是在特定关键词的检索时才出现在搜索结果页面的显著位置。<br>百度推广是以关键词出价来决定关键词排名的，在2009年，百度推出了<strong>凤巢系统</strong>，它是对百度推广的一个优化，在原来以关键词出价决定关键词排名的基础上增加了关键词质量度。由关键词质量度与关键词出价共同决定商家推广关键词的平均排名分数。并且关键词排名分数=关键词出价*关键词质量度。故在关键词出价高、质量度也高的情况下，推广关键词的平均排名才会一定高。凤巢系统最终会以一个平均排名分数在百度推广搜索结果页上来决定该关键词排名的高低。</p>
+<p>凤巢系统关键词排名因素可见下图：</p>
+<center><br><img src="http://img.blog.csdn.net/20160727185721559" alt=""><br></center>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -106,7 +108,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/算法/">算法</a>
+  <span></span> <a href="/tags/机器学习/">机器学习</a>
   </div>
 
 </div>
@@ -151,18 +153,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/07/18/用一个栈实现另一个栈的排序/" title="用一个栈实现另一个栈的排序">
+ <a href="/2016/07/24/一致性hash算法学习/" title="一致性hash算法">
   <strong>上一篇：</strong><br/>
   <span>
-  用一个栈实现另一个栈的排序</span>
+  一致性hash算法</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/07/16/反转部分单向链表/"  title="反转部分单向链表">
+<a href="/2016/07/22/社交搜索典型算法/"  title="社交搜索典型算法">
  <strong>下一篇：</strong><br/> 
- <span>反转部分单向链表
+ <span>社交搜索典型算法
 </span>
 </a>
 </div>
