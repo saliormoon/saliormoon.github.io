@@ -4,23 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>由两个栈组成的队列 | 王宇峰的博客</title>
+    <title>k-means和三层bp神经网络要点总结 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="编写一个类，用两个栈实现队列，支持队列的基本操作（add、poll、peek）。">
+    <meta name="description" content="今天要总结下常见的聚类算法k-means和预测算法三层bp神经网络，欢迎看过来。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="由两个栈组成的队列">
-<meta property="og:url" content="http://saliormoon.github.io/2016/07/20/由两个栈组成的队列/index.html">
+<meta property="og:title" content="k-means和三层bp神经网络要点总结">
+<meta property="og:url" content="http://saliormoon.github.io/2016/07/27/k-means和bp神经网络要点总结/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="编写一个类，用两个栈实现队列，支持队列的基本操作（add、poll、peek）。">
-<meta property="og:updated_time" content="2016-07-22T12:43:08.405Z">
+<meta property="og:description" content="今天要总结下常见的聚类算法k-means和预测算法三层bp神经网络，欢迎看过来。">
+<meta property="og:image" content="http://img.blog.csdn.net/20160727144504115">
+<meta property="og:image" content="http://img.blog.csdn.net/20160727144556184">
+<meta property="og:image" content="http://img.blog.csdn.net/20160727144621383">
+<meta property="og:updated_time" content="2016-07-27T06:55:05.786Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="由两个栈组成的队列">
-<meta name="twitter:description" content="编写一个类，用两个栈实现队列，支持队列的基本操作（add、poll、peek）。">
+<meta name="twitter:title" content="k-means和三层bp神经网络要点总结">
+<meta name="twitter:description" content="今天要总结下常见的聚类算法k-means和预测算法三层bp神经网络，欢迎看过来。">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -77,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/20/由两个栈组成的队列/" title="由两个栈组成的队列" itemprop="url">由两个栈组成的队列</a>
+      <a href="/2016/07/27/k-means和bp神经网络要点总结/" title="k-means和三层bp神经网络要点总结" itemprop="url">k-means和三层bp神经网络要点总结</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-19T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-20</time>
+    <time datetime="2016-07-26T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-27</time>
     
   </p>
 </header>
@@ -93,13 +96,22 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#k-means"><span class="toc-number">1.</span> <span class="toc-text">k-means</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本思想"><span class="toc-number">1.1.</span> <span class="toc-text">基本思想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法流程"><span class="toc-number">1.2.</span> <span class="toc-text">算法流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#k个聚类的特点"><span class="toc-number">1.3.</span> <span class="toc-text">k个聚类的特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法优点"><span class="toc-number">1.4.</span> <span class="toc-text">算法优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法缺点"><span class="toc-number">1.5.</span> <span class="toc-text">算法缺点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三层BP神经网络"><span class="toc-number">2.</span> <span class="toc-text">三层BP神经网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#主要思想"><span class="toc-number">2.1.</span> <span class="toc-text">主要思想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法流程-1"><span class="toc-number">2.2.</span> <span class="toc-text">算法流程</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p>编写一个类，用两个栈实现队列，支持队列的基本操作（add、poll、peek）。<br><a id="more"></a></p>
-<p>java 堆栈中的方法poll和pop区别如下：<br>peek：返回但不移除队列的头<br>poll：可移除和返回队列的头<br><figure class="highlight zephir"><table><tr><td class="code"><pre><span class="line">package javalearning;</span><br><span class="line"></span><br><span class="line">import java.util.Stack;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TwoStacksQueue</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> Stack&lt;Integer&gt; stackPush;<span class="comment">//压入栈</span></span><br><span class="line">	<span class="keyword">public</span> Stack&lt;Integer&gt; stackPop;<span class="comment">//弹出栈</span></span><br><span class="line">	<span class="keyword">public</span> TwoStacksQueue()&#123;</span><br><span class="line">		stackPush=<span class="keyword">new</span> Stack&lt;Integer&gt;();</span><br><span class="line">		stackPop=<span class="keyword">new</span> Stack&lt;Integer&gt;();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">/**</span><br><span class="line">	 * </span><br><span class="line">	 * <span class="doctag">@param</span> pushInt</span><br><span class="line">	 * add:增加一个元素 如果队列已满，则抛出异常</span><br><span class="line">	 */</span></span><br><span class="line">    <span class="keyword">public</span> void add(<span class="keyword">int</span> pushInt)&#123;</span><br><span class="line">    	stackPush.push(pushInt);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * </span><br><span class="line">     * poll:移除并返回队列头部的元素，如果队列为空，则返回null</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> poll()&#123;</span><br><span class="line">    	<span class="keyword">if</span>(stackPop.<span class="keyword">empty</span>()&amp;&amp;stackPush.<span class="keyword">empty</span>())&#123;</span><br><span class="line">    		<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Queue is empty"</span>);</span><br><span class="line">    	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(stackPop.<span class="keyword">empty</span>())&#123;</span><br><span class="line">    		<span class="keyword">while</span>(!stackPush.<span class="keyword">empty</span>())&#123;</span><br><span class="line">    			stackPop.push(stackPush.pop());</span><br><span class="line">    		&#125;</span><br><span class="line">    	&#125;</span><br><span class="line">    	<span class="keyword">return</span> stackPop.pop();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * </span><br><span class="line">     * peek:返回队列头部的元素，如果队列为空，则阻塞</span><br><span class="line">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> peek()&#123;</span><br><span class="line">    	<span class="keyword">if</span>(stackPop.<span class="keyword">empty</span>()&amp;&amp;stackPush.<span class="keyword">empty</span>())&#123;</span><br><span class="line">    		<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Queue is empty"</span>);</span><br><span class="line">    	&#125;</span><br><span class="line">    	<span class="keyword">else</span> <span class="keyword">if</span>(stackPop.<span class="keyword">empty</span>())&#123;</span><br><span class="line">    		<span class="keyword">while</span>(!stackPush.<span class="keyword">empty</span>())&#123;</span><br><span class="line">    			stackPop.push(stackPush.pop());</span><br><span class="line">    		&#125;</span><br><span class="line">    	&#125;</span><br><span class="line">    	<span class="keyword">return</span> stackPop.peek();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-  
+		<p>今天要总结下常见的聚类算法k-means和预测算法三层bp神经网络，欢迎看过来。<br><a id="more"></a></p>
+<h1 id="k-means">k-means</h1><h2 id="基本思想">基本思想</h2><p>从n个数据对象中任意选择k个对象作为中心进行聚类。</p>
+<p>k-means算法接受参数k，将事先输入的n个对象划分为k个聚类使得所获得的聚类满足：同一个聚类中的对象相似度较高；不同聚类中的对象相似度较小。（相似度大=距离小；相似度小=距离大）</p>
+<h2 id="算法流程">算法流程</h2><p>首先从n个数据对象任意选择k个对象作为初始聚类中心，对于剩下的其他对象，则根据它们与这些聚类中心的相似度（距离）分别将它们分配给与其最相似的（聚类中心所代表的）聚类；然后再计算每个所获新聚类的聚类中心（该聚类中所有对象的均值）；不断重复这一过程直到标准测度函数开始收敛为止。</p>
+<h2 id="k个聚类的特点">k个聚类的特点</h2><p>各聚类本身尽可能的紧凑，而各聚类之间尽可能的分开。</p>
+<h2 id="算法优点">算法优点</h2><p>1.算法快速、简单。<br>2.对大数据集有较高的效率并且是可伸缩性的。<br>3.时间复杂度为O（nkt），近于线性，适合挖掘大规模数据集。</p>
+<h2 id="算法缺点">算法缺点</h2><p>1.k是事先给定的，这个k值的选定是非常难以估计的。<br>2.在k-means算法中，首先需要根据初始聚类中心来确定一个初始划分，然后对初始聚类中心进行优化。这个初始聚类中心的选择对聚类结果有较大影响，一旦初始值选择的不好，可能无法得到有效的聚类结果。<br>3.该算法需要不断进行样本分类调整，不断地计算调整后的新的聚类中心，因此当数据量非常大时，算法的时间开销是非常大的。</p>
+<h1 id="三层BP神经网络">三层BP神经网络</h1><h2 id="主要思想">主要思想</h2><p>输入学习样本，使用反向传播算法对网络的权值和偏差进行反复的调整训练，使输出的向量与期望向量尽可能地接近，当网络输出层的误差平方和小于指定的误差时间时训练完成，保存网络的权值和偏差。</p>
+<h2 id="算法流程-1">算法流程</h2><p>主要分为以下两个阶段：<br>1.正向传播：<br>输入样本–&gt;输入层–&gt;隐含层–&gt;输出层<br>判断是否转入反向传播阶段，若输出层的实际输出与期望值的输出不符，进入误差反传阶段。</p>
+<p>2.误差反传：<br>误差以某种形式在各层表示–&gt;根据误差对权值的偏导数来修正各层单元的权值。<br>当误差对权值的偏导数大于0时，权值调整量为负，实际输出大于期望输出，权值向减少方向调整，使得实际输出与期望输出的差减小。<br>当误差对权值的偏导数小于0时，权值调整量为正，实际输出少于期望输出，权值向增大方向调整，使得实际输出与期望输出的差减小。</p>
+<p>附图帮助理解：</p>
+<center><br><img src="http://img.blog.csdn.net/20160727144504115" alt=""><br></center><br><center><br><img src="http://img.blog.csdn.net/20160727144556184" alt=""><br></center><br><center><br><img src="http://img.blog.csdn.net/20160727144621383" alt=""><br></center>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -107,7 +119,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/算法/">算法</a>
+  <span></span> <a href="/tags/机器学习/">机器学习</a>
   </div>
 
 </div>
@@ -151,19 +163,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/07/21/简单的排序算法总结/" title="简单的排序算法总结">
-  <strong>上一篇：</strong><br/>
-  <span>
-  简单的排序算法总结</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/07/19/用递归函数和栈操作逆序一个栈/"  title="用递归函数和栈操作逆序一个栈">
+<a href="/2016/07/26/机器学习基于语义特征的情感分析/"  title="机器学习基于语义特征的情感分析">
  <strong>下一篇：</strong><br/> 
- <span>用递归函数和栈操作逆序一个栈
+ <span>机器学习基于语义特征的情感分析
 </span>
 </a>
 </div>
@@ -178,7 +182,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#k-means"><span class="toc-number">1.</span> <span class="toc-text">k-means</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本思想"><span class="toc-number">1.1.</span> <span class="toc-text">基本思想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法流程"><span class="toc-number">1.2.</span> <span class="toc-text">算法流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#k个聚类的特点"><span class="toc-number">1.3.</span> <span class="toc-text">k个聚类的特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法优点"><span class="toc-number">1.4.</span> <span class="toc-text">算法优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法缺点"><span class="toc-number">1.5.</span> <span class="toc-text">算法缺点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#三层BP神经网络"><span class="toc-number">2.</span> <span class="toc-text">三层BP神经网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#主要思想"><span class="toc-number">2.1.</span> <span class="toc-text">主要思想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法流程-1"><span class="toc-number">2.2.</span> <span class="toc-text">算法流程</span></a></li></ol></li></ol>
  
   </div>
 
