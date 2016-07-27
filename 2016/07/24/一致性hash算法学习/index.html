@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>用一个栈实现另一个栈的排序 | 王宇峰的博客</title>
+    <title>一致性hash算法 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="一个栈中元素的类型为整型，现在想将该栈从顶到底按从大到小的顺序排序，只许申请一个栈。除此之外，可以申请新的变量，但不能申请额外的数据结构。以下为该题目的具体算法实现：">
+    <meta name="description" content="一致性hash算法是一种很好的数据缓存设计方案，它满足平衡性、分散性、单调性、负载均衡。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="用一个栈实现另一个栈的排序">
-<meta property="og:url" content="http://saliormoon.github.io/2016/07/18/用一个栈实现另一个栈的排序/index.html">
+<meta property="og:title" content="一致性hash算法">
+<meta property="og:url" content="http://saliormoon.github.io/2016/07/24/一致性hash算法学习/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="一个栈中元素的类型为整型，现在想将该栈从顶到底按从大到小的顺序排序，只许申请一个栈。除此之外，可以申请新的变量，但不能申请额外的数据结构。以下为该题目的具体算法实现：">
-<meta property="og:updated_time" content="2016-07-22T13:17:03.021Z">
+<meta property="og:description" content="一致性hash算法是一种很好的数据缓存设计方案，它满足平衡性、分散性、单调性、负载均衡。">
+<meta property="og:updated_time" content="2016-07-27T10:35:12.688Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="用一个栈实现另一个栈的排序">
-<meta name="twitter:description" content="一个栈中元素的类型为整型，现在想将该栈从顶到底按从大到小的顺序排序，只许申请一个栈。除此之外，可以申请新的变量，但不能申请额外的数据结构。以下为该题目的具体算法实现：">
+<meta name="twitter:title" content="一致性hash算法">
+<meta name="twitter:description" content="一致性hash算法是一种很好的数据缓存设计方案，它满足平衡性、分散性、单调性、负载均衡。">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -77,14 +77,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/18/用一个栈实现另一个栈的排序/" title="用一个栈实现另一个栈的排序" itemprop="url">用一个栈实现另一个栈的排序</a>
+      <a href="/2016/07/24/一致性hash算法学习/" title="一致性hash算法" itemprop="url">一致性hash算法</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-17T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-18</time>
+    <time datetime="2016-07-23T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-24</time>
     
   </p>
 </header>
@@ -93,12 +93,15 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#优点1"><span class="toc-number">1.</span> <span class="toc-text">优点1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优点2"><span class="toc-number">2.</span> <span class="toc-text">优点2</span></a></li></ol>
 		
 		</div>
 		
-		<p>一个栈中元素的类型为整型，现在想将该栈从顶到底按从大到小的顺序排序，只许申请一个栈。除此之外，可以申请新的变量，但不能申请额外的数据结构。<br>以下为该题目的具体算法实现：<br><a id="more"></a></p>
-<figure class="highlight lasso"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java<span class="built_in">.</span>util<span class="built_in">.</span><span class="built_in">Stack</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> class SortStackByStack&#123;</span><br><span class="line">	<span class="keyword">public</span> static <span class="literal">void</span> sortStackByStack(<span class="built_in">Stack</span>&lt;<span class="built_in">Integer</span>&gt; <span class="built_in">stack</span>)&#123;</span><br><span class="line">	<span class="built_in">Stack</span>&lt;<span class="built_in">Integer</span>&gt;help=<span class="literal">new</span> <span class="built_in">Stack</span>&lt;<span class="built_in">Integer</span>&gt;();</span><br><span class="line">	<span class="keyword">while</span>(<span class="subst">!</span><span class="built_in">stack</span><span class="built_in">.</span>isEmpty())&#123;</span><br><span class="line">		int cur=<span class="built_in">stack</span><span class="built_in">.</span>pop();</span><br><span class="line">		<span class="keyword">while</span>(<span class="subst">!</span>help<span class="built_in">.</span>isEmpty()<span class="subst">&amp;&amp;</span>help<span class="built_in">.</span>peek()&lt;cur)&#123;</span><br><span class="line">			<span class="built_in">stack</span><span class="built_in">.</span>push(help<span class="built_in">.</span>pop());</span><br><span class="line">		&#125;</span><br><span class="line">		help<span class="built_in">.</span>push(cur);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span>(<span class="subst">!</span>help<span class="built_in">.</span>isEmpty())&#123;</span><br><span class="line">		<span class="built_in">stack</span><span class="built_in">.</span>push(help<span class="built_in">.</span>pop());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
+		<p>一致性hash算法是一种很好的数据缓存设计方案，它满足平衡性、分散性、单调性、负载均衡。<br><a id="more"></a><br>    1、平衡性(Balance)：<strong>平衡性是指哈希的结果能够尽可能分布到所有的缓冲中去</strong>，这样可以使得所有的缓冲空间都得到利用。<br>    2、单调性(Monotonicity)：单调性是指如果已经有一些内容通过哈希分派到了相应的缓冲中，又有新的缓冲加入到系统中时，哈希的结果应能够<strong>保证原有已分配的内容可以被映射到原有的或者新的缓冲中去，而不会被映射到旧的缓冲集合中的其他缓冲区。</strong><br>    3、分散性(Spread)：在分布式环境中，终端有可能看不到所有的缓冲，而是只能看到其中的一部分。当终端希望通过哈希过程将内容映射到缓冲上时，由于不同终端所见的缓冲范围有可能不同，从而导致哈希的结果不一致，最终的结果是<strong>相同的内容被不同的终端映射到不同的缓冲区中</strong>。这种情况显然是应该避免的，因为它导致相同内容被存储到不同缓冲中去，降低了系统存储的效率。分散性的定义就是上述情况发生的严重程度。好的哈希算法应能够尽量避免不一致的情况发生，也就是尽量降低分散性。<br>    4、负载(Load)：负载问题实际上是从另一个角度看待分散性问题。<strong>既然不同的终端可能将相同的内容映射到不同的缓冲区中，那么对于一个特定的缓冲区而言，也可能被不同的用户映射为不同的内容。</strong>与分散性一样，这种情况也是应当避免的，因此好的哈希算法应能够尽量降低缓冲的负荷。</p>
+<p>一致性哈希算法的具体优点如下：</p>
+<h2 id="优点1">优点1</h2><p>1.可以有效的处理机器的添加和删除，在保持了单调性的同时，将数据的迁移达到了最小，对分布式集群非常合适，可以避免大量的数据迁移，减小服务器的压力。</p>
+<h2 id="优点2">优点2</h2><p>2.还可以解决机器负载不均的问题，引入了虚拟节点机制，即对每一台机器通过不同的哈希函数计算出多个哈希值，对多个位置都放置一个服务节点，称为虚拟节点。节点数变多了，根据哈希函数的性质，平衡性自然会好。此时数据定位算法不变，只是多了一步虚拟节点到实际节点的映射。</p>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -106,7 +109,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/算法/">算法</a>
+  <span></span> <a href="/tags/机器学习/">机器学习</a>
   </div>
 
 </div>
@@ -151,18 +154,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/07/19/用递归函数和栈操作逆序一个栈/" title="用递归函数和栈操作逆序一个栈">
+ <a href="/2016/07/25/推荐算法/" title="推荐算法">
   <strong>上一篇：</strong><br/>
   <span>
-  用递归函数和栈操作逆序一个栈</span>
+  推荐算法</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/07/17/打印两个有序链表的公共部分/"  title="打印两个有序链表的公共部分">
+<a href="/2016/07/22/社交搜索典型算法/"  title="社交搜索典型算法">
  <strong>下一篇：</strong><br/> 
- <span>打印两个有序链表的公共部分
+ <span>社交搜索典型算法
 </span>
 </a>
 </div>
@@ -177,7 +180,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#优点1"><span class="toc-number">1.</span> <span class="toc-text">优点1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优点2"><span class="toc-number">2.</span> <span class="toc-text">优点2</span></a></li></ol>
  
   </div>
 

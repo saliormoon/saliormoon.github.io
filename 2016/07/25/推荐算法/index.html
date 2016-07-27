@@ -1,0 +1,573 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>推荐算法 | 王宇峰的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="王宇峰">
+    
+
+    
+    <meta name="description" content="目前，主要的推荐方法包括：基于内容的推荐、协同过滤推荐、基于关联规则的推荐、基于效用的推荐、基于知识的推荐和组合推荐。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="推荐算法">
+<meta property="og:url" content="http://saliormoon.github.io/2016/07/25/推荐算法/index.html">
+<meta property="og:site_name" content="王宇峰的博客">
+<meta property="og:description" content="目前，主要的推荐方法包括：基于内容的推荐、协同过滤推荐、基于关联规则的推荐、基于效用的推荐、基于知识的推荐和组合推荐。">
+<meta property="og:image" content="http://img.blog.csdn.net/20160727182652248">
+<meta property="og:image" content="http://img.blog.csdn.net/20160727182719798">
+<meta property="og:image" content="http://img.blog.csdn.net/20160727182740908">
+<meta property="og:image" content="http://img.blog.csdn.net/20160727182801220">
+<meta property="og:image" content="http://img.blog.csdn.net/20160727182824249">
+<meta property="og:updated_time" content="2016-07-27T10:34:13.432Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="推荐算法">
+<meta name="twitter:description" content="目前，主要的推荐方法包括：基于内容的推荐、协同过滤推荐、基于关联规则的推荐、基于效用的推荐、基于知识的推荐和组合推荐。">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="王宇峰的博客" title="王宇峰的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="王宇峰的博客">王宇峰的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/25/推荐算法/" title="推荐算法" itemprop="url">推荐算法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-24T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-25</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基于内容的推荐"><span class="toc-number">1.</span> <span class="toc-text">基于内容的推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#优点"><span class="toc-number">1.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缺点"><span class="toc-number">1.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#协同过滤推荐"><span class="toc-number">2.</span> <span class="toc-text">协同过滤推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#优点-1"><span class="toc-number">2.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缺点-1"><span class="toc-number">2.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基于关联规则的推荐"><span class="toc-number">3.</span> <span class="toc-text">基于关联规则的推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#空间关联"><span class="toc-number">3.1.</span> <span class="toc-text">空间关联</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#时间关联"><span class="toc-number">3.2.</span> <span class="toc-text">时间关联</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#顺序关联"><span class="toc-number">3.2.1.</span> <span class="toc-text">顺序关联</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#周期关联"><span class="toc-number">3.2.2.</span> <span class="toc-text">周期关联</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基于效用的推荐"><span class="toc-number">4.</span> <span class="toc-text">基于效用的推荐</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基于知识的推荐"><span class="toc-number">5.</span> <span class="toc-text">基于知识的推荐</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#组合推荐"><span class="toc-number">6.</span> <span class="toc-text">组合推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#组合方式"><span class="toc-number">6.1.</span> <span class="toc-text">组合方式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#主要推荐方法的对比"><span class="toc-number">7.</span> <span class="toc-text">主要推荐方法的对比</span></a></li></ol>
+		
+		</div>
+		
+		<p>目前，主要的推荐方法包括：基于内容的推荐、协同过滤推荐、基于关联规则的推荐、基于效用的推荐、基于知识的推荐和组合推荐。<br><a id="more"></a></p>
+<h1 id="基于内容的推荐">基于内容的推荐</h1><p>基于内容的推荐（Content-based Recommendation）是信息过滤技术的延续与发展，它是建立在项目的内容信息上作出推荐的，而不需要依据用户对项目的评价意见，更多地需要用机器学习的方法从关于内容的特征描述的事例中得到用户的兴趣资料。<strong>在基于内容的推荐系统中，项目或对象是通过相关的特征的属性来定义，系统基于用户评价对象的特征，学习用户的兴趣，考察用户资料与待预测项目的相匹配程度。用户的资料模型取决于所用学习方法，常用的有决策树、神经网络和基于向量的表示方法等。</strong> 基于内容的用户资料是需要有用户的历史数据，用户资料模型可能随着用户的偏好改变而发生变化。</p>
+<h2 id="优点">优点</h2><p>基于内容推荐方法的优点是：<br> 1）不需要其它用户的数据，没有冷开始问题和稀疏问题。<br> 2）能为具有特殊兴趣爱好的用户进行推荐。<br> 3）能推荐新的或不是很流行的项目，没有新项目问题。<br> 4）通过列出推荐项目的内容特征，可以解释为什么推荐那些项目。<br> 5）已有比较好的技术，如关于分类学习方面的技术已相当成熟。</p>
+<h2 id="缺点">缺点</h2><p>缺点是要求内容能容易抽取成有意义的特征，要求特征内容有良好的结构性，并且用户的口味必须能够用内容特征形式来表达，不能显式地得到其它用户的判断情况。</p>
+<h1 id="协同过滤推荐">协同过滤推荐</h1><p>协同过滤推荐（Collaborative Filtering Recommendation）技术是推荐系统中应用最早和最为成功的技术之一。它一般采用最近邻技术，<strong>利用用户的历史喜好信息计算用户之间的距离，然后 利用目标用户的最近邻居用户对商品评价的加权评价值来预测目标用户对特定商品的喜好程度，系统从而根据这一喜好程度来对目标用户进行推荐。</strong><br>协同过滤最大优点是对推荐对象没有特殊的要求，能处理非结构化的复杂对象，如音乐、电影。<br>协同过滤是基于这样的假设：<strong>为一用户找到他真正感兴趣的内容的好方法是首先找到与此用户有相似兴趣的其他用户，然后将他们感兴趣的内容推荐给此用户。</strong>其基本思想非常易于理解，在日常生活中，我们往往会利用好朋友的推荐来进行一些选择。协同过滤正是把这一思想运用到电子商务推荐系统中来，基于其他用户对某一内容的评价来向目标用户进行推荐。</p>
+<p>基于协同过滤的推荐系统可以说是从用户的角度来进行相应推荐的，而且是自动的，即用户获得的推荐是系统从购买模式或浏览行为等隐式获得的，不需要用户努力地找到适合自己兴趣的推荐信息，如填写一些调查表格等。</p>
+<h2 id="优点-1">优点</h2><p>和基于内容的过滤方法相比，协同过滤具有如下的优点：<br>    1） 能够过滤难以进行机器自动内容分析的信息，如艺术品，音乐等。<br>    2） 共享其他人的经验，避免了内容分析的不完全和不精确，并且能够基于一些复杂的，难以表述的概念（如信息质量、个人品味）进行过滤。<br>    3） 有推荐新信息的能力。可以发现内容上完全不相似的信息，用户对推荐信息的内容事先是预料不到的。这也是协同过滤和基于内容的过滤一个较大的差别，基于内容的过滤推荐很多都是用户本来就熟悉的内容，而协同过滤可以发现用户潜在的但自己尚未发现的兴趣偏好。<br>    4） 能够有效的使用其他相似用户的反馈信息，较少用户的反馈量，加快个性化学习的速度。</p>
+<h2 id="缺点-1">缺点</h2><p>虽然协同过滤作为一种典型的推荐技术有其相当的应用，但协同过滤仍有许多的问题需要解决。最典型的问题有稀疏问题（Sparsity）和可扩展问题（Scalability）。</p>
+<h1 id="基于关联规则的推荐">基于关联规则的推荐</h1><p>基于关联规则的推荐（Association Rule-based Recommendation）是<strong>以关联规则为基础，把已购商品作为规则头，规则体为推荐对象。**</strong>关联规则挖掘可以发现不同商品在销售过程中的相关性**，在零售业中已经得到了成功的应用。关联规则就是在一个交易数据库中统计购买了商品集X的交易中有多大比例的交易同时购买了商品集Y，其直观的意义就是用户在 买某些商品的时候有多大倾向去购买另外一些商品。比如购买牛奶的同时很多人会同时购买面包。</p>
+<p>商品之间的关联规则可以分为空间关联和时间关联两种，时间关联又可以分为周期关系和顺序关联两种。</p>
+<h2 id="空间关联">空间关联</h2><p>空间关联，也就是在同一个时间（同一次购买）里，对消费者经常一起购买的商品进行分析，这也是所谓“购物篮分析”的主要支撑技术。<br>最常见的空间关联规则挖掘技术，是所谓的“支持-置信”分析。以消费者在超市购买商品为例，如果把每一个消费者的一次购买看作一个事件，考虑从商品X到商品Y的关联规则，支持度是指在所有事件中同时购买商品X和商品Y的比例，置信度则是在所有购买了商品X的事件中也购买商品Y的比例[1]。如果支持度和置信度都超过了相应的阈值，则从X到Y的规则被认为是有效的。</p>
+<h2 id="时间关联">时间关联</h2><h3 id="顺序关联">顺序关联</h3><p>顺序关联是指购买了商品X的消费者，倾向于在一个特定的时间间隔后购买商品Y。<br>更严格地说，如果商品X和商品Y之间存在很强的时间关联性，则所有购买过X和Y的消费者购买X和Y的间隔时间的分布具有一个比较窄而高的峰值。</p>
+<h3 id="周期关联">周期关联</h3><p>周期关联和空间关联与顺序时间关联不同，不是两个商品之间的关联，而是同一个商品在被同一个消费者购买时在购买时间上的周期性。</p>
+<p>关联规则算法的第一步关联规则的发现最为关键且最耗时，是算法的瓶颈，但可以离线进行。其次，商品名称的同义性问题也是关联规则的一个难点。</p>
+<h1 id="基于效用的推荐">基于效用的推荐</h1><p>基于效用的推荐（Utility-based Recommendation）是<strong>建立在对用户使用项目的效用情况上计算的，其核心问题是怎么样为每一个用户去创建一个效用函数，因此，用户资料模型很大程度上是由系统所采用的效用函数决定的。</strong>基于效用推荐的好处是它能把非产品的属性，如提供商的可靠性（Vendor Reliability）和产品的可得性（Product Availability）等考虑到效用计算中。</p>
+<h1 id="基于知识的推荐">基于知识的推荐</h1><p>基于知识的推荐（Knowledge-based Recommendation）在某种程度是可以看成是一种推理（Inference）技术，它不是建立在用户需要和偏好基础上推荐的。基于知识的方法因它们所用的功能知识不同而有明显区别。<strong>效用知识（Functional Knowledge）是一种关于一个项目如何满足某一特定用户的知识，因此能解释需要和推荐的关系，</strong>所以用户资料可以是任何能支持推理的知识结构，它可以是用户已经规范化的查询，也可以是一个更详细的用户需要的表示。</p>
+<h1 id="组合推荐">组合推荐</h1><p>由于各种推荐方法都有优缺点，所以在实际中，组合推荐（Hybrid Recommendation）经常被采用。<strong>研究和应用最多的是内容推荐和协同过滤推荐的组合。最简单的做法就是分别用基于内容的方法和协同过滤推荐方法去产生一个推荐预测结果，然后用某方法组合其结果。</strong>尽管从理论上有很多种推荐组合方法，但在某一具体问题中并不见得都有效，组合推荐一个最重要原则就是通过组合后要能避免或弥补各自推荐技术的弱点。</p>
+<h2 id="组合方式">组合方式</h2><p>在组合方式上，有研究人员提出了七种组合思路：<br>    1）加权（Weight）：加权多种推荐技术结果。<br>    2）变换（Switch）：根据问题背景和实际情况或要求决定变换采用不同的推荐技术。<br>    3）混合（Mixed）：同时采用多种推荐技术给出多种推荐结果为用户提供参考。<br>    4）特征组合（Feature combination）：组合来自不同推荐数据源的特征被另一种推荐算法所采用。<br>    5）层叠（Cascade）：先用一种推荐技术产生一种粗糙的推荐结果，第二种推荐技术在此推荐结果的基础上进一步作出更精确的推荐。<br>    6）特征扩充（Feature augmentation）：一种技术产生附加的特征信息嵌入到另一种推荐技术的特征输入中。<br>    7）元级别（Meta-level）：用一种推荐方法产生的模型作为另一种推荐方法的输入。</p>
+<h1 id="主要推荐方法的对比">主要推荐方法的对比</h1><p>各种推荐方法都有其各自的优点和缺点，见表1。</p>
+<center><br><br><img src="http://img.blog.csdn.net/20160727182652248" alt=""><br><img src="http://img.blog.csdn.net/20160727182719798" alt=""><br><img src="http://img.blog.csdn.net/20160727182740908" alt=""><br><img src="http://img.blog.csdn.net/20160727182801220" alt=""><br><img src="http://img.blog.csdn.net/20160727182824249" alt=""><br></center>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/机器学习/">机器学习</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/26/机器学习基于语义特征的情感分析/" title="机器学习基于语义特征的情感分析">
+  <strong>上一篇：</strong><br/>
+  <span>
+  机器学习基于语义特征的情感分析</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/07/24/一致性hash算法学习/"  title="一致性hash算法">
+ <strong>下一篇：</strong><br/> 
+ <span>一致性hash算法
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基于内容的推荐"><span class="toc-number">1.</span> <span class="toc-text">基于内容的推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#优点"><span class="toc-number">1.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缺点"><span class="toc-number">1.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#协同过滤推荐"><span class="toc-number">2.</span> <span class="toc-text">协同过滤推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#优点-1"><span class="toc-number">2.1.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缺点-1"><span class="toc-number">2.2.</span> <span class="toc-text">缺点</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基于关联规则的推荐"><span class="toc-number">3.</span> <span class="toc-text">基于关联规则的推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#空间关联"><span class="toc-number">3.1.</span> <span class="toc-text">空间关联</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#时间关联"><span class="toc-number">3.2.</span> <span class="toc-text">时间关联</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#顺序关联"><span class="toc-number">3.2.1.</span> <span class="toc-text">顺序关联</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#周期关联"><span class="toc-number">3.2.2.</span> <span class="toc-text">周期关联</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基于效用的推荐"><span class="toc-number">4.</span> <span class="toc-text">基于效用的推荐</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#基于知识的推荐"><span class="toc-number">5.</span> <span class="toc-text">基于知识的推荐</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#组合推荐"><span class="toc-number">6.</span> <span class="toc-text">组合推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#组合方式"><span class="toc-number">6.1.</span> <span class="toc-text">组合方式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#主要推荐方法的对比"><span class="toc-number">7.</span> <span class="toc-text">主要推荐方法的对比</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3121392487&verifier=cf84718a&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/机器学习/" title="机器学习">机器学习<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据仓库/" title="数据仓库">数据仓库<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/缓慢变化维/" title="缓慢变化维">缓慢变化维<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多维数据集/" title="多维数据集">多维数据集<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/maven/" title="maven">maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-shell/" title="linux shell">linux shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/粒度/" title="粒度">粒度<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可加性/" title="可加性">可加性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/稀疏性/" title="稀疏性">稀疏性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hbase/" title="hbase">hbase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/横向钻取/" title="横向钻取">横向钻取<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jar/" title="jar">jar<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net" target="_blank" title="CSDNCSDN博客">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pangjiuzala.github.io/" target="_blank" title="刘兴的博客">刘兴的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=saliormoon&amp;type=Users" target="_blank" title="关注王宇峰的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			欢迎关注</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Saliormoon All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
