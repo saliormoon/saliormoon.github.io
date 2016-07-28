@@ -4,24 +4,30 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>广告推荐算法 | 王宇峰的博客</title>
+    <title>机器学习面试问题3 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="搜索引擎广告是指显示在搜索结果页面上的网站链接广告。搜索引擎接收到搜索请求后，除了返回匹配网页外，还返回与查询关键词相关的广告。国内比较著名的广告推荐系统如百度推广。">
+    <meta name="description" content="以下内容承接机器学习相关面试2。
+AprioriApriori算法是一种关联规则的基本算法，是挖掘关联规则的频繁项集算法，也称“购物篮分析”算法，是“啤酒与尿布”案例的代表。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="广告推荐算法">
-<meta property="og:url" content="http://saliormoon.github.io/2016/07/23/广告推荐学习/index.html">
+<meta property="og:title" content="机器学习面试问题3">
+<meta property="og:url" content="http://saliormoon.github.io/2016/07/03/机器学习面试问题3/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="搜索引擎广告是指显示在搜索结果页面上的网站链接广告。搜索引擎接收到搜索请求后，除了返回匹配网页外，还返回与查询关键词相关的广告。国内比较著名的广告推荐系统如百度推广。">
-<meta property="og:image" content="http://img.blog.csdn.net/20160727185721559">
-<meta property="og:updated_time" content="2016-07-27T11:04:34.128Z">
+<meta property="og:description" content="以下内容承接机器学习相关面试2。
+AprioriApriori算法是一种关联规则的基本算法，是挖掘关联规则的频繁项集算法，也称“购物篮分析”算法，是“啤酒与尿布”案例的代表。">
+<meta property="og:image" content="http://img.blog.csdn.net/20160728193308413">
+<meta property="og:image" content="http://img.blog.csdn.net/20160728185749119">
+<meta property="og:image" content="http://img.blog.csdn.net/20160728190515666">
+<meta property="og:image" content="http://img.blog.csdn.net/20160728190804258">
+<meta property="og:updated_time" content="2016-07-28T12:00:32.122Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="广告推荐算法">
-<meta name="twitter:description" content="搜索引擎广告是指显示在搜索结果页面上的网站链接广告。搜索引擎接收到搜索请求后，除了返回匹配网页外，还返回与查询关键词相关的广告。国内比较著名的广告推荐系统如百度推广。">
+<meta name="twitter:title" content="机器学习面试问题3">
+<meta name="twitter:description" content="以下内容承接机器学习相关面试2。
+AprioriApriori算法是一种关联规则的基本算法，是挖掘关联规则的频繁项集算法，也称“购物篮分析”算法，是“啤酒与尿布”案例的代表。">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -78,14 +84,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/07/23/广告推荐学习/" title="广告推荐算法" itemprop="url">广告推荐算法</a>
+      <a href="/2016/07/03/机器学习面试问题3/" title="机器学习面试问题3" itemprop="url">机器学习面试问题3</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2016-07-22T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-23</time>
+    <time datetime="2016-07-02T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-03</time>
     
   </p>
 </header>
@@ -94,13 +100,37 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Apriori"><span class="toc-number">1.</span> <span class="toc-text">Apriori</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ID3(C4-5，CART)"><span class="toc-number">2.</span> <span class="toc-text">ID3(C4.5，CART)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SVM"><span class="toc-number">3.</span> <span class="toc-text">SVM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线性可分支持向量机"><span class="toc-number">3.1.</span> <span class="toc-text">线性可分支持向量机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线性支持向量机"><span class="toc-number">3.2.</span> <span class="toc-text">线性支持向量机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非线性支持向量机"><span class="toc-number">3.3.</span> <span class="toc-text">非线性支持向量机</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p><strong>搜索引擎广告</strong>是指显示在搜索结果页面上的网站链接广告。搜索引擎接收到搜索请求后，除了返回匹配网页外，还返回与查询关键词相关的广告。<br>国内比较著名的广告推荐系统如<strong>百度推广</strong>。<br><a id="more"></a><br>当用户利用某一关键词进行检索，在检索结果页面会出现与该关键词相关的内容。关键词是在特定关键词的检索时才出现在搜索结果页面的显著位置。<br>百度推广是以关键词出价来决定关键词排名的，在2009年，百度推出了<strong>凤巢系统</strong>，它是对百度推广的一个优化，在原来以关键词出价决定关键词排名的基础上增加了关键词质量度。由关键词质量度与关键词出价共同决定商家推广关键词的平均排名分数。并且关键词排名分数=关键词出价*关键词质量度。故在关键词出价高、质量度也高的情况下，推广关键词的平均排名才会一定高。凤巢系统最终会以一个平均排名分数在百度推广搜索结果页上来决定该关键词排名的高低。</p>
-<p>凤巢系统关键词排名因素可见下图：</p>
-<center><br><img src="http://img.blog.csdn.net/20160727185721559" alt=""><br></center>  
+		<p>以下内容承接机器学习相关面试2。</p>
+<h2 id="Apriori">Apriori</h2><p>Apriori算法是一种关联规则的基本算法，是挖掘关联规则的频繁项集算法，也称“购物篮分析”算法，是“啤酒与尿布”案例的代表。</p>
+<a id="more"></a>
+<p><strong>算法步骤：</strong></p>
+<p>1）依据支持度找出所有频繁项集。</p>
+<p>Apriori算法是发现频繁项集的一种方法。Apriori算法的两个输入参数分别是最小支持度和数据集。该算法首先会生成所有单个元素的项集列表。接着扫描数据集来查看哪些项集满足最小支持度要求，那些不满足最小支持度的集合会被去掉。然后，对剩下来的集合进行组合以生成包含两个元素的项集。接下来，再重新扫描交易记录，去掉不满足最小支持度的项集。该过程重复进行直到所有项集都被去掉。为了生成所有频繁项集，使用了递归的方法。</p>
+<p>2）依据置信度产生关联规则。</p>
+<p>关联分析的目标包括两项：发现频繁项集和发现关联规则。首先需要找到频繁项集，然后才能获得关联规则（计算关联规则的可信度需要用到频繁项集的支持度）。</p>
+<p><strong>频繁项集</strong>（frequent item sets）是经常出现在一块儿的物品的集合。<br><strong>关联规则</strong>（association rules）暗示两种物品之间可能存在很强的关系。<br><strong>支持度</strong>（support）被定义为数据集中包含该项集的记录所占的比例。<br><strong>可信度或置信度</strong>（confidence）是针对关联规则来定义的。规则{尿布}➞{啤酒}的可信度被定义为”支持度({尿布,啤酒})/支持度({尿布})”，由于{尿布,啤酒}的支持度为3/5，尿布的支持度为4/5，所以”尿布➞啤酒”的可信度为3/4。这意味着对于包含”尿布”的所有记录，我们的规则对其中75%的记录都适用。</p>
+<p>详细算法可参见：<br><a href="http://www.cnblogs.com/qwertWZ/p/4510857.html" target="_blank" rel="external">http://www.cnblogs.com/qwertWZ/p/4510857.html</a></p>
+<h2 id="ID3(C4-5，CART)">ID3(C4.5，CART)</h2><p>决策树是一种基本的分类与回归方法。</p>
+<p><strong>决策树学习</strong>常用的算法包括 ID3、C4.5、CART。</p>
+<p>ID3算法的<strong>核心</strong>是在决策树各个结点上应用信息增益准则选择特征，递归地构建决策树。</p>
+<p><strong>具体方法</strong>是：从根结点开始，对结点计算所有可能的特征的信息增益，选择信息增益最大的特征作为结点的特征，由该特征的不同取值建立子结点；再对子结点递归地调用以上方法，构建决策树；直到所有特征的信息增益均很小或没有特征可以选择为止。最后得到一个决策树。</p>
+<p>ID3相当于用极大似然法进行概率模型的选择。</p>
+<p>C4.5算法与ID3算法相似，C4.5的算法对ID3算法进行了改进。C4.5在生成的过程中，用信息增益比来选择特征。</p>
+<p>CART由特征选择、树的生成及减枝组成。<br>CART算法由以下两步组成：<br>1）决策树生成：基于训练数据集生成决策树，生成的决策树要尽量大。<br>2）决策树减枝：用验证数据集对已生成的树进行剪枝并选择最优子树，这时用损失函数最小作为剪枝的标准。</p>
+<h2 id="SVM">SVM</h2><p>支持向量机SVM是一种二类分类模型。<br>SVM的学习算法是求解凸二次规划的最优化算法。<br>支持向量机学习方法包含构建由简至繁的模型：线性可分支持向量机（硬间隔支持向量机）、线性支持向量机（软间隔支持向量机）、非线性支持向量机。</p>
+<h3 id="线性可分支持向量机">线性可分支持向量机</h3><p>当训练数据线性可分时，通过硬间隔最大化，学习一个线性的分类器，即线性可分支持向量机。</p>
+<p><strong>硬间隔最大化</strong>：几何间隔最大。</p>
+<p>线性可分支持向量机学习的基本想法是求解能够正确划分训练数据集并且几何间隔最大的分离超平面。是一个约束最优化问题（凸优化问题）。</p>
+<h3 id="线性支持向量机">线性支持向量机</h3><p>当训练数据近似线性可分时，通过软间隔最大化，也学习一个线性的分类器，即线性支持向量机。<br>仍然是最优化问题，但相较于硬间隔最大化，在约束表示中多了<img src="http://img.blog.csdn.net/20160728193308413" alt=""> 。</p>
+<h3 id="非线性支持向量机">非线性支持向量机</h3><p>当训练数据线性不可分时，通过使用核技巧及软间隔最大化，学习非线性支持向量机。</p>
+<p>对于输入空间中的非线性分类问题，可以通过非线性变换将它转化为某个高维特征空间中的线性分类问题，在高维空间中学习线性支持向量机。</p>
+<p>选择不同的核函数，可以生成不同的SVM，常用的核函数有以下4种：<br>⑴线性核函数K(x,y)=x·y；<br>⑵多项式核函数K(x,y)=[(x·y)+1]^d；<br>⑶径向基函数K(x,y)=exp(-|x-y|^2/d^2）<br>⑷二层神经网络核函数K(x,y)=tanh(a(x·y)+b）</p>
+<p><strong>函数间隔</strong>：<img src="http://img.blog.csdn.net/20160728185749119" alt="">，可以表示分类预测的正确性及确信度。<br>定义超平面关于训练集的函数间隔为超平面关于训练数据集中所有样本点的函数间隔最小值。<br><strong>几何间隔</strong>：<img src="http://img.blog.csdn.net/20160728190515666" alt=""><br>定义超平面关于训练集的几何间隔为超平面关于训练数据集中所有样本点的几何间隔最小值。<br>函数间隔与几何间隔的关系：<img src="http://img.blog.csdn.net/20160728190804258" alt="">， 当||w||=1时，函数间隔等于几何间隔。若超平面参数w和b成比例地改变（超平面没有改变）时，函数间隔也按此比例改变，而几何间隔不变。<br><strong>间隔最大化</strong>：分离超平面与离该平面最近的点的距离最远。<br><strong>支持向量</strong>：离分离超平面最近的点。</p>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -153,18 +183,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/07/24/一致性hash算法学习/" title="一致性hash算法">
+ <a href="/2016/07/14/删除链表的中间节点和a_b处的节点/" title="删除链表的中间节点和a/b处的节点">
   <strong>上一篇：</strong><br/>
   <span>
-  一致性hash算法</span>
+  删除链表的中间节点和a/b处的节点</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/07/22/社交搜索典型算法/"  title="社交搜索典型算法">
+<a href="/2016/07/02/机器学习面试问题2/"  title="机器学习面试问题2">
  <strong>下一篇：</strong><br/> 
- <span>社交搜索典型算法
+ <span>机器学习面试问题2
 </span>
 </a>
 </div>
@@ -179,7 +209,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Apriori"><span class="toc-number">1.</span> <span class="toc-text">Apriori</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ID3(C4-5，CART)"><span class="toc-number">2.</span> <span class="toc-text">ID3(C4.5，CART)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SVM"><span class="toc-number">3.</span> <span class="toc-text">SVM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线性可分支持向量机"><span class="toc-number">3.1.</span> <span class="toc-text">线性可分支持向量机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线性支持向量机"><span class="toc-number">3.2.</span> <span class="toc-text">线性支持向量机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非线性支持向量机"><span class="toc-number">3.3.</span> <span class="toc-text">非线性支持向量机</span></a></li></ol></li></ol>
  
   </div>
 
@@ -203,11 +233,11 @@
 			
 		
 			
-				<li><a href="/tags/算法/" title="算法">算法<sup>8</sup></a></li>
+				<li><a href="/tags/机器学习/" title="机器学习">机器学习<sup>9</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/机器学习/" title="机器学习">机器学习<sup>6</sup></a></li>
+				<li><a href="/tags/算法/" title="算法">算法<sup>8</sup></a></li>
 			
 		
 			
@@ -285,7 +315,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">14</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
   </div>
 
 

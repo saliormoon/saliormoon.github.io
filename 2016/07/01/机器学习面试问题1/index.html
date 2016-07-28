@@ -4,24 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Star Schema完全参考手册读书笔记五 | 王宇峰的博客</title>
+    <title>机器学习面试问题1 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="本博客就第三章缓慢变化维和多维数据集的有关知识进行总结。">
+    <meta name="description" content="基本知识监督与非监督的区别监督：输入的数据有明确的标识，可建立模型做预测，多用于分类和回归。非监督：数据并不被特别标识，需要建立模型得出数据的内在结构，多用于聚类。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Star Schema完全参考手册读书笔记五">
-<meta property="og:url" content="http://saliormoon.github.io/2015/10/06/Star Schema完全参考手册读书笔记五/index.html">
+<meta property="og:title" content="机器学习面试问题1">
+<meta property="og:url" content="http://saliormoon.github.io/2016/07/01/机器学习面试问题1/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="本博客就第三章缓慢变化维和多维数据集的有关知识进行总结。">
-<meta property="og:image" content="http://img.blog.csdn.net/20151006220117333">
-<meta property="og:updated_time" content="2015-10-06T14:24:23.934Z">
+<meta property="og:description" content="基本知识监督与非监督的区别监督：输入的数据有明确的标识，可建立模型做预测，多用于分类和回归。非监督：数据并不被特别标识，需要建立模型得出数据的内在结构，多用于聚类。">
+<meta property="og:updated_time" content="2016-07-28T12:00:33.244Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Star Schema完全参考手册读书笔记五">
-<meta name="twitter:description" content="本博客就第三章缓慢变化维和多维数据集的有关知识进行总结。">
+<meta name="twitter:title" content="机器学习面试问题1">
+<meta name="twitter:description" content="基本知识监督与非监督的区别监督：输入的数据有明确的标识，可建立模型做预测，多用于分类和回归。非监督：数据并不被特别标识，需要建立模型得出数据的内在结构，多用于聚类。">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -78,14 +77,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/06/Star Schema完全参考手册读书笔记五/" title="Star Schema完全参考手册读书笔记五" itemprop="url">Star Schema完全参考手册读书笔记五</a>
+      <a href="/2016/07/01/机器学习面试问题1/" title="机器学习面试问题1" itemprop="url">机器学习面试问题1</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2015-10-06T14:23:47.000Z" itemprop="datePublished"> 发表于 2015-10-06</time>
+    <time datetime="2016-06-30T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-01</time>
     
   </p>
 </header>
@@ -94,14 +93,19 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#缓慢变化维"><span class="toc-number">1.</span> <span class="toc-text">缓慢变化维</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓慢变化类型"><span class="toc-number">1.1.</span> <span class="toc-text">缓慢变化类型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#星型模式与多维数据集"><span class="toc-number">2.</span> <span class="toc-text">星型模式与多维数据集</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基本知识"><span class="toc-number">1.</span> <span class="toc-text">基本知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#监督与非监督的区别"><span class="toc-number">1.1.</span> <span class="toc-text">监督与非监督的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#L1和L2的区别"><span class="toc-number">1.2.</span> <span class="toc-text">L1和L2的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成模型和判别模型的区别"><span class="toc-number">1.3.</span> <span class="toc-text">生成模型和判别模型的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法的优缺点"><span class="toc-number">1.4.</span> <span class="toc-text">算法的优缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#K-means"><span class="toc-number">1.4.1.</span> <span class="toc-text">K-means</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KNN"><span class="toc-number">1.4.2.</span> <span class="toc-text">KNN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Apriori"><span class="toc-number">1.4.3.</span> <span class="toc-text">Apriori</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
-		<p>本博客就第三章缓慢变化维和多维数据集的有关知识进行总结。<br><a id="more"></a></p>
-<h1 id="缓慢变化维">缓慢变化维</h1><p>采用维度设计方案时，确定数据源的变化情况在维度表中如何表示非常重要。这一现象称为缓慢变化的维度，简称缓慢变化维。该术语的名称反映了维度积累变化的实际情况，至少与积累数据行较为快速的事实表比较，缓慢变化相对缓慢。</p>
-<h2 id="缓慢变化类型">缓慢变化类型</h2><p><center><br><img src="http://img.blog.csdn.net/20151006220117333" alt="图1"><br></center></p>
-<h1 id="星型模式与多维数据集">星型模式与多维数据集</h1><p>星型模式与多维数据集共存方式拥有两种不同的配置。一种配置是，星型模式作为原子数据的集成仓库，而多维数据集作为数据集市。另一种配置是，星型模式作为数据仓库或数据集市，多维数据集作为高性能报表的辅助部分。无论应用于何种配置中，多维数据集都具有同样的作用，即导出模式和实现聚集。<strong>重点内容</strong></p>
+		<h1 id="基本知识">基本知识</h1><h2 id="监督与非监督的区别">监督与非监督的区别</h2><p>监督：输入的数据有明确的标识，可建立模型做预测，多用于分类和回归。<br>非监督：数据并不被特别标识，需要建立模型得出数据的内在结构，多用于聚类。</p>
+<a id="more"></a>
+<h2 id="L1和L2的区别">L1和L2的区别</h2><p>L1范数（L1 norm）是指向量中各个元素绝对值之和，也有个美称叫“稀疏规则算子”（Lasso regularization）。<br>比如 向量A=[1，-1，3]， 那么A的L1范数为 |1|+|-1|+|3|.</p>
+<p>简单总结一下就是：<br><strong>L1范数:  为x向量各个元素绝对值之和。</strong><br><strong>L2范数:  为x向量各个元素平方和的1/2次方</strong>，L2范数又称Euclidean范数或者Frobenius范数<br>Lp范数:  为x向量各个元素绝对值p次方和的1/p次方.</p>
+<p>在支持向量机学习过程中，L1范数实际是一种对于成本函数求解最优的过程，因此，L1范数正则化通过向成本函数中添加L1范数，使得学习得到的结果满足稀疏化，从而方便人类提取特征。<br>  <strong>L1范数可以使权值稀疏，方便特征提取。</strong><br><strong>L2范数可以防止过拟合，提升模型的泛化能力。</strong></p>
+<h2 id="生成模型和判别模型的区别">生成模型和判别模型的区别</h2><p><strong>生成模型：</strong>由数据学习联合概率密度分布P(X,Y)，求出条件概率分布P(Y|X)作为预测的模型，即生成模型P(Y|X)=P(X,Y)/P(X)，再利用它分类。<br><strong>判别模型：</strong>由数据直接学习决策函数y=f(x)或者条件概率分布P（Y|X）作为预测的模型。基本思想是有限样本条件下建立判别函数，不考虑样本的产生模型，直接研究预测模型。<br>典型的判别模型包括K近邻、感知机、决策树、支持向量机等。<br>由生成模型可以得到判别模型，但由判别模型得不到生成模型。生成模型学习联合概率分布P(X,Y),而判别模型学习条件概率分布P(Y|X)。</p>
+<h2 id="算法的优缺点">算法的优缺点</h2><h3 id="K-means">K-means</h3><p>1.优点：<br>1）算法快速、简单。<br>2）对大数据集有较高的效率并且是可伸缩性的。<br>3）时间复杂度近于线性，为O(nkt)，适合挖掘大规模数据集。<br>2.缺点：<br>1）k是事先给定的，这个<strong>k值的选定</strong>是非常难以估计的。<br>2）在该算法中首先需要根据初始聚类中心来确定一个初始划分，然后对初始聚类中心进行优化。这个<strong>初始聚类中心的选择</strong>对聚类结果又较大影响，一旦初始值选择的不好，可能无法得到有效的聚类结果。<br>3）从K-means算法中可以看出，该算法需要不断地进行样本分类调整，不断地计算调整后的新的聚类中心，因此<strong>数据量非常大时，算法的时间开销也是非常大</strong>的。<br>3.改进：<br>基于熵值法及动态规划的改进k-means算法。<br>熵值法用来修订算法的距离计算公式，以提高算法的聚类精确程度, 动态规划算法用来确定算法的初始聚类中心。</p>
+<h3 id="KNN">KNN</h3><p>1.优点：<br>1）简单，易于理解，易于实现，无需估计参数，无需训练。<br>2） 适合对稀有事件进行分类。<br>3）特别适合于多分类问题(multi-modal,对象具有多个类别标签)， kNN比SVM的表现要好。<br>2.缺点：<br>1）该算法在分类时有个主要的不足是，<strong>当样本不平衡时，如一个类的样本容量很大，而其他类样本容量很小时，有可能导致当输入一个新样本时，该样本的K个邻居中大容量类的样本占多数。</strong> 该算法只计算“最近的”邻居样本，某一类的样本数量很大，那么或者这类样本并不接近目标样本，或者这类样本很靠近目标样本。无论怎样，数量并不能影响运行结果。<br>2）该方法的另一个不足之处是<strong>计算量较大</strong>，因为对每一个待分类的文本都要计算它到全体已知样本的距离，才能求得它的K个最近邻点。<br>3）可理解性差，无法给出像决策树那样的规则。<br>4）类别评分不是规则化的。<br>3.改进策略：<br>针对以上算法的不足，算法的改进方向主要分成了分类效率和分类效果两方面。<br><strong>分类效率</strong>：事先对样本属性进行约简，删除对分类结果影响较小的属性，快速的得出待分类样本的类别。该算法比较适用于样本容量比较大的类域的自动分类，而那些样本容量较小的类域采用这种算法比较容易产生误分。<br><strong>分类效果</strong>：采用权值的方法（和该样本距离小的邻居权值大）来改进，Han等人于2002年尝试利用贪心法，针对文件分类实做可调整权重的k最近邻居法WAkNN (weighted adjusted k nearest neighbor)，以促进分类效果；而Li等人于2004年提出由于不同分类的文件本身有数量上有差异，因此也应该依照训练集合中各种分类的文件数量，选取不同数目的最近邻居，来参与分类。</p>
+<h3 id="Apriori">Apriori</h3><p>是经典的<strong>关联规则</strong>数据挖掘算法。<br>1.优点：<br>1）简单、易理解。<br>2）数据要求低。<br>2.缺点：<br>1）在每一步产生候选项目集时循环产生的组合过多，没有排除不应该参与组合的元素。<br>2）每次计算项集的支持度时，都对数据库中的全部记录进行了一遍扫描比较，如果是一个大型的数据库时，这种扫描会大大增加计算机的I/O开销。<br>3.改进：<br>1）利用建立临时数据库的方法来提高Apriori算法的效率。<br>2）Fp-tree 算法。以树形的形式来展示、表达数据的形态；可以理解为水在不同河流分支的流动过程。<br>3）垂直数据分布。相当于把原始数据进行行转列的操作，并且记录每个元素的个数。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -110,7 +114,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/多维数据集/">多维数据集</a><a href="/tags/缓慢变化维/">缓慢变化维</a>
+  <span></span> <a href="/tags/机器学习/">机器学习</a>
   </div>
 
 </div>
@@ -155,18 +159,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/10/07/Star Schema完全参考手册学习笔记六/" title="Star Schema完全参考手册读书笔记六">
+ <a href="/2016/07/02/机器学习面试问题2/" title="机器学习面试问题2">
   <strong>上一篇：</strong><br/>
   <span>
-  Star Schema完全参考手册读书笔记六</span>
+  机器学习面试问题2</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/10/05/Java学习（1）/"  title="Java学习（1）">
+<a href="/2016/03/27/阿里JAVA开发面试常问问题总结4/"  title="阿里JAVA开发面试常问问题总结4">
  <strong>下一篇：</strong><br/> 
- <span>Java学习（1）
+ <span>阿里JAVA开发面试常问问题总结4
 </span>
 </a>
 </div>
@@ -181,7 +185,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#缓慢变化维"><span class="toc-number">1.</span> <span class="toc-text">缓慢变化维</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓慢变化类型"><span class="toc-number">1.1.</span> <span class="toc-text">缓慢变化类型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#星型模式与多维数据集"><span class="toc-number">2.</span> <span class="toc-text">星型模式与多维数据集</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基本知识"><span class="toc-number">1.</span> <span class="toc-text">基本知识</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#监督与非监督的区别"><span class="toc-number">1.1.</span> <span class="toc-text">监督与非监督的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#L1和L2的区别"><span class="toc-number">1.2.</span> <span class="toc-text">L1和L2的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成模型和判别模型的区别"><span class="toc-number">1.3.</span> <span class="toc-text">生成模型和判别模型的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#算法的优缺点"><span class="toc-number">1.4.</span> <span class="toc-text">算法的优缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#K-means"><span class="toc-number">1.4.1.</span> <span class="toc-text">K-means</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#KNN"><span class="toc-number">1.4.2.</span> <span class="toc-text">KNN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Apriori"><span class="toc-number">1.4.3.</span> <span class="toc-text">Apriori</span></a></li></ol></li></ol></li></ol>
  
   </div>
 

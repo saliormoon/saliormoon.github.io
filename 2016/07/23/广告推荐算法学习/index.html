@@ -4,24 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Star Schema完全参考手册读书笔记五 | 王宇峰的博客</title>
+    <title>广告推荐算法 | 王宇峰的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王宇峰">
     
 
     
-    <meta name="description" content="本博客就第三章缓慢变化维和多维数据集的有关知识进行总结。">
+    <meta name="description" content="搜索引擎广告是指显示在搜索结果页面上的网站链接广告。搜索引擎接收到搜索请求后，除了返回匹配网页外，还返回与查询关键词相关的广告。国内比较著名的广告推荐系统如百度推广。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Star Schema完全参考手册读书笔记五">
-<meta property="og:url" content="http://saliormoon.github.io/2015/10/06/Star Schema完全参考手册读书笔记五/index.html">
+<meta property="og:title" content="广告推荐算法">
+<meta property="og:url" content="http://saliormoon.github.io/2016/07/23/广告推荐算法学习/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="本博客就第三章缓慢变化维和多维数据集的有关知识进行总结。">
-<meta property="og:image" content="http://img.blog.csdn.net/20151006220117333">
-<meta property="og:updated_time" content="2015-10-06T14:24:23.934Z">
+<meta property="og:description" content="搜索引擎广告是指显示在搜索结果页面上的网站链接广告。搜索引擎接收到搜索请求后，除了返回匹配网页外，还返回与查询关键词相关的广告。国内比较著名的广告推荐系统如百度推广。">
+<meta property="og:image" content="http://img.blog.csdn.net/20160727185721559">
+<meta property="og:updated_time" content="2016-07-28T11:56:22.443Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Star Schema完全参考手册读书笔记五">
-<meta name="twitter:description" content="本博客就第三章缓慢变化维和多维数据集的有关知识进行总结。">
+<meta name="twitter:title" content="广告推荐算法">
+<meta name="twitter:description" content="搜索引擎广告是指显示在搜索结果页面上的网站链接广告。搜索引擎接收到搜索请求后，除了返回匹配网页外，还返回与查询关键词相关的广告。国内比较著名的广告推荐系统如百度推广。">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -78,14 +78,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/10/06/Star Schema完全参考手册读书笔记五/" title="Star Schema完全参考手册读书笔记五" itemprop="url">Star Schema完全参考手册读书笔记五</a>
+      <a href="/2016/07/23/广告推荐算法学习/" title="广告推荐算法" itemprop="url">广告推荐算法</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
 		
   <p class="article-time">
-    <time datetime="2015-10-06T14:23:47.000Z" itemprop="datePublished"> 发表于 2015-10-06</time>
+    <time datetime="2016-07-22T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-23</time>
     
   </p>
 </header>
@@ -94,15 +94,15 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#缓慢变化维"><span class="toc-number">1.</span> <span class="toc-text">缓慢变化维</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓慢变化类型"><span class="toc-number">1.1.</span> <span class="toc-text">缓慢变化类型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#星型模式与多维数据集"><span class="toc-number">2.</span> <span class="toc-text">星型模式与多维数据集</span></a></li></ol>
+			
 		
 		</div>
 		
-		<p>本博客就第三章缓慢变化维和多维数据集的有关知识进行总结。<br><a id="more"></a></p>
-<h1 id="缓慢变化维">缓慢变化维</h1><p>采用维度设计方案时，确定数据源的变化情况在维度表中如何表示非常重要。这一现象称为缓慢变化的维度，简称缓慢变化维。该术语的名称反映了维度积累变化的实际情况，至少与积累数据行较为快速的事实表比较，缓慢变化相对缓慢。</p>
-<h2 id="缓慢变化类型">缓慢变化类型</h2><p><center><br><img src="http://img.blog.csdn.net/20151006220117333" alt="图1"><br></center></p>
-<h1 id="星型模式与多维数据集">星型模式与多维数据集</h1><p>星型模式与多维数据集共存方式拥有两种不同的配置。一种配置是，星型模式作为原子数据的集成仓库，而多维数据集作为数据集市。另一种配置是，星型模式作为数据仓库或数据集市，多维数据集作为高性能报表的辅助部分。无论应用于何种配置中，多维数据集都具有同样的作用，即导出模式和实现聚集。<strong>重点内容</strong></p>
-  
+		<p><strong>搜索引擎广告</strong>是指显示在搜索结果页面上的网站链接广告。搜索引擎接收到搜索请求后，除了返回匹配网页外，还返回与查询关键词相关的广告。<br>国内比较著名的广告推荐系统如<strong>百度推广</strong>。</p>
+<a id="more"></a>
+<p>当用户利用某一关键词进行检索，在检索结果页面会出现与该关键词相关的内容。关键词是在特定关键词的检索时才出现在搜索结果页面的显著位置。<br>百度推广是以关键词出价来决定关键词排名的，在2009年，百度推出了<strong>凤巢系统</strong>，它是对百度推广的一个优化，在原来以关键词出价决定关键词排名的基础上增加了关键词质量度。关键词的质量度由关键词的点击率决定，点击率=点击量/展现量。由关键词质量度与关键词出价共同决定商家推广关键词的平均排名分数。并且关键词排名分数=关键词出价*关键词质量度。故在关键词出价高、质量度也高的情况下，推广关键词的平均排名才会一定高。凤巢系统最终会以一个平均排名分数在百度推广搜索结果页上来决定该关键词排名的高低。</p>
+<p>凤巢系统关键词排名因素可见下图：</p>
+<center><br><img src="http://img.blog.csdn.net/20160727185721559" alt=""><br></center>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -110,7 +110,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/多维数据集/">多维数据集</a><a href="/tags/缓慢变化维/">缓慢变化维</a>
+  <span></span> <a href="/tags/机器学习/">机器学习</a>
   </div>
 
 </div>
@@ -155,18 +155,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2015/10/07/Star Schema完全参考手册学习笔记六/" title="Star Schema完全参考手册读书笔记六">
+ <a href="/2016/07/24/一致性hash算法学习/" title="一致性hash算法">
   <strong>上一篇：</strong><br/>
   <span>
-  Star Schema完全参考手册读书笔记六</span>
+  一致性hash算法</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2015/10/05/Java学习（1）/"  title="Java学习（1）">
+<a href="/2016/07/22/社交搜索典型算法/"  title="社交搜索典型算法">
  <strong>下一篇：</strong><br/> 
- <span>Java学习（1）
+ <span>社交搜索典型算法
 </span>
 </a>
 </div>
@@ -181,7 +181,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#缓慢变化维"><span class="toc-number">1.</span> <span class="toc-text">缓慢变化维</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓慢变化类型"><span class="toc-number">1.1.</span> <span class="toc-text">缓慢变化类型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#星型模式与多维数据集"><span class="toc-number">2.</span> <span class="toc-text">星型模式与多维数据集</span></a></li></ol>
+ 
  
   </div>
 
