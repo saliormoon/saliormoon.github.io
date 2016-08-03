@@ -1,0 +1,566 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>机器学习面试问题5 | 王宇峰的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="王宇峰">
+    
+
+    
+    <meta name="description" content="常见问题和svm相关的如何组织训练数据1）将数据分开为训练集、测试集；2）对训练集寻优，构建好决策函数，训练分类器；3）用测试集验证准确率，达到满足需要的准确率后，就可以用新数据分类。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习面试问题5">
+<meta property="og:url" content="http://saliormoon.github.io/2016/07/05/机器学习面试问题5/index.html">
+<meta property="og:site_name" content="王宇峰的博客">
+<meta property="og:description" content="常见问题和svm相关的如何组织训练数据1）将数据分开为训练集、测试集；2）对训练集寻优，构建好决策函数，训练分类器；3）用测试集验证准确率，达到满足需要的准确率后，就可以用新数据分类。">
+<meta property="og:updated_time" content="2016-08-03T04:22:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习面试问题5">
+<meta name="twitter:description" content="常见问题和svm相关的如何组织训练数据1）将数据分开为训练集、测试集；2）对训练集寻优，构建好决策函数，训练分类器；3）用测试集验证准确率，达到满足需要的准确率后，就可以用新数据分类。">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="王宇峰的博客" title="王宇峰的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="王宇峰的博客">王宇峰的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/05/机器学习面试问题5/" title="机器学习面试问题5" itemprop="url">机器学习面试问题5</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-04T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-05</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#常见问题"><span class="toc-number">1.</span> <span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#和svm相关的"><span class="toc-number">1.1.</span> <span class="toc-text">和svm相关的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何组织训练数据"><span class="toc-number">1.1.1.</span> <span class="toc-text">如何组织训练数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何调节惩罚因子"><span class="toc-number">1.1.2.</span> <span class="toc-text">如何调节惩罚因子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何防止过拟合"><span class="toc-number">1.1.3.</span> <span class="toc-text">如何防止过拟合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#svm的泛化能力"><span class="toc-number">1.1.4.</span> <span class="toc-text">svm的泛化能力</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增量学习"><span class="toc-number">1.1.5.</span> <span class="toc-text">增量学习</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#交叉验证"><span class="toc-number">1.2.</span> <span class="toc-text">交叉验证</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="常见问题">常见问题</h1><h2 id="和svm相关的">和svm相关的</h2><h3 id="如何组织训练数据">如何组织训练数据</h3><p>1）将数据分开为训练集、测试集；<br>2）对训练集寻优，构建好决策函数，训练分类器；<br>3）用测试集验证准确率，达到满足需要的准确率后，就可以用新数据分类。<br><a id="more"></a></p>
+<h3 id="如何调节惩罚因子">如何调节惩罚因子</h3><p><strong>惩罚因子</strong>（参数C）：为了使用松弛变量才引入的，表示对离群点的重视程度。C越大越重视，越不想丢掉离群点。可用来解决数据集偏斜问题，方法是调整惩罚因子，给样本数量少的类更大的惩罚因子。</p>
+<p>惩罚因子C决定了你有多重视离群点带来的损失，显然当所有离群点的松弛变量的和一定时，你定的C越大，对目标函数的损失也越大，此时就暗示着你非常不愿意放弃这些离群点，最极端的情况是你把C定为无限大，这样只要稍有一个点离群，目标函数的值马上变成无限大，马上让问题变成无解，这就退化成了硬间隔问题。</p>
+<p> 惩罚因子C不是一个变量，整个优化问题在解的时候，C是一个你必须事先指定的值，指定这个值以后，解一下，得到一个分类器，然后用测试数据看看结果怎么样，如果不够好，换一个C的值，再解一次优化问题，得到另一个分类器，再看看效果，如此就是一个参数寻优的过程，但这和优化问题本身决不是一回事，优化问题在解的过程中，C一直是定值，要记住。</p>
+<p>详细可参见：<br><a href="http://blog.csdn.net/qll125596718/article/details/6910921" target="_blank" rel="external">http://blog.csdn.net/qll125596718/article/details/6910921</a></p>
+<h3 id="如何防止过拟合">如何防止过拟合</h3><p><strong>过拟合</strong>表现为在训练数据上模型的预测很准，在未知数据上预测很差。过拟合主要是因为训练数据中的异常点，这些点严重偏离正常位置。我们知道，决定SVM最优分类超平面的恰恰是那些占少数的支持向量，如果支持向量中碰巧存在异常点，那么我们傻傻地让SVM去拟合这样的数据，最后的超平面就不是最优的。</p>
+<p> <strong>解决过拟合的办法</strong>是为SVM引入了松弛变量ξ。</p>
+<p>  详细可参见：<br> <a href="http://blog.csdn.net/vincent2610/article/details/52033250" target="_blank" rel="external">http://blog.csdn.net/vincent2610/article/details/52033250</a></p>
+<p><strong>综上，可以得出</strong>：为了解决离群的异常点引入了松弛变量，为了解决松弛变量的引入带来的分类精度的影响问题，引入了惩罚因子，松弛变量用来舍弃离群点，而惩罚因子用来保护离群点。</p>
+<p> 除却svm，一般防止模型过拟合，提高模型泛化能力时，最常用的方法是：正则化，即在对模型的目标函数或代价函数加上正则项。此外，为了防止过拟合，我们也会用到一些其他方法，如：early stopping、数据集扩增（Data augmentation）、Dropout等。 </p>
+<p>详细可参见：<br><a href="http://blog.csdn.net/heyongluoyao8/article/details/49429629" target="_blank" rel="external">http://blog.csdn.net/heyongluoyao8/article/details/49429629</a></p>
+<h3 id="svm的泛化能力">svm的泛化能力</h3><p>泛化能力是指机器学习算法对新鲜样本的适应能力。学习的目的是学到隐含在数据对背后的规律，对具有同一规律的学习集以外的数据，经过训练的网络也能给出合适的输出，该能力称为泛化能力。</p>
+<p>svm进阶可参考：<br><a href="http://www.cnblogs.com/tornadomeet/archive/2013/05/26/3100603.html" target="_blank" rel="external">http://www.cnblogs.com/tornadomeet/archive/2013/05/26/3100603.html</a></p>
+<h3 id="增量学习">增量学习</h3><p>增量式学习是计算机视觉中的一种学习算法，主要用于分类问题中。</p>
+<p>增量式算法：就是每当新增数据时，并不需要重建所有的知识库，而是在原有知识库的基础上，仅做由于新增数据所引起的更新，即只需修改因数据变化而涉及的规则。</p>
+<p>svm增量学习可参见：<br><a href="http://xueshu.baidu.com/s?wd=paperuri%3A%280cb9ee19ed8568e081958ce3e457ae31%29&amp;filter=sc_long_sign&amp;tn=SE_xueshusource_2kduw22v&amp;sc_vurl=http%3A%2F%2Fwww.docin.com%2Fp-478883661.html&amp;ie=utf-8&amp;sc_us=7212435835612971359" target="_blank" rel="external">http://xueshu.baidu.com/s?wd=paperuri%3A%280cb9ee19ed8568e081958ce3e457ae31%29&amp;filter=sc_long_sign&amp;tn=SE_xueshusource_2kduw22v&amp;sc_vurl=http%3A%2F%2Fwww.docin.com%2Fp-478883661.html&amp;ie=utf-8&amp;sc_us=7212435835612971359</a></p>
+<h2 id="交叉验证">交叉验证</h2><p>交叉验证的基本思想是把在某种意义下将原始数据进行分组，一部分做为训练集，另一部分做为验证集，首先用训练集对分类器进行训练，再利用验证集来测试训练得到的模型，以此来做为评价分类器的性能指标。</p>
+<p><strong>常见的交叉验证形式：</strong><br>1）Holdout 验证<br>常识来说，Holdout 验证并非一种交叉验证，因为数据并没有交叉使用。 随机从最初的样本中选出部分，形成交叉验证数据，而剩余的就当做训练数据。 一般来说，少于原本样本三分之一的数据被选做验证数据。<br>2）K-fold cross-validation<br>K折交叉验证，初始采样分割成K个子样本，一个单独的子样本被保留作为验证模型的数据，其他K-1个样本用来训练。交叉验证重复K次，每个子样本验证一次，平均K次的结果或者使用其它结合方式，最终得到一个单一估测。这个方法的优势在于，同时重复运用随机产生的子样本进行训练和验证，每次的结果验证一次，10折交叉验证是最常用的。<br>3）留一验证<br>正如名称所建议， 留一验证（LOOCV）意指只使用原本样本中的一项来当做验证资料， 而剩余的则留下来当做训练资料。 这个步骤一直持续到每个样本都被当做一次验证资料。 事实上，这等同于和K-fold 交叉验证是一样的，其中K为原本样本个数。 在某些情况下是存在有效率的演算法，如使用kernel regression 和Tikhonov regularization。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/机器学习/">机器学习</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/06/机器学习面试问题6/" title="机器学习面试问题6">
+  <strong>上一篇：</strong><br/>
+  <span>
+  机器学习面试问题6</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/07/04/机器学习面试问题4/"  title="机器学习面试问题4">
+ <strong>下一篇：</strong><br/> 
+ <span>机器学习面试问题4
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#常见问题"><span class="toc-number">1.</span> <span class="toc-text">常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#和svm相关的"><span class="toc-number">1.1.</span> <span class="toc-text">和svm相关的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何组织训练数据"><span class="toc-number">1.1.1.</span> <span class="toc-text">如何组织训练数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何调节惩罚因子"><span class="toc-number">1.1.2.</span> <span class="toc-text">如何调节惩罚因子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何防止过拟合"><span class="toc-number">1.1.3.</span> <span class="toc-text">如何防止过拟合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#svm的泛化能力"><span class="toc-number">1.1.4.</span> <span class="toc-text">svm的泛化能力</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#增量学习"><span class="toc-number">1.1.5.</span> <span class="toc-text">增量学习</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#交叉验证"><span class="toc-number">1.2.</span> <span class="toc-text">交叉验证</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3121392487&verifier=cf84718a&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/机器学习/" title="机器学习">机器学习<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据仓库/" title="数据仓库">数据仓库<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/缓慢变化维/" title="缓慢变化维">缓慢变化维<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多维数据集/" title="多维数据集">多维数据集<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/maven/" title="maven">maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-shell/" title="linux shell">linux shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/粒度/" title="粒度">粒度<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可加性/" title="可加性">可加性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/稀疏性/" title="稀疏性">稀疏性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hbase/" title="hbase">hbase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/横向钻取/" title="横向钻取">横向钻取<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jar/" title="jar">jar<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net" target="_blank" title="CSDNCSDN博客">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pangjiuzala.github.io/" target="_blank" title="刘兴的博客">刘兴的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=saliormoon&amp;type=Users" target="_blank" title="关注王宇峰的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			欢迎关注</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Saliormoon All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

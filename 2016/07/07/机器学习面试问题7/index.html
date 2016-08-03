@@ -1,0 +1,584 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>机器学习面试问题7 | 王宇峰的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="王宇峰">
+    
+
+    
+    <meta name="description" content="为什么要用逻辑回归逻辑回归主要解决线性可分问题，模型简单，易于理解和实现，很适合用来学习大数据的问题。另外，逻辑回归做在线学习比较容易，处理速度也快。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习面试问题7">
+<meta property="og:url" content="http://saliormoon.github.io/2016/07/07/机器学习面试问题7/index.html">
+<meta property="og:site_name" content="王宇峰的博客">
+<meta property="og:description" content="为什么要用逻辑回归逻辑回归主要解决线性可分问题，模型简单，易于理解和实现，很适合用来学习大数据的问题。另外，逻辑回归做在线学习比较容易，处理速度也快。">
+<meta property="og:image" content="http://img.blog.csdn.net/20160729152936408">
+<meta property="og:updated_time" content="2016-08-03T04:23:34.797Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习面试问题7">
+<meta name="twitter:description" content="为什么要用逻辑回归逻辑回归主要解决线性可分问题，模型简单，易于理解和实现，很适合用来学习大数据的问题。另外，逻辑回归做在线学习比较容易，处理速度也快。">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="王宇峰的博客" title="王宇峰的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="王宇峰的博客">王宇峰的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/07/机器学习面试问题7/" title="机器学习面试问题7" itemprop="url">机器学习面试问题7</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-06T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要用逻辑回归"><span class="toc-number">1.</span> <span class="toc-text">为什么要用逻辑回归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#决策树算法是按照什么来分类的"><span class="toc-number">2.</span> <span class="toc-text">决策树算法是按照什么来分类的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#朴素贝叶斯公式"><span class="toc-number">3.</span> <span class="toc-text">朴素贝叶斯公式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#讲em算法"><span class="toc-number">4.</span> <span class="toc-text">讲em算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#svm中rbf核函数与高斯核函数的比较"><span class="toc-number">5.</span> <span class="toc-text">svm中rbf核函数与高斯核函数的比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#说一下svm的实现和运用过程"><span class="toc-number">6.</span> <span class="toc-text">说一下svm的实现和运用过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#谈谈DNN"><span class="toc-number">7.</span> <span class="toc-text">谈谈DNN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单说说决策树分析"><span class="toc-number">8.</span> <span class="toc-text">简单说说决策树分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#推荐系统中基于svd方法"><span class="toc-number">9.</span> <span class="toc-text">推荐系统中基于svd方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SVM有哪些优势，（x,y,z）三个特征如何用径向基核函数抽取第四维特征"><span class="toc-number">10.</span> <span class="toc-text">SVM有哪些优势，（x,y,z）三个特征如何用径向基核函数抽取第四维特征</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="为什么要用逻辑回归">为什么要用逻辑回归</h2><p>逻辑回归主要解决线性可分问题，模型简单，易于理解和实现，很适合用来学习大数据的问题。另外，逻辑回归做在线学习比较容易，处理速度也快。<br><a id="more"></a><br><strong>SVM和LR的区别</strong>：<br>两种方法都是常见的分类算法,从目标函数来看,区别在于逻辑回归采用的是logistical loss,svm采用的是hinge loss.这两个损失函数的目的都是增加对分类影响较大的数据点的权重,减少与分类关系较小的数据点的权重.SVM的处理方法是只考虑support vectors,也就是和分类最相关的少数点,去学习分类器.而逻辑回归通过非线性映射,大大减小了离分类平面较远的点的权重,相对提升了与分类最相关的数据点的权重.两者的根本目的都是一样的.此外,根据需要,两个方法都可以增加不同的正则化项,如l1,l2等等.所以在很多实验中,两种算法的结果是很接近的.<br>但是逻辑回归相对来说模型更简单,好理解,实现起来,特别是大规模线性分类时比较方便.而SVM的理解和优化相对来说复杂一些.但是SVM的理论基础更加牢固,有一套结构化风险最小化的理论基础,虽然一般使用的人不太会去关注.还有很重要的一点,SVM转化为对偶问题后,分类只需要计算与少数几个支持向量的距离,这个在进行复杂核函数计算时优势很明显,能够大大简化模型和计算<br>svm 更多的属于非参数模型,而logistic regression 是参数模型,本质不同.其区别就可以参考参数模型和非参模型的区别就好了.<br>logic 能做的 svm能做,但可能在准确率上有问题,svm能做的logic有的做不了。</p>
+<p>LR需要调参，而朴素贝叶斯不需要。</p>
+<h2 id="决策树算法是按照什么来分类的">决策树算法是按照什么来分类的</h2><p>基于实例的特征对实例进行分类。</p>
+<p>具体过程是：用决策树分类，从根结点开始，对实例的某一特征进行测试，根据测试结果，将实例分配到其子结点；这时，每一个子结点对应着该特征的一个取值。如此递归地对实例进行测试并分配，直至达到叶结点。最后将实例分到叶结点的类中。</p>
+<h2 id="朴素贝叶斯公式">朴素贝叶斯公式</h2><p><img src="http://img.blog.csdn.net/20160729152936408" alt=""></p>
+<h2 id="讲em算法">讲em算法</h2><p>最大期望算法，是一种迭代算法，可用于聚类。<br>该算法用于含有隐变量的概率参数模型的最大似然估计或极大后验概率估计。其中概率模型依赖于无法观测的隐藏变量。</p>
+<p>最大期望算法经过两个步骤交替进行计算：<br>第一步是计算期望（E），利用对隐藏变量的现有估计值，计算其最大似然估计值；<br>第二步是最大化（M），最大化在 E 步上求得的最大似然值来计算参数的值。<br>M 步上找到的参数估计值被用于下一个 E 步计算中，这个过程不断交替进行。<br>总体来说，EM的算法流程如下：<br>1.初始化分布参数<br>2.重复直到收敛：<br>E步骤：估计未知参数的期望值，给出当前的参数估计。<br>M步骤：重新估计分布参数，以使得数据的似然性最大，给出未知变量的期望估计。</p>
+<h2 id="svm中rbf核函数与高斯核函数的比较">svm中rbf核函数与高斯核函数的比较</h2><p>径向基函数 (Radial Basis Function 简称 RBF), 就是某种沿径向对称的标量函数。 通常定义为空间中任一点x到某一中心xc之间欧氏距离的单调函数 , 可记作 k(||x-xc||), 其作用往往是局部的 , 即当x远离xc时函数取值很小。最常用的径向基函数是高斯核函数 ,形式为 k(||x-xc||)=exp{- ||x-xc||^2/(2*σ^2) } 其中xc为核函数中心,σ为函数的宽度参数 , 控制了函数的径向作用范围。</p>
+<p> rbf核函数主要用于线性不可分的情形。参数多，分类结果非常依赖于参数。<br> Gauss径向基函数则是局部性强的核函数，其外推能力随着参数σ的增大而减弱。</p>
+<h2 id="说一下svm的实现和运用过程">说一下svm的实现和运用过程</h2><p>matlab运用SVM： svmtrain、svmpredict<br>可参考：<br><a href="http://blog.sina.com.cn/s/blog_71152aa70101tl62.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_71152aa70101tl62.html</a></p>
+<p>Spark Mlib 运用SVM: SVMWithSGD.train(parsedData, numIterations)<br> 可参考<a href="http://blog.sina.com.cn/s/blog_64d9a6ef0101ghvs.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_64d9a6ef0101ghvs.html</a></p>
+<p>Opencv运用SVM可参考：<br><a href="http://www.360doc.com/content/14/0324/10/16345076_363243501.shtml" target="_blank" rel="external">http://www.360doc.com/content/14/0324/10/16345076_363243501.shtml</a></p>
+<h2 id="谈谈DNN">谈谈DNN</h2><p>2013年6月18日，据国外媒体报道，微软已于近期推出了一新款语音识别软件，其工作原理是模仿人脑思考方式，从而使该软件的语音识别速度更快，识别准确率也更高。<br>微软介绍，这种新型语音识别软件采用了名为“深度神经网络”的技术，使得该软件处理人类语音的过程与人脑相似。<br>多层的好处是可以用较少的参数表示复杂的函数。<br>在监督学习中，以前的多层神经网络的问题是容易陷入局部极值点。如果训练样本足够充分覆盖未来的样本，那么学到的多层权重可以很好的用来预测新的测试样本。但是很多任务难以得到足够多的标记样本，在这种情况下，简单的模型，比如线性回归或者决策树往往能得到比多层神经网络更好的结果（更好的泛化性，更差的训练误差）。<br>非监督学习中，以往没有有效的方法构造多层网络。多层神经网络的顶层是底层特征的高级表示，比如底层是像素点，上一层的结点可能表示横线，三角； 而顶层可能有一个结点表示人脸。一个成功的算法应该能让生成的顶层特征最大化的代表底层的样例。如果对所有层同时训练，时间复杂度会太高； 如果每次训练一层，偏差就会逐层传递。这会面临跟上面监督学习中相反的问题，会严重欠拟合。<br>2006年，hinton提出了在非监督数据上建立多层神经网络的一个有效方法，简单的说，分为两步，一是每次训练一层网络，二是调优使原始表示x向上生成的高级表示r和该高级表示r向下生成的x’尽可能一致。方法是<br>1，首先逐层构建单层神经元，这样每次都是训练一个单层网络。<br>2，当所有层训练完后，hinton使用wake-sleep算法进行调优。将除最顶层的其它层间的权重变为双向的，这样最顶层仍然是一个单层神经网络，而其它层则变为了图模型。向上的权重用于”认知“，向下的权重用于”生成“。然后使用Wake-Sleep算法调整所有的权重。让认知和生成达成一致，也就是保证生成的最顶层表示能够尽可能正确的复原底层的结点。比如顶层的一个结点表示人脸，那么所有人脸的图像应该激活这个结点，并且这个结果向下生成的图像应该能够表现为一个大概的人脸图像。Wake-Sleep算法分为醒(wake)和睡(sleep)两个部分。<br>2.1，wake阶段，认知过程，通过外界的特征和向上的权重（认知权重）产生每一层的抽象表示（结点状态），并且使用梯度下降修改层间的下行权重（生成权重）。也就是“如果现实跟我想像的不一样，改变我的权重使得我想像的东西就是这样的“。<br>2.2，sleep阶段，生成过程，通过顶层表示（醒时学得的概念）和向下权重，生成底层的状态，同时修改层间向上的权重。也就是“如果梦中的景象不是我脑中的相应概念，改变我的认知权重使得这种景象在我看来就是这个概念“。<br>由于自动编码器（auto-encoder，即上面说的神经网络。广义上的自动编码器指所有的从低级表示得到高级表示，并能从高级表示生成低级表示的近似的结构，狭义上指的是其中的一种，谷歌的人脸识别用的）有联想功能，也就是缺失部分输入也能得到正确的编码，所以上面说的算法也可以用于有监督学习，训练时y做为顶层网络输入的补充，应用时顶层网络生成y’。</p>
+<p> CNN(卷积神经网络)、RNN(循环神经网络)、DNN(深度神经网络)</p>
+<h2 id="简单说说决策树分析">简单说说决策树分析</h2><p>决策树分析法是一种运用概率与图论中的树对决策中的不同方案进行比较，从而获得最优方案的风险型决策方法。图论中的树是连通且无回路的有向图，入度为0的点称为树根，出度为0的点称为树叶，树叶以外的点称为内点。决策树由树根（决策节点）、其他内点（方案节点、状态节点）、树叶（终点）、树枝（方案枝、概率枝）、概率值、损益值组成。</p>
+<p>它利用了概率论的原理，并且利用一种树形图作为分析工具。其基本原理是用决策点代表决策问题，用方案分枝代表可供选择的方案，用概率分枝代表方案可能出现的各种结果，经过对各种方案在各种结果条件下损益值的计算比较，为决策者提供决策依据。</p>
+<p>具体步骤为：<br>（1）绘制决策树图。从左到右的顺序画决策树，此过程本身就是对决策问题的再分析过程。<br>（2）按从右到左的顺序计算各方案的期望值，并将结果写在相应方案节点上方。期望值的计算是从右到左沿着决策树的反方向进行计算的。<br>（3）对比各方案的期望值的大小，进行剪枝优选（选期望大的）。在舍去备选方案枝上，用“=”记号隔断。</p>
+<h2 id="推荐系统中基于svd方法">推荐系统中基于svd方法</h2><p>SVD：奇异值分解。<br>SVD可以理解为：将一个比较复杂的矩阵用更小更简单的3个子矩阵的相乘来表示，这3个小矩阵描述了大矩阵重要的特性。</p>
+<p>数据集中，行代表用户user，列代表物品item，其中的值代表用户对物品的打分。基于SVD的优势在于：用户的评分数据是稀疏矩阵，可以用SVD将原始数据映射到低维空间中，然后计算物品item之间的相似度，可以节省计算资源。</p>
+<p>整体思路：先找到用户没有评分的物品，然后再经过SVD“压缩”后的低维空间中，计算未评分物品与其他物品的相似性，得到一个预测打分，再对这些物品的评分从高到低进行排序，返回前N个物品推荐给用户。</p>
+<p>实现代码主要分为5部分：</p>
+<p>第1部分：加载测试数据集；</p>
+<p>第2部分：定义三种计算相似度的方法；</p>
+<p>第3部分：通过计算奇异值平方和的百分比来确定将数据降到多少维才合适，返回需要降到的维度；</p>
+<p>第4部分：在已经降维的数据中，基于SVD对用户未打分的物品进行评分预测，返回未打分物品的预测评分值；</p>
+<p>第5部分：产生前N个评分值高的物品，返回物品编号以及预测评分值。</p>
+<p>优势在于：用户的评分数据是稀疏矩阵，可以用SVD将数据映射到低维空间，然后计算低维空间中的item之间的相似度，对用户未评分的item进行评分预测，最后将预测评分高的item推荐给用户。</p>
+<p>详细可参见：<br><a href="http://www.cnblogs.com/lzllovesyl/p/5243370.html" target="_blank" rel="external">http://www.cnblogs.com/lzllovesyl/p/5243370.html</a></p>
+<h2 id="SVM有哪些优势，（x,y,z）三个特征如何用径向基核函数抽取第四维特征">SVM有哪些优势，（x,y,z）三个特征如何用径向基核函数抽取第四维特征</h2><p>5 支持向量机（SVM）的优缺点</p>
+<p>SVM的优点：</p>
+<p> 1） 可以解决小样本情况下的机器学习问题。<br> 2）可以提高泛化性能。<br> 3）可以解决高维问题。<br> 4）可以解决非线性问题。<br> 5）可以避免神经网络结构选择和局部极小点问题。</p>
+<p>SVM的缺点：</p>
+<p>1） 对缺失数据敏感。<br>2）对非线性问题没有通用解决方案，必须谨慎选择Kernelfunction来处理。</p>
+<p>可参考：<br><a href="http://www.zhizhihu.com/html/y2010/2103.html" target="_blank" rel="external">http://www.zhizhihu.com/html/y2010/2103.html</a></p>
+<p>各类算法的优缺点可参考：<br><a href="http://bbs.pinggu.org/thread-2604496-1-1.html" target="_blank" rel="external">http://bbs.pinggu.org/thread-2604496-1-1.html</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/机器学习/">机器学习</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/08/机器学习面试问题8/" title="机器学习面试问题8">
+  <strong>上一篇：</strong><br/>
+  <span>
+  机器学习面试问题8</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/07/06/机器学习面试问题6/"  title="机器学习面试问题6">
+ <strong>下一篇：</strong><br/> 
+ <span>机器学习面试问题6
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要用逻辑回归"><span class="toc-number">1.</span> <span class="toc-text">为什么要用逻辑回归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#决策树算法是按照什么来分类的"><span class="toc-number">2.</span> <span class="toc-text">决策树算法是按照什么来分类的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#朴素贝叶斯公式"><span class="toc-number">3.</span> <span class="toc-text">朴素贝叶斯公式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#讲em算法"><span class="toc-number">4.</span> <span class="toc-text">讲em算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#svm中rbf核函数与高斯核函数的比较"><span class="toc-number">5.</span> <span class="toc-text">svm中rbf核函数与高斯核函数的比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#说一下svm的实现和运用过程"><span class="toc-number">6.</span> <span class="toc-text">说一下svm的实现和运用过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#谈谈DNN"><span class="toc-number">7.</span> <span class="toc-text">谈谈DNN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单说说决策树分析"><span class="toc-number">8.</span> <span class="toc-text">简单说说决策树分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#推荐系统中基于svd方法"><span class="toc-number">9.</span> <span class="toc-text">推荐系统中基于svd方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SVM有哪些优势，（x,y,z）三个特征如何用径向基核函数抽取第四维特征"><span class="toc-number">10.</span> <span class="toc-text">SVM有哪些优势，（x,y,z）三个特征如何用径向基核函数抽取第四维特征</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3121392487&verifier=cf84718a&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/机器学习/" title="机器学习">机器学习<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据仓库/" title="数据仓库">数据仓库<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/缓慢变化维/" title="缓慢变化维">缓慢变化维<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多维数据集/" title="多维数据集">多维数据集<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/maven/" title="maven">maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-shell/" title="linux shell">linux shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/粒度/" title="粒度">粒度<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可加性/" title="可加性">可加性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/稀疏性/" title="稀疏性">稀疏性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hbase/" title="hbase">hbase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/横向钻取/" title="横向钻取">横向钻取<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jar/" title="jar">jar<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net" target="_blank" title="CSDNCSDN博客">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pangjiuzala.github.io/" target="_blank" title="刘兴的博客">刘兴的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=saliormoon&amp;type=Users" target="_blank" title="关注王宇峰的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			欢迎关注</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Saliormoon All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

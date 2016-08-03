@@ -1,0 +1,572 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>机器学习面试问题6 | 王宇峰的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="王宇峰">
+    
+
+    
+    <meta name="description" content="以下内容接机器学习面试问题5.
+神经网络参数相关参数的范围目前还没有明确的参数范围，只有个人总结性的原则。如下：网络参数确定原则：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习面试问题6">
+<meta property="og:url" content="http://saliormoon.github.io/2016/07/06/机器学习面试问题6/index.html">
+<meta property="og:site_name" content="王宇峰的博客">
+<meta property="og:description" content="以下内容接机器学习面试问题5.
+神经网络参数相关参数的范围目前还没有明确的参数范围，只有个人总结性的原则。如下：网络参数确定原则：">
+<meta property="og:updated_time" content="2016-08-03T04:23:14.035Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习面试问题6">
+<meta name="twitter:description" content="以下内容接机器学习面试问题5.
+神经网络参数相关参数的范围目前还没有明确的参数范围，只有个人总结性的原则。如下：网络参数确定原则：">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="王宇峰的博客" title="王宇峰的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="王宇峰的博客">王宇峰的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/06/机器学习面试问题6/" title="机器学习面试问题6" itemprop="url">机器学习面试问题6</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-05T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-06</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#神经网络参数相关"><span class="toc-number">1.</span> <span class="toc-text">神经网络参数相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参数的范围"><span class="toc-number">1.1.</span> <span class="toc-text">参数的范围</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何防止过拟合"><span class="toc-number">1.2.</span> <span class="toc-text">如何防止过拟合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隐层节点的个数多了怎样少了怎样"><span class="toc-number">1.3.</span> <span class="toc-text">隐层节点的个数多了怎样少了怎样</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么情况下参数是负数"><span class="toc-number">1.4.</span> <span class="toc-text">什么情况下参数是负数</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>以下内容接机器学习面试问题5.</p>
+<h2 id="神经网络参数相关">神经网络参数相关</h2><h3 id="参数的范围">参数的范围</h3><p>目前还没有明确的参数范围，只有个人总结性的原则。如下：<br>网络参数确定原则：</p>
+<a id="more"></a>
+<p>①、网络节点  网络输入层神经元节点数就是系统的特征因子(自变量)个数，输出层神经元节点数就是系统目标个数。隐层节点选按经验选取，一般设为输入层节点数的75%。如果输入层有7个节点，输出层1个节点，那么隐含层可暂设为5个节点，即构成一个7-5-1 BP神经网络模型。在系统训练时，实际还要对不同的隐层节点数4、5、6个分别进行比较，最后确定出最合理的网络结构。</p>
+<p>②、初始权值的确定  初始权值是不应完全相等的一组值。已经证明，即便确定  存在一组互不相等的使系统误差更小的权值，如果所设Wji的的初始值彼此相等，它们将在学习过程中始终保持相等。故而，在程序中，我们设计了一个随机发生器程序，产生一组一0.5~+0.5的随机数，作为网络的初始权值。</p>
+<p>③、最小训练速率  在经典的BP算法中，训练速率是由经验确定，训练速率越大，权重变化越大，收敛越快；但训练速率过大，会引起系统的振荡，因此，训练速率在不导致振荡前提下，越大越好。因此，在DPS中，训练速率会自动调整，并尽可能取大一些的值，但用户可规定一个最小训练速率。该值一般取0.9。</p>
+<p>④、动态参数  动态系数的选择也是经验性的，一般取0.6 ~0.8。</p>
+<p>⑤、允许误差  一般取0.001~0.00001，当2次迭代结果的误差小于该值时，系统结束迭代计算，给出结果。</p>
+<p>⑥、迭代次数  一般取1000次。由于神经网络计算并不能保证在各种参数配置下迭代结果收敛，当迭代结果不收敛时，允许最大的迭代次数。</p>
+<p>⑦、Sigmoid参数 该参数调整神经元激励函数形式，一般取0.9~1.0之间。</p>
+<p>⑧、数据转换。在DPS系统中，允许对输入层各个节点的数据进行转换，提供转换的方法有取对数、平方根转换和数据标准化转换。</p>
+<p>转自<a href="http://blog.csdn.net/mingyuanlove/article/details/7448338" target="_blank" rel="external">http://blog.csdn.net/mingyuanlove/article/details/7448338</a></p>
+<h3 id="如何防止过拟合">如何防止过拟合</h3><p>1）选择合适的隐层神经元数目来避免过拟合现象。<br>一般来说，隐含层神经元的数目可以根据下式来确定：<br>nH=(nI+nO)1/2+l<br>其中:nH，nI和nO分别为隐含层、输入层和输出层的神经元数目；l一般为1～10之间的一个整数(特别情况可以大于10)。</p>
+<p>2）<strong>调整法：</strong>调整衡量网络拟合能力的误差准则函数,添加一项含有网络权值和偏置值的均方值。<br>最好的策略是能自动地设置调整参数，一种较好的方法是基于Bayes决策规则的调整法，该方法假定网络的权值和偏置值是具有特定分布的随机变量，可以用统计方法来估计调整参数。</p>
+<p>3）<strong>提前停止法：</strong>将训练样本分为3个子集,第1个子集做为训练子集,用来计算梯度和网络的权值及偏置值。第2个子集称为确认子集,在训练过程中它用来检验网络误差(称之为确认误差)。在训练的初始阶段,确认误差将减小,但当网络开始出现过拟合时,确认误差将会上升,当确认误差在一定次数的迭代过程中均上升时,网络停止训练,此时可以得到在确认误差最小时网络的权值和偏置值。第3个子集是测试子集,用于比较不同子集划分时网络的适应性。如果测试子集产生的误差达到最小时的迭代次数与确认子集相差很大,则表明子集的划分是不合适的,需要重新进行划分。这种方法称为提前停止法,所谓提前,是指在到达误差目标之前可能会结束训练过程。<br>提前停止法可以应用于任何算法,只需要在训练过程中用确认子集检验网络误差。</p>
+<p>4）<strong>隐层节点自生成法</strong>：先设计一个仅含有一个隐层节点的网络，在训练过程中，根据误差下降的速率和验证误差的变化来确定是否增加一个隐层节点，即当误差下降的速率低于阈值，并且验证误差已经到达最小值时，增加一个隐层节点，当验证误差的最小值在增加节点后变大，或者网络训练达到误差目标时，停止网络训练。<br>以含有一个隐层的网络结构为例,隐层节点自生成法的具体实现算法可以结合BP算法或者其改进算法来进行,其一般步骤如下:<br>(1)设定误差目标X和误差下降率阈值U;<br>(2)初始化网络结构,隐层节点数n=1,初始化网络权值和偏置值(为小的随机数),计算误差准则函数E;<br>(3)利用训练子集进行网络学习,调整网络权值和偏置值;<br>(4)计算误差准则函数E和误差下降率ΔE/E,同时利用验证子集进行验证误差Ev的计算,如果E&lt;X,则到第(8)步,否则到第(5)步;<br>(5)如果ΔE/E&lt;U,则到第(6)步,否则到第(3)步;<br>(6)如果验证误差Ev未达到最小值,则到第(3)步;如果验证误差Ev达到最小值且比增加节点前更大,则到第(8)步,否则到第(7)步;<br>(7)生成新的隐节点n+1,并为其设置权值和偏置值,转到第(3)步;<br>(8)学习结束,返回学习结果。</p>
+<p>源自 <a href="http://wenku.baidu.com/link?url=K8BMtqmDIf8nJizinO0y_5jGdAhs5BZ0kIzBS-9qVZ4oCDja7AecWQdXWnAE4IKXP4OPifH0KzWIh1PWXEyCaYm39sIdFPFcHfU8EZOUIB_" target="_blank" rel="external">http://wenku.baidu.com/link?url=K8BMtqmDIf8nJizinO0y_5jGdAhs5BZ0kIzBS-9qVZ4oCDja7AecWQdXWnAE4IKXP4OPifH0KzWIh1PWXEyCaYm39sIdFPFcHfU8EZOUIB_</a></p>
+<h3 id="隐层节点的个数多了怎样少了怎样">隐层节点的个数多了怎样少了怎样</h3><p>隐层一般是一层或两层，很少会采用三层以上，至少隐层的节点数确定，一般有以下几种方法：1、有经验的人员根据以往的经验凑试出节点个数。2、某些学术研究出固定的求节点方法，如2m+1个隐层节点，m为输入个数。3、修剪法。刚开始建立足够多的节点数，在训练过程中，根据节点数的相关程度，删除重复的节点。</p>
+<p>在确定隐层节点数时必须满足下列条件：<br>(1)隐层节点数必须小于N-1（其中N为训练样本数），否则，网络模型的系统误差与训练样本的特性无关而趋于零，即建立的网络模型没有泛化能力，也没有任何实用价值。同理可推得：输入层的节点数（变量数）必须小于N-1。<br>(2) 训练样本数必须多于网络模型的连接权数，一般为2~10倍，否则，样本必须分成几部分并采用“轮流训练”的方法才可能得到可靠的神经网络模型。<br>总之，<strong>若隐层节点数太少，网络可能根本不能训练或网络性能很差；若隐层节点数太多，虽然可使网络的系统误差减小，但一方面使网络训练时间延长，另一方面，训练容易陷入局部极小点而得不到最优点，也是训练时出现“过拟合”的内在原因。</strong>因此，合理隐层节点数应在综合考虑网络结构复杂程度和误差大小的情况下用节点删除法和扩张法确定。</p>
+<h3 id="什么情况下参数是负数">什么情况下参数是负数</h3><p>有负值是可能的，因为是非线性拟合函数，说明拟合不好。</p>
+<p>主成分分析中的主成分指特征向量。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/机器学习/">机器学习</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/07/机器学习面试问题7/" title="机器学习面试问题7">
+  <strong>上一篇：</strong><br/>
+  <span>
+  机器学习面试问题7</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/07/05/机器学习面试问题5/"  title="机器学习面试问题5">
+ <strong>下一篇：</strong><br/> 
+ <span>机器学习面试问题5
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#神经网络参数相关"><span class="toc-number">1.</span> <span class="toc-text">神经网络参数相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#参数的范围"><span class="toc-number">1.1.</span> <span class="toc-text">参数的范围</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何防止过拟合"><span class="toc-number">1.2.</span> <span class="toc-text">如何防止过拟合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隐层节点的个数多了怎样少了怎样"><span class="toc-number">1.3.</span> <span class="toc-text">隐层节点的个数多了怎样少了怎样</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#什么情况下参数是负数"><span class="toc-number">1.4.</span> <span class="toc-text">什么情况下参数是负数</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3121392487&verifier=cf84718a&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/机器学习/" title="机器学习">机器学习<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据仓库/" title="数据仓库">数据仓库<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/缓慢变化维/" title="缓慢变化维">缓慢变化维<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多维数据集/" title="多维数据集">多维数据集<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/maven/" title="maven">maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-shell/" title="linux shell">linux shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/粒度/" title="粒度">粒度<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可加性/" title="可加性">可加性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/稀疏性/" title="稀疏性">稀疏性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hbase/" title="hbase">hbase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/横向钻取/" title="横向钻取">横向钻取<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jar/" title="jar">jar<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net" target="_blank" title="CSDNCSDN博客">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pangjiuzala.github.io/" target="_blank" title="刘兴的博客">刘兴的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=saliormoon&amp;type=Users" target="_blank" title="关注王宇峰的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			欢迎关注</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Saliormoon All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

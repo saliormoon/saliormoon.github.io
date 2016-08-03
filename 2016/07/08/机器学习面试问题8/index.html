@@ -1,0 +1,618 @@
+
+ <!DOCTYPE HTML>
+<html >
+<head>
+  <meta charset="UTF-8">
+  
+    <title>机器学习面试问题8 | 王宇峰的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="王宇峰">
+    
+
+    
+    <meta name="description" content="userCF和itemCF在实际当中如何使用，提供具体操作，以及它们的优势（推荐系统）基于用户的协同过滤算法UserCF
+基于用户的协同过滤，通过不同用户对物品的评分来评测用户之间的相似性，基于用户间的相似性做出推荐。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习面试问题8">
+<meta property="og:url" content="http://saliormoon.github.io/2016/07/08/机器学习面试问题8/index.html">
+<meta property="og:site_name" content="王宇峰的博客">
+<meta property="og:description" content="userCF和itemCF在实际当中如何使用，提供具体操作，以及它们的优势（推荐系统）基于用户的协同过滤算法UserCF
+基于用户的协同过滤，通过不同用户对物品的评分来评测用户之间的相似性，基于用户间的相似性做出推荐。">
+<meta property="og:image" content="http://img.blog.csdn.net/20160730173353026">
+<meta property="og:image" content="http://img.blog.csdn.net/20160730173455091">
+<meta property="og:updated_time" content="2016-08-03T04:24:02.093Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="机器学习面试问题8">
+<meta name="twitter:description" content="userCF和itemCF在实际当中如何使用，提供具体操作，以及它们的优势（推荐系统）基于用户的协同过滤算法UserCF
+基于用户的协同过滤，通过不同用户对物品的评分来评测用户之间的相似性，基于用户间的相似性做出推荐。">
+
+    
+    <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="王宇峰的博客" title="王宇峰的博客"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="王宇峰的博客">王宇峰的博客</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">文章列表</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/07/08/机器学习面试问题8/" title="机器学习面试问题8" itemprop="url">机器学习面试问题8</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="王宇峰" target="_blank" itemprop="author">王宇峰</a>
+		
+  <p class="article-time">
+    <time datetime="2016-07-07T16:00:00.000Z" itemprop="datePublished"> 发表于 2016-07-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#userCF和itemCF在实际当中如何使用，提供具体操作，以及它们的优势（推荐系统）"><span class="toc-number">1.</span> <span class="toc-text">userCF和itemCF在实际当中如何使用，提供具体操作，以及它们的优势（推荐系统）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何用Logic_regression建立一个广告点击次数预测模型"><span class="toc-number">2.</span> <span class="toc-text">如何用Logic regression建立一个广告点击次数预测模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#举一个适合采用层次分析法的例子"><span class="toc-number">3.</span> <span class="toc-text">举一个适合采用层次分析法的例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关联分析中的极大频繁项集,FP增长算法"><span class="toc-number">4.</span> <span class="toc-text">关联分析中的极大频繁项集,FP增长算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何解决过拟合问题"><span class="toc-number">5.</span> <span class="toc-text">如何解决过拟合问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#L1和L2正则的区别，如何选择L1和L2正则"><span class="toc-number">6.</span> <span class="toc-text">L1和L2正则的区别，如何选择L1和L2正则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#随机森林的学习过程"><span class="toc-number">7.</span> <span class="toc-text">随机森林的学习过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#随机森林中的每一颗树是如何学习的"><span class="toc-number">8.</span> <span class="toc-text">随机森林中的每一颗树是如何学习的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#随机森林学习算法中CART树的基尼指数是什么"><span class="toc-number">9.</span> <span class="toc-text">随机森林学习算法中CART树的基尼指数是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#k-meanshift机制及实现"><span class="toc-number">10.</span> <span class="toc-text">k-meanshift机制及实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现最小二乘法"><span class="toc-number">11.</span> <span class="toc-text">实现最小二乘法</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="userCF和itemCF在实际当中如何使用，提供具体操作，以及它们的优势（推荐系统）">userCF和itemCF在实际当中如何使用，提供具体操作，以及它们的优势（推荐系统）</h2><p><strong>基于用户的协同过滤算法UserCF</strong></p>
+<p>基于用户的协同过滤，通过不同用户对物品的评分来评测用户之间的相似性，基于用户间的相似性做出推荐。<br><a id="more"></a><br><strong>简单来讲就是：给用户推荐和他兴趣相似的其他用户喜欢的物品。</strong><br>基于UserCF的基本思想相当简单，基于用户对物品的偏好找到相邻邻居用户，然后将邻居用户喜欢的推荐给当前用户。<br>计算上，就是将一个用户对所有物品的偏好作为一个向量来计算用户之间的相似度，找到K邻居后，根据邻居的相似度权重以及他们对物品的偏好，预测当前用户没有偏好的未涉及物品，计算得到一个排序的物品列表作为推荐。</p>
+<p><strong>基于物品的协同过滤算法ItemCF</strong></p>
+<p>基于item的协同过滤，通过用户对不同item的评分来评测item之间的相似性，基于item之间的相似性做出推荐。<br><strong>简单来讲就是：给用户推荐和他之前喜欢的物品相似的物品。</strong></p>
+<p>基于ItemCF的原理和基于UserCF类似，只是在计算邻居时采用物品本身，而不是从用户的角度，即基于用户对物品的偏好找到相似的物品，然后根据用户的历史偏好，推荐相似的物品给他。<br>从计算的角度看，就是将所有用户对某个物品的偏好作为一个向量来计算物品之间的相似度，得到物品的相似物品后，根据用户历史的偏好预测当前用户还没有表示偏好的物品，计算得到一个排序的物品列表作为推荐。</p>
+<p><strong>User CF 和Item CF的比较：</strong><br>对于电子商务，用户数量一般大大超过商品数量，此时Item CF的计算复杂度较低。<br>在非社交网络的网站中，内容内在的联系是很重要的推荐原则，它比基于相似用户的推荐原则更加有效。比如在购书网站上，当你看一本书的时候，推荐引擎会给你推荐相关的书籍，这个推荐的重要性远远超过了网站首页对该用户的综合推荐。可以看到，在这种情况下，Item CF 的推荐成为了引导用户浏览的重要手段。基于物品的协同过滤算法，是目前电子商务采用最广泛的推荐算法。<br>在社交网络站点中，User CF 是一个更不错的选择，User CF 加上社会网络信息，可以增加用户对推荐解释的信服程度。</p>
+<h2 id="如何用Logic_regression建立一个广告点击次数预测模型">如何用Logic regression建立一个广告点击次数预测模型</h2><p>主要分为两个步骤：线下训练和线上计算。<br>线下训练中使用Hadoop，从搜索引擎日志出发，经历数据清洗、提取特征、合并增量、排序降维、模型求解、模型验证等步骤，最终得出一个特征到权重的映射文件，即所需模型。<br>在线上计算部分，要经历扩展匹配、广告粗选、CTR计算等步骤，取出CTR中最高的10个广告返回给前端。</p>
+<p>逻辑回归模型用于提取数据集中区分度高的特征。<br>详细可参考：<br><a href="http://www.doc88.com/p-7042012124449.html" target="_blank" rel="external">http://www.doc88.com/p-7042012124449.html</a></p>
+<h2 id="举一个适合采用层次分析法的例子">举一个适合采用层次分析法的例子</h2><p>层次分析法的思想：将所有要分析的问题层次化，根据问题的性质和所要达到的总目标，将问题分为不同的组成因素，并按照这些因素间的关联影响即其隶属关系，将因素按不同层次聚集组合，形成一个多层次分析结构模型，最后，对问题进行优劣性比较排序。</p>
+<p>层次分析法的步骤：<br>1）找准各因素之间的隶属度关系建立递阶层次结构。<br>2）构造判断矩阵（成对比较阵）并赋值。<br>3）层次单排序（计算权向量）与检验（一致性检验）。<br>4）层次总排序（组合权向量）与检验（一致性检验）。<br>5）结果分析。</p>
+<p>其它可参见：<br><a href="http://wenku.baidu.com/link?url=HyKXeXiJ6hzyqXEuKFnKNNOn5aOBnXFP_791mkVYzHv5X97mjkiAAEo1LMjJ5qsUSyT6O_44mdxCuzwCrQbB7RBP3ko_76IrHgRZ5zl1SiW" target="_blank" rel="external">http://wenku.baidu.com/link?url=HyKXeXiJ6hzyqXEuKFnKNNOn5aOBnXFP_791mkVYzHv5X97mjkiAAEo1LMjJ5qsUSyT6O_44mdxCuzwCrQbB7RBP3ko_76IrHgRZ5zl1SiW</a></p>
+<h2 id="关联分析中的极大频繁项集,FP增长算法">关联分析中的极大频繁项集,FP增长算法</h2><p>最大频繁项集是各频繁k项集中符合无超集条件的频繁项集。</p>
+<p><strong>项集</strong>：由项组成的集合。<br>若项集的支持度≥给定最小支持度，称其为<strong>频繁项集</strong>。<br><strong>超集</strong>：若一个集合S2中的每一个元素都在集合S1中，且集合S1中可能包含S2中没有的元素，则集合S1就是S2的一个超集。 S1是S2的超集，则S2是S1的真子集。<br>如果频繁项集L 的所有超集都是非频繁项集, 那么称L 为<strong>最大频繁项集</strong>或称最大频繁模式。</p>
+<p>频繁项集是最大频繁项集的子集。最大频繁项集中包含了频繁项集的频繁信息， 且通常项集的规模要小几个数量级。所以在数据集中含有较长的频繁模式时挖掘最大频繁项集是非常有效的手段。</p>
+<p><strong>FP增长算法：</strong>在算法中使用了一种称为频繁模式树（Frequent Pattern Tree）的数据结构。</p>
+<p>Apriori算法在产生频繁模式完全集前需要对数据库进行多次扫描，同时产生大量的候选频繁集，这就使Apriori算法时间和空间复杂度较大。但是Apriori算法中有一个很重要的性质：频繁项集的所有非空子集都必须也是频繁的。由此性质，引出了FP增长算法。</p>
+<p>首先介绍FP增长算法中的几个<strong>概念</strong>：<br>a.FP-Tree：将事务数据表中的各个事务数据项按照支持度排序后，把每个事务中的数据项按降序依次插入到一棵以NULL为根结点的树中，同时在每个结点处记录该结点出现的支持度。<br>b.条件模式基：包含FP-Tree中与后缀模式一起出现的前缀路径的集合。<br>c.条件树：将条件模式基按照FP-Tree的构造原则形成的一个新的FP-Tree。</p>
+<p><strong>步骤</strong>：<br>挖掘频繁模式前首先要构造FP-Tree，<br>输入:一个事物数据库D和一个最小支持度threshold.<br>输出:对应的FP-tree.</p>
+<p><strong>算法流程</strong><br>1.扫描数据库T一遍.得到频繁项的集合F和每个频繁项的支持度.把F按支持度递降排序,结果记为L.<br>2.创建FP-tree的根节点,记为T,并且标记为”null”.然后对D中的每个事务t,<br>根据L中的顺序,选出并排序t中的事务项.把t中排好序的事务项列表记为[p|P],其中p是第一个元素,P是列表的剩余部分.调用insert_tree([p|P],T).<br>函数insert_tree([p|P],T)的运行如下.<br>如果T有一个子结点N,其中N.item-name=p.item-name,则将N的count阈值+1;<br>否则,创建一个新节点N,使它的count为1,使它的父节点为T,并且使它的node_link和那些具有相同item_name域串起来.如果P非空,则递归调用insert_tree(P,N).</p>
+<p>对FP-Tree进行挖掘，算法如下：<br>输入:一棵用算法一建立的树Tree<br>输出:所有的频繁集<br>步骤:<br>调用FP-growth(Tree,null).<br>procedure FP-Growth ( Tree, x)<br>{<br>(1) if (Tree只包含单路径P) then<br>(2) 对路径P中节点的每个组合（记为B）<br>(3) 生成模式B并x，支持数=B中所有节点的最小支持度<br>(4) else 对Tree头上的每个ai，do<br>{<br>(5) 生成模式B= ai 并 x，支持度=ai.support；<br>(6) 构造B的条件模式库和B的条件FP树TreeB；<br>(7) if TreeB != 空集<br>(8) then call FP-Growth ( TreeB , B )<br>}}</p>
+<h2 id="如何解决过拟合问题">如何解决过拟合问题</h2><p><strong>过拟合</strong>：为了得到一致假设而使假设变得过度复杂称为过拟合。</p>
+<p> <strong>过拟合的产生原因：</strong><br>1）由于对样本数据，可能存在隐单元的表示不唯一，即产生的分类的决策面不唯一。</p>
+<p>2）权值学习迭代次数足够多，拟合了训练数据中的噪声和训练样例中没有代表性的特征。</p>
+<p><strong>过度拟合解决方法：</strong><br>1）权值衰减。<br>在每次迭代过程中以某个小因子降低每个权值，这等效于修改E的定义，加入一个与网络权值的总量相应的惩罚项，此方法的动机是保持权值较小，避免权值衰减，从而使学习过程向着复杂决策面的反方向偏。</p>
+<p>2）适当的停止准则。</p>
+<p>3）验证数据。<br>  一个最成功的方法是在训练数据外再为算法提供一套验证数据,应该使用在验证集合上产生最小误差的迭代次数，不是总能明显地确定验证集合何时达到最小误差。当验证出现的错误上升时停止训练。</p>
+<p>4）交叉验证。<br>交叉验证方法在可获得额外的数据提供验证集合时工作得很好，但是小训练集合的过度拟合问题更为严重。</p>
+<p>k-fold交叉方法:<br>把训练样例分成k份,然后进行k次交叉验证过程,每次使用不同的一份作为验证集合,其余k-1份合并作为训练集合.每个样例会在一次实验中被用作验证样例,在k-1次实验中被用作训练样例;每次实验中,使用上面讨论的交叉验证过程来决定在验证集合上取得最佳性能的迭代次数n*,然后计算这些迭代次数的均值,作为最终需要的迭代次数。</p>
+<p>5） 减少特征<br>人工选择，预留一些特征；利用算法选取一些比较好的特征。</p>
+<p>6）正则化<br>降低模型复杂度。</p>
+<p>也可参见：<br><a href="http://blog.csdn.net/heyongluoyao8/article/details/49429629" target="_blank" rel="external">http://blog.csdn.net/heyongluoyao8/article/details/49429629</a></p>
+<h2 id="L1和L2正则的区别，如何选择L1和L2正则">L1和L2正则的区别，如何选择L1和L2正则</h2><p>正则化项即罚函数，该项对模型向量进行“惩罚”，从而避免单纯最小二乘问题的过拟合问题。训练的目的是最小化目标函数，则C越小，意味着惩罚越小，分类间隔也就越小，分类错误也就越少。</p>
+<p>正则化项本质上是一种先验信息，整个最优化问题从贝叶斯观点来看是一种贝叶斯最大后验估计，其中正则化项对应后验估计中的先验信息，损失函数对应后验估计中的似然函数，两者的乘积即对应贝叶斯最大后验估计的形式，如果你将这个贝叶斯最大后验估计的形式取对数，即进行极大似然估计，你就会发现问题立马变成了损失函数+正则化项的最优化问题形式。</p>
+<p>(1) 避免出现过拟合（over-fitting）。经验风险最小化 + 正则化项 = 结构风险最小化。</p>
+<p>(2) 从模型求解上看，正则化提供了一种唯一解的可能。光用最小二乘拟合可能出现无数组解，加个L1或L2正则化项能有唯一解。</p>
+<p><strong>L1范数是指向量中各个元素绝对值之和，用于特征选择;</strong></p>
+<p><strong>L1正则化将系数的l1范数作为惩罚项加到损失函数上。</strong></p>
+<p><strong>L2范数是指向量各元素的平方和然后求平方根，用于 防止过拟合，提升模型的泛化能力。</strong></p>
+<p><strong>L2正则化将系数向量的L2范数添加到了损失函数中。L2惩罚项中系数是二次方的。</strong></p>
+<p><strong>L1与L2区别：使用L1可以得到稀疏的权值；用L2可以得到平滑的权值。</strong></p>
+<p>L1优点是能够获得sparse模型，对于large-scale的问题来说这一点很重要，因为可以减少存储空间。缺点是加入L1后目标函数在原点不可导，需要做特殊处理。</p>
+<p>L2优点是实现简单，能够起到正则化的作用。缺点就是L1的优点：无法获得sparse模型。<br>实际上L1也是一种妥协的做法，要获得真正sparse的模型，要用L0正则化。</p>
+<h2 id="随机森林的学习过程">随机森林的学习过程</h2><p>随机森林指的是利用多棵树对样本进行训练并预测的一种分类器。<br>在机器学习中，随机森林是一个包含多个决策树的分类器， 并且其输出的类别是由个别树输出的类别的众数而定。</p>
+<p><strong>随机森林的构建过程：</strong><br>首先，从原始的数据集中采取有放回的抽样，构造子数据集，子数据集的数据量是和原始数据集相同的。不同子数据集的元素可以重复，同一个子数据集中的元素也可以重复。第二，利用子数据集来构建子决策树，将这个数据放到每个子决策树中，每个子决策树输出一个结果。最后，如果有了新的数据需要通过随机森林得到分类结果，就可以通过对子决策树的判断结果的投票，得到随机森林的输出结果了。</p>
+<h2 id="随机森林中的每一颗树是如何学习的">随机森林中的每一颗树是如何学习的</h2><p> 每棵树按照如下规则生成：</p>
+<p>1）如果训练集大小为N，对于每棵树而言， 随机且有放回地 从训练集中的抽取N个训练样本 （这种采样方式称为bootstrap sample） ，作为该树的训练集；</p>
+<p>从这里我们可以知道：每棵树的训练集都是不同的，而且里面包含重复的训练样本（理解这点很重要）。</p>
+<p>2）如果每个样本的特征维度为M，指定一个 常数m&lt;&lt;M ， 随机地 从M个特征中选取m个特征子集，每次树进行分裂时，从这m个特征中选择最优的；</p>
+<p>3）每棵树都尽最大程度的生长，并且没有剪枝过程 。</p>
+<p>一开始我们提到的随机森林中的“随机”就是指的这里的两个随机性。 两个随机性的引入对随机森林的分类性能至关重要。由于它们的引入，使得随机森林不容易陷入过拟合，并且具有很好得抗噪能力（比如：对缺省值不敏感）。</p>
+<p>详细可参见：<br><a href="http://blog.csdn.net/luzonghao1/article/details/50857302" target="_blank" rel="external">http://blog.csdn.net/luzonghao1/article/details/50857302</a></p>
+<h2 id="随机森林学习算法中CART树的基尼指数是什么">随机森林学习算法中CART树的基尼指数是什么</h2><center><br><img src="http://img.blog.csdn.net/20160730173353026" alt=""><br><img src="http://img.blog.csdn.net/20160730173455091" alt=""><br></center>
+
+<p>可参见：</p>
+<p>1.<a href="http://wenku.baidu.com/link?url=19Z3AGEcedpHuI-i4rKrM_bLCLT4SmRi0BZhJmQc9pRUzkv_9oO4fkSMfOA4Gat9Rf2kIsJyH9CPktjdF_M-6brhBVtjtvYmyBuQS3WAQGS" target="_blank" rel="external">http://wenku.baidu.com/link?url=19Z3AGEcedpHuI-i4rKrM_bLCLT4SmRi0BZhJmQc9pRUzkv_9oO4fkSMfOA4Gat9Rf2kIsJyH9CPktjdF_M-6brhBVtjtvYmyBuQS3WAQGS</a></p>
+<p>2.<a href="http://blog.csdn.net/smf0504/article/details/51920678" target="_blank" rel="external">http://blog.csdn.net/smf0504/article/details/51920678</a></p>
+<p>3.<a href="http://wenku.baidu.com/link?url=NVSsiWXumVrXDlL6aGxLiG5dJwcA70Q4Q9dSS4Og31jID_NPEfe1jzhDlUweqJv_O33YUekAWE1u8Ij0sfl-tSjfzoF9y5T6mtv-W6SArfy" target="_blank" rel="external">http://wenku.baidu.com/link?url=NVSsiWXumVrXDlL6aGxLiG5dJwcA70Q4Q9dSS4Og31jID_NPEfe1jzhDlUweqJv_O33YUekAWE1u8Ij0sfl-tSjfzoF9y5T6mtv-W6SArfy</a></p>
+<h2 id="k-meanshift机制及实现">k-meanshift机制及实现</h2><p><strong>Mean Shift算法</strong>：一般是指一个迭代的步骤，即先算出当前点的偏移均值,移动该点到其偏移均值，然后以此为新的起始点，继续移动，直到满足一定的条件结束。是一种梯度聚类算法。</p>
+<p>算法推导可参见：<br><a href="http://www.cnblogs.com/liqizhou/archive/2012/05/12/2497220.html" target="_blank" rel="external">http://www.cnblogs.com/liqizhou/archive/2012/05/12/2497220.html</a></p>
+<p><strong>meanshift实现：</strong><br><strong>meanshift.h</strong> 代码如下：<br><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">ifndef _MEANSHIFT_H_  </span><br><span class="line"><span class="preprocessor">#<span class="keyword">define</span> _MEANSHIFT_H_  </span></span><br><span class="line">  </span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">"common.h"</span>  </span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">class</span> MeanShift  </span><br><span class="line">&#123;  </span><br><span class="line"><span class="keyword">public</span>:  </span><br><span class="line">    <span class="keyword">typedef</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;VecPoint&gt; VecVecPoint;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">float</span> NEAREST_ZERO;  </span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keyword">float</span> C;  <span class="comment">//!高斯核函数中的常数  </span></span><br><span class="line">  </span><br><span class="line">    MeanShift() : m_size(<span class="number">0</span>), R(<span class="number">0.0f</span>)&#123;&#125;  </span><br><span class="line">  </span><br><span class="line">     <span class="comment">/** \brief 设置输入点云 </span><br><span class="line">       * \param[in]  pPntCloud 输入点云 </span><br><span class="line">       */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">setInputCloud</span><span class="params">(<span class="keyword">const</span> PointCloud&lt;PointXYZ&gt;::Ptr pPntCloud)</span></span>;  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">     <span class="comment">/** \brief 获取聚类后的点云  */</span>  </span><br><span class="line">    <span class="function">VecVecPoint &amp; <span class="title">getOutputCloud</span><span class="params">()</span>  </span><br><span class="line">    </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> vv_pnt;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/** \brief 设置K近邻算法的搜索半径 </span><br><span class="line">       * \param[in]  radius 半径 </span><br><span class="line">       */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">setKNNRadius</span><span class="params">(<span class="keyword">const</span> <span class="keyword">float</span> radius)</span>  </span><br><span class="line">    </span>&#123;  </span><br><span class="line">        R = radius;  </span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">     <span class="comment">/** \brief 执行MeanShift聚类算法    */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">process</span><span class="params">()</span></span>;  </span><br><span class="line">  </span><br><span class="line">     <span class="comment">/** \brief 保存聚类后的点云文件 </span><br><span class="line">       * \param[in] dir_name 保存的目录 </span><br><span class="line">       * \param[in] prex_name 文件名前缀 </span><br><span class="line">       */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">SaveFile</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *dir_name, <span class="keyword">const</span> <span class="keyword">char</span> *prex_name)</span></span>;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">private</span>:  </span><br><span class="line">    <span class="keyword">size_t</span> m_size;  <span class="comment">//!要处理点的个数  </span></span><br><span class="line">    PointCloud&lt;PointXYZ&gt;::Ptr mp_pointcloud;  <span class="comment">//!PCL形式的点云，主要是为了使用FLANN的KD树  </span></span><br><span class="line">    VecPoint mv_pntcld;  <span class="comment">//!点云  </span></span><br><span class="line">    VecPoint mv_local_mode;  <span class="comment">//!每个点的局部模式  </span></span><br><span class="line">    VecVecPoint vv_pnt;  <span class="comment">//!聚类后的点云  </span></span><br><span class="line">  </span><br><span class="line">    <span class="keyword">float</span> R;  <span class="comment">//!K近邻算法时对应的搜索半径  </span></span><br><span class="line">  </span><br><span class="line">     <span class="comment">/** \brief 对每个点执行MeanShift </span><br><span class="line">       * \param[in]  in_pnt 输入的点 </span><br><span class="line">       * \param[out] out_pnt 输出的点 </span><br><span class="line">       */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">inline</span> <span class="keyword">bool</span> <span class="title">execMeanShiftEachPoint</span><span class="params">(<span class="keyword">const</span> PointXYZ &amp;in_pnt, Point &amp;out_pnt)</span></span>;  </span><br><span class="line">  </span><br><span class="line">     <span class="comment">/** \brief 将具有相同局部模式的点归为一类 </span><br><span class="line">       * \param[in] v_localmode 各个点对应的局部模式 </span><br><span class="line">       * \param[out] vv_pnt 归并后的点 </span><br><span class="line">       */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">mergeSameLocalModePoint</span><span class="params">(<span class="keyword">const</span> VecPoint &amp;v_localmode, VecVecPoint &amp;vv_pnt)</span></span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">inline</span> <span class="keyword">float</span> <span class="title">gauss</span><span class="params">(<span class="keyword">float</span> x)</span>  </span><br><span class="line">    </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> <span class="function">C * <span class="title">sqrt</span><span class="params">(x)</span> * <span class="title">exp</span><span class="params">(-<span class="number">0.5</span> * x)</span></span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">&#125;;  </span><br><span class="line">  </span><br><span class="line"><span class="preprocessor">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure></p>
+<p><strong>meanshift.cpp </strong> 代码如下：<br><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="preprocessor">#<span class="keyword">include</span> <span class="string">"meanshift.h"</span>  </span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">const</span> <span class="keyword">float</span> MeanShift::NEAREST_ZERO = <span class="number">0.01</span>;  </span><br><span class="line"><span class="keyword">const</span> <span class="keyword">float</span> MeanShift::C = <span class="number">2.0f</span>;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">bool</span> MeanShift::setInputCloud(<span class="keyword">const</span> PointCloud&lt;PointXYZ&gt;::Ptr pPntCloud)  </span><br><span class="line">&#123;  </span><br><span class="line">    m_size = pPntCloud-&gt;points.size();  </span><br><span class="line">    mv_pntcld.resize(m_size);  </span><br><span class="line">    mv_local_mode.resize(m_size);  </span><br><span class="line">      </span><br><span class="line">    mp_pointcloud = pPntCloud;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; m_size; ++i)  </span><br><span class="line">    &#123;  </span><br><span class="line">        mv_pntcld[i].x = pPntCloud-&gt;points[i].x;  </span><br><span class="line">        mv_pntcld[i].y = pPntCloud-&gt;points[i].y;  </span><br><span class="line">        mv_pntcld[i].z = pPntCloud-&gt;points[i].z;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">inline</span> <span class="keyword">bool</span> MeanShift::execMeanShiftEachPoint(<span class="keyword">const</span> PointXYZ &amp;in_pnt, Point &amp;out_pnt)  </span><br><span class="line">&#123;  </span><br><span class="line">    <span class="comment">// Set up KDTree  </span></span><br><span class="line">    pcl::KdTreeFLANN&lt;PointXYZ&gt;::<span class="function">Ptr <span class="title">tree</span> <span class="params">(new pcl::KdTreeFLANN&lt;PointXYZ&gt;)</span></span>;  </span><br><span class="line">    tree-&gt;setInputCloud (mp_pointcloud);  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">// Main Loop  </span></span><br><span class="line">    PointXYZ pnt = in_pnt;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>)  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="comment">// Neighbors containers  </span></span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; k_indices;  </span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">float</span>&gt; k_distances;  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">float</span> sum_weigh = <span class="number">0</span>;  </span><br><span class="line">        <span class="keyword">float</span> x = <span class="number">0.0f</span>, y = <span class="number">0.0f</span>, z = <span class="number">0.0f</span>;  </span><br><span class="line">        <span class="keyword">float</span> dist_pnts = <span class="number">0.0f</span>;  </span><br><span class="line">  </span><br><span class="line">        tree-&gt;radiusSearch (pnt, R, k_indices, k_distances);  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, pnumber = k_indices.size(); i &lt; pnumber; ++i)  </span><br><span class="line">        &#123;  </span><br><span class="line">            <span class="keyword">size_t</span> index = k_indices[i];  </span><br><span class="line">            PointXYZ &amp;nbhd_pnt = mp_pointcloud-&gt;points[index];  </span><br><span class="line">            <span class="keyword">float</span> sqr_dist = k_distances[i];  </span><br><span class="line">            <span class="keyword">float</span> gauss_param = sqr_dist / (R * R);  </span><br><span class="line">            <span class="keyword">float</span> w = gauss(gauss_param);  </span><br><span class="line">  </span><br><span class="line">            x += nbhd_pnt.x * w;  </span><br><span class="line">            y += nbhd_pnt.y * w;  </span><br><span class="line">            z += nbhd_pnt.z * w;  </span><br><span class="line">            sum_weigh += w;  </span><br><span class="line">        &#125;  </span><br><span class="line">        x = x / sum_weigh;  </span><br><span class="line">        y = y / sum_weigh;  </span><br><span class="line">        z = z / sum_weigh;  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">float</span> diff_x = x - pnt.x, diff_y = y - pnt.y, diff_z = z - pnt.z;  </span><br><span class="line">  </span><br><span class="line">        dist_pnts = <span class="built_in">sqrt</span>(diff_x * diff_x + diff_y * diff_y + diff_z * diff_z);  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">if</span> (dist_pnts &lt;= <span class="number">0.0001</span><span class="comment">/*MeanShift::NEAREST_ZERO*/</span>)  </span><br><span class="line">        &#123;  </span><br><span class="line">            <span class="keyword">break</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">        pnt.x = x;  </span><br><span class="line">        pnt.y = y;  </span><br><span class="line">        pnt.z = z;  </span><br><span class="line">    &#125;;  </span><br><span class="line">  </span><br><span class="line">    out_pnt.x = pnt.x;  </span><br><span class="line">    out_pnt.y = pnt.y;  </span><br><span class="line">    out_pnt.z = pnt.z;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">bool</span> MeanShift::mergeSameLocalModePoint(<span class="keyword">const</span> VecPoint &amp;v_localmode, VecVecPoint &amp;vv_pnt)  </span><br><span class="line">&#123;  </span><br><span class="line">    assert(v_localmode.size() == m_size);  </span><br><span class="line">  </span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; v_iscluster(m_size, <span class="literal">false</span>);  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; m_size; ++i)  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">size_t</span> j = i + <span class="number">1</span>; j &lt; m_size; ++j)  </span><br><span class="line">        &#123;  </span><br><span class="line">            <span class="keyword">const</span> Point &amp; lmpnt1 = v_localmode[i];  </span><br><span class="line">            <span class="keyword">const</span> Point &amp; lmpnt2 = v_localmode[j];  </span><br><span class="line">            <span class="function">Point  <span class="title">pnt1</span><span class="params">(mp_pointcloud-&gt;points[i].x, mp_pointcloud-&gt;points[i].y, mp_pointcloud-&gt;points[i].z)</span></span>;  </span><br><span class="line">            <span class="function">Point  <span class="title">pnt2</span><span class="params">(mp_pointcloud-&gt;points[j].x, mp_pointcloud-&gt;points[j].y, mp_pointcloud-&gt;points[j].z)</span></span>;  </span><br><span class="line">            <span class="keyword">float</span> dist = <span class="number">0.0f</span>;  </span><br><span class="line">  </span><br><span class="line">            dist = getPointsDist(lmpnt1, lmpnt2);  </span><br><span class="line">            <span class="keyword">if</span> (dist &lt;= MeanShift::NEAREST_ZERO)  </span><br><span class="line">            &#123;  </span><br><span class="line">                <span class="comment">//两个点可近似重合  </span></span><br><span class="line">                VecPoint v_pnt;  </span><br><span class="line">  </span><br><span class="line">                <span class="keyword">if</span> ( !v_iscluster[i] &amp;&amp;  !v_iscluster[j])  </span><br><span class="line">                &#123;  </span><br><span class="line">                    v_iscluster[i] = <span class="literal">true</span>;  </span><br><span class="line">                    v_pnt.push_back(pnt1);  </span><br><span class="line">  </span><br><span class="line">                    v_iscluster[j] = <span class="literal">true</span>;  </span><br><span class="line">                    v_pnt.push_back(pnt2);  </span><br><span class="line">  </span><br><span class="line">                    vv_pnt.push_back(v_pnt);  </span><br><span class="line">                &#125;  </span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> ( v_iscluster[i] &amp;&amp;  !v_iscluster[j])  </span><br><span class="line">                &#123;  </span><br><span class="line">                    <span class="keyword">size_t</span> clustered_count = vv_pnt.size();  </span><br><span class="line">                    <span class="keyword">size_t</span> m, n;  </span><br><span class="line">                    <span class="keyword">for</span> (m = <span class="number">0</span>; m &lt; clustered_count; ++m)  </span><br><span class="line">                    &#123;  </span><br><span class="line">                        <span class="keyword">size_t</span> count = vv_pnt[m].size();  </span><br><span class="line">                        <span class="keyword">for</span> (n = <span class="number">0</span>; n &lt; count; ++n)  </span><br><span class="line">                        &#123;  </span><br><span class="line">                            <span class="keyword">if</span> (pnt1 == vv_pnt[m][n])  </span><br><span class="line">                            &#123;  </span><br><span class="line">                                vv_pnt[m].push_back(pnt2);  </span><br><span class="line">                                v_iscluster[j] = <span class="literal">true</span>;  </span><br><span class="line">                                <span class="keyword">goto</span> LABEL1;  </span><br><span class="line">                            &#125;  </span><br><span class="line">                        &#125;  <span class="comment">// for n  </span></span><br><span class="line">                    &#125;  <span class="comment">// for m  </span></span><br><span class="line">LABEL1:  </span><br><span class="line">                    ;  </span><br><span class="line">                &#125;  <span class="comment">// else if  </span></span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span> ( !v_iscluster[i] &amp;&amp;  v_iscluster[j])  </span><br><span class="line">                &#123;  </span><br><span class="line">                    <span class="keyword">size_t</span> clustered_count = vv_pnt.size();  </span><br><span class="line">                    <span class="keyword">size_t</span> m, n;  </span><br><span class="line">                    <span class="keyword">for</span> (m = <span class="number">0</span>; m &lt; clustered_count; ++m)  </span><br><span class="line">                    &#123;  </span><br><span class="line">                        <span class="keyword">size_t</span> count = vv_pnt[m].size();  </span><br><span class="line">                        <span class="keyword">for</span> (n = <span class="number">0</span>; n &lt; count; ++n)  </span><br><span class="line">                        &#123;  </span><br><span class="line">                            <span class="keyword">if</span> (pnt2 == vv_pnt[m][n])  </span><br><span class="line">                            &#123;  </span><br><span class="line">                                vv_pnt[m].push_back(pnt1);  </span><br><span class="line">                                v_iscluster[i] = <span class="literal">true</span>;  </span><br><span class="line">                                <span class="keyword">goto</span> LABEL2;  </span><br><span class="line">                            &#125;  </span><br><span class="line">                        &#125;  <span class="comment">// for n  </span></span><br><span class="line">                    &#125;  <span class="comment">// for m  </span></span><br><span class="line">LABEL2:  </span><br><span class="line">                    ;  </span><br><span class="line">                &#125;  </span><br><span class="line">                <span class="keyword">else</span>  </span><br><span class="line">                &#123;  </span><br><span class="line">                    <span class="comment">//都已经聚类，就不做处理  </span></span><br><span class="line">                &#125;  </span><br><span class="line">            &#125;  <span class="comment">//  if (dist &lt;= NEAREST_ZERO)  </span></span><br><span class="line">  </span><br><span class="line">        &#125;  <span class="comment">//  for j  </span></span><br><span class="line">    &#125;  <span class="comment">//  for i  </span></span><br><span class="line">  </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; m_size; ++i)  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="keyword">if</span> (!v_iscluster[i])  </span><br><span class="line">        &#123;  </span><br><span class="line">            <span class="function">Point  <span class="title">pnt</span><span class="params">(mp_pointcloud-&gt;points[i].x, mp_pointcloud-&gt;points[i].y, mp_pointcloud-&gt;points[i].z)</span></span>;  </span><br><span class="line">            VecPoint v_pnt;  </span><br><span class="line">  </span><br><span class="line">            v_iscluster[i] = <span class="literal">true</span>;  </span><br><span class="line">            v_pnt.push_back(pnt);  </span><br><span class="line">            vv_pnt.push_back(v_pnt);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">bool</span> MeanShift::process()  </span><br><span class="line">&#123;  </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; m_size; ++i)  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="keyword">const</span> PointXYZ &amp;pnt = mp_pointcloud-&gt;points[i];  </span><br><span class="line">        execMeanShiftEachPoint(pnt, mv_local_mode[i]);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    mergeSameLocalModePoint(mv_local_mode, vv_pnt);  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">bool</span> MeanShift::SaveFile(<span class="keyword">const</span> <span class="keyword">char</span> *dir_name, <span class="keyword">const</span> <span class="keyword">char</span> *prex_name)  </span><br><span class="line">&#123;  </span><br><span class="line">    <span class="keyword">size_t</span> cluster_count = vv_pnt.size();  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; cluster_count; ++i)  </span><br><span class="line">    &#123;  </span><br><span class="line">        pcl::PointCloud&lt;pcl::PointXYZ&gt;::<span class="function">Ptr <span class="title">p_pnt_cloud</span><span class="params">(new pcl::PointCloud&lt;pcl::PointXYZ&gt; ()</span>)</span>;  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">size_t</span> j = <span class="number">0</span>, grp_pnt_count = vv_pnt[i].size(); j &lt; grp_pnt_count; ++j)  </span><br><span class="line">        &#123;  </span><br><span class="line">            pcl::PointXYZ pt;  </span><br><span class="line">            pt.x = vv_pnt[i][j].x;  </span><br><span class="line">            pt.y = vv_pnt[i][j].y;  </span><br><span class="line">            pt.z = vv_pnt[i][j].z;  </span><br><span class="line">  </span><br><span class="line">            p_pnt_cloud-&gt;points.push_back(pt);  </span><br><span class="line">        &#125;  </span><br><span class="line">  </span><br><span class="line">        p_pnt_cloud-&gt;width = <span class="keyword">static_cast</span>&lt;<span class="keyword">size_t</span>&gt;(vv_pnt[i].size());  </span><br><span class="line">        p_pnt_cloud-&gt;height = <span class="number">1</span>;  </span><br><span class="line">  </span><br><span class="line">        <span class="keyword">char</span> newFileName[<span class="number">256</span>] = &#123;<span class="number">0</span>&#125;;  </span><br><span class="line">        <span class="keyword">char</span> indexStr[<span class="number">16</span>] = &#123;<span class="number">0</span>&#125;;  </span><br><span class="line">  </span><br><span class="line">        <span class="built_in">strcat</span>(newFileName, dir_name);  </span><br><span class="line">        <span class="built_in">strcat</span>(newFileName, <span class="string">"/"</span>);  </span><br><span class="line">        <span class="built_in">strcat</span>(newFileName, prex_name);  </span><br><span class="line">        <span class="built_in">strcat</span>(newFileName, <span class="string">"-"</span>);  </span><br><span class="line">        <span class="built_in">sprintf</span>(indexStr, <span class="string">"%d"</span>, i + <span class="number">1</span>);  </span><br><span class="line">        <span class="built_in">strcat</span>(newFileName, indexStr);  </span><br><span class="line">        <span class="built_in">strcat</span>(newFileName, <span class="string">".pcd"</span>);  </span><br><span class="line">        io::savePCDFileASCII(newFileName, *p_pnt_cloud);  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可参见：<a href="http://blog.csdn.net/lming_08/article/details/23595201" target="_blank" rel="external">http://blog.csdn.net/lming_08/article/details/23595201</a></p>
+<h2 id="实现最小二乘法">实现最小二乘法</h2><p>最小二乘法（又称最小平方法）是一种数学优化技术。它通过最小化误差的平方和寻找数据的最佳函数匹配。利用最小二乘法可以简便地求得未知的数据，并使得这些求得的数据与实际数据之间误差的平方和为最小。最小二乘法还可用于曲线拟合。其他一些优化问题也可通过最小化能量或最大化熵用最小二乘法来表达。</p>
+<p><strong>最小二乘法C++实现</strong><br><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line">参数<span class="number">1</span>为输入文件 </span><br><span class="line">输入 ： x </span><br><span class="line">输出： 预测的y   </span><br><span class="line">*/  </span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span>  </span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span><span class="string">&lt;fstream&gt;</span>  </span></span><br><span class="line"><span class="preprocessor">#<span class="keyword">include</span><span class="string">&lt;vector&gt;</span>  </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">class</span> LeastSquare&#123;  </span><br><span class="line">    <span class="keyword">double</span> a, b;  </span><br><span class="line"><span class="keyword">public</span>:  </span><br><span class="line">    LeastSquare(<span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">double</span>&gt;&amp; x, <span class="keyword">const</span> <span class="built_in">vector</span>&lt;<span class="keyword">double</span>&gt;&amp; y)  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="keyword">double</span> t1=<span class="number">0</span>, t2=<span class="number">0</span>, t3=<span class="number">0</span>, t4=<span class="number">0</span>;  </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;x.size(); ++i)  </span><br><span class="line">        &#123;  </span><br><span class="line">            t1 += x[i]*x[i];  </span><br><span class="line">            t2 += x[i];  </span><br><span class="line">            t3 += x[i]*y[i];  </span><br><span class="line">            t4 += y[i];  </span><br><span class="line">        &#125;  </span><br><span class="line">        a = (t3*x.size() - t2*t4) / (t1*x.size() - t2*t2);  <span class="comment">// 求得β1   </span></span><br><span class="line">        b = (t1*t4 - t2*t3) / (t1*x.size() - t2*t2);        <span class="comment">// 求得β2  </span></span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">double</span> <span class="title">getY</span><span class="params">(<span class="keyword">const</span> <span class="keyword">double</span> x)</span> <span class="keyword">const</span>  </span><br><span class="line">    </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> a*x + b;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> <span class="keyword">const</span>  </span><br><span class="line">    </span>&#123;  </span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"y = "</span>&lt;&lt;a&lt;&lt;<span class="string">"x + "</span>&lt;&lt;b&lt;&lt;<span class="string">"\n"</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">&#125;;  </span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span>  </span><br><span class="line"></span>&#123;  </span><br><span class="line">    <span class="keyword">if</span>(argc != <span class="number">2</span>)  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"Usage: DataFile.txt"</span>&lt;&lt;endl;  </span><br><span class="line">        <span class="keyword">return</span> -<span class="number">1</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="keyword">else</span>  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">double</span>&gt; x;  </span><br><span class="line">        <span class="function">ifstream <span class="title">in</span><span class="params">(argv[<span class="number">1</span>])</span></span>;  </span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">double</span> d; in&gt;&gt;d; )  </span><br><span class="line">            x.push_back(d);  </span><br><span class="line">        <span class="keyword">int</span> sz = x.size();  </span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">double</span>&gt; y(x.begin()+sz/<span class="number">2</span>, x.end());  </span><br><span class="line">        x.resize(sz/<span class="number">2</span>);  </span><br><span class="line">        <span class="function">LeastSquare <span class="title">ls</span><span class="params">(x, y)</span></span>;  </span><br><span class="line">        ls.print();  </span><br><span class="line">          </span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"Input x:\n"</span>;  </span><br><span class="line">        <span class="keyword">double</span> x0;  </span><br><span class="line">        <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;x0)  </span><br><span class="line">        &#123;  </span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;<span class="string">"y = "</span>&lt;&lt;ls.getY(x0)&lt;&lt;endl;  </span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;<span class="string">"Input x:\n"</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>监督学习中，如果<strong>预测的变量是离散的</strong>，我们称其为<strong>分类</strong>（如决策树，支持向量机等），如果<strong>预测的变量是连续的</strong>，我们称其为<strong>回归</strong>。回归分析中，如果只包括一个自变量和一个因变量，且二者的关系可用一条直线近似表示，这种回归分析称为一元线性回归分析。如果回归分析中包括两个或两个以上的自变量，且因变量和自变量之间是线性关系，则称为多元线性回归分析。对于二维空间线性是一条直线；对于三维空间线性是一个平面，对于多维空间线性是一个超平面。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/机器学习/">机器学习</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	<div class="share-jiathis">
+	  
+<div class="jiathis_style_24x24">
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_googleplus"></a>
+	<a class="jiathis_button_douban"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+    var jiathis_config={
+    data_track_clickback:true,
+    sm:"copy,renren,cqq",
+    pic:"",
+    summary:"",
+    
+  </script> 
+<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=
+" charset="utf-8"></script>      
+
+	 </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/07/09/机器学习面试问题9/" title="机器学习面试问题9">
+  <strong>上一篇：</strong><br/>
+  <span>
+  机器学习面试问题9</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/07/07/机器学习面试问题7/"  title="机器学习面试问题7">
+ <strong>下一篇：</strong><br/> 
+ <span>机器学习面试问题7
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#userCF和itemCF在实际当中如何使用，提供具体操作，以及它们的优势（推荐系统）"><span class="toc-number">1.</span> <span class="toc-text">userCF和itemCF在实际当中如何使用，提供具体操作，以及它们的优势（推荐系统）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何用Logic_regression建立一个广告点击次数预测模型"><span class="toc-number">2.</span> <span class="toc-text">如何用Logic regression建立一个广告点击次数预测模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#举一个适合采用层次分析法的例子"><span class="toc-number">3.</span> <span class="toc-text">举一个适合采用层次分析法的例子</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关联分析中的极大频繁项集,FP增长算法"><span class="toc-number">4.</span> <span class="toc-text">关联分析中的极大频繁项集,FP增长算法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何解决过拟合问题"><span class="toc-number">5.</span> <span class="toc-text">如何解决过拟合问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#L1和L2正则的区别，如何选择L1和L2正则"><span class="toc-number">6.</span> <span class="toc-text">L1和L2正则的区别，如何选择L1和L2正则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#随机森林的学习过程"><span class="toc-number">7.</span> <span class="toc-text">随机森林的学习过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#随机森林中的每一颗树是如何学习的"><span class="toc-number">8.</span> <span class="toc-text">随机森林中的每一颗树是如何学习的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#随机森林学习算法中CART树的基尼指数是什么"><span class="toc-number">9.</span> <span class="toc-text">随机森林学习算法中CART树的基尼指数是什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#k-meanshift机制及实现"><span class="toc-number">10.</span> <span class="toc-text">k-meanshift机制及实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现最小二乘法"><span class="toc-number">11.</span> <span class="toc-text">实现最小二乘法</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=3121392487&verifier=cf84718a&dpc=1"></iframe>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/机器学习/" title="机器学习">机器学习<sup>16</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>13</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据仓库/" title="数据仓库">数据仓库<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/搜索引擎算法/" title="搜索引擎算法">搜索引擎算法<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/java/" title="java">java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事实表/" title="事实表">事实表<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/缓慢变化维/" title="缓慢变化维">缓慢变化维<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/多维数据集/" title="多维数据集">多维数据集<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/事务/" title="事务">事务<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/maven/" title="maven">maven<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/linux-shell/" title="linux shell">linux shell<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/正则表达式/" title="正则表达式">正则表达式<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/粒度/" title="粒度">粒度<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/可加性/" title="可加性">可加性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/稀疏性/" title="稀疏性">稀疏性<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/数据结构/" title="数据结构">数据结构<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/hbase/" title="hbase">hbase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/横向钻取/" title="横向钻取">横向钻取<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/jar/" title="jar">jar<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://blog.csdn.net" target="_blank" title="CSDNCSDN博客">CSDN</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://pangjiuzala.github.io/" target="_blank" title="刘兴的博客">刘兴的博客</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="https://github.com/search?q=saliormoon&amp;type=Users" target="_blank" title="关注王宇峰的github">关注</a>
+</div>
+
+  
+
+  
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,I&#39;m from ZjuCs! <br/>
+			欢迎关注</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Copyright@ 2015 Saliormoon All rights reserved.
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<script>
+var option = {
+  engineKey: '4ac092ad8d749fdc6293'
+};
+(function(w,d,t,u,n,s,e){
+  s = d.createElement(t);
+  s.src = u;
+  s.async = 1;
+  w[n] = function(r){
+    w[n].opts = r;
+  };
+  e = d.getElementsByTagName(t)[0];
+  e.parentNode.insertBefore(s, e);
+})(window,document,'script','//tinysou-cdn.b0.upaiyun.com/ts.js','_ts');
+_ts(option);
+</script>
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
