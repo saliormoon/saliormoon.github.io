@@ -11,16 +11,16 @@
     
 
     
-    <meta name="description" content="常见问题和svm相关的如何组织训练数据1）将数据分开为训练集、测试集；2）对训练集寻优，构建好决策函数，训练分类器；3）用测试集验证准确率，达到满足需要的准确率后，就可以用新数据分类。">
+    <meta name="description" content="承接机器学习面试问题4.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="机器学习面试问题5">
 <meta property="og:url" content="http://saliormoon.github.io/2016/07/05/机器学习面试问题5/index.html">
 <meta property="og:site_name" content="王宇峰的博客">
-<meta property="og:description" content="常见问题和svm相关的如何组织训练数据1）将数据分开为训练集、测试集；2）对训练集寻优，构建好决策函数，训练分类器；3）用测试集验证准确率，达到满足需要的准确率后，就可以用新数据分类。">
-<meta property="og:updated_time" content="2016-08-03T04:22:47.000Z">
+<meta property="og:description" content="承接机器学习面试问题4.">
+<meta property="og:updated_time" content="2016-08-03T04:32:48.211Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="机器学习面试问题5">
-<meta name="twitter:description" content="常见问题和svm相关的如何组织训练数据1）将数据分开为训练集、测试集；2）对训练集寻优，构建好决策函数，训练分类器；3）用测试集验证准确率，达到满足需要的准确率后，就可以用新数据分类。">
+<meta name="twitter:description" content="承接机器学习面试问题4.">
 
     
     <link rel="alternative" href="https://github.com/search?q=saliormoon&type=Users" title="王宇峰的博客" type="application/atom+xml">
@@ -97,7 +97,8 @@
 		
 		</div>
 		
-		<h1 id="常见问题">常见问题</h1><h2 id="和svm相关的">和svm相关的</h2><h3 id="如何组织训练数据">如何组织训练数据</h3><p>1）将数据分开为训练集、测试集；<br>2）对训练集寻优，构建好决策函数，训练分类器；<br>3）用测试集验证准确率，达到满足需要的准确率后，就可以用新数据分类。<br><a id="more"></a></p>
+		<p>承接机器学习面试问题4.<br><a id="more"></a></p>
+<h1 id="常见问题">常见问题</h1><h2 id="和svm相关的">和svm相关的</h2><h3 id="如何组织训练数据">如何组织训练数据</h3><p>1）将数据分开为训练集、测试集；<br>2）对训练集寻优，构建好决策函数，训练分类器；<br>3）用测试集验证准确率，达到满足需要的准确率后，就可以用新数据分类。</p>
 <h3 id="如何调节惩罚因子">如何调节惩罚因子</h3><p><strong>惩罚因子</strong>（参数C）：为了使用松弛变量才引入的，表示对离群点的重视程度。C越大越重视，越不想丢掉离群点。可用来解决数据集偏斜问题，方法是调整惩罚因子，给样本数量少的类更大的惩罚因子。</p>
 <p>惩罚因子C决定了你有多重视离群点带来的损失，显然当所有离群点的松弛变量的和一定时，你定的C越大，对目标函数的损失也越大，此时就暗示着你非常不愿意放弃这些离群点，最极端的情况是你把C定为无限大，这样只要稍有一个点离群，目标函数的值马上变成无限大，马上让问题变成无解，这就退化成了硬间隔问题。</p>
 <p> 惩罚因子C不是一个变量，整个优化问题在解的时候，C是一个你必须事先指定的值，指定这个值以后，解一下，得到一个分类器，然后用测试数据看看结果怎么样，如果不够好，换一个C的值，再解一次优化问题，得到另一个分类器，再看看效果，如此就是一个参数寻优的过程，但这和优化问题本身决不是一回事，优化问题在解的过程中，C一直是定值，要记住。</p>
@@ -214,7 +215,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/机器学习/" title="机器学习">机器学习<sup>16</sup></a></li>
+				<li><a href="/tags/机器学习/" title="机器学习">机器学习<sup>15</sup></a></li>
 			
 		
 			
@@ -300,7 +301,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">24</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a><span class="archive-list-count">23</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/10/">October 2015</a><span class="archive-list-count">16</span></li></ul>
   </div>
 
 
